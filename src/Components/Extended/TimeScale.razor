@@ -1,0 +1,141 @@
+﻿
+@namespace StableCube.Bulzor
+
+<style>
+    .time-scale {
+        background-color: @Theme.Colors.Light;
+        width: 100%;
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+    }
+    .ruler {
+        width: 100%;
+        height: 1rem;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        position: relative;
+        padding-right: calc((100% / @_timePoints) * 0.@_timePointRemainder);
+    }
+    .ruler > div {
+        background-color: @Theme.Colors.Primary;
+        padding: 0;
+        align-self: flex-end;
+        height: 100%;
+    }
+    .ruler .minor {
+        width: 0.125rem;
+        height: 50%;
+    }
+    .ruler .major {
+        width: 0.25rem;
+        margin: 0 -0.125rem 0 -0.125rem;
+    }
+    .time-landmarks {
+        height: 0.75rem;
+        font-size: 0.65rem;
+        background-color: @Theme.Colors.Light;
+        color: @Theme.Colors.Light;
+        padding: 0 0.25rem 0 0.25rem;
+        display: flex;
+        flex-wrap: nowrap;
+        flex-direction: row;
+        width: 100%;
+    }
+    .time-landmark {
+        text-align: center;
+        width: calc(100% / 3);
+    }
+    .time-landmark-start {
+        text-align: left;
+    }
+    .time-landmark-end {
+        text-align: right;
+    }
+    .pos-marker {
+        padding: 0;
+        margin-left: calc(@(_posPercentage)% - 0.125rem);
+        width: 0.25rem;
+        height: 100%;
+        background-color: red;
+        position: absolute;
+        top: 0px;
+        z-index: 2;
+    }
+</style>
+
+<div class="time-scale">
+    <div class="time-landmarks">
+        <div class="time-landmark time-landmark-start">@Min.ToString(@"mm\:ss")</div>
+        <div class="time-landmark">@GetTimeString(Position)</div>
+        <div class="time-landmark time-landmark-end">@GetTimeString(Max)</div>
+    </div>
+    <div class="ruler">
+        @for(int i = 0; i < _timePoints; i++)
+        {
+            @if(i % 10 == 0)
+            {
+                <div class="major"></div>
+            }
+            else
+            {
+                <div class="minor"></div>
+            }
+        }
+    </div>
+    <div class="pos-marker"></div>
+</div>
+
+@code {
+    [CascadingParameter]
+    public BulzerTheme Theme { get; set; }
+
+    [Parameter]
+    public TimeSpan Min { get; set; } = TimeSpan.Zero;
+
+    [Parameter]
+    public TimeSpan Max { get; set; }
+
+    [Parameter]
+    public TimeSpan Position { get; set; }
+
+    private double _posPercentage;
+    private int _timePoints;
+    private double _timePointRemainder;
+    private TimeSpan _halfTime;
+    
+    protected override void OnInitialized()
+    {
+        CalculateTimePoints();
+        _halfTime = TimeSpan.FromMilliseconds(Max.TotalMilliseconds / 2);
+    }
+
+    protected override void OnParametersSet()
+    {
+        _posPercentage = PositionPercentage();
+    }
+
+    private double PositionPercentage()
+    {
+        return (Position.TotalMilliseconds / Max.TotalMilliseconds) * 100;
+    }
+
+    private string GetTimeString(TimeSpan time)
+    {
+        return time.ToString(@"hh\:mm\:ss\.ff");
+    }
+
+    private void CalculateTimePoints()
+    {
+        if(Max.TotalHours >=  1)
+        {
+            _timePoints = (int)Math.Floor(Max.TotalMinutes / 6);
+            _timePointRemainder = Max.Seconds;
+            return;
+        }
+
+        _timePoints = (int)Math.Ceiling(Max.TotalSeconds / 6);
+        _timePointRemainder = Max.Milliseconds;
+    }
+}

@@ -1,0 +1,73 @@
+.timespan-slider {
+  width: 100%;
+  height: 100%;
+  margin: auto 0;
+  padding-left: 0;
+}
+
+.timespan-slider input {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 100%;
+  margin: auto 0;
+  background: $grey;
+  outline: none;
+  opacity: 0.9; /* Set transparency (for mouse-over effects on hover) */
+  -webkit-transition: 0.2s; /* 0.2 seconds transition on hover */
+  transition: opacity 0.2s;
+}
+
+.timespan-slider input:hover {
+  opacity: 1;
+}
+
+.timespan-slider input:disabled::-webkit-slider-thumb {
+  background: $dark;
+}
+
+/* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+.timespan-slider input::-webkit-slider-thumb {
+  -webkit-appearance: none; /* Override default look */
+  appearance: none;
+  width: 25px; /* Set a specific slider handle width */
+  height: 100%; /* Slider handle height */
+  background: $primary;
+  cursor: pointer; /* Cursor on hover */
+}
+
+.timespan-slider input:disabled::-moz-range-thumb {
+  background: $dark;
+}
+
+.timespan-slider input::-moz-range-thumb {
+  width: 25px; /* Set a specific slider handle width */
+  height: 100%; /* Slider handle height */
+  background: $primary;
+  cursor: pointer; /* Cursor on hover */
+}
+
+.time-landmarks {
+  height: 0.75rem;
+  font-size: 0.65rem;
+  background-color: $dark;
+  color: $text-invert;
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  width: 100%;
+}
+
+.time-landmark {
+  text-align: center;
+  width: calc(100% / 3);
+  padding: 0 0.25rem 0 0.25rem;
+}
+
+.time-landmark-start {
+  text-align: left;
+}
+
+.time-landmark-end {
+  text-align: right;
+}

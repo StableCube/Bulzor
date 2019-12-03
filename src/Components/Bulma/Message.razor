@@ -1,0 +1,11 @@
+﻿@namespace StableCube.Bulzor
+
+<article class="message">
+  @ChildContent
+</article>
+
+@code {
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+}

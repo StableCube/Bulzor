@@ -1,0 +1,11 @@
+﻿@namespace StableCube.Bulzor
+
+<p class="card-header-title">
+    @ChildContent
+</p>
+
+@code {
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+}

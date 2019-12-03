@@ -1,0 +1,65 @@
+﻿@namespace StableCube.Bulzor
+
+<div class="timespan-slider">
+    <input type="range"
+        min="@Min.TotalMilliseconds"
+        max="@Max.TotalMilliseconds"
+        value="@Value.TotalMilliseconds"
+        disabled="@Disabled"
+        @oninput="@(async (ChangeEventArgs e) => await OnInputHandlerAsync(e))"
+        @onmouseup="@(async (MouseEventArgs e) => await OnMouseUpHandlerAsync(e))" />
+</div>
+<div class="time-landmarks">
+    <div class="time-landmark time-landmark-start">@Min.ToString(@"mm\:ss")</div>
+    <div class="time-landmark">@GetTimeString(Value)</div>
+    <div class="time-landmark time-landmark-end">@GetTimeString(Max)</div>
+</div>
+
+@code {
+    [CascadingParameter]
+    public BulzerTheme Theme { get; set; }
+
+    [Parameter]
+    public TimeSpan Value { get; set; }
+
+    [Parameter]
+    public EventCallback<TimeSpan> ValueChanged { get; set; }
+
+    [Parameter]
+    public TimeSpan Min { get; set; } = TimeSpan.Zero;
+
+    [Parameter]
+    public TimeSpan Max { get; set; }
+
+    [Parameter]
+    public bool Disabled { get; set; }
+
+    [Parameter] 
+    public EventCallback<MouseEventArgs> MouseUp { get; set; }
+
+    private async Task OnInputHandlerAsync(ChangeEventArgs args)
+    {
+        var inputVal = TimeSpan.FromMilliseconds(double.Parse((string) args.Value));
+        if(inputVal == Value)
+            return;
+        
+        Value = inputVal;
+        await ValueChanged.InvokeAsync(Value);
+    }
+
+    private async Task OnMouseUpHandlerAsync(MouseEventArgs e)
+    {
+        await MouseUp.InvokeAsync(e);
+    }
+
+    private string GetTimeString(TimeSpan time)
+    {
+        if(time.TotalMinutes < 1)
+            return time.ToString(@"ss\.ff");
+
+        if(time.TotalHours < 1)
+            return time.ToString(@"mm\:ss\.ff");
+
+        return time.ToString(@"hh\:mm\:ss\.ff");
+    }
+}

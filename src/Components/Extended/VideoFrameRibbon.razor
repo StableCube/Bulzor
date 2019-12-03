@@ -1,0 +1,184 @@
+﻿
+@namespace StableCube.Bulzor
+
+<style>
+    .image-ribbon {
+        min-width: @(_minPickerWidth)px;
+    }
+    .image-ribbon-item {
+        min-width: @(MinImageWidth)px;
+    }
+    .image-ribbon-thumb {
+        min-height: @(ImageHeight)px;
+    }
+</style>
+
+<div class="image-ribbon">
+    @for(int i = 0; i < Images.Length; i++)
+    {
+        var iCopy = i;
+        <div class="image-ribbon-item" style="@GetItemStyle(i)" @onclick="@(() => ImageClickHandlerAsync(iCopy))">
+            <div class="image-ribbon-thumb" style="@GetItemImageStyle(i)"></div>
+            <div class="selected-indicator" style="@GetSelectedIndicatorStyle(i)">
+                @Images[i].TimeString
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public VideoFrameRibbonImage[] Images { get; set; }
+
+    [Parameter]
+    public TimeSpan FocalTime { get; set; } = TimeSpan.Zero;
+
+    [Parameter]
+    public int DisplayCount { get; set; } = 5;
+
+    [Parameter]
+    public int ImageHeight { get; set; } = 140;
+
+    [Parameter]
+    public int MinImageWidth { get; set; } = 50;
+
+    [Parameter] 
+    public EventCallback<VideoFrameRibbonImage> OnFrameFocused { get; set; }
+
+    private int _globalIdx = 0;
+    private int _displayIdx = 0;
+    private int _minPickerWidth = 0;
+    private VideoFrameRibbonImage[] _displayImages;
+
+    protected override void OnInitialized()
+    {
+        if (DisplayCount % 2 == 0)
+            throw new Exception("DisplayCount must be an odd number");
+
+        _minPickerWidth = MinImageWidth * DisplayCount;
+        _displayImages = new VideoFrameRibbonImage[DisplayCount];
+        CopyToDisplay();
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        int gIdx = IndexFromTime(Images, FocalTime);
+        if(gIdx == _globalIdx)
+            return;
+
+        _globalIdx = gIdx;
+
+        for(int i = 0; i < Images.Length; i++)
+        {
+            if(Images[i].IsFocalImage)
+            {
+                Images[i].IsFocalImage = false;
+                break;
+            }
+        }
+
+        Images[_globalIdx].IsFocalImage = true;
+        CopyToDisplay();
+
+        _displayIdx = IndexFromTime(_displayImages, FocalTime);
+
+        await OnFrameFocused.InvokeAsync(Images[_globalIdx]);
+    }
+
+    private void CopyToDisplay()
+    {
+        int halfDisp = (int)Math.Ceiling((double)(DisplayCount - 1) / 2);
+        int overCount = Images.Length - _globalIdx;
+        int beginIdx = _globalIdx - halfDisp;
+        if(_globalIdx < halfDisp)
+            beginIdx = 0;
+        
+        if(overCount <= halfDisp)
+            beginIdx = Images.Length - DisplayCount;
+
+        Array.Copy(Images, beginIdx, _displayImages, 0, _displayImages.Length);
+    }
+
+    private int IndexFromTime(VideoFrameRibbonImage[] imgArray, TimeSpan time)
+    {
+        var lastTime = TimeSpan.Zero;
+        for(int i = 0; i < imgArray.Length; i++)
+        {
+            if(time >= lastTime && time <= imgArray[i].Time)
+                return i;
+
+            lastTime = imgArray[i].Time;
+        }
+
+        return imgArray.Length - 1;
+    }
+
+    private string GetItemStyle(int imageIdx)
+    {
+        var image = Images[imageIdx];
+        var displayIdx = IndexFromTime(_displayImages, image.Time);
+
+        if(image.Time < _displayImages[0].Time || image.Time > _displayImages[_displayImages.Length - 1].Time)
+            return $"display: none;";
+
+        int middleIdx = (int)Math.Ceiling((double)(DisplayCount - 1) / 2);
+        double step = 1;
+        double highest = step * (middleIdx + 1);
+        double factor = 1;
+
+        if(displayIdx == _displayIdx)
+        {
+            factor = highest;
+        }
+        else
+        {
+            if(displayIdx < _displayIdx)
+            {
+                int leftI = (_displayIdx - displayIdx) - 1;
+                factor = LerpDouble(leftI + 1, _displayIdx + 1, highest, step);
+            }
+            else
+            {
+                int rightI = (displayIdx - _displayIdx) - 1;
+                int rTotal = DisplayCount - _displayIdx;
+                factor = LerpDouble(rightI + 1, rTotal, highest, step);
+            }
+        }
+        
+        return $"flex: {factor} 1 0;";
+    }
+
+    private double LerpDouble(int index, int maxIndex, double min, double max)
+    {
+        double percentage = Convert.ToDouble(index) / Convert.ToDouble(maxIndex);
+
+        return min + (max - min) * percentage;
+    }
+
+    private string GetItemImageStyle(int imageIdx)
+    {
+        var image = Images[imageIdx];
+        string style = $"background-image: url(\"{image.UriString}\");";
+
+        return style;
+    }
+
+    private string GetSelectedIndicatorStyle(int imageIdx)
+    {
+        var image = Images[imageIdx];
+        string style = String.Empty;
+
+        // if(image.IsFocalImage)
+        //     style += $"background-color: {Theme.Colors.Primary}; !important;";
+        
+        return style;
+    }
+
+    private async Task ImageClickHandlerAsync(int imageIdx)
+    {
+        var image = Images[imageIdx];
+        FocalTime = image.Time;
+
+        await OnFrameFocused.InvokeAsync(image);
+    }
+}
