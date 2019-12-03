@@ -5,23 +5,26 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <RazorLangVersion>3.0</RazorLangVersion>
     <Company>Stable Cube</Company>
-    <Version>1.0.1</Version>
+    <Version>1.0.4</Version>
     <Title>StableCube.Bulzor</Title>
     <IsPackable>true</IsPackable>
     <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
+    <RootNamespace>StableCube.Bulzor</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.Components" Version="3.0.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.0.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+		<PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="3.0.1" />
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Physical" Version="3.0.1" />
 		<PackageReference Include="SharpScss" Version="1.4.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="src/**/*.scss" Link="bulzorsass/%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="Always" />
-    <None Include="src/**/*.sass" Link="bulzorsass/%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="Always" />
-    <None Include="vendor/**/*.scss" Link="bulzorsass/%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="Always" />
-    <None Include="vendor/**/*.sass" Link="bulzorsass/%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="Always" />
+    <EmbeddedResource Include="src/**/*.scss" />
+    <EmbeddedResource Include="vendor/**/*.scss" />
+    <EmbeddedResource Include="vendor/**/*.sass" />
   </ItemGroup>
 </Project>

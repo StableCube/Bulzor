@@ -8,10 +8,8 @@ namespace StableCube.Bulzor
 
         public IList<string> Imports { get; set; }
 
-        public string BulmaVersion { get; set; } = "0.8.0";
+        public string OutputCssFilename { get; set; }
 
-        public string OutputCssPath { get; set; }
-
-        public string OutputGzipPath { get; set; }
+        public string OutputGzipFilename { get; set; }
     }
 }

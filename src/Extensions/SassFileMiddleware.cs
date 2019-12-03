@@ -4,13 +4,13 @@ using System.Reflection;
 using System.IO.Compression;
 using System.Text;
 using Microsoft.AspNetCore.Builder;
-using SharpScss;
+using Microsoft.Extensions.FileProviders;
 
 namespace StableCube.Bulzor
 {
     public static class SassFileMiddleware
     {
-        public static IApplicationBuilder UseBulzorSass(
+        public static IApplicationBuilder UseBulzorSassCompiler(
             this IApplicationBuilder builder,
             Action<SassOptions> optionsAction
         )
@@ -18,59 +18,53 @@ namespace StableCube.Bulzor
             SassOptions ops = new SassOptions();
             optionsAction.Invoke(ops);
 
-            var buildDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            if(!Directory.Exists(buildDir))
-                throw new DirectoryNotFoundException($"Directory not found: {buildDir}");
+            string css = SassCompiler.Compile(ops);
 
-            if(!File.Exists(ops.Theme))
-                throw new FileNotFoundException($"File not found: {ops.Theme}");
+            string wwwrootPath = Path.Combine(Path.GetTempPath(), "bulzorwwwroot");
+            if(!Directory.Exists(wwwrootPath))
+                Directory.CreateDirectory(wwwrootPath);
 
-            string bulzorRootPath = Path.Combine(buildDir, "bulzorsass/Sass/bulzor.scss");
-            if(!File.Exists(bulzorRootPath))
-                throw new FileNotFoundException($"File not found: {bulzorRootPath}");
+            string cssPath = Path.Combine(wwwrootPath, ops.OutputCssFilename);
+            File.WriteAllText(cssPath, css);
 
-            string bulmaFunctionsPath = Path.Combine(buildDir, $"bulzorsass/bulma-{ops.BulmaVersion}/sass/utilities/functions.sass");
-            if(!File.Exists(bulmaFunctionsPath))
-                throw new FileNotFoundException($"File not found: {bulmaFunctionsPath}");
+            string gzipPath = Path.Combine(wwwrootPath, ops.OutputGzipFilename);
+            if(ops.OutputGzipFilename != null)
+                GzipCompress(cssPath, gzipPath);
 
-            string bulmaRootPath = Path.Combine(buildDir, $"bulzorsass/bulma-{ops.BulmaVersion}/bulma.sass");
-            if(!File.Exists(bulmaRootPath))
-                throw new FileNotFoundException($"File not found: {bulmaRootPath}");
-
-            StringBuilder sb = new StringBuilder();
-            sb.AppendLine($"@import \"{bulmaFunctionsPath}\";");
-            sb.AppendLine($"@import \"{ops.Theme}\";");
-            sb.AppendLine($"@import \"{bulmaRootPath}\";");
-            sb.AppendLine($"@import \"{bulzorRootPath}\";");
-
-            foreach (var import in ops.Imports)
+            var staticOptions = new StaticFileOptions
             {
-                if(!File.Exists(import))
-                    throw new FileNotFoundException($"File not found: {import}");
+                FileProvider = new PhysicalFileProvider(wwwrootPath),
+                RequestPath = "/_content/StableCube.Bulzor/css-compiled",
+            };
 
-                sb.AppendLine($"@import \"{import}\";");
+            if(ops.OutputGzipFilename != null)
+            {
+                staticOptions.OnPrepareResponse = context =>
+                {
+                    var headers = context.Context.Response.Headers;
+                    string contentType = headers["Content-Type"];
+                    if (contentType == "application/x-gzip")
+                    {
+                        if (context.File.Name.EndsWith("js.gz"))
+                        {
+                            contentType = "application/javascript";
+                        }
+                        else if (context.File.Name.EndsWith("css.gz"))
+                        {
+                            contentType = "text/css";
+                        }
+                        headers.Add("Content-Encoding", "gzip");
+                        headers["Content-Type"] = contentType;
+                    }
+                };
             }
 
-            string css = String.Empty;
-            try
-            {
-                var result = Scss.ConvertToCss(sb.ToString());
-                css = result.Css;
-            }
-            catch (System.Exception e)
-            {
-                throw new SassCompileException("Sass failed to compile. There is probably an error in a sass document.", e);
-            }
-
-            File.WriteAllText(ops.OutputCssPath, css);
-
-            if(ops.OutputGzipPath != null)
-                GzipCompress(ops.OutputCssPath, ops.OutputGzipPath);
+            builder.UseStaticFiles(staticOptions);
 
             return builder;
         }
 
-        public static void GzipCompress(string sourcePath, string outPath)
+        private static void GzipCompress(string sourcePath, string outPath)
         {
             using (FileStream originalFileStream = File.OpenRead(sourcePath))
             {
