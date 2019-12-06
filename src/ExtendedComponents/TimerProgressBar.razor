@@ -3,7 +3,7 @@
 @implements IDisposable
 
 <div class="sc-time-progress-bar">
-    <ProgressBar Progress="Progress" />
+    <ProgressBar Progress="Progress" Color="Color" />
 </div>
 
 @code {
@@ -12,6 +12,9 @@
 
     [Parameter]
     public TimeSpan TickInterval { get; set; } = TimeSpan.FromMilliseconds(500);
+
+    [Parameter]
+    public BulPrimaryColor? Color { get; set; }
 
     private bool RunTimer { get; set; }
     private TimeSpan CurrentTime { get; set; }
