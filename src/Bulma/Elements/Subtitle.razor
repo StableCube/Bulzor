@@ -1,0 +1,32 @@
+﻿@namespace StableCube.Bulzor
+
+<p class="@_class">
+    @ChildContent
+</p>
+
+@code {
+    [Parameter]
+    public BulColor? Color { get; set; }
+
+    [Parameter]
+    public BulTextSize? Size { get; set; }
+
+    [Parameter]
+    public BulTextWeight? Weight { get; set; }
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    private BulmaClassBuilder _classBuilder = new BulmaClassBuilder("subtitle");
+    private string _class = String.Empty;
+
+    protected override void OnParametersSet()
+    {
+        _classBuilder.SetTextColor(Color);
+        _classBuilder.SetTextSize(Size);
+        _classBuilder.SetTextWeight(Weight);
+        _class = _classBuilder.ToString();
+
+        StateHasChanged();
+    }
+}

@@ -15,7 +15,7 @@ namespace StableCube.Bulzor
 
             EmbeddedFileHelper.CopyToTmp(tmpDirPath);
 
-            string bulzorRootPath = Path.Combine(tmpDirPath, "src/Sass/bulzor.scss");
+            string bulzorRootPath = Path.Combine(tmpDirPath, "src/root.scss");
             if(!File.Exists(bulzorRootPath))
                 throw new FileNotFoundException($"File not found: {bulzorRootPath}");
 

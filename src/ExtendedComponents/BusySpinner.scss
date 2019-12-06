@@ -1,0 +1,40 @@
+$busy-spinner-size: 2rem !default;
+$busy-spinner-color: $primary !default;
+
+.busy-spinner {
+  border-radius: 50%;
+  animation: spinAround 2s linear infinite;
+  border: solid transparent;
+  width: $busy-spinner-size;
+  height: $busy-spinner-size;
+  border-left: solid $busy-spinner-color;
+  width: $busy-spinner-size;
+  height: $busy-spinner-size;
+  border-width: $busy-spinner-size * 0.1;
+
+  @each $name, $pair in $colors {
+    $color: nth($pair, 1);
+    &.is-#{$name} {
+      border-left: solid $color;
+    }
+  }
+
+  &.is-small {
+    $size: $busy-spinner-size - 1;
+    width: $size;
+    height: $size;
+    border-width: $size * 0.1;
+  }
+  &.is-medium {
+    $size: $busy-spinner-size * 3;
+    width: $size;
+    height: $size;
+    border-width: $size * 0.1;
+  }
+  &.is-large {
+    $size: $busy-spinner-size * 7;
+    width: $size;
+    height: $size;
+    border-width: $size * 0.1;
+  }
+}

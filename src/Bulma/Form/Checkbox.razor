@@ -1,0 +1,39 @@
+﻿@namespace StableCube.Bulzor
+
+<label class="@_class" disabled="@Disabled">
+  <input type="checkbox" disabled="@Disabled" checked="@Checked">
+  @ChildContent
+</label>
+
+@code {
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public bool Checked { get; set; }
+
+    [Parameter]
+    public bool Disabled { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> OnToggle { get; set; }
+
+    private BulmaClassBuilder _classBuilder = new BulmaClassBuilder("checkbox");
+    private string _class = String.Empty;
+
+    protected override void OnParametersSet()
+    {
+        _class = _classBuilder.ToString();
+
+        StateHasChanged();
+    }
+
+    public async Task ToggleHandlerAsync(ChangeEventArgs args)
+    {
+        Checked =  Checked ? false : true;
+
+        await OnToggle.InvokeAsync(Checked);
+
+        StateHasChanged();
+    }
+}

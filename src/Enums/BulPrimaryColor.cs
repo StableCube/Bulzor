@@ -2,7 +2,7 @@ using System;
 
 namespace StableCube.Bulzor
 {
-    public enum BulmaColor
+    public enum BulPrimaryColor
     {
         Primary,
         Link,
@@ -11,6 +11,7 @@ namespace StableCube.Bulzor
         Warning,
         Danger,
         Dark,
+        Light,
         Text,
     }
 }

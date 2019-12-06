@@ -1,0 +1,32 @@
+﻿@namespace StableCube.Bulzor
+
+@if(Href != null)
+{
+  <a class="navbar-item" href="@Href">
+    @ChildContent
+  </a>
+}
+else
+{
+  <div class="navbar-item">
+    @ChildContent
+  </div>
+}
+
+@code {
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public string Href { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        UpdateState();
+    }
+
+    private void UpdateState()
+    {
+        StateHasChanged();
+    }
+}
