@@ -1,15 +1,17 @@
 ﻿@namespace StableCube.Bulzor
 
-<div class="timespan-slider">
-    <input type="range"
-        min="@Min.TotalMilliseconds"
-        max="@Max.TotalMilliseconds"
-        value="@Value.TotalMilliseconds"
-        disabled="@Disabled"
-        @oninput="@(async (ChangeEventArgs e) => await OnInputHandlerAsync(e))"
-        @onmouseup="@(async (MouseEventArgs e) => await OnMouseUpHandlerAsync(e))" />
-</div>
-<div class="time-landmarks">
+<Slider 
+    Value="@Value.TotalMilliseconds" 
+    Min="@Min.TotalMilliseconds" 
+    Max="@Max.TotalMilliseconds" 
+    OnInput="@OnInputHandlerAsync" 
+    OnMouseUp="@OnMouseUpHandlerAsync"
+    Disabled="@Disabled"
+    Size="@Size"
+    Color="@Color"
+    BackgroundColor="@BackgroundColor"
+    BorderColor="@BorderColor" />
+<div class="@_class">
     <div class="time-landmark time-landmark-start">@Min.ToString(@"mm\:ss")</div>
     <div class="time-landmark">@GetTimeString(Value)</div>
     <div class="time-landmark time-landmark-end">@GetTimeString(Max)</div>
@@ -32,21 +34,46 @@
     public bool Disabled { get; set; }
 
     [Parameter] 
-    public EventCallback<MouseEventArgs> MouseUp { get; set; }
+    public EventCallback<TimeSpan> OnMouseUp { get; set; }
 
-    private async Task OnInputHandlerAsync(ChangeEventArgs args)
+    [Parameter]
+    public BulSize? Size { get; set; }
+
+    [Parameter]
+    public BulPrimaryColor? Color { get; set; }
+
+    [Parameter]
+    public BulColor? BackgroundColor { get; set; }
+
+    [Parameter]
+    public BulColor? BorderColor { get; set; }
+
+    private BulmaClassBuilder _classBuilder = new BulmaClassBuilder("time-landmarks");
+    private string _class = String.Empty;
+
+    protected override void OnParametersSet()
     {
-        var inputVal = TimeSpan.FromMilliseconds(double.Parse((string) args.Value));
-        if(inputVal == Value)
+        _classBuilder.SetPrimaryColor(Color);
+        _classBuilder.SetSize(Size);
+        _classBuilder.SetBackgroundColor(BorderColor);
+        _class = _classBuilder.ToString();
+
+        StateHasChanged();
+    }
+
+    private async Task OnInputHandlerAsync(double sliderVal)
+    {
+        var timeVal = TimeSpan.FromMilliseconds(sliderVal);
+        if(timeVal == Value)
             return;
         
-        Value = inputVal;
+        Value = timeVal;
         await ValueChanged.InvokeAsync(Value);
     }
 
-    private async Task OnMouseUpHandlerAsync(MouseEventArgs e)
+    private async Task OnMouseUpHandlerAsync(double sliderVal)
     {
-        await MouseUp.InvokeAsync(e);
+        await OnMouseUp.InvokeAsync(TimeSpan.FromMilliseconds(sliderVal));
     }
 
     private string GetTimeString(TimeSpan time)
