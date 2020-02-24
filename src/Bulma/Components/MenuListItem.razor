@@ -1,0 +1,47 @@
+﻿@namespace StableCube.Bulzor
+
+<li class="@_class">
+  @if(Href != null)
+  {
+    <a class="@_linkClass" @onclick="@(async (args) => await ClickedHandlerAsync(args))" href="@Href">@ChildContent</a>
+  }
+  else
+  {
+    <a class="@_linkClass" @onclick="@(async (args) => await ClickedHandlerAsync(args))">@ChildContent</a>
+  }
+</li>
+
+@code {
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+    
+    [Parameter]
+    public EventCallback<EventArgs> OnClick { get; set; }
+
+    [Parameter]
+    public bool IsActive { get; set; }
+
+    [Parameter]
+    public string Href { get; set; }
+
+    private BulmaClassBuilder _classBuilder = new BulmaClassBuilder();
+    private string _class = String.Empty;
+
+    private BulmaClassBuilder _linkClassBuilder = new BulmaClassBuilder();
+    private string _linkClass = String.Empty;
+
+    protected override void OnParametersSet()
+    {
+        _class = _classBuilder.ToString();
+
+        _linkClassBuilder.SetIsActive(IsActive);
+        _linkClass = _linkClassBuilder.ToString();
+
+        StateHasChanged();
+    }
+
+    public async Task ClickedHandlerAsync(EventArgs args)
+    {
+        await OnClick.InvokeAsync(args);
+    }
+}

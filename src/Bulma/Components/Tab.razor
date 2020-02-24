@@ -1,0 +1,32 @@
+﻿@namespace StableCube.Bulzor
+
+<li class="@_class">
+  <a @onclick="@(async (args) => await ClickedHandlerAsync(args))">@ChildContent</a>
+</li>
+
+@code {
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+    
+    [Parameter]
+    public bool IsActive { get; set; }
+
+    [Parameter]
+    public EventCallback<EventArgs> OnClick { get; set; }
+
+    private BulmaClassBuilder _classBuilder = new BulmaClassBuilder();
+    private string _class = String.Empty;
+
+    protected override void OnParametersSet()
+    {
+        _classBuilder.SetIsActive(IsActive);
+        _class = _classBuilder.ToString();
+
+        StateHasChanged();
+    }
+
+    public async Task ClickedHandlerAsync(EventArgs args)
+    {
+        await OnClick.InvokeAsync(args);
+    }
+}

@@ -48,6 +48,23 @@ namespace StableCube.Bulzor
             }
         }
 
+        public static string ChildSize(BulSize value)
+        {
+            switch (value)
+            {
+                case BulSize.Small:
+                    return "are-small";
+                case BulSize.Normal:
+                    return "are-normal";
+                case BulSize.Medium:
+                    return "are-medium";
+                case BulSize.Large:
+                    return "are-large";
+                default:
+                    return "are-normal";
+            }
+        }
+
         public static string TextColor(BulColor value)
         {
             switch (value)

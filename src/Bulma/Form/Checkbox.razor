@@ -1,22 +1,22 @@
 ﻿@namespace StableCube.Bulzor
 
 <label class="@_class" disabled="@Disabled">
-  <input type="checkbox" disabled="@Disabled" checked="@Checked" @onchange="@(async (ChangeEventArgs args) => await ToggleHandlerAsync(args))" />
-  @ChildContent
+    <input type="checkbox" disabled="@Disabled" checked="@Value" @onchange="@(async (ChangeEventArgs args) => await ToggleHandlerAsync(args))" />
+    @ChildContent
 </label>
 
 @code {
     [Parameter]
-    public RenderFragment ChildContent { get; set; }
-
-    [Parameter]
-    public bool Checked { get; set; }
+    public bool Value { get; set; }
 
     [Parameter]
     public bool Disabled { get; set; }
 
     [Parameter]
-    public EventCallback<bool> CheckedChanged { get; set; }
+    public EventCallback<bool> ValueChanged { get; set; }
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
 
     private BulmaClassBuilder _classBuilder = new BulmaClassBuilder("checkbox");
     private string _class = String.Empty;
@@ -30,9 +30,9 @@
 
     public async Task ToggleHandlerAsync(ChangeEventArgs args)
     {
-        Checked =  bool.Parse(args.Value.ToString());
+        Value = bool.Parse(args.Value.ToString());
 
-        await CheckedChanged.InvokeAsync(Checked);
+        await ValueChanged.InvokeAsync(Value);
 
         StateHasChanged();
     }

@@ -9,6 +9,7 @@ namespace StableCube.Bulzor
         private string _baseClass;
         private BulPrimaryColor? _primaryColor;
         private BulSize? _size;
+        private BulSize? _sizeChild;
         private BulColor? _textColor;
         private BulColor? _backgroundColor;
         private BulTextSize? _textSize;
@@ -22,6 +23,14 @@ namespace StableCube.Bulzor
         private bool? _isStatic;
         private bool? _hasIconsLeft;
         private bool? _hasIconsRight;
+        private bool? _isBoxed;
+        private bool? _isToggle;
+        private bool? _isToggleRounded;
+        private bool? _hasAddons;
+
+        public BulmaClassBuilder()
+        {
+        }
 
         public BulmaClassBuilder(string baseClass)
         {
@@ -36,6 +45,11 @@ namespace StableCube.Bulzor
         public void SetSize(BulSize? value)
         {
             _size = value;
+        }
+
+        public void SetSizeChild(BulSize? value)
+        {
+            _sizeChild = value;
         }
 
         public void SetTextColor(BulColor? value)
@@ -103,16 +117,41 @@ namespace StableCube.Bulzor
             _isStatic = value;
         }
 
+        public void SetIsBoxed(bool? value)
+        {
+            _isBoxed = value;
+        }
+
+        public void SetIsToggle(bool? value)
+        {
+            _isToggle = value;
+        }
+
+        public void SetIsToggleRounded(bool? value)
+        {
+            _isToggleRounded = value;
+        }
+
+        public void SetHasAddons(bool? value)
+        {
+            _hasAddons = value;
+        }
+
         public override string ToString()
         {
             _sb.Clear();
-            _sb.Append(_baseClass);
+            
+            if(_baseClass != null)
+                _sb.Append(_baseClass);
 
             if(_primaryColor.HasValue)
                 _sb.Append(" " + BulmaVariableMap.PrimaryColor(_primaryColor.Value));
 
             if(_size.HasValue)
                 _sb.Append(" " + BulmaVariableMap.Size(_size.Value));
+
+            if(_sizeChild.HasValue)
+                _sb.Append(" " + BulmaVariableMap.ChildSize(_sizeChild.Value));
 
             if(_textColor.HasValue)
                 _sb.Append(" " + BulmaVariableMap.TextColor(_textColor.Value));
@@ -152,6 +191,18 @@ namespace StableCube.Bulzor
 
             if(_isStatic.HasValue && _isStatic.Value == true)
                 _sb.Append(" is-static");
+
+            if(_isBoxed.HasValue && _isBoxed.Value == true)
+                _sb.Append(" is-boxed");
+
+            if(_isToggle.HasValue && _isToggle.Value == true)
+                _sb.Append(" is-toggle");
+
+            if(_isToggleRounded.HasValue && _isToggleRounded.Value == true)
+                _sb.Append(" is-toggle-rounded");
+
+            if(_hasAddons.HasValue && _hasAddons.Value == true)
+                _sb.Append(" has-addons");
 
             return _sb.ToString();
         }
