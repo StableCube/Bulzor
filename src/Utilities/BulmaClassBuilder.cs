@@ -27,6 +27,7 @@ namespace StableCube.Bulzor
         private bool? _isToggle;
         private bool? _isToggleRounded;
         private bool? _hasAddons;
+        private bool? _isCentered;
 
         public BulmaClassBuilder()
         {
@@ -137,6 +138,11 @@ namespace StableCube.Bulzor
             _hasAddons = value;
         }
 
+        public void SetIsCentered(bool? value)
+        {
+            _isCentered = value;
+        }
+
         public override string ToString()
         {
             _sb.Clear();
@@ -203,6 +209,9 @@ namespace StableCube.Bulzor
 
             if(_hasAddons.HasValue && _hasAddons.Value == true)
                 _sb.Append(" has-addons");
+
+            if(_isCentered.HasValue && _isCentered.Value == true)
+                _sb.Append(" is-centered");
 
             return _sb.ToString();
         }
