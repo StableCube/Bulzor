@@ -5,13 +5,13 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static class DIExtensions
     {
-        public static OptionsBuilder AddBulzer(this IServiceCollection services)
+        public static OptionsBuilder AddBulzor(this IServiceCollection services)
         {
             BulzorOptions ops = new BulzorOptions();
             return new OptionsBuilder(services, ops);
         }
 
-        public static OptionsBuilder AddBulzer(
+        public static OptionsBuilder AddBulzor(
             this IServiceCollection services, Action<BulzorOptions> optionsAction)
         {
             BulzorOptions ops = new BulzorOptions();

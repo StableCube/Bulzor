@@ -55,6 +55,9 @@
         if (DisplayCount % 2 == 0)
             throw new Exception("DisplayCount must be an odd number");
 
+        if (Images.Length == 0)
+            throw new Exception("Image count must be greater than zero");
+
         _minPickerWidth = MinImageWidth * DisplayCount;
         _displayImages = new VideoFrameRibbonImage[DisplayCount];
         CopyToDisplay();
@@ -62,6 +65,9 @@
 
     protected override async Task OnParametersSetAsync()
     {
+        if (Images.Length == 0)
+            throw new Exception("Image count must be greater than zero");
+        
         int gIdx = IndexFromTime(Images, FocalTime);
         if(gIdx == _globalIdx)
             return;
@@ -95,6 +101,8 @@
         
         if(overCount <= halfDisp)
             beginIdx = Images.Length - DisplayCount;
+
+//Console.WriteLine($"Images.Length: {Images.Length}, overCount: {overCount}, halfDisp: {halfDisp}, _globalIdx: {_globalIdx},  beginIdx: {beginIdx}, Length: {_displayImages.Length}");
 
         Array.Copy(Images, beginIdx, _displayImages, 0, _displayImages.Length);
     }
