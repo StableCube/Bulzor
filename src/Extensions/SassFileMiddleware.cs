@@ -2,7 +2,6 @@ using System;
 using System.IO;
 using System.IO.Compression;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.FileProviders;
 
 namespace StableCube.Bulzor
 {
@@ -16,48 +15,22 @@ namespace StableCube.Bulzor
             SassOptions ops = new SassOptions();
             optionsAction.Invoke(ops);
 
+            if(!Directory.Exists(ops.CompileOutputDir))
+                Directory.CreateDirectory(ops.CompileOutputDir);
+
+            if(!Directory.Exists(ops.TempDir))
+                Directory.CreateDirectory(ops.TempDir);
+
             string css = SassCompiler.Compile(ops);
 
-            string wwwrootPath = Path.Combine(Path.GetTempPath(), "bulzorwwwroot");
-            if(!Directory.Exists(wwwrootPath))
-                Directory.CreateDirectory(wwwrootPath);
+            if(!Directory.Exists(ops.CompileOutputDir))
+                Directory.CreateDirectory(ops.CompileOutputDir);
 
-            string cssPath = Path.Combine(wwwrootPath, ops.OutputCssFilename);
+            string cssPath = Path.Combine(ops.CompileOutputDir, ops.OutputCssFilename);
             File.WriteAllText(cssPath, css);
 
-            string gzipPath = Path.Combine(wwwrootPath, ops.OutputGzipFilename);
-            if(ops.OutputGzipFilename != null)
-                GzipCompress(cssPath, gzipPath);
-
-            var staticOptions = new StaticFileOptions
-            {
-                FileProvider = new PhysicalFileProvider(wwwrootPath),
-                RequestPath = "/_content/StableCube.Bulzor/css-compiled",
-            };
-
-            if(ops.OutputGzipFilename != null)
-            {
-                staticOptions.OnPrepareResponse = context =>
-                {
-                    var headers = context.Context.Response.Headers;
-                    string contentType = headers["Content-Type"];
-                    if (contentType == "application/x-gzip")
-                    {
-                        if (context.File.Name.EndsWith("js.gz"))
-                        {
-                            contentType = "application/javascript";
-                        }
-                        else if (context.File.Name.EndsWith("css.gz"))
-                        {
-                            contentType = "text/css";
-                        }
-                        headers.Add("Content-Encoding", "gzip");
-                        headers["Content-Type"] = contentType;
-                    }
-                };
-            }
-
-            builder.UseStaticFiles(staticOptions);
+            string gzipPath = Path.Combine(ops.CompileOutputDir, ops.OutputGzipFilename);
+            GzipCompress(cssPath, gzipPath);
 
             return builder;
         }

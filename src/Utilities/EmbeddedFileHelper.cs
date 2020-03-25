@@ -22,7 +22,7 @@ namespace StableCube.Bulzor
             return fullPath;
         }
 
-        public static void CopyToTmp(string tmpDirPath)
+        public static void CopyTo(string outputDir)
         {
             var assembly = Assembly.GetExecutingAssembly();
             var provider = new EmbeddedFileProvider(assembly, "StableCube.Bulzor");
@@ -30,7 +30,7 @@ namespace StableCube.Bulzor
             foreach (var item in provider.GetDirectoryContents(String.Empty))
             {
                 string relativeFilePath = EmbedToDirPath(item.Name);
-                string fullPath = Path.Combine(tmpDirPath, relativeFilePath);
+                string fullPath = Path.Combine(outputDir, relativeFilePath);
                 string parentDirPath = Path.GetDirectoryName(fullPath);
 
                 if(!Directory.Exists(parentDirPath))

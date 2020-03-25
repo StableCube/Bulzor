@@ -9,27 +9,23 @@ namespace StableCube.Bulzor
     {
         public static string Compile(SassOptions ops)
         {
-            string tmpDirPath = Path.Combine(Path.GetTempPath(), "bulzorsass");
-            if(!Directory.Exists(tmpDirPath))
-                Directory.CreateDirectory(tmpDirPath);
+            EmbeddedFileHelper.CopyTo(ops.TempDir);
 
-            EmbeddedFileHelper.CopyToTmp(tmpDirPath);
-
-            string bulzorRootPath = Path.Combine(tmpDirPath, "src/root.scss");
+            string bulzorRootPath = Path.Combine(ops.TempDir, "src/root.scss");
             if(!File.Exists(bulzorRootPath))
                 throw new FileNotFoundException($"File not found: {bulzorRootPath}");
 
-            string bulmaRootPath = Path.Combine(tmpDirPath, $"vendor/bulma/bulma.sass");
+            string bulmaRootPath = Path.Combine(ops.TempDir, $"vendor/bulma/bulma.sass");
             if(!File.Exists(bulmaRootPath))
                 throw new FileNotFoundException($"File not found: {bulmaRootPath}");
 
-            string bulmaFunctionsPath = Path.Combine(tmpDirPath, $"vendor/bulma/sass/utilities/functions.sass");
+            string bulmaFunctionsPath = Path.Combine(ops.TempDir, $"vendor/bulma/sass/utilities/functions.sass");
             if(!File.Exists(bulmaFunctionsPath))
                 throw new FileNotFoundException($"File not found: {bulmaFunctionsPath}");
 
             StringBuilder sb = new StringBuilder();
             sb.AppendLine($"@import \"{bulmaFunctionsPath}\";");
-            sb.AppendLine($"@import \"{ops.Theme}\";");
+            sb.AppendLine($"@import \"{ops.ThemeTemplatePath}\";");
             sb.AppendLine($"@import \"{bulmaRootPath}\";");
             sb.AppendLine($"@import \"{bulzorRootPath}\";");
 
