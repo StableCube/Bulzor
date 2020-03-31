@@ -28,16 +28,19 @@
 
 @code {
     [Parameter]
-    public double Value { get; set; }
+    public int Value { get; set; }
 
     [Parameter]
-    public double? Min { get; set; }
+    public EventCallback<int> ValueChanged { get; set; }
 
     [Parameter]
-    public double? Max { get; set; }
+    public int? Min { get; set; }
 
     [Parameter]
-    public double? Step { get; set; }
+    public int? Max { get; set; }
+
+    [Parameter]
+    public int? Step { get; set; }
 
     [Parameter]
     public string Placeholder { get; set; }
@@ -68,9 +71,6 @@
 
     [Parameter]
     public bool Readonly { get; set; }
-
-    [Parameter]
-    public EventCallback<double> ValueChanged { get; set; }
 
     private BulmaClassBuilder _classBuilder = new BulmaClassBuilder("control");
     private string _class = String.Empty;
@@ -108,7 +108,7 @@
 
     public async Task InputHandlerAsync(ChangeEventArgs args)
     {
-        Value = Convert.ToDouble(args.Value.ToString());
+        Value = Convert.ToInt32(args.Value.ToString());
         await ValueChanged.InvokeAsync(Value);
     }
 }
