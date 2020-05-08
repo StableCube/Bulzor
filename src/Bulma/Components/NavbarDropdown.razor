@@ -1,0 +1,25 @@
+﻿@namespace StableCube.Bulzor
+
+<div class="@_class">
+    @ChildContent
+</div>
+
+@code {
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    private BulmaClassBuilder _classBuilder = new BulmaClassBuilder("navbar-dropdown");
+    private string _class = String.Empty;
+
+    protected override void OnParametersSet()
+    {
+        _class = _classBuilder.ToString();
+
+        UpdateState();
+    }
+
+    private void UpdateState()
+    {
+        StateHasChanged();
+    }
+}

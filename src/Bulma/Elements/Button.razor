@@ -9,6 +9,9 @@
     public bool Disabled { get; set; }
 
     [Parameter]
+    public bool IsLoading { get; set; }
+
+    [Parameter]
     public string Type { get; set; } = "button";
 
     [Parameter]
@@ -34,6 +37,7 @@
 
     protected override void OnParametersSet()
     {
+        _classBuilder.SetIsLoading(IsLoading);
         _classBuilder.SetPrimaryColor(Color);
         _classBuilder.SetTextColor(TextColor);
         _classBuilder.SetTextSize(TextSize);

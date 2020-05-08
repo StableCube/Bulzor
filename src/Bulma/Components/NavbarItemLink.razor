@@ -1,30 +1,25 @@
 ﻿@namespace StableCube.Bulzor
 
-<div class="@_class">
+<a class="@_class" href="@Href">
     @ChildContent
-</div>
+</a>
 
 @code {
     [Parameter]
     public RenderFragment ChildContent { get; set; }
 
     [Parameter]
-    public bool HasDropdown { get; set; }
+    public string Href { get; set; }
 
     [Parameter]
-    public bool HasDropdownUp { get; set; }
-
-    [Parameter]
-    public bool IsHoverable { get; set; }
+    public bool Active { get; set; }
 
     private BulmaClassBuilder _classBuilder = new BulmaClassBuilder("navbar-item");
     private string _class = String.Empty;
 
     protected override void OnParametersSet()
     {
-        _classBuilder.SetHasDropdown(HasDropdown);
-        _classBuilder.SetHasDropdownUp(HasDropdownUp);
-        _classBuilder.SetIsHoverable(IsHoverable);
+        _classBuilder.SetIsActive(Active);
         _class = _classBuilder.ToString();
 
         UpdateState();

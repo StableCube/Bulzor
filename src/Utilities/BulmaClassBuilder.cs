@@ -16,6 +16,7 @@ namespace StableCube.Bulzor
         private BulTextWeight? _textWeight;
         private BulColumnSize? _colSize;
         private bool? _isRounded;
+        private bool? _isHoverable;
         private bool? _isHovered;
         private bool? _isFocused;
         private bool? _isActive;
@@ -28,6 +29,9 @@ namespace StableCube.Bulzor
         private bool? _isToggleRounded;
         private bool? _hasAddons;
         private bool? _isCentered;
+        private bool? _hasDropdown;
+        private bool? _hasDropdownUp;
+        private bool? _isArrowless;
 
         public BulmaClassBuilder()
         {
@@ -81,6 +85,11 @@ namespace StableCube.Bulzor
         public void SetIsRounded(bool? value)
         {
             _isRounded = value;
+        }
+
+        public void SetIsHoverable(bool? value)
+        {
+            _isHoverable = value;
         }
 
         public void SetIsHovered(bool? value)
@@ -143,6 +152,21 @@ namespace StableCube.Bulzor
             _isCentered = value;
         }
 
+        public void SetHasDropdown(bool? value)
+        {
+            _hasDropdown = value;
+        }
+
+        public void SetHasDropdownUp(bool? value)
+        {
+            _hasDropdownUp = value;
+        }
+
+        public void SetIsArrowless(bool? value)
+        {
+            _isArrowless = value;
+        }
+
         public override string ToString()
         {
             _sb.Clear();
@@ -151,31 +175,58 @@ namespace StableCube.Bulzor
                 _sb.Append(_baseClass);
 
             if(_primaryColor.HasValue)
-                _sb.Append(" " + BulmaVariableMap.PrimaryColor(_primaryColor.Value));
+            {
+                _sb.Append(" ");
+                _sb.Append(BulmaVariableMap.PrimaryColor(_primaryColor.Value));
+            }
 
             if(_size.HasValue)
-                _sb.Append(" " + BulmaVariableMap.Size(_size.Value));
+            {
+                _sb.Append(" ");
+                _sb.Append(BulmaVariableMap.Size(_size.Value));
+            }
 
             if(_sizeChild.HasValue)
-                _sb.Append(" " + BulmaVariableMap.ChildSize(_sizeChild.Value));
-
+            {
+                _sb.Append(" ");
+                _sb.Append(BulmaVariableMap.ChildSize(_sizeChild.Value));
+            }
+            
             if(_textColor.HasValue)
-                _sb.Append(" " + BulmaVariableMap.TextColor(_textColor.Value));
+            {
+                _sb.Append(" ");
+                _sb.Append(BulmaVariableMap.TextColor(_textColor.Value));
+            }
 
             if(_backgroundColor.HasValue)
-                _sb.Append(" " + BulmaVariableMap.BackgroundColor(_backgroundColor.Value));
-
+            {
+                _sb.Append(" ");
+                _sb.Append(BulmaVariableMap.BackgroundColor(_backgroundColor.Value));
+            }
+            
             if(_textSize.HasValue)
-                _sb.Append(" " + BulmaVariableMap.TextSize(_textSize.Value));
-
+            {
+                _sb.Append(" ");
+                _sb.Append(BulmaVariableMap.TextSize(_textSize.Value));
+            }
+            
             if(_textWeight.HasValue)
-                _sb.Append(" " + BulmaVariableMap.TextWeight(_textWeight.Value));
+            {
+                _sb.Append(" ");
+                _sb.Append(BulmaVariableMap.TextWeight(_textWeight.Value));
+            }
 
             if(_colSize.HasValue)
-                _sb.Append(" " + BulmaVariableMap.ColumnSize(_colSize.Value));
+            {
+                _sb.Append(" ");
+                _sb.Append(BulmaVariableMap.ColumnSize(_colSize.Value));
+            }
 
             if(_isRounded.HasValue && _isRounded.Value == true)
                 _sb.Append(" is-rounded");
+
+            if(_isHoverable.HasValue && _isHoverable.Value == true)
+                _sb.Append(" is-hoverable");
 
             if(_isHovered.HasValue && _isHovered.Value == true)
                 _sb.Append(" is-hovered");
@@ -212,6 +263,15 @@ namespace StableCube.Bulzor
 
             if(_isCentered.HasValue && _isCentered.Value == true)
                 _sb.Append(" is-centered");
+
+            if(_hasDropdown.HasValue && _hasDropdown.Value == true)
+                _sb.Append(" has-dropdown");
+
+            if(_isArrowless.HasValue && _isArrowless.Value == true)
+                _sb.Append(" is-arrowless");
+
+            if(_hasDropdownUp.HasValue && _hasDropdownUp.Value == true)
+                _sb.Append(" has-dropdown-up");
 
             return _sb.ToString();
         }
