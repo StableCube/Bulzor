@@ -1,0 +1,42 @@
+﻿@namespace StableCube.Bulzor.Components
+
+<div class="@_class">
+  <ul>
+    @ChildContent
+  </ul>
+</div>
+
+@code {
+    [Parameter]
+    public BulColor? Color { get; set; }
+
+    [Parameter]
+    public BulTextSize? Size { get; set; }
+
+    [Parameter]
+    public bool IsBoxed { get; set; }
+
+    [Parameter]
+    public bool IsToggle { get; set; }
+
+    [Parameter]
+    public bool IsToggleRounded { get; set; }
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    private BulmaClassBuilder _classBuilder = new BulmaClassBuilder("tabs");
+    private string _class = String.Empty;
+
+    protected override void OnParametersSet()
+    {
+        _classBuilder.SetTextColor(Color);
+        _classBuilder.SetTextSize(Size);
+        _classBuilder.SetIsBoxed(IsBoxed);
+        _classBuilder.SetIsToggle(IsToggle);
+        _classBuilder.SetIsToggleRounded(IsToggleRounded);
+        _class = _classBuilder.ToString();
+
+        StateHasChanged();
+    }
+}

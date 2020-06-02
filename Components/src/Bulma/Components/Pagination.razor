@@ -1,0 +1,150 @@
+﻿@namespace StableCube.Bulzor.Components
+
+<nav class="@_class" role="navigation" aria-label="pagination">
+    @if(CurrentPage > 1)
+    {
+        <button class="pagination-previous" @onclick="@(async (args) => await PreviousClickHandlerAsync(args))">
+            Previous
+        </button>
+    }
+    else
+    {
+        <button class="pagination-previous" disabled>
+            Previous
+        </button>
+    }
+
+    @if(CurrentPage != PageCount && PageCount > 1)
+    {
+        <button class="pagination-next" @onclick="@(async (args) => await NextClickHandlerAsync(args))">
+            Next
+        </button>
+    }
+    else
+    {
+        <button class="pagination-next" disabled>
+            Next
+        </button>
+    }
+
+    <ul class="pagination-list">
+        @if(_showFirstPage)
+        {
+            <li>
+                <button class="pagination-link" @onclick="@(async (args) => await PageClickHandlerAsync(1))">
+                    1
+                </button>
+            </li>
+            <li><span class="pagination-ellipsis">&hellip;</span></li>
+        }
+
+        @foreach (var pageNum in _pages)
+        {
+            if(pageNum != CurrentPage)
+            {
+                <li>
+                    <button class="pagination-link" @onclick="@(async (args) => await PageClickHandlerAsync(@pageNum))">
+                        @pageNum
+                    </button>
+                </li>
+            }
+            else
+            {
+                <li>
+                    <button class="pagination-next" disabled>
+                        @pageNum
+                    </button>
+                </li>
+            }
+        }
+
+        @if(_showLastPage)
+        {
+            <li><span class="pagination-ellipsis">&hellip;</span></li>
+
+            <li>
+                <button class="pagination-link" @onclick="@(async (args) => await PageClickHandlerAsync(@PageCount))">
+                    @PageCount
+                </button>
+            </li>
+        }
+    </ul>
+</nav>
+
+@code {
+    [Parameter]
+    public int CurrentPage { get; set; }
+
+    [Parameter]
+    public int PageCount { get; set; }
+
+    [Parameter]
+    public bool IsCentered { get; set; }
+
+    [Parameter]
+    public int PagePadLinks { get; set; } = 3;
+
+    [Parameter]
+    public EventCallback<int> OnPageSelected { get; set; }
+
+    private BulmaClassBuilder _classBuilder = new BulmaClassBuilder("pagination");
+    private string _class = String.Empty;
+
+    List<int> _pages = new List<int>();
+    private bool _showFirstPage;
+    private bool _showLastPage;
+
+    protected override void OnParametersSet()
+    {
+        _classBuilder.SetIsCentered(IsCentered);
+        _class = _classBuilder.ToString();
+
+        _pages.Clear();
+
+        for (int i = CurrentPage - PagePadLinks; i < CurrentPage; i++)
+        {
+            if(i < 1)
+                continue;
+            
+            _pages.Add(i);
+        }
+
+        _pages.Add(CurrentPage);
+
+        for (int i = CurrentPage + 1; i <= CurrentPage + PagePadLinks; i++)
+        {
+            if(i < 2 || i > PageCount)
+                continue;
+
+            _pages.Add(i);
+        }
+
+        _showFirstPage = false;
+        if(!_pages.Contains(1))
+            _showFirstPage = true;
+        
+        _showLastPage = false;
+        if(!_pages.Contains(PageCount) && PageCount > PagePadLinks + 1)
+            _showLastPage = true;
+    }
+
+    public async Task PreviousClickHandlerAsync(EventArgs args)
+    {
+        await PageClickHandlerAsync(CurrentPage - 1);
+    }
+
+    public async Task NextClickHandlerAsync(EventArgs args)
+    {
+        await PageClickHandlerAsync(CurrentPage + 1);
+    }
+
+    public async Task PageClickHandlerAsync(int pageNum)
+    {
+        if(pageNum < 0 || pageNum > PageCount)
+            return;
+        
+        CurrentPage = pageNum;
+
+        await OnPageSelected.InvokeAsync(pageNum);
+    }
+}

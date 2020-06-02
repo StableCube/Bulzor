@@ -1,0 +1,83 @@
+﻿
+@namespace StableCube.Bulzor.Components
+
+<div class="@_class">
+    @if(UseBackground)
+    {
+        @if(CloseOnBackgroundClick)
+        {
+            <div class="modal-background" @onclick="@(async (args) => await CloseClickedHandlerAsync(args))"></div>
+        }
+        else
+        {
+            <div class="modal-background"></div>
+        }
+    }
+
+    <div class="modal-card">
+        @if(ModalCardTitle != null)
+        {
+            <header class="modal-card-head">
+                <p class="modal-card-title">@ModalCardTitle</p>
+                @if(ShowClose)
+                {
+                    <button class="delete" aria-label="close" @onclick="@(async (args) => await CloseClickedHandlerAsync(args))"></button>
+                }
+            </header>
+        }
+
+        @if(ModalCardBody != null)
+        {
+            <section class="modal-card-body">
+                @ModalCardBody
+            </section>
+        }
+
+        @if(ModalCardFooter != null)
+        {
+            <footer class="modal-card-foot">
+                @ModalCardFooter
+            </footer>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public RenderFragment ModalCardTitle { get; set; }
+
+    [Parameter]
+    public RenderFragment ModalCardBody { get; set; }
+
+    [Parameter]
+    public RenderFragment ModalCardFooter { get; set; }
+
+    [Parameter]
+    public bool ShowClose { get; set; }
+
+    [Parameter]
+    public bool UseBackground { get; set; } = true;
+
+    [Parameter]
+    public bool CloseOnBackgroundClick { get; set; } = true;
+
+    [Parameter]
+    public bool IsActive { get; set; } = true;
+
+    [Parameter]
+    public EventCallback<EventArgs> OnCloseClick { get; set; }
+    
+    private BulmaClassBuilder _classBuilder = new BulmaClassBuilder("modal");
+    private string _class = String.Empty;
+
+    protected override void OnParametersSet()
+    {
+        _classBuilder.SetIsActive(IsActive);
+        _class = _classBuilder.ToString();
+    }
+
+    public async Task CloseClickedHandlerAsync(EventArgs args)
+    {
+        await OnCloseClick.InvokeAsync(args);
+    }
+}

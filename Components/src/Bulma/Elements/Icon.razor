@@ -1,0 +1,31 @@
+﻿@namespace StableCube.Bulzor.Components
+
+<span class="@_class @Class">
+    <i class="fa fa-@Name"></i>
+</span>
+
+@code {
+    [Parameter]
+    public string Name { get; set; }
+
+    [Parameter]
+    public BulColor? Color { get; set; }
+
+    [Parameter]
+    public BulSize? Size { get; set; }
+
+    [Parameter]
+    public string Class { get; set; }
+
+    private BulmaClassBuilder _classBuilder = new BulmaClassBuilder("icon");
+    private string _class = String.Empty;
+
+    protected override void OnParametersSet()
+    {
+        _classBuilder.SetTextColor(Color);
+        _classBuilder.SetSize(Size);
+        _class = _classBuilder.ToString();
+
+        StateHasChanged();
+    }
+}

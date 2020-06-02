@@ -1,0 +1,74 @@
+﻿
+@namespace StableCube.Bulzor.Extended
+
+<div class="time-scale">
+    <div class="time-landmarks">
+        <div class="time-landmark time-landmark-start">@Min.ToString(@"mm\:ss")</div>
+        <div class="time-landmark">@GetTimeString(Position)</div>
+        <div class="time-landmark time-landmark-end">@GetTimeString(Max)</div>
+    </div>
+    <div class="ruler">
+        @for(int i = 0; i < _timePoints; i++)
+        {
+            @if(i % 10 == 0)
+            {
+                <div class="major"></div>
+            }
+            else
+            {
+                <div class="minor"></div>
+            }
+        }
+    </div>
+    <div class="pos-marker"></div>
+</div>
+
+@code {
+    [Parameter]
+    public TimeSpan Min { get; set; } = TimeSpan.Zero;
+
+    [Parameter]
+    public TimeSpan Max { get; set; }
+
+    [Parameter]
+    public TimeSpan Position { get; set; }
+
+    private double _posPercentage;
+    private int _timePoints;
+    private double _timePointRemainder;
+    private TimeSpan _halfTime;
+    
+    protected override void OnInitialized()
+    {
+        CalculateTimePoints();
+        _halfTime = TimeSpan.FromMilliseconds(Max.TotalMilliseconds / 2);
+    }
+
+    protected override void OnParametersSet()
+    {
+        _posPercentage = PositionPercentage();
+    }
+
+    private double PositionPercentage()
+    {
+        return (Position.TotalMilliseconds / Max.TotalMilliseconds) * 100;
+    }
+
+    private string GetTimeString(TimeSpan time)
+    {
+        return time.ToString(@"hh\:mm\:ss\.ff");
+    }
+
+    private void CalculateTimePoints()
+    {
+        if(Max.TotalHours >=  1)
+        {
+            _timePoints = (int)Math.Floor(Max.TotalMinutes / 6);
+            _timePointRemainder = Max.Seconds;
+            return;
+        }
+
+        _timePoints = (int)Math.Ceiling(Max.TotalSeconds / 6);
+        _timePointRemainder = Max.Milliseconds;
+    }
+}

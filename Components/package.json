@@ -1,0 +1,7 @@
+{
+  "name": "bulzor",
+  "license": "MIT",
+  "dependencies": {
+    "bulma": "^0.8.2"
+  }
+}

@@ -1,0 +1,14 @@
+﻿@namespace StableCube.Bulzor.Components
+
+<option value="@Value" selected="@Selected">@ChildContent</option>
+
+@code {
+    [Parameter]
+    public string Value { get; set; }
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public bool Selected { get; set; }
+}

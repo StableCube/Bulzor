@@ -1,0 +1,20 @@
+﻿@namespace StableCube.Bulzor.Components
+
+<ul class="@_class">
+  @ChildContent
+</ul>
+
+@code {
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+    
+    private BulmaClassBuilder _classBuilder = new BulmaClassBuilder("menu-list");
+    private string _class = String.Empty;
+
+    protected override void OnParametersSet()
+    {
+        _class = _classBuilder.ToString();
+
+        StateHasChanged();
+    }
+}

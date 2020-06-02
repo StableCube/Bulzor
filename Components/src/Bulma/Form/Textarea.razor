@@ -1,0 +1,61 @@
+﻿@namespace StableCube.Bulzor.Components
+
+<textarea class="@_class" 
+    placeholder="@Placeholder"
+    @oninput="@(async (ChangeEventArgs args) => await InputHandlerAsync(args))"
+    disabled="@Disabled"
+    readonly="@Readonly"
+    rows="@Rows">@Value</textarea>
+
+@code {
+    [Parameter]
+    public string Value { get; set; }
+
+    [Parameter]
+    public string Placeholder { get; set; }
+
+    [Parameter]
+    public BulPrimaryColor? Color { get; set; }
+
+    [Parameter]
+    public int Rows { get; set; } = 4;
+
+    [Parameter]
+    public BulColor? TextColor { get; set; }
+
+    [Parameter]
+    public BulSize? Size { get; set; }
+
+    [Parameter]
+    public bool? Rounded { get; set; }
+
+    [Parameter]
+    public bool Disabled { get; set; }
+
+    [Parameter]
+    public bool Readonly { get; set; }
+
+    [Parameter]
+    public EventCallback<string> ValueChanged { get; set; }
+
+    private BulmaClassBuilder _classBuilder = new BulmaClassBuilder("textarea");
+    private string _class = String.Empty;
+
+    protected override void OnParametersSet()
+    {
+        _classBuilder.SetPrimaryColor(Color);
+        _classBuilder.SetTextColor(TextColor);
+        _classBuilder.SetSize(Size);
+        _classBuilder.SetIsRounded(Rounded);
+
+        _class = _classBuilder.ToString();
+
+        StateHasChanged();
+    }
+
+    public async Task InputHandlerAsync(ChangeEventArgs args)
+    {
+        Value = args.Value.ToString();
+        await ValueChanged.InvokeAsync(Value);
+    }
+}

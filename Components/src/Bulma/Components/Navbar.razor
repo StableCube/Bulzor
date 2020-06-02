@@ -1,0 +1,11 @@
+﻿@namespace StableCube.Bulzor.Components
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  @ChildContent
+</nav>
+
+@code {
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+}
