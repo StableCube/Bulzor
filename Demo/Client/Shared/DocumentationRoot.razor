@@ -1,0 +1,93 @@
+﻿@namespace StableCube.Bulzor.Demo.Client
+
+<div id="documentation-root">
+    <BulBox>
+        <div class="columns">
+            <div class="column is-1">
+                <BulMenu>
+                    <BulMenuList>
+                        <BulMenuListItem>Form</BulMenuListItem>
+                        <BulMenuListItem 
+                            Href="/documentation/form/input"
+                            IsActive="@IsCurrentSection(Section.FormInput)" 
+                            OnClick="@(() => OpenSection(Section.FormInput))">
+                            Input
+                        </BulMenuListItem>
+                        <BulMenuListItem 
+                            Href="/documentation/form/textarea"
+                            IsActive="@IsCurrentSection(Section.FormTextArea)" 
+                            OnClick="@(() => OpenSection(Section.FormTextArea))">
+                            TextArea
+                        </BulMenuListItem>
+                        <BulMenuListItem 
+                            Href="/documentation/form/select"
+                            IsActive="@IsCurrentSection(Section.FormSelect)" 
+                            OnClick="@(() => OpenSection(Section.FormSelect))">
+                            Select
+                        </BulMenuListItem>
+                        <BulMenuListItem 
+                            Href="/documentation/form/checkbox"
+                            IsActive="@IsCurrentSection(Section.FormCheckbox)" 
+                            OnClick="@(() => OpenSection(Section.FormCheckbox))">
+                            Checkbox
+                        </BulMenuListItem>
+                    </BulMenuList>
+
+                    <BulMenuList>
+                        <BulMenuListItem>Elements</BulMenuListItem>
+                        <BulMenuListItem 
+                            Href="/documentation/elements/button"
+                            IsActive="@IsCurrentSection(Section.ElementButton)" 
+                            OnClick="@(() => OpenSection(Section.ElementButton))">
+                            Button
+                        </BulMenuListItem>
+                        <BulMenuListItem 
+                            Href="/documentation/elements/progress"
+                            IsActive="@IsCurrentSection(Section.ElementProgressBar)" 
+                            OnClick="@(() => OpenSection(Section.ElementProgressBar))">
+                            Progress Bars
+                        </BulMenuListItem>
+                    </BulMenuList>
+                </BulMenu>
+            </div>
+
+            <div class="column">
+                <div class="section">
+                    <div class="container">
+                        @ChildContent
+                    </div>
+                </div>
+            </div>
+        </div>
+    </BulBox>
+</div>
+
+@code {
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    private enum Section
+    {
+        FormInput,
+        FormTextArea,
+        FormSelect,
+        FormCheckbox,
+        ElementButton,
+        ElementProgressBar,
+    }
+
+    private Section _currentSection = Section.FormInput;
+
+    private bool IsCurrentSection(Section newSection)
+    {
+        return (_currentSection == newSection);
+    }
+
+    private void OpenSection(Section newSection)
+    {
+        _currentSection = newSection;
+
+        StateHasChanged();
+    }
+
+}

@@ -1,0 +1,30 @@
+﻿@page "/documentation/form/select"
+
+<DocumentationRoot>
+    <EditForm Model="@Data">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div style="max-width: 50%;">
+            <BulInputSelect @bind-Value="Data.StringData">
+                <option value="Argentina">Argentina</option>
+                <option value="Bolivia">Bolivia</option>
+            </BulInputSelect>
+        </div>
+
+        <div style="max-width: 50%;">
+            <BulInputSelect @bind-Value="Data.StringData" Multiple="3">
+                <option value="Argentina">Argentina</option>
+                <option value="Bolivia">Bolivia</option>
+                <option value="Zorm">Zorm</option>
+                <option value="Burpee">Burpee</option>
+            </BulInputSelect>
+        </div>
+    </EditForm>
+</DocumentationRoot>
+
+@code {
+    private DemoDataModel Data = new DemoDataModel() {
+        StringData = "hmmmmm",
+    };
+}

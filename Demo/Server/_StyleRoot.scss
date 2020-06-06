@@ -1,0 +1,9 @@
+@charset "utf-8";
+
+@import "Sass/Themes/_default.scss";
+
+@import "bin/Debug/netcoreapp3.1/bulzor/bulma/bulma.sass";
+@import "bin/Debug/netcoreapp3.1/bulzor/extended/root.scss";
+
+@import "Sass/blazor-error.scss";
+@import "Sass/blazor-loading.scss";

@@ -1,0 +1,21 @@
+﻿@page "/documentation/elements/button"
+
+<DocumentationRoot>
+    <div>Click Count: @_clickCount</div>
+    <BulButton Color="BulPrimaryColor.Primary" OnClick="OnButtonClickedHandler">Button</BulButton>
+</DocumentationRoot>
+
+@code {
+    private int _clickCount = 0;
+
+    private void OnInputIntChangedHandler(int newVal)
+    {
+        Console.WriteLine($"hit OnInputIntChangedHandler: {newVal}");
+    }
+
+    private void OnButtonClickedHandler()
+    {
+        _clickCount++;
+        StateHasChanged();
+    }
+}

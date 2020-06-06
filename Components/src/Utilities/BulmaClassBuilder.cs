@@ -15,6 +15,7 @@ namespace StableCube.Bulzor.Components
         private BulTextSize? _textSize;
         private BulTextWeight? _textWeight;
         private BulColumnSize? _colSize;
+        private BulSeparator? _separator;
         private bool? _isRounded;
         private bool? _isHoverable;
         private bool? _isHovered;
@@ -32,10 +33,14 @@ namespace StableCube.Bulzor.Components
         private bool? _hasDropdown;
         private bool? _hasDropdownUp;
         private bool? _isArrowless;
+        private bool? _isRight;
+        private bool? _isLeft;
+        private bool? _isMultiple;
+        private bool? _isSelected;
+        private bool? _isSpaced;
+        private bool? _isLight;
 
-        public BulmaClassBuilder()
-        {
-        }
+        public BulmaClassBuilder(){}
 
         public BulmaClassBuilder(string baseClass)
         {
@@ -80,6 +85,11 @@ namespace StableCube.Bulzor.Components
         public void SetColumnSize(BulColumnSize? value)
         {
             _colSize = value;
+        }
+
+        public void SetSeparator(BulSeparator? value)
+        {
+            _separator = value;
         }
 
         public void SetIsRounded(bool? value)
@@ -167,6 +177,36 @@ namespace StableCube.Bulzor.Components
             _isArrowless = value;
         }
 
+        public void SetIsLeft(bool? value)
+        {
+            _isLeft = value;
+        }
+
+        public void SetIsRight(bool? value)
+        {
+            _isRight = value;
+        }
+
+        public void SetIsMultiple(bool? value)
+        {
+            _isMultiple = value;
+        }
+
+        public void SetIsSelected(bool? value)
+        {
+            _isSelected = value;
+        }
+
+        public void SetIsSpaced(bool? value)
+        {
+            _isSpaced = value;
+        }
+
+        public void SetIsLight(bool? value)
+        {
+            _isLight = value;
+        }
+
         public override string ToString()
         {
             _sb.Clear();
@@ -222,6 +262,9 @@ namespace StableCube.Bulzor.Components
                 _sb.Append(BulmaVariableMap.ColumnSize(_colSize.Value));
             }
 
+            if(_separator.HasValue)
+                _sb.Append($" has-{_separator.Value.ToString().ToLower()}-separator");
+
             if(_isRounded.HasValue && _isRounded.Value == true)
                 _sb.Append(" is-rounded");
 
@@ -272,6 +315,24 @@ namespace StableCube.Bulzor.Components
 
             if(_hasDropdownUp.HasValue && _hasDropdownUp.Value == true)
                 _sb.Append(" has-dropdown-up");
+
+            if(_isLeft.HasValue && _isLeft.Value == true)
+                _sb.Append(" is-left");
+
+            if(_isRight.HasValue && _isRight.Value == true)
+                _sb.Append(" is-right");
+
+            if(_isMultiple.HasValue && _isMultiple.Value == true)
+                _sb.Append(" is-multiple");
+
+            if(_isSelected.HasValue && _isSelected.Value == true)
+                _sb.Append(" is-selected");
+
+            if(_isSpaced.HasValue && _isSpaced.Value == true)
+                _sb.Append(" is-spaced");
+
+            if(_isLight.HasValue && _isLight.Value == true)
+                _sb.Append(" is-light");
 
             return _sb.ToString();
         }

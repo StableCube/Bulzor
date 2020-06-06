@@ -1,0 +1,18 @@
+﻿@page "/documentation/form/checkbox"
+
+<DocumentationRoot>
+    <EditForm Model="@Data">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <BulInputCheckbox @bind-Value="Data.BoolData">
+            Do we agree?
+        </BulInputCheckbox>
+    </EditForm>
+</DocumentationRoot>
+
+@code {
+    private DemoDataModel Data = new DemoDataModel() {
+        BoolData = false,
+    };
+}

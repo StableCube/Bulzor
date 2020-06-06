@@ -1,0 +1,46 @@
+﻿@page "/documentation/form/input"
+
+<DocumentationRoot>
+    <EditForm Model="@Data">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div style="max-width: 50%;">
+            <BulInputNumber @bind-Value="Data.IntData" 
+                Size="BulSize.Large" 
+                Color="BulPrimaryColor.Primary" 
+                HasIconsRight="true" 
+                Loading="true" />
+        </div>
+
+        <div style="max-width: 50%;">
+            <BulInputNumber @bind-Value="Data.IntData" HasIconsRight="true" HasIconsLeft="true">
+                <BulIcons>
+                    <BulIcon class="fa fa-spinner fa-2x" Position="BulIconPosition.Left" />
+                    <BulIcon class="fa fa-shield fa-2x" Position="BulIconPosition.Right" />
+                </BulIcons>
+            </BulInputNumber>
+        </div>
+
+        <div style="max-width: 50%;">
+            <BulInputText @bind-Value="Data.StringData" />
+        </div>
+    </EditForm>
+</DocumentationRoot>
+
+@code {
+    private DemoDataModel Data = new DemoDataModel() {
+        IntData = 8,
+        StringData = "hmmmmm",
+    };
+
+    private void OnInputIntChangedHandler(int newVal)
+    {
+        Console.WriteLine($"hit OnInputIntChangedHandler: {newVal}");
+    }
+
+    private void OnButtonClickedHandler()
+    {
+        Console.WriteLine($"hit OnButtonClickedHandler");
+    }
+}

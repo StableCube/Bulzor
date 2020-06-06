@@ -1,0 +1,72 @@
+@charset "utf-8";
+
+$primary: $blue !default;
+
+$info: $cyan !default;
+$success: $green !default;
+$warning: $yellow !default;
+$danger: $red !default;
+
+$light: $white-ter !default;
+$dark: $grey-darker !default;
+
+// General colors
+
+$scheme-main: $white !default;
+$scheme-main-bis: $white-bis !default;
+$scheme-main-ter: $white-ter !default;
+$scheme-invert: $black !default;
+$scheme-invert-bis: $black-bis !default;
+$scheme-invert-ter: $black-ter !default;
+
+$background: $white-ter !default;
+
+$border: $grey-lighter !default;
+$border-hover: $grey-light !default;
+$border-light: $grey-lightest !default;
+$border-light-hover: $grey-light !default;
+
+// Text colors
+
+$text: $grey-dark !default;
+$text-light: $grey !default;
+$text-strong: $grey-darker !default;
+
+// Code colors
+
+$code: $red !default;
+$code-background: $background !default;
+
+$pre: $text !default;
+$pre-background: $background !default;
+
+// Link colors
+
+$link: $blue !default;
+$link-visited: $purple !default;
+
+$link-hover: $grey-darker !default;
+$link-hover-border: $grey-light !default;
+
+$link-focus: $grey-darker !default;
+$link-focus-border: $blue !default;
+
+$link-active: $grey-darker !default;
+$link-active-border: $grey-dark !default;
+
+// Typography
+
+$family-primary: $family-sans-serif !default;
+$family-secondary: $family-sans-serif !default;
+$family-code: $family-monospace !default;
+
+$size-small: $size-7 !default;
+$size-normal: $size-6 !default;
+$size-medium: $size-5 !default;
+$size-large: $size-4 !default;
+
+// Lists and maps
+$custom-colors: null !default;
+$custom-shades: null !default;
+
+$sizes: $size-1 $size-2 $size-3 $size-4 $size-5 $size-6 $size-7 !default;

@@ -1,0 +1,27 @@
+﻿@page "/documentation"
+
+<DocumentationRoot>
+    This is the root I guess
+</DocumentationRoot>
+
+@code {
+    private enum Section
+    {
+        Form,
+    }
+
+    private Section _currentSection = Section.Form;
+
+    private bool IsCurrentSection(Section newSection)
+    {
+        return (_currentSection == newSection);
+    }
+
+    private void OpenSection(Section newSection)
+    {
+        _currentSection = newSection;
+
+        StateHasChanged();
+    }
+
+}
