@@ -1,0 +1,90 @@
+﻿@page "/documentation/components/message"
+
+<DocumentationRoot>
+    <ExampleBox>
+        <ExampleOptions>
+            <EditForm Model="@this">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+
+                <OptionsBox>
+                    <OptionsBoxItem>
+                        <PrimaryColorSelect 
+                            Label="Color"
+                            Value="Color" 
+                            ValueChanged="@((value) => {
+                                Color = value;
+                                StateHasChanged();
+                            })" />
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <SizeSelect
+                            Value="Size" 
+                            ValueChanged="@((value) => {
+                                Size = value;
+                                StateHasChanged();
+                            })"/>
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <BulInputCheckbox 
+                                Value="CloseButton"
+                                ValueExpression="@( () => CloseButton )"
+                                ValueChanged="@((value) => {
+                                    CloseButton = value;
+                                    StateHasChanged();
+                                })">
+                            Close Button
+                        </BulInputCheckbox>
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <BulInputCheckbox 
+                                Value="ShowHeader"
+                                ValueExpression="@( () => ShowHeader )"
+                                ValueChanged="@((value) => {
+                                    ShowHeader = value;
+                                    StateHasChanged();
+                                })">
+                            Show Header
+                        </BulInputCheckbox>
+                    </OptionsBoxItem>
+                </OptionsBox>
+            </EditForm>
+        </ExampleOptions>
+
+        <ExampleResult>
+            <BulMessage Color="Color" Size="Size">
+                @if(ShowHeader)
+                {
+                    <BulMessageHeader>
+                        Hello World
+                        @if(CloseButton)
+                        {
+                            <BulDelete Size="Size" />
+                        }
+                    </BulMessageHeader>
+                }
+
+                <BulMessageBody>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque risus mi, 
+                    tempus quis placerat ut, porta nec nulla. Vestibulum rhoncus ac ex sit amet 
+                    fringilla. Nullam gravida purus diam, et dictum felis venenatis efficitur. 
+                    Aenean ac eleifend lacus, in mollis lectus. Donec sodales, arcu et 
+                    sollicitudin porttitor, tortor urna tempor ligula, id porttitor mi magna a 
+                    neque. Donec dui urna, vehicula et sem eget, facilisis sodales sem.
+                </BulMessageBody>
+            </BulMessage>
+
+        </ExampleResult>
+    </ExampleBox>
+
+</DocumentationRoot>
+
+@code {
+    public BulPrimaryColor? Color { get; set; }
+    public BulSize? Size { get; set; }
+    public bool CloseButton { get; set; }
+    public bool ShowHeader { get; set; } = true;
+}

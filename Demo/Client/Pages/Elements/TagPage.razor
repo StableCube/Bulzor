@@ -1,0 +1,96 @@
+﻿@page "/documentation/elements/tag"
+
+<DocumentationRoot>
+    <ExampleBox>
+        <ExampleOptions>
+            <EditForm Model="@this">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+
+                <OptionsBox>
+                    <OptionsBoxItem>
+                        <PrimaryColorSelect 
+                            Label="Color"
+                            Value="Color" 
+                            ValueChanged="@((value) => {
+                                Color = value;
+                                StateHasChanged();
+                            })" />
+                    </OptionsBoxItem>
+                    <OptionsBoxItem>
+                        <SizeSelect 
+                            Label="Size"
+                            Value="Size" 
+                            ValueChanged="@((value) => {
+                                Size = value;
+                                StateHasChanged();
+                            })" />
+                    </OptionsBoxItem>
+                    <OptionsBoxItem>
+                        <BulInputCheckbox 
+                                Value="Light"
+                                ValueExpression="@( () => Light )"
+                                ValueChanged="@((value) => {
+                                    Light = value;
+                                    StateHasChanged();
+                                })">
+                            Light
+                        </BulInputCheckbox>
+                    </OptionsBoxItem>
+                    <OptionsBoxItem>
+                        <BulInputCheckbox 
+                                Value="Rounded"
+                                ValueExpression="@( () => Rounded )"
+                                ValueChanged="@((value) => {
+                                    Rounded = value;
+                                    StateHasChanged();
+                                })">
+                            Rounded
+                        </BulInputCheckbox>
+                    </OptionsBoxItem>
+                </OptionsBox>
+            </EditForm>
+        </ExampleOptions>
+
+        <ExampleResult>
+            <BulTag Color="Color" Size="Size" Light="Light" Rounded="Rounded">
+                Tag label
+            </BulTag>
+        </ExampleResult>
+    </ExampleBox>
+
+    <section class="section">
+        <div class="container">
+            <BulTags>
+                <BulTag>One</BulTag>
+                <BulTag>Two</BulTag>
+                <BulTag>Three</BulTag>
+                <BulTag>Four</BulTag>
+                <BulTag>Five</BulTag>
+                <BulTag>Six</BulTag>
+                <BulTag>Seven</BulTag>
+                <BulTag>Eight</BulTag>
+                <BulTag>Nine</BulTag>
+                <BulTag>Ten</BulTag>
+                <BulTag>Eleven</BulTag>
+                <BulTag>Twelve</BulTag>
+                <BulTag>Thirteen</BulTag>
+                <BulTag>Fourteen</BulTag>
+            </BulTags>
+        </div>
+        <div class="container">
+            <BulTags HasAddons="true">
+                <BulTag>Label</BulTag>
+                <BulTag Color="BulPrimaryColor.Primary">Tag</BulTag>
+            </BulTags>
+        </div>
+    </section>
+
+</DocumentationRoot>
+
+@code {
+    public BulPrimaryColor? Color { get; set; }
+    public BulSize? Size { get; set; }
+    public bool Light { get; set; }
+    public bool Rounded { get; set; }
+}

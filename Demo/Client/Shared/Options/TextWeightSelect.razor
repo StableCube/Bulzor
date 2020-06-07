@@ -1,0 +1,46 @@
+﻿@namespace StableCube.Bulzor.Demo.Client
+
+<div class="control">
+    <label class="label">@Label</label>
+    <BulInputSelect Value="(_selectedString)"
+            ValueExpression="@( () => _selectedString )"
+            ValueChanged="@( async (string value) => await OnChangedHandlerAsync(value) )">
+
+        <option value="default" selected>Default</option>
+        @foreach (var option in _options)
+        {
+            <option value="@(option.ToString())">@option.ToString()</option>
+        }
+    </BulInputSelect>
+</div>
+
+@code {
+    [Parameter]
+    public string Label { get; set; } = "Text Weight";
+
+    [Parameter]
+    public BulTextWeight? Value { get; set; }
+
+    [Parameter]
+    public EventCallback<BulTextWeight?> ValueChanged { get; set; }
+
+    private string _selectedString = "default";
+    private IEnumerable<BulTextWeight> _options;
+
+    protected override void OnInitialized()
+    {
+        _options = Enum.GetValues(typeof(BulTextWeight)).Cast<BulTextWeight>();
+    }
+
+    public async Task OnChangedHandlerAsync(string value)
+    {
+        _selectedString = value;
+        BulTextWeight? enumVal = null;
+        if(value != "default")
+        {
+            enumVal = Enum.Parse<BulTextWeight>(value);
+        }
+
+        await ValueChanged.InvokeAsync(enumVal);
+    }
+}

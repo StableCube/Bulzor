@@ -1,0 +1,68 @@
+﻿@page "/documentation/form/textarea"
+
+<DocumentationRoot>
+    <ExampleBox>
+        <ExampleOptions>
+            <EditForm Model="@this">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+
+                <OptionsBox>
+                    <OptionsBoxItem>
+                        <PrimaryColorSelect 
+                            Label="Color"
+                            Value="Color" 
+                            ValueChanged="@((value) => {
+                                Color = value;
+                                StateHasChanged();
+                            })" />
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <SizeSelect 
+                            Label="Size"
+                            Value="Size" 
+                            ValueChanged="@((value) => {
+                                Size = value;
+                                StateHasChanged();
+                            })" />
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <BulInputCheckbox 
+                                Value="Loading"
+                                ValueExpression="@( () => Loading )"
+                                ValueChanged="@((value) => {
+                                    Loading = value;
+                                    StateHasChanged();
+                                })">
+                            Loading
+                        </BulInputCheckbox>
+                    </OptionsBoxItem>
+                </OptionsBox>
+            </EditForm>
+        </ExampleOptions>
+
+        <ExampleResult>
+            <EditForm Model="@Data">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+
+                <BulInputTextArea @bind-Value="Data.StringData" 
+                    Color="Color" 
+                    Size="Size" 
+                    Loading="Loading" />
+            </EditForm>
+        </ExampleResult>
+    </ExampleBox>
+</DocumentationRoot>
+
+@code {
+    public BulPrimaryColor? Color { get; set; }
+    public BulSize? Size { get; set; }
+    public bool Loading { get; set; }
+
+    DemoDataModel Data = new DemoDataModel() {
+        StringData = "hmmmmm",
+    };
+}

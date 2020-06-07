@@ -13,7 +13,7 @@ namespace StableCube.Bulzor.Components
         protected string _wrapperClass = String.Empty;
         protected string _inputClass = String.Empty;
 
-        protected void BuildBulma()
+        protected override void BuildBulma()
         {
             WrapperClassBuilder.SetSize(Size);
             WrapperClassBuilder.SetIsLoading(Loading);

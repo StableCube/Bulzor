@@ -1,0 +1,193 @@
+﻿@page "/documentation/form/input"
+
+<DocumentationRoot>
+    <ExampleBox>
+        <ExampleOptions>
+            <EditForm Model="@this">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+
+                <OptionsBox>
+                    <OptionsBoxItem>
+                        <PrimaryColorSelect 
+                            Label="Color"
+                            Value="Color" 
+                            ValueChanged="@((value) => {
+                                Color = value;
+                                StateHasChanged();
+                            })" />
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <SizeSelect 
+                            Label="Size"
+                            Value="Size" 
+                            ValueChanged="@((value) => {
+                                Size = value;
+                                StateHasChanged();
+                            })" />
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <BulInputCheckbox 
+                                Value="Rounded"
+                                ValueExpression="@( () => Rounded )"
+                                ValueChanged="@((value) => {
+                                    Rounded = value;
+                                    StateHasChanged();
+                                })">
+                            Rounded
+                        </BulInputCheckbox>
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <BulInputCheckbox 
+                                Value="Loading"
+                                ValueExpression="@( () => Loading )"
+                                ValueChanged="@((value) => {
+                                    Loading = value;
+                                    StateHasChanged();
+                                })">
+                            Loading
+                        </BulInputCheckbox>
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <BulInputCheckbox 
+                                Value="HasIconsLeft"
+                                ValueExpression="@( () => HasIconsLeft )"
+                                ValueChanged="@((value) => {
+                                    HasIconsLeft = value;
+                                    StateHasChanged();
+                                })">
+                            Has Icons Left
+                        </BulInputCheckbox>
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <BulInputCheckbox 
+                                Value="HasIconsRight"
+                                ValueExpression="@( () => HasIconsRight )"
+                                ValueChanged="@((value) => {
+                                    HasIconsRight = value;
+                                    StateHasChanged();
+                                })">
+                            Has Icons Right
+                        </BulInputCheckbox>
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <BulInputCheckbox 
+                                Value="DemoIconLeft"
+                                ValueExpression="@( () => DemoIconLeft )"
+                                ValueChanged="@((value) => {
+                                    DemoIconLeft = value;
+                                    StateHasChanged();
+                                })">
+                            Demo Icon Left
+                        </BulInputCheckbox>
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <BulInputCheckbox 
+                                Value="DemoIconRight"
+                                ValueExpression="@( () => DemoIconRight )"
+                                ValueChanged="@((value) => {
+                                    DemoIconRight = value;
+                                    StateHasChanged();
+                                })">
+                            Demo Icon Right
+                        </BulInputCheckbox>
+                    </OptionsBoxItem>
+                </OptionsBox>
+            </EditForm>
+        </ExampleOptions>
+
+        <ExampleResult>
+            <EditForm Model="@Data">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+
+                <BulTitle Size="BulTextSize.S5">Number</BulTitle>
+                <BulInputNumber @bind-Value="Data.IntData" 
+                    Size="Size" 
+                    Color="Color" 
+                    Rounded="Rounded"
+                    Loading="Loading"
+                    HasIconsLeft="HasIconsLeft"
+                    HasIconsRight="HasIconsRight">
+                    <BulIcons>
+                        @if(DemoIconLeft)
+                        {
+                            <BulIcon class="fa fa-globe fa-2x" Position="BulIconPosition.Left" />
+                        }
+
+                        @if(DemoIconRight)
+                        {
+                            <BulIcon class="fa fa-shield fa-2x" Position="BulIconPosition.Right" />
+                        }
+                    </BulIcons>
+                </BulInputNumber>
+
+                <BulTitle Size="BulTextSize.S5">Text</BulTitle>
+                <BulInputText @bind-Value="Data.StringData" 
+                    Size="Size" 
+                    Color="Color" 
+                    Rounded="Rounded"
+                    Loading="Loading"
+                    HasIconsLeft="HasIconsLeft"
+                    HasIconsRight="HasIconsRight">
+                    <BulIcons>
+                        @if(DemoIconLeft)
+                        {
+                            <BulIcon class="fa fa-globe fa-2x" Position="BulIconPosition.Left" />
+                        }
+
+                        @if(DemoIconRight)
+                        {
+                            <BulIcon class="fa fa-shield fa-2x" Position="BulIconPosition.Right" />
+                        }
+                    </BulIcons>
+                </BulInputText>
+
+                <BulTitle Size="BulTextSize.S5">Password</BulTitle>
+                <BulInputPassword @bind-Value="Data.StringData" 
+                    Size="Size" 
+                    Color="Color" 
+                    Rounded="Rounded"
+                    Loading="Loading"
+                    HasIconsLeft="HasIconsLeft"
+                    HasIconsRight="HasIconsRight">
+                    <BulIcons>
+                        @if(DemoIconLeft)
+                        {
+                            <BulIcon class="fa fa-globe fa-2x" Position="BulIconPosition.Left" />
+                        }
+
+                        @if(DemoIconRight)
+                        {
+                            <BulIcon class="fa fa-shield fa-2x" Position="BulIconPosition.Right" />
+                        }
+                    </BulIcons>
+                </BulInputPassword>
+
+            </EditForm>
+        </ExampleResult>
+    </ExampleBox>
+</DocumentationRoot>
+
+@code {
+    public BulPrimaryColor? Color { get; set; }
+    public BulSize? Size { get; set; }
+    public bool Rounded { get; set; }
+    public bool Loading { get; set; }
+    public bool HasIconsLeft { get; set; }
+    public bool HasIconsRight { get; set; }
+    public bool DemoIconLeft { get; set; }
+    public bool DemoIconRight { get; set; }
+
+    private DemoDataModel Data = new DemoDataModel() {
+        IntData = 8,
+        StringData = "hmmmmm",
+    };
+}

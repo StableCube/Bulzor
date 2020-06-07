@@ -1,0 +1,183 @@
+﻿@page "/documentation/components/tabs"
+
+<DocumentationRoot>
+    <ExampleBox>
+        <ExampleOptions>
+            <EditForm Model="@this">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+
+                <OptionsBox>
+                    <OptionsBoxItem>
+                        <TextSizeSelect
+                            Label="Size" 
+                            Value="Size" 
+                            ValueChanged="@((value) => {
+                                Size = value;
+                                StateHasChanged();
+                            })"/>
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <BulInputCheckbox 
+                                Value="Boxed"
+                                ValueExpression="@( () => Boxed )"
+                                ValueChanged="@((value) => {
+                                    Boxed = value;
+                                    StateHasChanged();
+                                })">
+                            Boxed
+                        </BulInputCheckbox>
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <BulInputCheckbox 
+                                Value="Toggle"
+                                ValueExpression="@( () => Toggle )"
+                                ValueChanged="@((value) => {
+                                    Toggle = value;
+                                    StateHasChanged();
+                                })">
+                            Toggle
+                        </BulInputCheckbox>
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <BulInputCheckbox 
+                                Value="ToggleRounded"
+                                ValueExpression="@( () => ToggleRounded )"
+                                ValueChanged="@((value) => {
+                                    ToggleRounded = value;
+                                    StateHasChanged();
+                                })">
+                            Toggle Rounded
+                        </BulInputCheckbox>
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <BulInputCheckbox 
+                                Value="FullWidth"
+                                ValueExpression="@( () => FullWidth )"
+                                ValueChanged="@((value) => {
+                                    FullWidth = value;
+                                    StateHasChanged();
+                                })">
+                            Full Width
+                        </BulInputCheckbox>
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <BulInputCheckbox 
+                                Value="Centered"
+                                ValueExpression="@( () => Centered )"
+                                ValueChanged="@((value) => {
+                                    Centered = value;
+                                    StateHasChanged();
+                                })">
+                            Centered
+                        </BulInputCheckbox>
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <BulInputCheckbox 
+                                Value="Right"
+                                ValueExpression="@( () => Right )"
+                                ValueChanged="@((value) => {
+                                    Right = value;
+                                    StateHasChanged();
+                                })">
+                            Right
+                        </BulInputCheckbox>
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <BulInputCheckbox 
+                                Value="Icons"
+                                ValueExpression="@( () => Icons )"
+                                ValueChanged="@((value) => {
+                                    Icons = value;
+                                    StateHasChanged();
+                                })">
+                            Icons
+                        </BulInputCheckbox>
+                    </OptionsBoxItem>
+                </OptionsBox>
+            </EditForm>
+        </ExampleOptions>
+
+        <ExampleResult>
+            <BulTabs 
+                Color="Color"
+                Size="Size"
+                Boxed="Boxed"
+                Toggle="Toggle"
+                ToggleRounded="ToggleRounded"
+                FullWidth="FullWidth"
+                Centered="Centered"
+                Right="Right"
+                >
+
+                <BulTab Active="@(ActiveTab == DemoTag.Pictures)">
+                    <BulNavLink @onclick="@(() => OnTabClickHandler(DemoTag.Pictures))">
+                        @if(Icons)
+                        {
+                            <BulIcon class="fa fa-image"/>
+                        }
+
+                        Pictures
+                    </BulNavLink>
+                </BulTab>
+
+                <BulTab Active="@(ActiveTab == DemoTag.Music)">
+                    <BulNavLink @onclick="@(() => OnTabClickHandler(DemoTag.Music))">
+
+                        @if(Icons)
+                        {
+                            <BulIcon class="fa fa-music"/>
+                        }
+
+                        Music
+                    </BulNavLink>
+                </BulTab>
+                
+                <BulTab Active="@(ActiveTab == DemoTag.Videos)">
+                    <BulNavLink @onclick="@(() => OnTabClickHandler(DemoTag.Videos))">
+                        @if(Icons)
+                        {
+                            <BulIcon class="fa fa-film"/>
+                        }
+
+                        Videos
+                    </BulNavLink>
+                </BulTab>
+            </BulTabs>
+        </ExampleResult>
+    </ExampleBox>
+
+</DocumentationRoot>
+
+@code {
+    public BulColor? Color { get; set; }
+    public BulTextSize? Size { get; set; }
+    public bool Boxed { get; set; }
+    public bool Toggle { get; set; }
+    public bool ToggleRounded { get; set; }
+    public bool FullWidth { get; set; }
+    public bool Centered { get; set; }
+    public bool Right { get; set; }
+    public bool Icons { get; set; }
+    public DemoTag ActiveTab { get; set; }
+
+    public enum DemoTag
+    {
+        Pictures,
+        Music,
+        Videos,
+    }
+
+    private void OnTabClickHandler(DemoTag value)
+    {
+        ActiveTab = value;
+        StateHasChanged();
+    }
+}

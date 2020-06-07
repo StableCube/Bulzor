@@ -5,14 +5,8 @@ using Microsoft.AspNetCore.Components;
 
 namespace StableCube.Bulzor.Components
 {
-    public abstract class BulInputBase<TValue> : ComponentBase
+    public abstract class BulInputBase<TValue> : BulComponentBase
     {
-        /// <summary>
-        /// Gets or sets a collection of additional attributes that will be applied to the created element.
-        /// </summary>
-        [Parameter(CaptureUnmatchedValues = true)] 
-        public IDictionary<string, object> AdditionalAttributes { get; set; } = new Dictionary<string, object>();
-
         /// <summary>
         /// Gets or sets the value of the input. This should be used with two-way binding.
         /// </summary>

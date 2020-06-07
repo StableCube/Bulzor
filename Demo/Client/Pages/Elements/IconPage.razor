@@ -1,0 +1,84 @@
+﻿@page "/documentation/elements/icon"
+
+<DocumentationRoot>
+    <ExampleBox>
+        <ExampleOptions>
+            <EditForm Model="@this">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+
+                <OptionsBox>
+                    <OptionsBoxItem>
+                        <ColorSelect 
+                            Label="Color"
+                            Value="Color" 
+                            ValueChanged="@((value) => {
+                                Color = value;
+                                StateHasChanged();
+                            })" />
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <SizeSelect
+                            Label="Icon Size"
+                            Value="Size" 
+                            ValueChanged="@((value) => {
+                                Size = value;
+                                StateHasChanged();
+                            })" />
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <label class="label">Font Awesome Size</label>
+                        <BulInputSelect Value="(FontAwsomeSize)"
+                                ValueExpression="@( () => FontAwsomeSize )"
+                                ValueChanged="@( (string value) => OnFaSizeChangedHandler(value) )">
+
+                            <option value="default" selected>Default</option>
+                            @foreach (var option in FontAwsomeSizes)
+                            {
+                                <option value="@(option)">@option</option>
+                            }
+                        </BulInputSelect>
+                    </OptionsBoxItem>
+                </OptionsBox>
+            </EditForm>
+        </ExampleOptions>
+
+        <ExampleResult>
+            <BulIcon 
+                Color="Color"
+                Size="Size"
+                class="@ClassString"
+                />
+        </ExampleResult>
+    </ExampleBox>
+</DocumentationRoot>
+
+@code {
+    public BulColor? Color { get; set; }
+    public BulSize? Size { get; set; }
+    public string ClassString { get {
+        var val = "fa fa-home";
+        if(FontAwsomeSize != "default")
+            val += " " + FontAwsomeSize;
+        
+        return val;
+    } }
+    public string FontAwsomeSize { get; set; } = "default";
+    public List<string> FontAwsomeSizes { get; set; } = new List<string>();
+
+    protected override void OnInitialized()
+    {
+        FontAwsomeSizes.Add("fa-lg");
+        FontAwsomeSizes.Add("fa-1x");
+        FontAwsomeSizes.Add("fa-2x");
+        FontAwsomeSizes.Add("fa-3x");
+    }
+
+    public void OnFaSizeChangedHandler(string value)
+    {
+        FontAwsomeSize = value;
+        StateHasChanged();
+    }
+}

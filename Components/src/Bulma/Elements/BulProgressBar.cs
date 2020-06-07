@@ -1,18 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components;
 
 namespace StableCube.Bulzor.Components
 {
-    public class BulProgressBar : ComponentBase
+    public class BulProgressBar : BulComponentBase
     {
-        /// <summary>
-        /// Gets or sets a collection of additional attributes that will be applied to the created element.
-        /// </summary>
-        [Parameter(CaptureUnmatchedValues = true)] 
-        public IDictionary<string, object> AdditionalAttributes { get; set; }
-
         /// <summary>
         /// Progress as a percentage from 0 - 100
         /// </summary>
@@ -29,7 +22,7 @@ namespace StableCube.Bulzor.Components
 
         protected string _elementClass = String.Empty;
 
-        protected void BuildBulma()
+        protected override void BuildBulma()
         {
             ClassBuilder.SetPrimaryColor(Color);
 
@@ -41,7 +34,7 @@ namespace StableCube.Bulzor.Components
             BuildBulma();
 
             builder.OpenElement(0, "progress");
-            builder.AddAttribute(1, "class", _elementClass);
+            builder.AddAttribute(1, "class", MergeClassAttribute(_elementClass));
             builder.AddMultipleAttributes(2, AdditionalAttributes);
             builder.AddAttribute(3, "max", "100");
 

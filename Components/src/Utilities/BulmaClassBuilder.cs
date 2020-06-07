@@ -39,6 +39,9 @@ namespace StableCube.Bulzor.Components
         private bool? _isSelected;
         private bool? _isSpaced;
         private bool? _isLight;
+        private bool? _isOutlined;
+        private bool? _isFullWidth;
+        private bool? _isInverted;
 
         public BulmaClassBuilder(){}
 
@@ -207,6 +210,21 @@ namespace StableCube.Bulzor.Components
             _isLight = value;
         }
 
+        public void SetIsOutlined(bool? value)
+        {
+            _isOutlined = value;
+        }
+
+        public void SetIsFullWidth(bool? value)
+        {
+            _isFullWidth = value;
+        }
+
+        public void SetIsInverted(bool? value)
+        {
+            _isInverted = value;
+        }
+
         public override string ToString()
         {
             _sb.Clear();
@@ -333,6 +351,15 @@ namespace StableCube.Bulzor.Components
 
             if(_isLight.HasValue && _isLight.Value == true)
                 _sb.Append(" is-light");
+
+            if(_isOutlined.HasValue && _isOutlined.Value == true)
+                _sb.Append(" is-outlined");
+
+            if(_isFullWidth.HasValue && _isFullWidth.Value == true)
+                _sb.Append(" is-fullwidth");
+
+            if(_isInverted.HasValue && _isInverted.Value == true)
+                _sb.Append(" is-inverted");
 
             return _sb.ToString();
         }

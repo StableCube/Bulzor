@@ -1,0 +1,10 @@
+﻿@namespace StableCube.Bulzor.Demo.Client
+
+<div class="options-box-item" style="margin-right: 1rem; margin-top: 1rem;">
+    @ChildContent
+</div>
+
+@code {
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+}

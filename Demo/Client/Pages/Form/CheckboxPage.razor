@@ -1,0 +1,52 @@
+﻿@page "/documentation/form/checkbox"
+
+<DocumentationRoot>
+
+    <ExampleBox>
+        <ExampleOptions>
+            <EditForm Model="@this">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+
+                <OptionsBoxItem>
+                    <BulInputCheckbox 
+                            Value="Disabled"
+                            ValueExpression="@( () => Disabled )"
+                            ValueChanged="@((value) => {
+                                Disabled = value;
+                                StateHasChanged();
+                            })">
+                        Disabled
+                    </BulInputCheckbox>
+                </OptionsBoxItem>
+            </EditForm>
+        </ExampleOptions>
+
+        <ExampleResult>
+            <EditForm Model="@this">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+
+                <OptionsBoxItem>
+                    @if(Disabled)
+                    {
+                        <BulInputCheckbox @bind-Value="TestData" disabled>
+                            Do we agree?
+                        </BulInputCheckbox>
+                    }
+                    else
+                    {
+                        <BulInputCheckbox @bind-Value="TestData">
+                            Do we agree?
+                        </BulInputCheckbox>
+                    }
+                </OptionsBoxItem>
+            </EditForm>
+        </ExampleResult>
+    </ExampleBox>
+</DocumentationRoot>
+
+@code {
+    public bool TestData { get; set; }
+    public bool Disabled { get; set; }
+}

@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
 
 namespace StableCube.Bulzor.Components
 {
@@ -12,14 +10,8 @@ namespace StableCube.Bulzor.Components
         Right
     }
 
-    public class BulIcon : ComponentBase
+    public class BulIcon : BulComponentBase
     {
-        /// <summary>
-        /// Gets or sets a collection of additional attributes that will be applied to the created element.
-        /// </summary>
-        [Parameter(CaptureUnmatchedValues = true)] 
-        public IDictionary<string, object> AdditionalAttributes { get; set; }
-
         [Parameter]
         public BulColor? Color { get; set; }
 
@@ -36,7 +28,7 @@ namespace StableCube.Bulzor.Components
 
         protected string _wrapperClass = String.Empty;
 
-        protected void BuildBulma()
+        protected override void BuildBulma()
         {
             WrapperClassBuilder.SetSize(Size);
             WrapperClassBuilder.SetTextColor(Color);

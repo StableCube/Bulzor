@@ -1,0 +1,41 @@
+﻿@page "/documentation/elements/delete"
+
+<DocumentationRoot>
+    <ExampleBox>
+        <ExampleOptions>
+            <EditForm Model="@this">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+
+                <OptionsBox>
+                    <OptionsBoxItem>
+                        <SizeSelect
+                            Value="Size" 
+                            ValueChanged="@((value) => {
+                                Size = value;
+                                StateHasChanged();
+                            })" />
+                    </OptionsBoxItem>
+                </OptionsBox>
+            </EditForm>
+        </ExampleOptions>
+
+        <ExampleResult>
+            <div class="container">
+                <div>Click Count: @ClickCount</div>
+                <BulDelete Size="Size" OnClick="OnClickedHandler"/>
+            </div>
+        </ExampleResult>
+    </ExampleBox>
+</DocumentationRoot>
+
+@code {
+    public BulSize? Size { get; set; }
+    private int ClickCount { get; set; }
+
+    private void OnClickedHandler()
+    {
+        ClickCount++;
+        StateHasChanged();
+    }
+}

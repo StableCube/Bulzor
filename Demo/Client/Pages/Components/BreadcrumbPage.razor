@@ -1,0 +1,41 @@
+﻿@page "/documentation/components/breadcrumb"
+
+<DocumentationRoot>
+    <ExampleBox>
+        <ExampleOptions>
+            <EditForm Model="@this">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+
+                <OptionsBox>
+                    <OptionsBoxItem>
+                        <SeparatorSelect 
+                            Value="Separator" 
+                            ValueChanged="@( (BulSeparator? value) => OnSeparatorChangedHandler(value) )" />
+                    </OptionsBoxItem>
+                </OptionsBox>
+            </EditForm>
+        </ExampleOptions>
+
+        <ExampleResult>
+            <BulBreadcrumb Separator="Separator">
+                <ul>
+                    <li><a>Root</a></li>
+                    <li><a>Cool Place</a></li>
+                    <li><a>Details</a></li>
+                </ul>
+            </BulBreadcrumb>
+        </ExampleResult>
+    </ExampleBox>
+
+</DocumentationRoot>
+
+@code {
+    public BulSeparator? Separator { get; set; }
+
+    private void OnSeparatorChangedHandler(BulSeparator? value)
+    {
+        Separator = value;
+        StateHasChanged();
+    }
+}

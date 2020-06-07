@@ -27,7 +27,7 @@ namespace StableCube.Bulzor.Components
 
         protected string _inputClass = String.Empty;
 
-        protected void BuildBulma()
+        protected override void BuildBulma()
         {
             WrapperClassBuilder.SetSize(Size);
             WrapperClassBuilder.SetIsLoading(Loading);
@@ -44,7 +44,7 @@ namespace StableCube.Bulzor.Components
 
             if(AdditionalAttributes.ContainsKey("class"))
             {
-                AdditionalAttributes["class"] =  _inputClass;
+                AdditionalAttributes["class"] = _inputClass;
             }
             else
             {

@@ -21,7 +21,7 @@ namespace StableCube.Bulzor.Components
         private readonly Type _nullableUnderlyingType = Nullable.GetUnderlyingType(typeof(TValue));
         protected string _wrapperClass = String.Empty;
 
-        protected void BuildBulma()
+        protected override void BuildBulma()
         {
             WrapperClassBuilder.SetSize(Size);
             WrapperClassBuilder.SetIsLoading(Loading);

@@ -5,47 +5,105 @@
         <div class="columns">
             <div class="column is-1">
                 <BulMenu>
+                    <BulMenuLabel>Components</BulMenuLabel>
                     <BulMenuList>
-                        <BulMenuListItem>Form</BulMenuListItem>
-                        <BulMenuListItem 
-                            Href="/documentation/form/input"
-                            IsActive="@IsCurrentSection(Section.FormInput)" 
-                            OnClick="@(() => OpenSection(Section.FormInput))">
-                            Input
+                       <BulMenuListItem>
+                            <BulNavLink href="/documentation/components/breadcrumb" Match="NavLinkMatch.All">
+                                Breadcrumb
+                            </BulNavLink>
                         </BulMenuListItem>
-                        <BulMenuListItem 
-                            Href="/documentation/form/textarea"
-                            IsActive="@IsCurrentSection(Section.FormTextArea)" 
-                            OnClick="@(() => OpenSection(Section.FormTextArea))">
-                            TextArea
+                       <BulMenuListItem>
+                            <BulNavLink href="/documentation/components/card" Match="NavLinkMatch.All">
+                                Card
+                            </BulNavLink>
                         </BulMenuListItem>
-                        <BulMenuListItem 
-                            Href="/documentation/form/select"
-                            IsActive="@IsCurrentSection(Section.FormSelect)" 
-                            OnClick="@(() => OpenSection(Section.FormSelect))">
-                            Select
+                        <BulMenuListItem>
+                            <BulNavLink href="/documentation/components/menu" Match="NavLinkMatch.All">
+                                Menu
+                            </BulNavLink>
                         </BulMenuListItem>
-                        <BulMenuListItem 
-                            Href="/documentation/form/checkbox"
-                            IsActive="@IsCurrentSection(Section.FormCheckbox)" 
-                            OnClick="@(() => OpenSection(Section.FormCheckbox))">
-                            Checkbox
+                        <BulMenuListItem>
+                            <BulNavLink href="/documentation/components/message" Match="NavLinkMatch.All">
+                                Message
+                            </BulNavLink>
+                        </BulMenuListItem>
+                        <BulMenuListItem>
+                            <BulNavLink href="/documentation/components/modal" Match="NavLinkMatch.All">
+                                Modal
+                            </BulNavLink>
+                        </BulMenuListItem>
+                        <BulMenuListItem>
+                            <BulNavLink href="/documentation/components/tabs" Match="NavLinkMatch.All">
+                                Tabs
+                            </BulNavLink>
                         </BulMenuListItem>
                     </BulMenuList>
 
+                    <BulMenuLabel>Form</BulMenuLabel>
                     <BulMenuList>
-                        <BulMenuListItem>Elements</BulMenuListItem>
-                        <BulMenuListItem 
-                            Href="/documentation/elements/button"
-                            IsActive="@IsCurrentSection(Section.ElementButton)" 
-                            OnClick="@(() => OpenSection(Section.ElementButton))">
-                            Button
+                        <BulMenuListItem>
+                            <BulNavLink href="/documentation/form/input" Match="NavLinkMatch.All">
+                                Input
+                            </BulNavLink>
                         </BulMenuListItem>
-                        <BulMenuListItem 
-                            Href="/documentation/elements/progress"
-                            IsActive="@IsCurrentSection(Section.ElementProgressBar)" 
-                            OnClick="@(() => OpenSection(Section.ElementProgressBar))">
-                            Progress Bars
+                        <BulMenuListItem>
+                            <BulNavLink href="/documentation/form/textarea" Match="NavLinkMatch.All">
+                                TextArea
+                            </BulNavLink>
+                        </BulMenuListItem>
+                        <BulMenuListItem>
+                            <BulNavLink href="/documentation/form/select" Match="NavLinkMatch.All">
+                                Select
+                            </BulNavLink>
+                        </BulMenuListItem>
+                        <BulMenuListItem>
+                            <BulNavLink href="/documentation/form/checkbox" Match="NavLinkMatch.All">
+                                Checkbox
+                            </BulNavLink>
+                        </BulMenuListItem>
+                    </BulMenuList>
+
+                    <BulMenuLabel>Elements</BulMenuLabel>
+                    <BulMenuList>
+                       <BulMenuListItem>
+                            <BulNavLink href="/documentation/elements/box" Match="NavLinkMatch.All">
+                                Box
+                            </BulNavLink>
+                        </BulMenuListItem>
+                        <BulMenuListItem>
+                            <BulNavLink href="/documentation/elements/button" Match="NavLinkMatch.All">
+                                Button
+                            </BulNavLink>
+                        </BulMenuListItem>
+                       <BulMenuListItem>
+                            <BulNavLink href="/documentation/elements/content" Match="NavLinkMatch.All">
+                                Content
+                            </BulNavLink>
+                        </BulMenuListItem>
+                       <BulMenuListItem>
+                            <BulNavLink href="/documentation/elements/delete" Match="NavLinkMatch.All">
+                                Delete
+                            </BulNavLink>
+                        </BulMenuListItem>
+                        <BulMenuListItem>
+                            <BulNavLink href="/documentation/elements/icon" Match="NavLinkMatch.All">
+                                Icon
+                            </BulNavLink>
+                        </BulMenuListItem>
+                        <BulMenuListItem>
+                            <BulNavLink href="/documentation/elements/notification" Match="NavLinkMatch.All">
+                                Notification
+                            </BulNavLink>
+                        </BulMenuListItem>
+                        <BulMenuListItem>
+                            <BulNavLink href="/documentation/elements/progress" Match="NavLinkMatch.All">
+                                Progress Bars
+                            </BulNavLink>
+                        </BulMenuListItem>
+                        <BulMenuListItem>
+                            <BulNavLink href="/documentation/elements/tag" Match="NavLinkMatch.All">
+                                Tag
+                            </BulNavLink>
                         </BulMenuListItem>
                     </BulMenuList>
                 </BulMenu>
@@ -65,29 +123,4 @@
 @code {
     [Parameter]
     public RenderFragment ChildContent { get; set; }
-
-    private enum Section
-    {
-        FormInput,
-        FormTextArea,
-        FormSelect,
-        FormCheckbox,
-        ElementButton,
-        ElementProgressBar,
-    }
-
-    private Section _currentSection = Section.FormInput;
-
-    private bool IsCurrentSection(Section newSection)
-    {
-        return (_currentSection == newSection);
-    }
-
-    private void OpenSection(Section newSection)
-    {
-        _currentSection = newSection;
-
-        StateHasChanged();
-    }
-
 }

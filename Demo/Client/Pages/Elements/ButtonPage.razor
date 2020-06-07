@@ -1,0 +1,167 @@
+﻿@page "/documentation/elements/button"
+
+<DocumentationRoot>
+    <ExampleBox>
+        <ExampleOptions>
+            <EditForm Model="@Options">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+
+                <OptionsBox>
+                    <OptionsBoxItem>
+                        <PrimaryColorSelect 
+                            Label="Color"
+                            Value="Options.Color" 
+                            ValueChanged="@((value) => {
+                                Options.Color = value;
+                                StateHasChanged();
+                            })" />
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <ColorSelect 
+                            Label="Text Color"
+                            Value="Options.TextColor" 
+                            ValueChanged="@((value) => {
+                                Options.TextColor = value;
+                                StateHasChanged();
+                            })" />
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <SizeSelect
+                            Value="Options.Size" 
+                            ValueChanged="@((value) => {
+                                Options.Size = value;
+                                StateHasChanged();
+                            })"/>
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <BulInputCheckbox 
+                                Value="Options.Loading"
+                                ValueExpression="@( () => Options.Loading )"
+                                ValueChanged="@((value) => {
+                                    Options.Loading = value;
+                                    StateHasChanged();
+                                })">
+                            Loading
+                        </BulInputCheckbox>
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <BulInputCheckbox 
+                                Value="Options.Active"
+                                ValueExpression="@( () => Options.Active )"
+                                ValueChanged="@((value) => {
+                                    Options.Active = value;
+                                    StateHasChanged();
+                                })">
+                            Active
+                        </BulInputCheckbox>
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <BulInputCheckbox 
+                                Value="Options.Focused"
+                                ValueExpression="@( () => Options.Focused )"
+                                ValueChanged="@((value) => {
+                                    Options.Focused = value;
+                                    StateHasChanged();
+                                })">
+                            Focused
+                        </BulInputCheckbox>
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <BulInputCheckbox 
+                                Value="Options.Hovered"
+                                ValueExpression="@( () => Options.Hovered )"
+                                ValueChanged="@((value) => {
+                                    Options.Hovered = value;
+                                    StateHasChanged();
+                                })">
+                            Hovered
+                        </BulInputCheckbox>
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <BulInputCheckbox 
+                                Value="Options.Outlined"
+                                ValueExpression="@( () => Options.Outlined )"
+                                ValueChanged="@((value) => {
+                                    Options.Outlined = value;
+                                    StateHasChanged();
+                                })">
+                            Outlined
+                        </BulInputCheckbox>
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <BulInputCheckbox 
+                                Value="Options.FullWidth"
+                                ValueExpression="@( () => Options.FullWidth )"
+                                ValueChanged="@((value) => {
+                                    Options.FullWidth = value;
+                                    StateHasChanged();
+                                })">
+                            Full Width
+                        </BulInputCheckbox>
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <BulInputCheckbox 
+                                Value="Options.Inverted"
+                                ValueExpression="@( () => Options.Inverted )"
+                                ValueChanged="@((value) => {
+                                    Options.Inverted = value;
+                                    StateHasChanged();
+                                })">
+                            Inverted
+                        </BulInputCheckbox>
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <BulInputCheckbox 
+                                Value="Options.Rounded"
+                                ValueExpression="@( () => Options.Rounded )"
+                                ValueChanged="@((value) => {
+                                    Options.Rounded = value;
+                                    StateHasChanged();
+                                })">
+                            Rounded
+                        </BulInputCheckbox>
+                    </OptionsBoxItem>
+                </OptionsBox>
+            </EditForm>
+        </ExampleOptions>
+
+        <ExampleResult>
+            <BulButton 
+                Color="Options.Color" 
+                TextColor="Options.TextColor" 
+                Size="Options.Size" 
+                Loading="Options.Loading" 
+                Active="Options.Active" 
+                Focused="Options.Focused" 
+                Hovered="Options.Hovered" 
+                Outlined="Options.Outlined"
+                FullWidth="Options.FullWidth"
+                Inverted="Options.Inverted"
+                Rounded="Options.Rounded"
+                OnClick="OnButtonClickedHandler">Button</BulButton>
+        </ExampleResult>
+    </ExampleBox>
+</DocumentationRoot>
+
+@code {
+    private int _clickCount = 0;
+
+    ButtonOptions Options { get; set; } = new ButtonOptions();
+
+    private void OnButtonClickedHandler()
+    {
+        _clickCount++;
+        StateHasChanged();
+    }
+}

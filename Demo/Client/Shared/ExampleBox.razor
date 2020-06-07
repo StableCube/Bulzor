@@ -1,0 +1,22 @@
+﻿@namespace StableCube.Bulzor.Demo.Client
+
+<div class="columns">
+    <div class="column is-half">
+        <BulTitle Size="BulTextSize.S4">Options</BulTitle>
+        <BulNotification>
+            @ExampleOptions
+        </BulNotification>
+    </div>
+    <div class="column is-half">
+        <BulTitle Size="BulTextSize.S4">Example</BulTitle>
+        @ExampleResult
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public RenderFragment ExampleOptions { get; set; }
+
+    [Parameter]
+    public RenderFragment ExampleResult { get; set; }
+}
