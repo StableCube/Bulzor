@@ -1,0 +1,109 @@
+﻿@page "/documentation/components/navbar"
+
+<DocumentationRoot>
+    <div>Gotta fix burger button</div>
+    <ExampleBox>
+        <ExampleOptions>
+            <EditForm Model="@this">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+
+                <OptionsBox>
+                    <OptionsBoxItem>
+                        <PrimaryColorSelect 
+                            Label="Color"
+                            Value="Color" 
+                            ValueChanged="@((value) => {
+                                Color = value;
+                                StateHasChanged();
+                            })" />
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <BulInputCheckbox 
+                                Value="HideDropdownArrow"
+                                ValueExpression="@(() => HideDropdownArrow)"
+                                ValueChanged="@((value) => {
+                                    HideDropdownArrow = value;
+                                    StateHasChanged();
+                                })">
+                            Hide Dropdown Arrow
+                        </BulInputCheckbox>
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <BulInputCheckbox 
+                                Value="BoxedDropdown"
+                                ValueExpression="@(() => BoxedDropdown)"
+                                ValueChanged="@((value) => {
+                                    BoxedDropdown = value;
+                                    StateHasChanged();
+                                })">
+                            Boxed Dropdown
+                        </BulInputCheckbox>
+                    </OptionsBoxItem>
+                </OptionsBox>
+            </EditForm>
+        </ExampleOptions>
+
+        <ExampleResult>
+            <BulNavbar Color="Color">
+                <BulNavbarBrand>
+                    <BulNavbarItemLink href="/">
+                        <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28" alt="Bulma">
+                    </BulNavbarItemLink>
+
+                    <BulNavbarBurger data-target="navbarBasicExample">
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                    </BulNavbarBurger>
+                </BulNavbarBrand>
+                <BulNavbarMenu id="navbarBasicExample">
+                    <BulNavbarStart>
+                        <BulNavbarItem>
+                            Basic Item
+                        </BulNavbarItem>
+                        <BulNavbarItemLink href="/documentation/components/navbar">
+                            Link Item
+                        </BulNavbarItemLink>
+
+                        <BulNavbarItem Dropdown="true" Hoverable="true">
+                            <BulNavbarLink Arrowless="HideDropdownArrow">
+                                Dropdown
+                            </BulNavbarLink>
+                            <BulNavbarDropdown Boxed="BoxedDropdown">
+                                <BulNavbarItem>
+                                    Item 1
+                                </BulNavbarItem>
+                                <BulNavbarItem>
+                                    Item 2
+                                </BulNavbarItem>
+                                <BulNavbarItemLink href="/documentation">
+                                    Item 3
+                                </BulNavbarItemLink>
+                                <BulNavbarDivider />
+                                <BulNavbarItem>
+                                    Divided Item 4
+                                </BulNavbarItem>
+                            </BulNavbarDropdown>
+                        </BulNavbarItem>
+                    </BulNavbarStart>
+
+                    <BulNavbarEnd>
+                        <div class="buttons">
+                            <BulButton Color="BulPrimaryColor.Success">Sign up</BulButton>
+                            <BulButton>Log in</BulButton>
+                        </div>
+                    </BulNavbarEnd>
+                </BulNavbarMenu>
+            </BulNavbar>
+        </ExampleResult>
+    </ExampleBox>
+</DocumentationRoot>
+
+@code {
+    public BulPrimaryColor? Color { get; set; }
+    private bool HideDropdownArrow { get; set; }
+    private bool BoxedDropdown { get; set; }
+}

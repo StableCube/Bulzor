@@ -1,0 +1,59 @@
+﻿@page "/documentation/components/pagination"
+
+<DocumentationRoot>
+    <ExampleBox>
+        <ExampleOptions>
+            <EditForm Model="@this">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+
+                <OptionsBox>
+                    <OptionsBoxItem>
+                        <SizeSelect
+                            Value="Size" 
+                            ValueChanged="@((value) => {
+                                Size = value;
+                                StateHasChanged();
+                            })"/>
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <BulInputCheckbox 
+                                Value="Centered"
+                                ValueExpression="@(() => Centered)"
+                                ValueChanged="@((value) => {
+                                    Centered = value;
+                                    StateHasChanged();
+                                })">
+                            Centered
+                        </BulInputCheckbox>
+                    </OptionsBoxItem>
+                </OptionsBox>
+            </EditForm>
+        </ExampleOptions>
+
+        <ExampleResult>
+            <BulPagination 
+                PageCount="70" 
+                CurrentPage="CurrentPage" 
+                OnPageSelected="OnPageSelectedHandler" 
+                Centered="Centered"
+                Size="Size"
+                />
+                
+        </ExampleResult>
+    </ExampleBox>
+</DocumentationRoot>
+
+@code {
+    public BulPrimaryColor? Color { get; set; }
+    public BulSize? Size { get; set; }
+    private int CurrentPage { get; set; } = 15;
+    private bool Centered { get; set; }
+
+    public void OnPageSelectedHandler(int pageNum)
+    {
+        CurrentPage = pageNum;
+        StateHasChanged();
+    }
+}

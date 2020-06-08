@@ -79,7 +79,10 @@
     public int PageCount { get; set; }
 
     [Parameter]
-    public bool IsCentered { get; set; }
+    public BulSize? Size { get; set; }
+
+    [Parameter]
+    public bool Centered { get; set; }
 
     [Parameter]
     public int PagePadLinks { get; set; } = 3;
@@ -96,7 +99,8 @@
 
     protected override void OnParametersSet()
     {
-        _classBuilder.SetIsCentered(IsCentered);
+        _classBuilder.SetIsCentered(Centered);
+        _classBuilder.SetSize(Size);
         _class = _classBuilder.ToString();
 
         _pages.Clear();
