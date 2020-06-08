@@ -233,5 +233,69 @@ namespace StableCube.Bulzor.Components
                     return "is-1";
             }
         }
+
+        public static string Dimension(BulDimension value)
+        {
+            switch (value)
+            {
+                case BulDimension.D16x16:
+                    return "is-16x16";
+                case BulDimension.D24x24:
+                    return "is-24x24";
+                case BulDimension.D32x32:
+                    return "is-32x32";
+                case BulDimension.D48x48:
+                    return "is-48x48";
+                case BulDimension.D64x64:
+                    return "is-64x64";
+                case BulDimension.D96x96:
+                    return "is-96x96";
+                case BulDimension.D128x128:
+                    return "is-128x128";
+                default:
+                    return "is-16x16";
+            }
+        }
+
+        public static string Ratio(BulRatio value)
+        {
+            switch (value)
+            {
+                case BulRatio.RSquare:
+                    return "is-square";
+                case BulRatio.R1by1:
+                    return "is-1by1";
+                case BulRatio.R5by4:
+                    return "is-5by4";
+                case BulRatio.R4by3:
+                    return "is-4by3";
+                case BulRatio.R3by2:
+                    return "is-3by2";
+                case BulRatio.R5by3:
+                    return "is-5by3";
+                case BulRatio.R16by9:
+                    return "is-16by9";
+                case BulRatio.R2by1:
+                    return "is-2by1";
+                case BulRatio.R3by1:
+                    return "is-3by1";
+                case BulRatio.R4by5:
+                    return "is-4by5";
+                case BulRatio.R3by4:
+                    return "is-3by4";
+                case BulRatio.R2by3:
+                    return "is-2by3";
+                case BulRatio.R3by5:
+                    return "is-3by5";
+                case BulRatio.R9by16:
+                    return "is-9by16";
+                case BulRatio.R1by2:
+                    return "is-1by2";
+                case BulRatio.R1by3:
+                    return "is-1by3";
+                default:
+                    return "is-square";
+            }
+        }
     }
 }

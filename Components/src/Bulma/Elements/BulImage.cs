@@ -4,28 +4,25 @@ using Microsoft.AspNetCore.Components;
 
 namespace StableCube.Bulzor.Components
 {
-    public class BulSubtitle : BulComponentBase
+    public class BulImage : BulComponentBase
     {
         [Parameter]
-        public BulTextSize? Size { get; set; }
+        public BulDimension? Dimension { get; set; }
 
-        /// <summary>
-        /// If supplied the root element will be a header tag of the given size.
-        /// Otherwise it will be a paragraph tag.
-        /// </summary>
         [Parameter]
-        public int? HeaderSize { get; set; }
+        public BulRatio? Ratio { get; set; }
 
         [Parameter]
         public RenderFragment ChildContent { get; set; }
 
-        protected BulmaClassBuilder ClassBuilder { get; set; } = new BulmaClassBuilder("subtitle");
+        protected BulmaClassBuilder ClassBuilder { get; set; } = new BulmaClassBuilder("image");
 
         protected string _elementClass = String.Empty;
 
         protected override void BuildBulma()
         {
-            ClassBuilder.SetTextSize(Size);
+            ClassBuilder.SetDimension(Dimension);
+            ClassBuilder.SetRatio(Ratio);
 
             _elementClass = ClassBuilder.ToString();
         }
@@ -34,15 +31,7 @@ namespace StableCube.Bulzor.Components
         {
             BuildBulma();
 
-            if(HeaderSize.HasValue)
-            {
-                builder.OpenElement(0, $"h{HeaderSize}");
-            }
-            else
-            {
-                builder.OpenElement(0, "p");
-            }
-
+            builder.OpenElement(0, "figure");
             builder.AddAttribute(1, "class", MergeClassAttribute(_elementClass));
             builder.AddContent(2, ChildContent);
 

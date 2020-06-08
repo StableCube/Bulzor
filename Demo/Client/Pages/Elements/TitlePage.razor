@@ -1,0 +1,48 @@
+﻿@page "/documentation/elements/title"
+
+<DocumentationRoot>
+    <ExampleBox>
+        <ExampleOptions>
+            <EditForm Model="@this">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+
+                <OptionsBox>
+                    <OptionsBoxItem>
+                        <TextSizeSelect 
+                            Label="Title Size"
+                            Value="TitleSize" 
+                            ValueChanged="@((value) => {
+                                TitleSize = value;
+                                StateHasChanged();
+                            })" />
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <TextSizeSelect 
+                            Label="Subtitle Size"
+                            Value="SubtitleSize" 
+                            ValueChanged="@((value) => {
+                                SubtitleSize = value;
+                                StateHasChanged();
+                            })" />
+                    </OptionsBoxItem>
+                </OptionsBox>
+            </EditForm>
+        </ExampleOptions>
+
+        <ExampleResult>
+            <BulTitle Size="TitleSize">
+                Title
+            </BulTitle>
+            <BulSubtitle Size="SubtitleSize">
+                Subtitle
+            </BulSubtitle>
+        </ExampleResult>
+    </ExampleBox>
+</DocumentationRoot>
+
+@code {
+    public BulTextSize? TitleSize { get; set; }
+    public BulTextSize? SubtitleSize { get; set; }
+}

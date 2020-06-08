@@ -7,16 +7,7 @@ namespace StableCube.Bulzor.Components
     public class BulTitle : BulComponentBase
     {
         [Parameter]
-        public BulColor? Color { get; set; }
-
-        [Parameter]
         public BulTextSize? Size { get; set; }
-
-        [Parameter]
-        public BulTextWeight? Weight { get; set; }
-
-        [Parameter]
-        public bool Spaced { get; set; }
 
         /// <summary>
         /// If supplied the root element will be a header tag of the given size.
@@ -34,10 +25,7 @@ namespace StableCube.Bulzor.Components
 
         protected override void BuildBulma()
         {
-            ClassBuilder.SetTextColor(Color);
             ClassBuilder.SetTextSize(Size);
-            ClassBuilder.SetTextWeight(Weight);
-            ClassBuilder.SetIsSpaced(Spaced);
 
             _elementClass = ClassBuilder.ToString();
         }

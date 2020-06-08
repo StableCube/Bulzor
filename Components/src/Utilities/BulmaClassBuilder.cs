@@ -16,6 +16,8 @@ namespace StableCube.Bulzor.Components
         private BulTextWeight? _textWeight;
         private BulColumnSize? _colSize;
         private BulSeparator? _separator;
+        private BulRatio? _ratio;
+        private BulDimension? _dimension;
         private bool? _isRounded;
         private bool? _isHoverable;
         private bool? _isHovered;
@@ -93,6 +95,16 @@ namespace StableCube.Bulzor.Components
         public void SetSeparator(BulSeparator? value)
         {
             _separator = value;
+        }
+
+        public void SetRatio(BulRatio? value)
+        {
+            _ratio = value;
+        }
+
+        public void SetDimension(BulDimension? value)
+        {
+            _dimension = value;
         }
 
         public void SetIsRounded(bool? value)
@@ -278,6 +290,18 @@ namespace StableCube.Bulzor.Components
             {
                 _sb.Append(" ");
                 _sb.Append(BulmaVariableMap.ColumnSize(_colSize.Value));
+            }
+
+            if(_ratio.HasValue)
+            {
+                _sb.Append(" ");
+                _sb.Append(BulmaVariableMap.Ratio(_ratio.Value));
+            }
+
+            if(_dimension.HasValue)
+            {
+                _sb.Append(" ");
+                _sb.Append(BulmaVariableMap.Dimension(_dimension.Value));
             }
 
             if(_separator.HasValue)
