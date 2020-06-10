@@ -9,12 +9,7 @@
 
                 <OptionsBox>
                     <OptionsBoxItem>
-                        <SizeSelect
-                            Value="Size" 
-                            ValueChanged="@((value) => {
-                                Size = value;
-                                StateHasChanged();
-                            })" />
+                        <SizeSelect @bind-Value="Size" />
                     </OptionsBoxItem>
                 </OptionsBox>
             </EditForm>

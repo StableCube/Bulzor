@@ -1,0 +1,106 @@
+﻿@page "/documentation/form/file"
+
+<DocumentationRoot>
+
+    <ExampleBox>
+        <ExampleOptions>
+            <EditForm Model="@this">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+
+                <OptionsBox>
+                    <OptionsBoxItem>
+                        <PrimaryColorSelect Label="Color" @bind-Value="Color" />
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <SizeSelect Label="Size" @bind-Value="Size" />
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <BulInputCheckbox @bind-Value="Boxed">
+                            Boxed
+                        </BulInputCheckbox>
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <BulInputCheckbox @bind-Value="HasName">
+                            Has Name
+                        </BulInputCheckbox>
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <BulInputCheckbox @bind-Value="IsRight">
+                            Is Right
+                        </BulInputCheckbox>
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <BulInputCheckbox @bind-Value="FullWidth">
+                            FullWidth
+                        </BulInputCheckbox>
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <BulInputCheckbox @bind-Value="Centered">
+                            Centered
+                        </BulInputCheckbox>
+                    </OptionsBoxItem>
+                </OptionsBox>
+            </EditForm>
+        </ExampleOptions>
+
+        <ExampleResult>
+            <EditForm Model="@this">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+
+                <BulFile 
+                        Color="Color" 
+                        Size="Size" 
+                        Boxed="Boxed" 
+                        HasName="HasName" 
+                        Right="IsRight" 
+                        FullWidth="FullWidth"
+                        Centered="Centered"
+                        >
+                    <BulFileLabel>
+                        <BulFileInput @oninput="@((ChangeEventArgs args) => FileSelectedHandler(args))" />
+                        <BulFileCta>
+                            <BulFileCtaIcon class="fa fa-upload" />
+                            <BulFileCtaLabel>
+                                Choose a file…
+                            </BulFileCtaLabel>
+                        </BulFileCta>
+                        @if(HasName)
+                        {
+                            <BulFileName>
+                                @SelectedFile
+                            </BulFileName>
+                        }
+                    </BulFileLabel>
+                </BulFile>
+            </EditForm>
+        </ExampleResult>
+    </ExampleBox>
+</DocumentationRoot>
+
+@code {
+    public BulPrimaryColor? Color { get; set; }
+    public BulSize? Size { get; set; }
+    public bool Boxed { get; set; }
+    public bool HasName { get; set; } = true;
+    public bool IsRight { get; set; }
+    public bool FullWidth { get; set; }
+    public bool Centered { get; set; }
+    private string SelectedFile { get; set; } = "demo-filename.png";
+
+    public void FileSelectedHandler(ChangeEventArgs args)
+    {
+        SelectedFile = System.IO.Path.GetFileName(args.Value.ToString());
+        if (string.IsNullOrEmpty(SelectedFile))
+            return;
+
+        StateHasChanged();
+    }
+}

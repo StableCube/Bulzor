@@ -11,7 +11,7 @@ namespace StableCube.Bulzor.Components
         public BulSize? Size { get; set; }
 
         [Parameter]
-        public EventCallback OnClick { get; set; }
+        public EventCallback<MouseEventArgs> OnClick { get; set; }
 
         protected BulmaClassBuilder ClassBuilder { get; set; } = new BulmaClassBuilder("delete");
 
@@ -30,13 +30,8 @@ namespace StableCube.Bulzor.Components
 
             builder.OpenElement(0, "a");
             builder.AddMultipleAttributes(1, AdditionalAttributes);
-
             builder.AddAttribute(2, "class", MergeClassAttribute(_elementClass));
-            builder.AddAttribute(3, "onclick", EventCallback.Factory.Create<MouseEventArgs>(
-              this, 
-              OnClick
-            ));
-            
+            builder.AddAttribute(3, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, OnClick));
             builder.CloseElement();
         }
     }

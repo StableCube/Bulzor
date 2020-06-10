@@ -9,22 +9,11 @@
 
                 <OptionsBox>
                     <OptionsBoxItem>
-                        <SizeSelect
-                            Value="Size" 
-                            ValueChanged="@((value) => {
-                                Size = value;
-                                StateHasChanged();
-                            })"/>
+                        <SizeSelect @bind-Value="Size" />
                     </OptionsBoxItem>
 
                     <OptionsBoxItem>
-                        <BulInputCheckbox 
-                                Value="Centered"
-                                ValueExpression="@(() => Centered)"
-                                ValueChanged="@((value) => {
-                                    Centered = value;
-                                    StateHasChanged();
-                                })">
+                        <BulInputCheckbox @bind-Value="Centered">
                             Centered
                         </BulInputCheckbox>
                     </OptionsBoxItem>

@@ -44,6 +44,8 @@ namespace StableCube.Bulzor.Components
         private bool? _isOutlined;
         private bool? _isFullWidth;
         private bool? _isInverted;
+        private bool? _hasName;
+        private bool? _isCircle;
 
         public BulmaClassBuilder(){}
 
@@ -237,6 +239,16 @@ namespace StableCube.Bulzor.Components
             _isInverted = value;
         }
 
+        public void SetHasName(bool? value)
+        {
+            _hasName = value;
+        }
+
+        public void SetIsCircle(bool? value)
+        {
+            _isCircle = value;
+        }
+
         public override string ToString()
         {
             _sb.Clear();
@@ -385,6 +397,12 @@ namespace StableCube.Bulzor.Components
             if(_isInverted.HasValue && _isInverted.Value == true)
                 _sb.Append(" is-inverted");
 
+            if(_hasName.HasValue && _hasName.Value == true)
+                _sb.Append(" has-name");
+
+            if(_isCircle.HasValue && _isCircle.Value == true)
+                _sb.Append(" is-circle");
+            
             return _sb.ToString();
         }
     }

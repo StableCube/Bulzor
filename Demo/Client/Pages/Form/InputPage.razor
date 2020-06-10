@@ -9,93 +9,45 @@
 
                 <OptionsBox>
                     <OptionsBoxItem>
-                        <PrimaryColorSelect 
-                            Label="Color"
-                            Value="Color" 
-                            ValueChanged="@((value) => {
-                                Color = value;
-                                StateHasChanged();
-                            })" />
+                        <PrimaryColorSelect Label="Color" @bind-Value="Color" />
                     </OptionsBoxItem>
 
                     <OptionsBoxItem>
-                        <SizeSelect 
-                            Label="Size"
-                            Value="Size" 
-                            ValueChanged="@((value) => {
-                                Size = value;
-                                StateHasChanged();
-                            })" />
+                        <SizeSelect Label="Size" @bind-Value="Size" />
                     </OptionsBoxItem>
 
                     <OptionsBoxItem>
-                        <BulInputCheckbox 
-                                Value="Rounded"
-                                ValueExpression="@( () => Rounded )"
-                                ValueChanged="@((value) => {
-                                    Rounded = value;
-                                    StateHasChanged();
-                                })">
+                        <BulInputCheckbox @bind-Value="Rounded">
                             Rounded
                         </BulInputCheckbox>
                     </OptionsBoxItem>
 
                     <OptionsBoxItem>
-                        <BulInputCheckbox 
-                                Value="Loading"
-                                ValueExpression="@( () => Loading )"
-                                ValueChanged="@((value) => {
-                                    Loading = value;
-                                    StateHasChanged();
-                                })">
+                        <BulInputCheckbox @bind-Value="Loading">
                             Loading
                         </BulInputCheckbox>
                     </OptionsBoxItem>
 
                     <OptionsBoxItem>
-                        <BulInputCheckbox 
-                                Value="HasIconsLeft"
-                                ValueExpression="@( () => HasIconsLeft )"
-                                ValueChanged="@((value) => {
-                                    HasIconsLeft = value;
-                                    StateHasChanged();
-                                })">
+                        <BulInputCheckbox @bind-Value="HasIconsLeft">
                             Has Icons Left
                         </BulInputCheckbox>
                     </OptionsBoxItem>
 
                     <OptionsBoxItem>
-                        <BulInputCheckbox 
-                                Value="HasIconsRight"
-                                ValueExpression="@( () => HasIconsRight )"
-                                ValueChanged="@((value) => {
-                                    HasIconsRight = value;
-                                    StateHasChanged();
-                                })">
+                        <BulInputCheckbox @bind-Value="HasIconsRight">
                             Has Icons Right
                         </BulInputCheckbox>
                     </OptionsBoxItem>
 
                     <OptionsBoxItem>
-                        <BulInputCheckbox 
-                                Value="DemoIconLeft"
-                                ValueExpression="@( () => DemoIconLeft )"
-                                ValueChanged="@((value) => {
-                                    DemoIconLeft = value;
-                                    StateHasChanged();
-                                })">
+                        <BulInputCheckbox @bind-Value="DemoIconLeft">
                             Demo Icon Left
                         </BulInputCheckbox>
                     </OptionsBoxItem>
 
                     <OptionsBoxItem>
-                        <BulInputCheckbox 
-                                Value="DemoIconRight"
-                                ValueExpression="@( () => DemoIconRight )"
-                                ValueChanged="@((value) => {
-                                    DemoIconRight = value;
-                                    StateHasChanged();
-                                })">
+                        <BulInputCheckbox @bind-Value="DemoIconRight">
                             Demo Icon Right
                         </BulInputCheckbox>
                     </OptionsBoxItem>

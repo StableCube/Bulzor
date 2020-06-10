@@ -10,13 +10,16 @@ namespace StableCube.Bulzor.Components
         /// Progress as a percentage from 0 - 100
         /// </summary>
         [Parameter]
-        public double Progress { get; set; }
+        public double Value { get; set; }
 
         [Parameter]
         public bool Indeterminate { get; set; }
 
         [Parameter]
         public BulPrimaryColor? Color { get; set; }
+
+        [Parameter]
+        public BulSize? Size { get; set; }
 
         protected BulmaClassBuilder ClassBuilder { get; set; } = new BulmaClassBuilder("progress");
 
@@ -25,6 +28,7 @@ namespace StableCube.Bulzor.Components
         protected override void BuildBulma()
         {
             ClassBuilder.SetPrimaryColor(Color);
+            ClassBuilder.SetSize(Size);
 
             _elementClass = ClassBuilder.ToString();
         }
@@ -34,15 +38,15 @@ namespace StableCube.Bulzor.Components
             BuildBulma();
 
             builder.OpenElement(0, "progress");
-            builder.AddAttribute(1, "class", MergeClassAttribute(_elementClass));
-            builder.AddMultipleAttributes(2, AdditionalAttributes);
+            builder.AddMultipleAttributes(1, AdditionalAttributes);
+            builder.AddAttribute(2, "class", MergeClassAttribute(_elementClass));
             builder.AddAttribute(3, "max", "100");
 
             if(Indeterminate == false)
             {
-                Progress = Math.Clamp(Progress, 0, 100);
+                Value = Math.Clamp(Value, 0, 100);
 
-                builder.AddAttribute(4, "value", Progress);
+                builder.AddAttribute(4, "value", Value);
             }
 
             builder.CloseElement();

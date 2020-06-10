@@ -1,7 +1,10 @@
 ﻿@page "/documentation/components/navbar"
 
 <DocumentationRoot>
-    <div>Gotta fix burger button</div>
+    <BulNotification Color="BulPrimaryColor.Warning">
+        Gotta fix burger button
+    </BulNotification>
+
     <ExampleBox>
         <ExampleOptions>
             <EditForm Model="@this">
@@ -10,35 +13,17 @@
 
                 <OptionsBox>
                     <OptionsBoxItem>
-                        <PrimaryColorSelect 
-                            Label="Color"
-                            Value="Color" 
-                            ValueChanged="@((value) => {
-                                Color = value;
-                                StateHasChanged();
-                            })" />
+                        <PrimaryColorSelect Label="Color" @bind-Value="Color" />
                     </OptionsBoxItem>
 
                     <OptionsBoxItem>
-                        <BulInputCheckbox 
-                                Value="HideDropdownArrow"
-                                ValueExpression="@(() => HideDropdownArrow)"
-                                ValueChanged="@((value) => {
-                                    HideDropdownArrow = value;
-                                    StateHasChanged();
-                                })">
+                        <BulInputCheckbox @bind-Value="HideDropdownArrow">
                             Hide Dropdown Arrow
                         </BulInputCheckbox>
                     </OptionsBoxItem>
 
                     <OptionsBoxItem>
-                        <BulInputCheckbox 
-                                Value="BoxedDropdown"
-                                ValueExpression="@(() => BoxedDropdown)"
-                                ValueChanged="@((value) => {
-                                    BoxedDropdown = value;
-                                    StateHasChanged();
-                                })">
+                        <BulInputCheckbox @bind-Value="BoxedDropdown">
                             Boxed Dropdown
                         </BulInputCheckbox>
                     </OptionsBoxItem>

@@ -2,4 +2,4 @@
 
 set -e
 
-sass --watch _StyleRoot.scss:wwwroot/css/app.css
+sass --watch StyleRoot.scss:wwwroot/css/app.css

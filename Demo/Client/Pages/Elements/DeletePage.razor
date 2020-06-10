@@ -9,12 +9,7 @@
 
                 <OptionsBox>
                     <OptionsBoxItem>
-                        <SizeSelect
-                            Value="Size" 
-                            ValueChanged="@((value) => {
-                                Size = value;
-                                StateHasChanged();
-                            })" />
+                        <SizeSelect @bind-Value="Size" />
                     </OptionsBoxItem>
                 </OptionsBox>
             </EditForm>
@@ -33,7 +28,7 @@
     public BulSize? Size { get; set; }
     private int ClickCount { get; set; }
 
-    private void OnClickedHandler()
+    private void OnClickedHandler(MouseEventArgs args)
     {
         ClickCount++;
         StateHasChanged();

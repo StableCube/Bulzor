@@ -9,42 +9,18 @@
 
                 <OptionsBox>
                     <OptionsBoxItem>
-                        <PrimaryColorSelect 
-                            Label="Color"
-                            Value="Color" 
-                            ValueChanged="@((value) => {
-                                Color = value;
-                                StateHasChanged();
-                            })" />
+                        <PrimaryColorSelect Label="Color" @bind-Value="Color" />
                     </OptionsBoxItem>
                     <OptionsBoxItem>
-                        <SizeSelect 
-                            Label="Size"
-                            Value="Size" 
-                            ValueChanged="@((value) => {
-                                Size = value;
-                                StateHasChanged();
-                            })" />
+                        <SizeSelect Label="Size" @bind-Value="Size" />
                     </OptionsBoxItem>
                     <OptionsBoxItem>
-                        <BulInputCheckbox 
-                                Value="Light"
-                                ValueExpression="@( () => Light )"
-                                ValueChanged="@((value) => {
-                                    Light = value;
-                                    StateHasChanged();
-                                })">
+                        <BulInputCheckbox @bind-Value="Light">
                             Light
                         </BulInputCheckbox>
                     </OptionsBoxItem>
                     <OptionsBoxItem>
-                        <BulInputCheckbox 
-                                Value="Rounded"
-                                ValueExpression="@( () => Rounded )"
-                                ValueChanged="@((value) => {
-                                    Rounded = value;
-                                    StateHasChanged();
-                                })">
+                        <BulInputCheckbox @bind-Value="Rounded">
                             Rounded
                         </BulInputCheckbox>
                     </OptionsBoxItem>

@@ -9,23 +9,11 @@
 
                 <OptionsBox>
                     <OptionsBoxItem>
-                        <RatioSelect 
-                            Label="Ratio"
-                            Value="Ratio" 
-                            ValueChanged="@((value) => {
-                                Ratio = value;
-                                StateHasChanged();
-                            })" />
+                        <RatioSelect Label="Ratio" @bind-Value="Ratio" />
                     </OptionsBoxItem>
 
                     <OptionsBoxItem>
-                        <DimensionSelect 
-                            Label="Dimension"
-                            Value="Dimension" 
-                            ValueChanged="@((value) => {
-                                Dimension = value;
-                                StateHasChanged();
-                            })" />
+                        <DimensionSelect Label="Dimension" @bind-Value="Dimension" />
                     </OptionsBoxItem>
                 </OptionsBox>
             </EditForm>

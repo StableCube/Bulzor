@@ -1,0 +1,7 @@
+{
+  "name": "bulzor-extended",
+  "license": "MIT",
+  "dependencies": {
+    "bulma-slider": "^2.0.0"
+  }
+}

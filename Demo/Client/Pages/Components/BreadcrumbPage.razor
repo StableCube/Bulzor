@@ -9,9 +9,7 @@
 
                 <OptionsBox>
                     <OptionsBoxItem>
-                        <SeparatorSelect 
-                            Value="Separator" 
-                            ValueChanged="@( (BulSeparator? value) => OnSeparatorChangedHandler(value) )" />
+                        <SeparatorSelect @bind-Value="Separator" />
                     </OptionsBoxItem>
                 </OptionsBox>
             </EditForm>
@@ -32,10 +30,4 @@
 
 @code {
     public BulSeparator? Separator { get; set; }
-
-    private void OnSeparatorChangedHandler(BulSeparator? value)
-    {
-        Separator = value;
-        StateHasChanged();
-    }
 }

@@ -9,13 +9,7 @@
                 <ValidationSummary />
 
                 <OptionsBoxItem>
-                    <BulInputCheckbox 
-                            Value="Disabled"
-                            ValueExpression="@( () => Disabled )"
-                            ValueChanged="@((value) => {
-                                Disabled = value;
-                                StateHasChanged();
-                            })">
+                    <BulInputCheckbox @bind-Value="Disabled">
                         Disabled
                     </BulInputCheckbox>
                 </OptionsBoxItem>

@@ -9,31 +9,16 @@
 
                 <OptionsBox>
                     <OptionsBoxItem>
-                        <ColorSelect 
-                            Label="Color"
-                            Value="Color" 
-                            ValueChanged="@((value) => {
-                                Color = value;
-                                StateHasChanged();
-                            })" />
+                        <ColorSelect Label="Color" @bind-Value="Color" />
                     </OptionsBoxItem>
 
                     <OptionsBoxItem>
-                        <SizeSelect
-                            Label="Icon Size"
-                            Value="Size" 
-                            ValueChanged="@((value) => {
-                                Size = value;
-                                StateHasChanged();
-                            })" />
+                        <SizeSelect Label="Icon Size" @bind-Value="Size" />
                     </OptionsBoxItem>
 
                     <OptionsBoxItem>
                         <label class="label">Font Awesome Size</label>
-                        <BulInputSelect Value="(FontAwsomeSize)"
-                                ValueExpression="@( () => FontAwsomeSize )"
-                                ValueChanged="@( (string value) => OnFaSizeChangedHandler(value) )">
-
+                        <BulInputSelect @bind-Value="FontAwsomeSize">
                             <option value="default" selected>Default</option>
                             @foreach (var option in FontAwsomeSizes)
                             {

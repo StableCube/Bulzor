@@ -52,10 +52,11 @@ namespace StableCube.Bulzor.Components
             BuildBulma();
 
             builder.OpenElement(0, "div");
-            builder.AddAttribute(1, "class", MergeClassAttribute(_elementClass));
+            builder.AddMultipleAttributes(1, AdditionalAttributes);
+            builder.AddAttribute(2, "class", MergeClassAttribute(_elementClass));
 
-            builder.OpenElement(2, "ul");
-            builder.AddContent(3, ChildContent);
+            builder.OpenElement(3, "ul");
+            builder.AddContent(4, ChildContent);
             builder.CloseElement();
 
             builder.CloseElement();

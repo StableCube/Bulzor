@@ -1,0 +1,89 @@
+﻿@page "/documentation/extended/slider"
+
+<DocumentationRoot>
+    <ExampleBox>
+        <ExampleOptions>
+            <EditForm Model="@this">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+
+                <OptionsBox>
+                    <OptionsBoxItem>
+                        <PrimaryColorSelect 
+                            Label="Color"
+                            Value="Color" 
+                            ValueChanged="@((value) => Color = value)" />
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <SizeSelect
+                            Label="Size"
+                            Value="Size" 
+                            ValueChanged="@((value) => Size = value)" />
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <label class="label">Step</label>
+                        <BulInputNumber 
+                            Step="0.1"
+                            Value="DemoStep"
+                            ValueExpression="@(() => DemoStep)"
+                            ValueChanged="@((double value) => DemoStep = value)" />
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <BulInputCheckbox 
+                                Value="FullWidth"
+                                ValueExpression="@(() => FullWidth)"
+                                ValueChanged="@((value) => FullWidth = value)">
+                            Full Width
+                        </BulInputCheckbox>
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <BulInputCheckbox 
+                                Value="Circle"
+                                ValueExpression="@(() => Circle)"
+                                ValueChanged="@((value) => Circle = value)">
+                            Circle
+                        </BulInputCheckbox>
+                    </OptionsBoxItem>
+                </OptionsBox>
+            </EditForm>
+        </ExampleOptions>
+
+        <ExampleResult>
+            <EditForm Model="@this">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+                <div>Value: @DemoValue</div>
+                <BulSlider
+                    Color="Color" 
+                    Size="Size" 
+                    FullWidth="FullWidth"
+                    Circle="Circle"
+                    Min="0" 
+                    Max="100"
+                    Step="DemoStep"
+                    Value="DemoValue"
+                    ValueExpression="@(() => DemoValue)"
+                    ValueChanged="@((double value) => ValueChangedHandler(value))"
+                     />
+            </EditForm>
+        </ExampleResult>
+    </ExampleBox>
+</DocumentationRoot>
+
+@code {
+    public double DemoValue { get; set; } = 25;
+    public double DemoStep { get; set; } = 0.5;
+    public BulPrimaryColor? Color { get; set; }
+    public BulSize? Size { get; set; }
+    public bool FullWidth { get; set; }
+    public bool Circle { get; set; }
+
+    private void ValueChangedHandler(double value)
+    {
+        DemoValue = value;
+    }
+}

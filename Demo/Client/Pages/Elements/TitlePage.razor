@@ -9,23 +9,11 @@
 
                 <OptionsBox>
                     <OptionsBoxItem>
-                        <TextSizeSelect 
-                            Label="Title Size"
-                            Value="TitleSize" 
-                            ValueChanged="@((value) => {
-                                TitleSize = value;
-                                StateHasChanged();
-                            })" />
+                        <TextSizeSelect Label="Title Size" @bind-Value="TitleSize" />
                     </OptionsBoxItem>
 
                     <OptionsBoxItem>
-                        <TextSizeSelect 
-                            Label="Subtitle Size"
-                            Value="SubtitleSize" 
-                            ValueChanged="@((value) => {
-                                SubtitleSize = value;
-                                StateHasChanged();
-                            })" />
+                        <TextSizeSelect Label="Subtitle Size" @bind-Value="SubtitleSize" />
                     </OptionsBoxItem>
                 </OptionsBox>
             </EditForm>

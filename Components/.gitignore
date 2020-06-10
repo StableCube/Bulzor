@@ -28,7 +28,7 @@ _UpgradeReport_Files/
 ###############
 bin/
 obj/
-node_modules/
+node_modules/bulma/css
 ###################
 # Web publish log #
 ###################

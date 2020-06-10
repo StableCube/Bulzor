@@ -1,7 +1,7 @@
 ﻿@namespace StableCube.Bulzor.Extended
 
-<div class="card">
-    <header class="card-header has-background-light">
+<BulCard>
+    <BulCardHeader>
         <a @onclick="@((args) => ToggleHandlerAsync())" class="card-header-title">
             @if(Expanded)
             {
@@ -14,27 +14,27 @@
 
             @ExpandableRowHeader
         </a>
-    </header>
+    </BulCardHeader>
 
     @if(Expanded)
     {
         @if(ExpandableRowContent != null)
         {
-            <div class="card-content">
+            <BulCardContent>
                 <div class="content">
                     @ExpandableRowContent
                 </div>
-            </div>
+            </BulCardContent>
         }
 
         @if(ExpandableRowFooter != null)
         {
-            <footer class="card-footer">
+            <BulCardFooter>
                 @ExpandableRowFooter
-            </footer>
+            </BulCardFooter>
         }
     }
-</div>
+</BulCard>
 
 @code {
     [Parameter]

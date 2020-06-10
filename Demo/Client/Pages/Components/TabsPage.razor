@@ -9,95 +9,47 @@
 
                 <OptionsBox>
                     <OptionsBoxItem>
-                        <TextSizeSelect
-                            Label="Size" 
-                            Value="Size" 
-                            ValueChanged="@((value) => {
-                                Size = value;
-                                StateHasChanged();
-                            })"/>
+                        <TextSizeSelect Label="Size" @bind-Value="Size" />
                     </OptionsBoxItem>
 
                     <OptionsBoxItem>
-                        <BulInputCheckbox 
-                                Value="Boxed"
-                                ValueExpression="@( () => Boxed )"
-                                ValueChanged="@((value) => {
-                                    Boxed = value;
-                                    StateHasChanged();
-                                })">
+                        <BulInputCheckbox @bind-Value="Boxed">
                             Boxed
                         </BulInputCheckbox>
                     </OptionsBoxItem>
 
                     <OptionsBoxItem>
-                        <BulInputCheckbox 
-                                Value="Toggle"
-                                ValueExpression="@( () => Toggle )"
-                                ValueChanged="@((value) => {
-                                    Toggle = value;
-                                    StateHasChanged();
-                                })">
+                        <BulInputCheckbox @bind-Value="Toggle">
                             Toggle
                         </BulInputCheckbox>
                     </OptionsBoxItem>
 
                     <OptionsBoxItem>
-                        <BulInputCheckbox 
-                                Value="ToggleRounded"
-                                ValueExpression="@( () => ToggleRounded )"
-                                ValueChanged="@((value) => {
-                                    ToggleRounded = value;
-                                    StateHasChanged();
-                                })">
+                        <BulInputCheckbox @bind-Value="ToggleRounded">
                             Toggle Rounded
                         </BulInputCheckbox>
                     </OptionsBoxItem>
 
                     <OptionsBoxItem>
-                        <BulInputCheckbox 
-                                Value="FullWidth"
-                                ValueExpression="@( () => FullWidth )"
-                                ValueChanged="@((value) => {
-                                    FullWidth = value;
-                                    StateHasChanged();
-                                })">
+                        <BulInputCheckbox @bind-Value="FullWidth">
                             Full Width
                         </BulInputCheckbox>
                     </OptionsBoxItem>
 
                     <OptionsBoxItem>
-                        <BulInputCheckbox 
-                                Value="Centered"
-                                ValueExpression="@( () => Centered )"
-                                ValueChanged="@((value) => {
-                                    Centered = value;
-                                    StateHasChanged();
-                                })">
+                        <BulInputCheckbox @bind-Value="Centered">
                             Centered
                         </BulInputCheckbox>
                     </OptionsBoxItem>
 
                     <OptionsBoxItem>
-                        <BulInputCheckbox 
-                                Value="Right"
-                                ValueExpression="@( () => Right )"
-                                ValueChanged="@((value) => {
-                                    Right = value;
-                                    StateHasChanged();
-                                })">
+                        <BulInputCheckbox @bind-Value="Right">
                             Right
                         </BulInputCheckbox>
                     </OptionsBoxItem>
 
                     <OptionsBoxItem>
-                        <BulInputCheckbox 
-                                Value="Icons"
-                                ValueExpression="@( () => Icons )"
-                                ValueChanged="@((value) => {
-                                    Icons = value;
-                                    StateHasChanged();
-                                })">
+                        <BulInputCheckbox @bind-Value="Icons">
                             Icons
                         </BulInputCheckbox>
                     </OptionsBoxItem>

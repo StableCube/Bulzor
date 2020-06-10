@@ -9,44 +9,21 @@
 
                 <OptionsBox>
                     <OptionsBoxItem>
-                        <PrimaryColorSelect 
-                            Label="Color"
-                            Value="Color" 
-                            ValueChanged="@((value) => {
-                                Color = value;
-                                StateHasChanged();
-                            })" />
+                        <PrimaryColorSelect Label="Color" @bind-Value="Color" />
                     </OptionsBoxItem>
 
                     <OptionsBoxItem>
-                        <SizeSelect
-                            Value="Size" 
-                            ValueChanged="@((value) => {
-                                Size = value;
-                                StateHasChanged();
-                            })"/>
+                        <SizeSelect @bind-Value="Size"/>
                     </OptionsBoxItem>
 
                     <OptionsBoxItem>
-                        <BulInputCheckbox 
-                                Value="CloseButton"
-                                ValueExpression="@( () => CloseButton )"
-                                ValueChanged="@((value) => {
-                                    CloseButton = value;
-                                    StateHasChanged();
-                                })">
+                        <BulInputCheckbox @bind-Value="CloseButton">
                             Close Button
                         </BulInputCheckbox>
                     </OptionsBoxItem>
 
                     <OptionsBoxItem>
-                        <BulInputCheckbox 
-                                Value="ShowHeader"
-                                ValueExpression="@( () => ShowHeader )"
-                                ValueChanged="@((value) => {
-                                    ShowHeader = value;
-                                    StateHasChanged();
-                                })">
+                        <BulInputCheckbox @bind-Value="ShowHeader">
                             Show Header
                         </BulInputCheckbox>
                     </OptionsBoxItem>

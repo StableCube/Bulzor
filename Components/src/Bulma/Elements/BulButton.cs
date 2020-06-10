@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -41,7 +42,7 @@ namespace StableCube.Bulzor.Components
         public bool? Rounded { get; set; }
 
         [Parameter]
-        public EventCallback OnClick { get; set; }
+        public EventCallback<MouseEventArgs> OnClick { get; set; }
 
         [Parameter]
         public RenderFragment ChildContent { get; set; }
@@ -73,15 +74,9 @@ namespace StableCube.Bulzor.Components
 
             builder.OpenElement(0, "button");
             builder.AddMultipleAttributes(1, AdditionalAttributes);
-
             builder.AddAttribute(2, "class", MergeClassAttribute(_elementClass));
-            builder.AddAttribute(3, "onclick", EventCallback.Factory.Create<MouseEventArgs>(
-              this, 
-              OnClick
-            ));
-            
+            builder.AddAttribute(3, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, OnClick));
             builder.AddContent(4, ChildContent);
-
             builder.CloseElement();
         }
     }

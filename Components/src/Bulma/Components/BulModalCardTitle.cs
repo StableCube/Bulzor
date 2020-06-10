@@ -23,8 +23,9 @@ namespace StableCube.Bulzor.Components
             BuildBulma();
 
             builder.OpenElement(0, "p");
-            builder.AddAttribute(1, "class", MergeClassAttribute(_elementClass));
-            builder.AddContent(2, ChildContent);
+            builder.AddMultipleAttributes(1, AdditionalAttributes);
+            builder.AddAttribute(2, "class", MergeClassAttribute(_elementClass));
+            builder.AddContent(3, ChildContent);
             builder.CloseElement();
         }
     }

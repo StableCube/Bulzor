@@ -9,34 +9,25 @@
 
                 <OptionsBox>
                     <OptionsBoxItem>
-                        <PrimaryColorSelect 
-                            Label="Color"
-                            Value="Color" 
-                            ValueChanged="@((value) => {
-                                Color = value;
-                                StateHasChanged();
-                            })" />
+                        <PrimaryColorSelect Label="Color" @bind-Value="Color" />
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <SizeSelect @bind-Value="Size" />
                     </OptionsBoxItem>
 
                     <OptionsBoxItem>
                         <label class="label">Progress</label>
-                        <BulInputNumber 
-                            Value="Progress"
-                            ValueExpression="@( () => Progress )"
-                            ValueChanged="@((int value) => {
-                                Progress = value;
-                                StateHasChanged();
-                            })" />
+                        <BulSlider 
+                            Color="BulPrimaryColor.Primary" 
+                            Min="0" 
+                            Max="100"
+                            @bind-Value="Progress" />
+                        <BulInputNumber @bind-Value="Progress" />
                     </OptionsBoxItem>
 
                     <OptionsBoxItem>
-                        <BulInputCheckbox 
-                                Value="Indeterminate"
-                                ValueExpression="@( () => Indeterminate )"
-                                ValueChanged="@((bool value) => {
-                                    Indeterminate = value;
-                                    StateHasChanged();
-                                })">
+                        <BulInputCheckbox @bind-Value="Indeterminate">
                             Indeterminate
                         </BulInputCheckbox>
                     </OptionsBoxItem>
@@ -47,16 +38,17 @@
         <ExampleResult>
             <BulProgressBar 
                 Color="Color" 
-                Progress="Progress" 
-                Indeterminate="Indeterminate" />
+                Size="Size"
+                Indeterminate="Indeterminate"
+                Value="Progress" />
         </ExampleResult>
     </ExampleBox>
 </DocumentationRoot>
 
 @code {
+    public BulPrimaryColor? Color { get; set; }
+    public BulSize? Size { get; set; }
     public int Progress { get; set; } = 25;
-
     public bool Indeterminate { get; set; }
 
-    public BulPrimaryColor? Color { get; set; }
 }

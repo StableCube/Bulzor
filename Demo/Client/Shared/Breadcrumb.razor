@@ -4,14 +4,16 @@
 
 @implements IDisposable
 
-<BulBreadcrumb>
-    <ul>
-        @foreach(string pathPart in GetPathElements())
-        {
-            <li><a href="@GetPathRelative(pathPart)">@pathPart</a></li>
-        }
-    </ul>
-</BulBreadcrumb>
+
+    <BulBreadcrumb>
+        <ul>
+            @foreach(string pathPart in GetPathElements())
+            {
+                <li><a href="@GetPathRelative(pathPart)">@pathPart</a></li>
+            }
+        </ul>
+    </BulBreadcrumb>
+
 
 @code {
     protected override void OnInitialized()

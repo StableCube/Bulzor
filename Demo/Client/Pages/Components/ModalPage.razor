@@ -27,9 +27,9 @@
             <BulModal Active="IsBasicModalOpen">
                 <BulModalBackground OnClick="CloseBasicModal" />
                 <BulModalContent>
-                    <p class="image is-4by3">
+                    <BulImage Ratio="BulRatio.R4by3">
                         <img src="https://bulma.io/images/placeholders/1280x960.png" alt="">
-                    </p>
+                    </BulImage>
                 </BulModalContent>
                 <BulModalClose OnClick="CloseBasicModal" />
             </BulModal>
@@ -68,25 +68,25 @@
     private bool IsBasicModalOpen { get; set; }
     private bool IsCardModalOpen { get; set; }
 
-    public void OpenBasicModal()
+    public void OpenBasicModal(MouseEventArgs args)
     {
         IsBasicModalOpen = true;
         StateHasChanged();
     }
 
-    public void CloseBasicModal()
+    public void CloseBasicModal(MouseEventArgs args)
     {
         IsBasicModalOpen = false;
         StateHasChanged();
     }
 
-    public void OpenCardModal()
+    public void OpenCardModal(MouseEventArgs args)
     {
         IsCardModalOpen = true;
         StateHasChanged();
     }
 
-    public void CloseCardModal()
+    public void CloseCardModal(MouseEventArgs args)
     {
         IsCardModalOpen = false;
         StateHasChanged();

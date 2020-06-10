@@ -9,49 +9,25 @@
 
                 <OptionsBox>
                     <OptionsBoxItem>
-                        <BulInputCheckbox 
-                                Value="ShowHeader"
-                                ValueExpression="@( () => ShowHeader )"
-                                ValueChanged="@((value) => {
-                                    ShowHeader = value;
-                                    StateHasChanged();
-                                })">
+                        <BulInputCheckbox @bind-Value="ShowHeader">
                             Show Header
                         </BulInputCheckbox>
                     </OptionsBoxItem>
 
                     <OptionsBoxItem>
-                        <BulInputCheckbox 
-                                Value="ShowHeaderIcon"
-                                ValueExpression="@( () => ShowHeaderIcon )"
-                                ValueChanged="@((value) => {
-                                    ShowHeaderIcon = value;
-                                    StateHasChanged();
-                                })">
+                        <BulInputCheckbox @bind-Value="ShowHeaderIcon">
                             Show Header Icon
                         </BulInputCheckbox>
                     </OptionsBoxItem>
 
                     <OptionsBoxItem>
-                        <BulInputCheckbox 
-                                Value="ShowImage"
-                                ValueExpression="@( () => ShowImage )"
-                                ValueChanged="@((value) => {
-                                    ShowImage = value;
-                                    StateHasChanged();
-                                })">
+                        <BulInputCheckbox @bind-Value="ShowImage">
                             Show Image
                         </BulInputCheckbox>
                     </OptionsBoxItem>
 
                     <OptionsBoxItem>
-                        <BulInputCheckbox 
-                                Value="ShowFooter"
-                                ValueExpression="@( () => ShowFooter )"
-                                ValueChanged="@((value) => {
-                                    ShowFooter = value;
-                                    StateHasChanged();
-                                })">
+                        <BulInputCheckbox @bind-Value="ShowFooter">
                             Show Footer
                         </BulInputCheckbox>
                     </OptionsBoxItem>
@@ -80,9 +56,9 @@
                 @if(ShowImage)
                 {
                     <BulCardImage>
-                        <figure class="image is-4by3">
+                        <BulImage Ratio="BulRatio.R4by3">
                             <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
-                        </figure>
+                        </BulImage>
                     </BulCardImage>
                 }
 

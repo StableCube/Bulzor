@@ -31,85 +31,88 @@ namespace StableCube.Bulzor.Components
             }
         }
 
-        public static string Size(BulSize value)
+        private static string SizeMap(BulSize value)
         {
             switch (value)
             {
                 case BulSize.Small:
-                    return "is-small";
+                    return "small";
                 case BulSize.Normal:
-                    return "is-normal";
+                    return "normal";
                 case BulSize.Medium:
-                    return "is-medium";
+                    return "medium";
                 case BulSize.Large:
-                    return "is-large";
+                    return "large";
                 default:
-                    return "is-normal";
+                    return "normal";
             }
+        }
+
+        public static string Size(BulSize value)
+        {
+            return "is-" + SizeMap(value);
         }
 
         public static string ChildSize(BulSize value)
         {
+            return "are-" + SizeMap(value);
+        }
+
+        private static string ColorMap(BulColor value)
+        {
             switch (value)
             {
-                case BulSize.Small:
-                    return "are-small";
-                case BulSize.Normal:
-                    return "are-normal";
-                case BulSize.Medium:
-                    return "are-medium";
-                case BulSize.Large:
-                    return "are-large";
+                case BulColor.White:
+                    return "white";
+                case BulColor.Black:
+                    return "black";
+                case BulColor.Light:
+                    return "light";
+                case BulColor.Dark:
+                    return "dark";
+                case BulColor.Primary:
+                    return "primary";
+                case BulColor.Info:
+                    return "info";
+                case BulColor.Link:
+                    return "link";
+                case BulColor.Success:
+                    return "success";
+                case BulColor.Warning:
+                    return "warning";
+                case BulColor.Danger:
+                    return "danger";
+                case BulColor.BlackBis:
+                    return "black-bis";
+                case BulColor.BlackTer:
+                    return "black-ter";
+                case BulColor.GreyDarker:
+                    return "grey-darker";
+                case BulColor.GreyDark:
+                    return "grey-dark";
+                case BulColor.Grey:
+                    return "grey";
+                case BulColor.GreyLight:
+                    return "grey-light";
+                case BulColor.GreyLighter:
+                    return "grey-lighter";
+                case BulColor.WhiteTer:
+                    return "white-ter";
+                case BulColor.WhiteBis:
+                    return "white-bis";
                 default:
-                    return "are-normal";
+                    return "black";
             }
         }
 
         public static string TextColor(BulColor value)
         {
-            switch (value)
-            {
-                case BulColor.White:
-                    return "has-text-white";
-                case BulColor.Black:
-                    return "has-text-black";
-                case BulColor.Light:
-                    return "has-text-light";
-                case BulColor.Dark:
-                    return "has-text-dark";
-                case BulColor.Primary:
-                    return "has-text-primary";
-                case BulColor.Info:
-                    return "has-text-info";
-                case BulColor.Link:
-                    return "has-text-link";
-                case BulColor.Success:
-                    return "has-text-success";
-                case BulColor.Warning:
-                    return "has-text-warning";
-                case BulColor.Danger:
-                    return "has-text-danger";
-                case BulColor.BlackBis:
-                    return "has-text-black-bis";
-                case BulColor.BlackTer:
-                    return "has-text-black-ter";
-                case BulColor.GreyDarker:
-                    return "has-text-grey-darker";
-                case BulColor.GreyDark:
-                    return "has-text-grey-dark";
-                case BulColor.Grey:
-                    return "has-text-grey";
-                case BulColor.GreyLight:
-                    return "has-text-grey-light";
-                case BulColor.GreyLighter:
-                    return "has-text-grey-lighter";
-                case BulColor.WhiteTer:
-                    return "has-text-white-ter";
-                case BulColor.WhiteBis:
-                    return "has-text-white-bis";
-                default:
-                    return "has-text-black";
-            }
+            return "has-text-" + ColorMap(value);
+        }
+
+        public static string BackgroundColor(BulColor value)
+        {
+            return "has-background-" + ColorMap(value);
         }
 
         public static string TextSize(BulTextSize value)
@@ -151,53 +154,6 @@ namespace StableCube.Bulzor.Components
                     return "has-text-weight-bold";
                 default:
                     return "has-text-weight-normal";
-            }
-        }
-
-        public static string BackgroundColor(BulColor value)
-        {
-            switch (value)
-            {
-                case BulColor.White:
-                    return "has-background-white";
-                case BulColor.Black:
-                    return "has-background-black";
-                case BulColor.Light:
-                    return "has-background-light";
-                case BulColor.Dark:
-                    return "has-background-dark";
-                case BulColor.Primary:
-                    return "has-background-primary";
-                case BulColor.Info:
-                    return "has-background-info";
-                case BulColor.Link:
-                    return "has-background-link";
-                case BulColor.Success:
-                    return "has-background-success";
-                case BulColor.Warning:
-                    return "has-background-warning";
-                case BulColor.Danger:
-                    return "has-background-danger";
-                case BulColor.BlackBis:
-                    return "has-background-black-bis";
-                case BulColor.BlackTer:
-                    return "has-background-black-ter";
-                case BulColor.GreyDarker:
-                    return "has-background-grey-darker";
-                case BulColor.GreyDark:
-                    return "has-background-grey-dark";
-                case BulColor.Grey:
-                    return "has-background-grey";
-                case BulColor.GreyLight:
-                    return "has-background-grey-light";
-                case BulColor.GreyLighter:
-                    return "has-background-grey-lighter";
-                case BulColor.WhiteTer:
-                    return "has-background-white-ter";
-                case BulColor.WhiteBis:
-                    return "has-background-white-bis";
-                default:
-                    return "has-background-white";
             }
         }
 

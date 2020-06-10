@@ -11,7 +11,7 @@ namespace StableCube.Bulzor.Components
         public bool ShowBackground { get; set; } = true;
 
         [Parameter]
-        public EventCallback OnClick { get; set; }
+        public EventCallback<MouseEventArgs> OnClick { get; set; }
 
         protected BulmaClassBuilder ClassBuilder { get; set; } = new BulmaClassBuilder("modal-background");
 
@@ -27,11 +27,9 @@ namespace StableCube.Bulzor.Components
             BuildBulma();
 
             builder.OpenElement(0, "div");
-            builder.AddAttribute(1, "class", MergeClassAttribute(_elementClass));
-            builder.AddAttribute(3, "onclick", EventCallback.Factory.Create<MouseEventArgs>(
-              this, 
-              OnClick
-            ));
+            builder.AddMultipleAttributes(1, AdditionalAttributes);
+            builder.AddAttribute(2, "class", MergeClassAttribute(_elementClass));
+            builder.AddAttribute(3, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, OnClick));
             builder.CloseElement();
         }
     }
