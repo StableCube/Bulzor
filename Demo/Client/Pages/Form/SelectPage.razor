@@ -9,7 +9,7 @@
 
                 <OptionsBox>
                     <OptionsBoxItem>
-                        <PrimaryColorSelect Label="Color" @bind-Value="Color" />
+                        <SchemeColorSelect Label="Color" @bind-Value="Color" />
                     </OptionsBoxItem>
 
                     <OptionsBoxItem>
@@ -86,7 +86,7 @@
 </DocumentationRoot>
 
 @code {
-    public BulPrimaryColor? Color { get; set; }
+    public BulSchemeColor? Color { get; set; }
     public BulSize? Size { get; set; }
     public int Multiple { get; set; }
     public bool Rounded { get; set; }

@@ -2,7 +2,7 @@ using System;
 
 namespace StableCube.Bulzor.Components
 {
-    public enum BulPrimaryColor
+    public enum BulSchemeColor
     {
         Primary,
         Link,

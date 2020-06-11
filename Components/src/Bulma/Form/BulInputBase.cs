@@ -25,7 +25,7 @@ namespace StableCube.Bulzor.Components
         public Expression<Func<TValue>> ValueExpression { get; set; }
 
         [Parameter]
-        public BulPrimaryColor? Color { get; set; }
+        public BulSchemeColor? Color { get; set; }
 
         [Parameter]
         public BulSize? Size { get; set; }

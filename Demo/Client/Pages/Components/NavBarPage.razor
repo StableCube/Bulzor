@@ -1,7 +1,7 @@
 ﻿@page "/documentation/components/navbar"
 
 <DocumentationRoot>
-    <BulNotification Color="BulPrimaryColor.Warning">
+    <BulNotification Color="BulSchemeColor.Warning">
         Gotta fix burger button
     </BulNotification>
 
@@ -13,7 +13,7 @@
 
                 <OptionsBox>
                     <OptionsBoxItem>
-                        <PrimaryColorSelect Label="Color" @bind-Value="Color" />
+                        <SchemeColorSelect Label="Color" @bind-Value="Color" />
                     </OptionsBoxItem>
 
                     <OptionsBoxItem>
@@ -77,7 +77,7 @@
 
                     <BulNavbarEnd>
                         <div class="buttons">
-                            <BulButton Color="BulPrimaryColor.Success">Sign up</BulButton>
+                            <BulButton Color="BulSchemeColor.Success">Sign up</BulButton>
                             <BulButton>Log in</BulButton>
                         </div>
                     </BulNavbarEnd>
@@ -88,7 +88,7 @@
 </DocumentationRoot>
 
 @code {
-    public BulPrimaryColor? Color { get; set; }
+    public BulSchemeColor? Color { get; set; }
     private bool HideDropdownArrow { get; set; }
     private bool BoxedDropdown { get; set; }
 }

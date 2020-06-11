@@ -18,7 +18,7 @@ namespace StableCube.Bulzor.Extended
         public TimeSpan Interval { get; set; } = TimeSpan.FromSeconds(1);
 
         [Parameter]
-        public BulPrimaryColor? Color { get; set; }
+        public BulSchemeColor? Color { get; set; }
 
         [Parameter]
         public BulSize? Size { get; set; }

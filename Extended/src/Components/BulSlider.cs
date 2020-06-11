@@ -13,7 +13,7 @@ namespace StableCube.Bulzor.Extended
         public BulSize? Size { get; set; }
 
         [Parameter]
-        public BulPrimaryColor? Color { get; set; }
+        public BulSchemeColor? Color { get; set; }
 
         [Parameter]
         public TValue Min { get; set; }
@@ -38,7 +38,7 @@ namespace StableCube.Bulzor.Extended
 
         protected void BuildBulma()
         {
-            InputClassBuilder.SetPrimaryColor(Color);
+            InputClassBuilder.SetSchemeColor(Color);
             InputClassBuilder.SetSize(Size);
             InputClassBuilder.SetIsFullWidth(FullWidth);
             InputClassBuilder.SetIsCircle(Circle);
@@ -56,7 +56,8 @@ namespace StableCube.Bulzor.Extended
             builder.AddAttribute(4, "min", Min);
             builder.AddAttribute(5, "max", Max);
             builder.AddAttribute(6, "step", Step);
-            builder.AddAttribute(7, "oninput", EventCallback.Factory.CreateBinder<string>(
+            builder.AddAttribute(7, "value", Value);
+            builder.AddAttribute(8, "oninput", EventCallback.Factory.CreateBinder<string>(
                 this, 
                 __value => CurrentValueAsString = __value, CurrentValueAsString
             ));

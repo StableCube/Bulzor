@@ -12,7 +12,7 @@ namespace StableCube.Bulzor.Components
         public bool Loading { get; set; }
 
         [Parameter]
-        public BulPrimaryColor? Color { get; set; }
+        public BulSchemeColor? Color { get; set; }
 
         [Parameter]
         public BulColor? TextColor { get; set; }
@@ -54,7 +54,7 @@ namespace StableCube.Bulzor.Components
         protected override void BuildBulma()
         {
             ClassBuilder.SetIsLoading(Loading);
-            ClassBuilder.SetPrimaryColor(Color);
+            ClassBuilder.SetSchemeColor(Color);
             ClassBuilder.SetTextColor(TextColor);
             ClassBuilder.SetSize(Size);
             ClassBuilder.SetIsActive(Active);

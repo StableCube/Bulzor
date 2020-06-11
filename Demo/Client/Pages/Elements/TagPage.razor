@@ -9,7 +9,7 @@
 
                 <OptionsBox>
                     <OptionsBoxItem>
-                        <PrimaryColorSelect Label="Color" @bind-Value="Color" />
+                        <SchemeColorSelect Label="Color" @bind-Value="Color" />
                     </OptionsBoxItem>
                     <OptionsBoxItem>
                         <SizeSelect Label="Size" @bind-Value="Size" />
@@ -57,7 +57,7 @@
         <div class="container">
             <BulTags HasAddons="true">
                 <BulTag>Label</BulTag>
-                <BulTag Color="BulPrimaryColor.Primary">Tag</BulTag>
+                <BulTag Color="BulSchemeColor.Primary">Tag</BulTag>
             </BulTags>
         </div>
     </section>
@@ -65,7 +65,7 @@
 </DocumentationRoot>
 
 @code {
-    public BulPrimaryColor? Color { get; set; }
+    public BulSchemeColor? Color { get; set; }
     public BulSize? Size { get; set; }
     public bool Light { get; set; }
     public bool Rounded { get; set; }

@@ -9,7 +9,7 @@
 
                 <OptionsBox>
                     <OptionsBoxItem>
-                        <PrimaryColorSelect Label="Color" @bind-Value="Color" />
+                        <SchemeColorSelect Label="Color" @bind-Value="Color" />
                     </OptionsBoxItem>
                 </OptionsBox>
             </EditForm>
@@ -29,5 +29,5 @@
 </DocumentationRoot>
 
 @code {
-    public BulPrimaryColor? Color { get; set; }
+    public BulSchemeColor? Color { get; set; }
 }

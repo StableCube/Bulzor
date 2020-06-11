@@ -11,7 +11,7 @@ namespace StableCube.Bulzor.Extended
         public BulSize? Size { get; set; }
 
         [Parameter]
-        public BulPrimaryColor? Color { get; set; }
+        public BulSchemeColor? Color { get; set; }
 
         protected BulmaClassBuilder ClassBuilder { get; set; } = new BulmaClassBuilder("bul-busy-spinner");
 
@@ -20,7 +20,7 @@ namespace StableCube.Bulzor.Extended
         protected override void BuildBulma()
         {
             ClassBuilder.SetSize(Size);
-            ClassBuilder.SetPrimaryColor(Color);
+            ClassBuilder.SetSchemeColor(Color);
             _elementClass = ClassBuilder.ToString();
         }
 

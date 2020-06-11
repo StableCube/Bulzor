@@ -7,7 +7,7 @@ namespace StableCube.Bulzor.Components
     public class BulFile : BulComponentBase
     {
         [Parameter]
-        public BulPrimaryColor? Color { get; set; }
+        public BulSchemeColor? Color { get; set; }
 
         [Parameter]
         public BulSize? Size { get; set; }
@@ -36,7 +36,7 @@ namespace StableCube.Bulzor.Components
 
         protected override void BuildBulma()
         {
-            ClassBuilder.SetPrimaryColor(Color);
+            ClassBuilder.SetSchemeColor(Color);
             ClassBuilder.SetSize(Size);
             ClassBuilder.SetIsBoxed(Boxed);
             ClassBuilder.SetHasName(HasName);

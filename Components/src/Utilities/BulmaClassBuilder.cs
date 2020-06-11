@@ -7,7 +7,8 @@ namespace StableCube.Bulzor.Components
     {
         private StringBuilder _sb = new StringBuilder();
         private string _baseClass;
-        private BulPrimaryColor? _primaryColor;
+        private BulColor? _color;
+        private BulSchemeColor? _schemeColor;
         private BulSize? _size;
         private BulSize? _sizeChild;
         private BulColor? _textColor;
@@ -54,9 +55,14 @@ namespace StableCube.Bulzor.Components
             _baseClass = baseClass;
         }
 
-        public void SetPrimaryColor(BulPrimaryColor? value)
+        public void SetColor(BulColor? value)
         {
-            _primaryColor = value;
+            _color = value;
+        }
+
+        public void SetSchemeColor(BulSchemeColor? value)
+        {
+            _schemeColor = value;
         }
 
         public void SetSize(BulSize? value)
@@ -256,10 +262,16 @@ namespace StableCube.Bulzor.Components
             if(_baseClass != null)
                 _sb.Append(_baseClass);
 
-            if(_primaryColor.HasValue)
+            if(_color.HasValue)
             {
                 _sb.Append(" ");
-                _sb.Append(BulmaVariableMap.PrimaryColor(_primaryColor.Value));
+                _sb.Append(BulmaVariableMap.Color(_color.Value));
+            }
+
+            if(_schemeColor.HasValue)
+            {
+                _sb.Append(" ");
+                _sb.Append(BulmaVariableMap.SchemeColor(_schemeColor.Value));
             }
 
             if(_size.HasValue)

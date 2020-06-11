@@ -9,79 +9,46 @@
 
                 <OptionsBox>
                     <OptionsBoxItem>
-                        <PrimaryColorSelect Label="Color" @bind-Value="Color" />
-                    </OptionsBoxItem>
-                    
-                    <OptionsBoxItem>
-                        <SizeSelect Label="Size" @bind-Value="Size" />
+                        <SchemeColorSelect Label="Color" @bind-Value="Color" />
                     </OptionsBoxItem>
 
                     <OptionsBoxItem>
-                        <label class="label">Interval Milliseconds</label>
-                        <BulInputNumber 
-                            Value="IntervalMilliseconds"
-                            ValueExpression="@( () => IntervalMilliseconds )"
-                            ValueChanged="@((double value) => {
-                                if(value < 50)
-                                    value = 50;
-                                IntervalMilliseconds = value;
-                                DemoInterval = TimeSpan.FromMilliseconds(value);
-                            })" />
+                        <RatioSelect @bind-Value="Ratio" Label="Ratio" />
                     </OptionsBoxItem>
 
                     <OptionsBoxItem>
-                        <BulButton OnClick="OnResetHandler">Reset</BulButton>
+                        <label class="label">Focused Index</label>
+                        <BulSlider @bind-Value="FocusedIndex" Min="0" Max="(DemoEntries.Length - 1)" Step="1" />
                     </OptionsBoxItem>
-
                 </OptionsBox>
             </EditForm>
         </ExampleOptions>
 
         <ExampleResult>
-            <EditForm Model="@this">
-                <DataAnnotationsValidator />
-                <ValidationSummary />
-                <div>Current: @DemoValue</div>
-                <div>Total: @DemoRuntime</div>
-                <div>Complete: @Complete</div>
-                <BulTimerProgressBar
-                    Color="Color" 
-                    Size="Size" 
-                    @bind-Value="DemoValue"
-                    Interval="DemoInterval"
-                    Max="DemoRuntime"
-                    OnElapsed="OnElapsedHandler"
-                     />
-            </EditForm>
+            <div>Selected: @FocusedIndex</div>
+            <BulImageRibbon Color="Color" Ratio="Ratio" Images="DemoEntries" Focus="FocusedIndex" />
         </ExampleResult>
     </ExampleBox>
 </DocumentationRoot>
 
 @code {
-    public BulPrimaryColor? Color { get; set; }
-    public BulSize? Size { get; set; }
-    public TimeSpan DemoRuntime { get; set; } = TimeSpan.FromSeconds(10);
-    public TimeSpan DemoValue { get; set; } = TimeSpan.Zero;
-    public TimeSpan DemoInterval { get; set; } = TimeSpan.FromMilliseconds(500);
-    public double IntervalMilliseconds { get; set; } = 500;
-    public bool Complete { get; set; }
+    public BulSchemeColor? Color { get; set; }
+    public BulRatio? Ratio { get; set; }
+    public int FocusedIndex { get; set; } = 1;
 
-    private void OnElapsedHandler(TimeSpan value)
-    {
-        Complete = true;
-        StateHasChanged();
-    }
-
-    private void OnTickHandler(TimeSpan value)
-    {
-        DemoValue = value;
-        StateHasChanged();
-    }
-
-    private void OnResetHandler()
-    {
-        DemoValue = TimeSpan.Zero;
-        Complete = false;
-        StateHasChanged();
-    }
+    public Uri[] DemoEntries { get; set; } = new Uri[] {
+        new Uri("https://bulma.io/images/placeholders/128x128.png"),
+        new Uri("https://bulma.io/images/placeholders/128x128.png"),
+        new Uri("https://bulma.io/images/placeholders/128x128.png"),
+        new Uri("https://bulma.io/images/placeholders/128x128.png"),
+        new Uri("https://bulma.io/images/placeholders/128x128.png"),
+        new Uri("https://bulma.io/images/placeholders/128x128.png"),
+        new Uri("https://bulma.io/images/placeholders/128x128.png"),
+        new Uri("https://bulma.io/images/placeholders/128x128.png"),
+        new Uri("https://bulma.io/images/placeholders/128x128.png"),
+        new Uri("https://bulma.io/images/placeholders/128x128.png"),
+        new Uri("https://bulma.io/images/placeholders/128x128.png"),
+        new Uri("https://bulma.io/images/placeholders/128x128.png"),
+        new Uri("https://bulma.io/images/placeholders/128x128.png"),
+    };
 }

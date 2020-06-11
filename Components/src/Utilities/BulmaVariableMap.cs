@@ -4,27 +4,27 @@ namespace StableCube.Bulzor.Components
 {
     public static class BulmaVariableMap
     {
-        public static string PrimaryColor(BulPrimaryColor color)
+        public static string SchemeColor(BulSchemeColor color)
         {
             switch (color)
             {
-                case BulPrimaryColor.Danger:
+                case BulSchemeColor.Danger:
                     return "is-danger";
-                case BulPrimaryColor.Dark:
+                case BulSchemeColor.Dark:
                     return "is-dark";
-                case BulPrimaryColor.Light:
+                case BulSchemeColor.Light:
                     return "is-light";
-                case BulPrimaryColor.Info:
+                case BulSchemeColor.Info:
                     return "is-info";
-                case BulPrimaryColor.Link:
+                case BulSchemeColor.Link:
                     return "is-link";
-                case BulPrimaryColor.Primary:
+                case BulSchemeColor.Primary:
                     return "is-primary";
-                case BulPrimaryColor.Success:
+                case BulSchemeColor.Success:
                     return "is-success";
-                case BulPrimaryColor.Text:
+                case BulSchemeColor.Text:
                     return "is-text";
-                case BulPrimaryColor.Warning:
+                case BulSchemeColor.Warning:
                     return "is-warning";
                 default:
                     return "is-primary";
@@ -103,6 +103,11 @@ namespace StableCube.Bulzor.Components
                 default:
                     return "black";
             }
+        }
+
+        public static string Color(BulColor value)
+        {
+            return "is-" + ColorMap(value);
         }
 
         public static string TextColor(BulColor value)

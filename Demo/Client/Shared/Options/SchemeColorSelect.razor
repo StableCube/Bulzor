@@ -16,29 +16,29 @@
 
 @code {
     [Parameter]
-    public string Label { get; set; } = "Primary Color";
+    public string Label { get; set; } = "Scheme Color";
 
     [Parameter]
-    public BulPrimaryColor? Value { get; set; }
+    public BulSchemeColor? Value { get; set; }
 
     [Parameter]
-    public EventCallback<BulPrimaryColor?> ValueChanged { get; set; }
+    public EventCallback<BulSchemeColor?> ValueChanged { get; set; }
 
     private string _selectedString = "default";
-    private IEnumerable<BulPrimaryColor> _options;
+    private IEnumerable<BulSchemeColor> _options;
 
     protected override void OnInitialized()
     {
-        _options = Enum.GetValues(typeof(BulPrimaryColor)).Cast<BulPrimaryColor>();
+        _options = Enum.GetValues(typeof(BulSchemeColor)).Cast<BulSchemeColor>();
     }
 
     public async Task OnChangedHandlerAsync(string value)
     {
         _selectedString = value;
-        BulPrimaryColor? enumVal = null;
+        BulSchemeColor? enumVal = null;
         if(value != "default")
         {
-            enumVal = Enum.Parse<BulPrimaryColor>(value);
+            enumVal = Enum.Parse<BulSchemeColor>(value);
         }
 
         await ValueChanged.InvokeAsync(enumVal);

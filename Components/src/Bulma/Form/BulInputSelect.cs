@@ -25,7 +25,7 @@ namespace StableCube.Bulzor.Components
         {
             WrapperClassBuilder.SetSize(Size);
             WrapperClassBuilder.SetIsLoading(Loading);
-            WrapperClassBuilder.SetPrimaryColor(Color);
+            WrapperClassBuilder.SetSchemeColor(Color);
             WrapperClassBuilder.SetSize(Size);
             WrapperClassBuilder.SetIsRounded(Rounded);
 

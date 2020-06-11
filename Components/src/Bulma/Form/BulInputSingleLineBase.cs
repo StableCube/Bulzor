@@ -37,7 +37,7 @@ namespace StableCube.Bulzor.Components
 
             _wrapperClass = WrapperClassBuilder.ToString();
 
-            InputClassBuilder.SetPrimaryColor(Color);
+            InputClassBuilder.SetSchemeColor(Color);
             InputClassBuilder.SetSize(Size);
             InputClassBuilder.SetIsRounded(Rounded);
             _inputClass = InputClassBuilder.ToString();

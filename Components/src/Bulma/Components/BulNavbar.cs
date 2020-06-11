@@ -7,7 +7,7 @@ namespace StableCube.Bulzor.Components
     public class BulNavbar : BulComponentBase
     {
         [Parameter]
-        public BulPrimaryColor? Color { get; set; }
+        public BulSchemeColor? Color { get; set; }
 
         [Parameter]
         public RenderFragment ChildContent { get; set; }
@@ -18,7 +18,7 @@ namespace StableCube.Bulzor.Components
 
         protected override void BuildBulma()
         {
-            ClassBuilder.SetPrimaryColor(Color);
+            ClassBuilder.SetSchemeColor(Color);
             _elementClass = ClassBuilder.ToString();
         }
 

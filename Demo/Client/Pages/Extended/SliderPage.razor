@@ -9,7 +9,7 @@
 
                 <OptionsBox>
                     <OptionsBoxItem>
-                        <PrimaryColorSelect 
+                        <SchemeColorSelect 
                             Label="Color"
                             Value="Color" 
                             ValueChanged="@((value) => Color = value)" />
@@ -77,7 +77,7 @@
 @code {
     public double DemoValue { get; set; } = 25;
     public double DemoStep { get; set; } = 0.5;
-    public BulPrimaryColor? Color { get; set; }
+    public BulSchemeColor? Color { get; set; }
     public BulSize? Size { get; set; }
     public bool FullWidth { get; set; }
     public bool Circle { get; set; }

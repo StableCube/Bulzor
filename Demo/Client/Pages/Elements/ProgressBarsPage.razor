@@ -9,7 +9,7 @@
 
                 <OptionsBox>
                     <OptionsBoxItem>
-                        <PrimaryColorSelect Label="Color" @bind-Value="Color" />
+                        <SchemeColorSelect Label="Color" @bind-Value="Color" />
                     </OptionsBoxItem>
 
                     <OptionsBoxItem>
@@ -19,7 +19,7 @@
                     <OptionsBoxItem>
                         <label class="label">Progress</label>
                         <BulSlider 
-                            Color="BulPrimaryColor.Primary" 
+                            Color="BulSchemeColor.Primary" 
                             Min="0" 
                             Max="100"
                             @bind-Value="Progress" />
@@ -46,7 +46,7 @@
 </DocumentationRoot>
 
 @code {
-    public BulPrimaryColor? Color { get; set; }
+    public BulSchemeColor? Color { get; set; }
     public BulSize? Size { get; set; }
     public int Progress { get; set; } = 25;
     public bool Indeterminate { get; set; }

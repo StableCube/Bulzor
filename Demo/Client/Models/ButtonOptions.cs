@@ -4,7 +4,7 @@ namespace StableCube.Bulzor.Demo.Client
 {
     public class ButtonOptions
     {
-        public BulPrimaryColor? Color { get; set; }
+        public BulSchemeColor? Color { get; set; }
 
         public BulColor? TextColor { get; set; }
 
