@@ -61,11 +61,12 @@
         </ExampleOptions>
 
         <ExampleResult>
-            <EditForm Model="@Data">
+            <EditForm Model="@this">
                 <DataAnnotationsValidator />
                 <ValidationSummary />
 
-                <BulInputSelect @bind-Value="Data.StringData" 
+                <div>Value: @(DemoDataOptions[DemoDataValue])</div>
+                <BulInputSelect @bind-Value="DemoDataValue" 
                     Multiple="Multiple"
                     Size="Size" 
                     Color="Color" 
@@ -74,11 +75,10 @@
                     HasIconsLeft="HasIconsLeft"
                     HasIconsRight="HasIconsRight" >
 
-                    <option value="Argentina">Argentina</option>
-                    <option value="Bolivia">Bolivia</option>
-                    <option value="Zorm">Zorm</option>
-                    <option value="Burpee">Burpee</option>
-
+                    @foreach(var item in DemoDataOptions)
+                    {
+                        <option value="@item.Key">@item.Value</option>
+                    }
                 </BulInputSelect>
             </EditForm>
         </ExampleResult>
@@ -95,9 +95,12 @@
     public bool HasIconsRight { get; set; }
     public bool DemoIconLeft { get; set; }
     public bool DemoIconRight { get; set; }
-
-    private DemoDataModel Data = new DemoDataModel() {
-        IntData = 8,
-        StringData = "hmmmmm",
+    public string DemoDataValue { get; set; } = "luke";
+    public Dictionary<string, string> DemoDataOptions { get; set; } = new Dictionary<string, string>()
+    {
+        { "luke", "Luke" },
+        { "han", "Han" },
+        { "chewbacca", "Chewbacca" },
+        { "darth-vadar", "Darth Vader" },
     };
 }
