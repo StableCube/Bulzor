@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components;
 using StableCube.Bulzor.Components;
@@ -19,8 +18,11 @@ namespace StableCube.Bulzor.Extended
         public BulSchemeColor? Color { get; set; }
 
         [Parameter]
-        public int Focus { get; set; }
+        public int Value { get; set; }
 
+        [Parameter]
+        public EventCallback<int> ValueChanged { get; set; }
+        
         [Parameter]
         public BulRatio? Ratio { get; set; }
 
@@ -42,7 +44,7 @@ namespace StableCube.Bulzor.Extended
             if (Images == null || Images.Length == 0)
                 throw new IndexOutOfRangeException("Image count must be greater than zero");
 
-            Math.Clamp(Focus, 0, Images.Length - 1);
+            Math.Clamp(Value, 0, Images.Length - 1);
 
             if(ImageObjs == null || ImageObjs.Length != Images.Length)
                 ImageObjs = new RibbonImage[Images.Length];
@@ -59,20 +61,25 @@ namespace StableCube.Bulzor.Extended
             builder.AddMultipleAttributes(1, AdditionalAttributes);
             builder.AddAttribute(2, "class", _elementClass);
 
-            foreach (var image in ImageObjs)
-            {
-                builder.OpenRegion(3);
+            builder.OpenComponent<CascadingValue<int>>(3);
+            builder.AddAttribute(4, "Value", Value);
+            builder.AddAttribute(5, "ChildContent", (RenderFragment)((builder2) => {
+                foreach (var image in ImageObjs)
+                {
+                    builder2.OpenRegion(6);
 
-                builder.OpenComponent<BulImageRibbonItem>(0);
-                builder.AddAttribute(1, "Image", image);
-                builder.AddAttribute(2, "Color", Color);
-                builder.AddAttribute(3, "Focused", (Focus == image.Index));
-                builder.AddAttribute(4, "Active", IsVisible(image.Index));
-                builder.AddAttribute(5, "Ratio", Ratio);
-                builder.CloseComponent();
+                    builder2.OpenComponent<BulImageRibbonItem>(0);
+                    builder2.AddAttribute(1, "Image", image);
+                    builder2.AddAttribute(2, "Color", Color);
+                    builder2.AddAttribute(3, "Active", IsVisible(image.Index));
+                    builder2.AddAttribute(4, "Ratio", Ratio);
+                    builder2.AddAttribute<RibbonImage>(5, "OnClick", EventCallback.Factory.Create<RibbonImage>(this, OnClickHandlerAsync));
+                    builder2.CloseComponent();
 
-                builder.CloseRegion();
-            }
+                    builder2.CloseRegion();
+                }
+            }));
+            builder.CloseComponent();
 
             builder.CloseElement();
         }
@@ -80,15 +87,21 @@ namespace StableCube.Bulzor.Extended
         private bool IsVisible(int index)
         {
             int halfDisp = (int)Math.Ceiling((double)(DisplayCount - 1) / 2);
-            int overCount = Images.Length - Focus;
-            int beginIdx = Focus - halfDisp;
-            if(Focus < halfDisp)
+            int overCount = Images.Length - Value;
+            int beginIdx = Value - halfDisp;
+            if(Value < halfDisp)
                 beginIdx = 0;
             
             if(overCount <= halfDisp)
                 beginIdx = Images.Length - DisplayCount;
 
             return (index >= beginIdx && index <= beginIdx + DisplayCount - 1);
+        }
+
+        private async Task OnClickHandlerAsync(RibbonImage args)
+        {
+            Value = args.Index;
+            await ValueChanged.InvokeAsync(Value);
         }
     }
 }

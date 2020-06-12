@@ -13,7 +13,9 @@
                     </OptionsBoxItem>
 
                     <OptionsBoxItem>
-                        <RatioSelect @bind-Value="Ratio" Label="Ratio" />
+                        <RatioSelect Label="Ratio"                    
+                            Value="Ratio"
+                            ValueChanged="@((value) => ValueChangedHandler(value))" />
                     </OptionsBoxItem>
 
                     <OptionsBoxItem>
@@ -26,7 +28,7 @@
 
         <ExampleResult>
             <div>Selected: @FocusedIndex</div>
-            <BulImageRibbon Color="Color" Ratio="Ratio" Images="DemoEntries" Focus="FocusedIndex" />
+            <BulImageRibbon @bind-Value="FocusedIndex" Color="Color" Ratio="Ratio" Images="DemoEntries" />
         </ExampleResult>
     </ExampleBox>
 </DocumentationRoot>
@@ -35,20 +37,81 @@
     public BulSchemeColor? Color { get; set; }
     public BulRatio? Ratio { get; set; }
     public int FocusedIndex { get; set; } = 1;
+    public Uri[] DemoEntries { get; set; } = new Uri[12];
 
-    public Uri[] DemoEntries { get; set; } = new Uri[] {
-        new Uri("https://bulma.io/images/placeholders/128x128.png"),
-        new Uri("https://bulma.io/images/placeholders/128x128.png"),
-        new Uri("https://bulma.io/images/placeholders/128x128.png"),
-        new Uri("https://bulma.io/images/placeholders/128x128.png"),
-        new Uri("https://bulma.io/images/placeholders/128x128.png"),
-        new Uri("https://bulma.io/images/placeholders/128x128.png"),
-        new Uri("https://bulma.io/images/placeholders/128x128.png"),
-        new Uri("https://bulma.io/images/placeholders/128x128.png"),
-        new Uri("https://bulma.io/images/placeholders/128x128.png"),
-        new Uri("https://bulma.io/images/placeholders/128x128.png"),
-        new Uri("https://bulma.io/images/placeholders/128x128.png"),
-        new Uri("https://bulma.io/images/placeholders/128x128.png"),
-        new Uri("https://bulma.io/images/placeholders/128x128.png"),
-    };
+    protected override void OnInitialized()
+    {
+        BuildImages(null);
+    }
+
+    private void ValueChangedHandler(BulRatio? value)
+    {
+        Ratio = value;
+        BuildImages(value);
+    }
+
+    private void BuildImages(BulRatio? ratio)
+    {
+        string size  = "480x480";
+
+        if(ratio.HasValue)
+        {
+            switch (ratio.Value)
+            {
+                case BulRatio.RSquare:
+                    size  = "480x480";
+                    break;
+                case BulRatio.R1by1:
+                    size  = "480x480";
+                    break;
+                case BulRatio.R5by4:
+                    size  = "600x480";
+                    break;
+                case BulRatio.R4by3:
+                    size  = "640x480";
+                    break;
+                case BulRatio.R3by2:
+                    size  = "480x320";
+                    break;
+                case BulRatio.R5by3:
+                    size  = "800x480";
+                    break;
+                case BulRatio.R16by9:
+                    size  = "640x360";
+                    break;
+                case BulRatio.R2by1:
+                    size  = "640x320";
+                    break;
+                case BulRatio.R3by1:
+                    size  = "720x240";
+                    break;
+                case BulRatio.R4by5:
+                    size  = "480x600";
+                    break;
+                case BulRatio.R3by4:
+                    size  = "480x640";
+                    break;
+                case BulRatio.R2by3:
+                    size  = "320x480";
+                    break;
+                case BulRatio.R3by5:
+                    size  = "480x800";
+                    break;
+                case BulRatio.R9by16:
+                    size  = "360x640";
+                    break;
+                case BulRatio.R1by2:
+                    size  = "320x640";
+                    break;
+                case BulRatio.R1by3:
+                    size  = "240x720";
+                    break;
+            }
+        }
+
+        for (int i = 0; i < DemoEntries.Length; i++)
+        {
+            DemoEntries[i] = new Uri($"https://bulma.io/images/placeholders/{size}.png");
+        }
+    }
 }

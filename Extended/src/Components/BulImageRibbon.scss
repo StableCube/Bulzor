@@ -4,19 +4,20 @@ $image-ribbon-border-active: $border-hover !default;
 .image-ribbon {
   display: flex;
   flex-direction: row;
+  align-content: flex-end;
   width: 100%;
-  height: 100%;
 }
 
 .image-ribbon-item {
   align-self: flex-end;
+  flex-direction: row;
   display: none;
   border-bottom: 5px solid;
   border-color: $image-ribbon-border;
-  height: 100%;
+  width: 100%;
 
   &.is-active {
-    display: block;
+    display: inline-block;
   }
 
   &.is-focused {
@@ -29,11 +30,17 @@ $image-ribbon-border-active: $border-hover !default;
       }
     }
   }
+
+  &.is-medium {
+    width: 90%;
+  }
+
+  &.is-small {
+    width: 80%;
+  }
 }
 
-.image-ribbon-thumb {
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: bottom;
-  width: 100%;
+.image-ribbon-item .image img {
+  object-fit: contain;
+  object-position: center bottom;
 }
