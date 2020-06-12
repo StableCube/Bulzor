@@ -26,7 +26,7 @@ namespace StableCube.Bulzor.Extended
         [Parameter]
         public BulRatio? Ratio { get; set; }
 
-        private RibbonImage[] ImageObjs { get; set; }
+        private RibbonImage[] RibbonImages { get; set; }
 
         protected BulmaClassBuilder InputClassBuilder = new BulmaClassBuilder("image-ribbon");
         protected string _elementClass = String.Empty;
@@ -38,19 +38,17 @@ namespace StableCube.Bulzor.Extended
 
         protected override void OnParametersSet()
         {
-            if (DisplayCount % 2 == 0)
-                throw new IndexOutOfRangeException("DisplayCount must be an odd number");
-
             if (Images == null || Images.Length == 0)
                 throw new IndexOutOfRangeException("Image count must be greater than zero");
 
-            Math.Clamp(Value, 0, Images.Length - 1);
+            Value = Math.Clamp(Value, 0, Images.Length - 1);
+            DisplayCount = Math.Clamp(DisplayCount, 1, Images.Length);
 
-            if(ImageObjs == null || ImageObjs.Length != Images.Length)
-                ImageObjs = new RibbonImage[Images.Length];
+            if(RibbonImages == null || RibbonImages.Length != Images.Length)
+                RibbonImages = new RibbonImage[Images.Length];
             
             for (int i = 0; i < Images.Length; i++)
-                ImageObjs[i] = new RibbonImage(i, Images[i]);
+                RibbonImages[i] = new RibbonImage(i, Images[i]);
         }
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -64,7 +62,7 @@ namespace StableCube.Bulzor.Extended
             builder.OpenComponent<CascadingValue<int>>(3);
             builder.AddAttribute(4, "Value", Value);
             builder.AddAttribute(5, "ChildContent", (RenderFragment)((builder2) => {
-                foreach (var image in ImageObjs)
+                foreach (var image in RibbonImages)
                 {
                     builder2.OpenRegion(6);
 

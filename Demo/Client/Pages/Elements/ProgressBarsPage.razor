@@ -18,12 +18,7 @@
 
                     <OptionsBoxItem>
                         <label class="label">Progress</label>
-                        <BulSlider 
-                            Color="BulSchemeColor.Primary" 
-                            Min="0" 
-                            Max="100"
-                            @bind-Value="Progress" />
-                        <BulInputNumber @bind-Value="Progress" />
+                        <BulSlider @bind-Value="Progress" Color="BulSchemeColor.Primary" Min="0" Max="100" />
                     </OptionsBoxItem>
 
                     <OptionsBoxItem>
@@ -36,6 +31,7 @@
         </ExampleOptions>
 
         <ExampleResult>
+            <div>Progress: @Progress%</div>
             <BulProgressBar 
                 Color="Color" 
                 Size="Size"
@@ -48,7 +44,7 @@
 @code {
     public BulSchemeColor? Color { get; set; }
     public BulSize? Size { get; set; }
-    public int Progress { get; set; } = 25;
+    public double Progress { get; set; } = 25;
     public bool Indeterminate { get; set; }
 
 }

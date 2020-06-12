@@ -73,8 +73,6 @@ namespace StableCube.Bulzor.Extended
                     builder3.CloseElement();
                 }));
                 builder2.CloseElement();
-
-
             }));
             builder.CloseComponent();
 

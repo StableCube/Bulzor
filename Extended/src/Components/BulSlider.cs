@@ -10,12 +10,6 @@ namespace StableCube.Bulzor.Extended
     public class BulSlider<TValue> : InputNumber<TValue>
     {
         [Parameter]
-        public BulSize? Size { get; set; }
-
-        [Parameter]
-        public BulSchemeColor? Color { get; set; }
-
-        [Parameter]
         public TValue Min { get; set; }
 
         [Parameter]
@@ -25,13 +19,16 @@ namespace StableCube.Bulzor.Extended
         public TValue Step { get; set; }
 
         [Parameter]
+        public BulSize? Size { get; set; }
+
+        [Parameter]
+        public BulSchemeColor? Color { get; set; }
+
+        [Parameter]
         public bool FullWidth { get; set; }
 
         [Parameter]
         public bool Circle { get; set; }
-
-        [Parameter] 
-        public EventCallback<TValue> OnInput { get; set; }
 
         protected BulmaClassBuilder InputClassBuilder = new BulmaClassBuilder("slider");
         protected string _elementClass = String.Empty;

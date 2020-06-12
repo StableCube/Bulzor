@@ -1,0 +1,49 @@
+﻿@page "/documentation/extended/timebar"
+
+<DocumentationRoot>
+    <ExampleBox>
+        <ExampleOptions>
+            <EditForm Model="@this">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+
+                <OptionsBox>
+                    <OptionsBoxItem>
+                        <SchemeColorSelect Label="Color" @bind-Value="Color" />
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <SizeSelect Label="Size" @bind-Value="Size" />
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <label class="label">Time</label>
+                        <BulTimeSlider @bind-Value="DemoValue" Min="DemoMin" Max="DemoMax" />
+                    </OptionsBoxItem>
+                </OptionsBox>
+            </EditForm>
+        </ExampleOptions>
+
+        <ExampleResult>
+            <EditForm Model="@this">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+                <BulTimeBar 
+                    Current="DemoValue" 
+                    Min="DemoMin" 
+                    Max="DemoMax"
+                    Color="Color"
+                    Size="Size"
+                     />
+            </EditForm>
+        </ExampleResult>
+    </ExampleBox>
+</DocumentationRoot>
+
+@code {
+    public TimeSpan DemoValue { get; set; } = TimeSpan.Zero;
+    public TimeSpan DemoMin { get; set; } = TimeSpan.Zero;
+    public TimeSpan DemoMax { get; set; } = TimeSpan.FromSeconds(30);
+    public BulSchemeColor? Color { get; set; }
+    public BulSize? Size { get; set; }
+}

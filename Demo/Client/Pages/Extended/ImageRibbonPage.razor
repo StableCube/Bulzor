@@ -19,6 +19,11 @@
                     </OptionsBoxItem>
 
                     <OptionsBoxItem>
+                        <label class="label">Display Count</label>
+                        <BulInputNumber @bind-Value="DisplayCount" />
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
                         <label class="label">Focused Index</label>
                         <BulSlider @bind-Value="FocusedIndex" Min="0" Max="(DemoEntries.Length - 1)" Step="1" />
                     </OptionsBoxItem>
@@ -27,8 +32,13 @@
         </ExampleOptions>
 
         <ExampleResult>
-            <div>Selected: @FocusedIndex</div>
-            <BulImageRibbon @bind-Value="FocusedIndex" Color="Color" Ratio="Ratio" Images="DemoEntries" />
+            <div>Selected: @(FocusedIndex + 1) / @DemoEntries.Length</div>
+            <BulImageRibbon @bind-Value="FocusedIndex" 
+                Images="DemoEntries" 
+                DisplayCount="DisplayCount" 
+                Color="Color" 
+                Ratio="Ratio" 
+            />
         </ExampleResult>
     </ExampleBox>
 </DocumentationRoot>
@@ -36,6 +46,7 @@
 @code {
     public BulSchemeColor? Color { get; set; }
     public BulRatio? Ratio { get; set; }
+    public int DisplayCount { get; set; } = 5;
     public int FocusedIndex { get; set; } = 1;
     public Uri[] DemoEntries { get; set; } = new Uri[12];
 

@@ -1,4 +1,4 @@
-﻿@page "/documentation/extended/slider"
+﻿@page "/documentation/extended/timeslider"
 
 <DocumentationRoot>
     <ExampleBox>
@@ -17,8 +17,16 @@
                     </OptionsBoxItem>
 
                     <OptionsBoxItem>
-                        <label class="label">Step</label>
-                        <BulInputNumber Step="0.1" @bind-Value="DemoStep" />
+                        <label class="label">Step Milliseconds</label>
+                        <BulInputNumber 
+                            Value="StepMilliseconds"
+                            ValueExpression="@( () => StepMilliseconds )"
+                            ValueChanged="@((double value) => {
+                                if(value < 50)
+                                    value = 50;
+                                StepMilliseconds = value;
+                                DemoStep = TimeSpan.FromMilliseconds(value);
+                            })" />
                     </OptionsBoxItem>
 
                     <OptionsBoxItem>
@@ -41,25 +49,28 @@
                 <DataAnnotationsValidator />
                 <ValidationSummary />
                 <div>Value: @DemoValue</div>
-                <BulSlider @bind-Value="DemoValue"
+                <BulTimeSlider @bind-Value="DemoValue"
                     Color="Color" 
                     Size="Size" 
                     FullWidth="FullWidth"
                     Circle="Circle"
-                    Min="0" 
-                    Max="100"
-                    Step="DemoStep"
-                     />
+                    Min="DemoMin" 
+                    Max="DemoMax"
+                    Step="DemoStep" />
             </EditForm>
         </ExampleResult>
     </ExampleBox>
 </DocumentationRoot>
 
 @code {
-    public double DemoValue { get; set; } = 25;
-    public double DemoStep { get; set; } = 0.5;
+    public TimeSpan DemoValue { get; set; } = TimeSpan.Zero;
+    public TimeSpan DemoMin { get; set; } = TimeSpan.Zero;
+    public TimeSpan DemoMax { get; set; } = TimeSpan.FromSeconds(30);
+    public TimeSpan DemoStep { get; set; } = TimeSpan.FromSeconds(1);
+    public double StepMilliseconds { get; set; } = 1000;
     public BulSchemeColor? Color { get; set; }
     public BulSize? Size { get; set; }
     public bool FullWidth { get; set; }
     public bool Circle { get; set; }
+
 }

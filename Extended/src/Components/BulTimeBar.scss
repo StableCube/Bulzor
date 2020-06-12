@@ -1,0 +1,49 @@
+$timebar-size: 1rem !default;
+$timebar-background-color: $grey !default;
+$timebar-font-color: findColorInvert($timebar-background-color) !default;
+
+.time-bar {
+  font-size: $timebar-size;
+  background: $timebar-background-color;
+  color: $timebar-font-color;
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  width: 100%;
+  margin: 0;
+
+  @each $name, $pair in $colors {
+    $color: nth($pair, 1);
+    &.is-#{$name} {
+      background: $color;
+      color: findColorInvert($color);
+    }
+  }
+
+  &.is-small {
+    font-size: $timebar-size * 0.76;
+  }
+  &.is-normal {
+    font-size: $timebar-size
+  }
+  &.is-medium {
+    font-size: $timebar-size * 1.24
+  }
+  &.is-large {
+    font-size: $timebar-size * 1.48;
+  }
+}
+
+.time-bar-landmark {
+  text-align: center;
+  width: calc(100% / 3);
+  padding: 0 0.25rem 0 0.25rem;
+}
+
+.time-bar-landmark-start {
+  text-align: left;
+}
+
+.time-bar-landmark-end {
+  text-align: right;
+}

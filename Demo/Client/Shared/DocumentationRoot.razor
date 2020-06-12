@@ -1,10 +1,19 @@
 ﻿@namespace StableCube.Bulzor.Demo.Client
 
+@inject NavigationManager _navManager
+
 <div id="documentation-root" class="section">
     <div class="columns">
         <div class="column is-1">
             <BulMenu>
-                <BulMenuLabel>Components</BulMenuLabel>
+                <BulMenuLabel>
+                    <a @onclick="@(() => ExpandComponents = !ExpandComponents)">
+                        Components @(ExpandComponents ? '-' : '+')
+                    </a>
+                </BulMenuLabel>
+
+                @if(ExpandComponents)
+                {
                 <BulMenuList>
                     <BulMenuListItem>
                         <BulNavLink href="/documentation/components/breadcrumb" Match="NavLinkMatch.All">
@@ -47,8 +56,15 @@
                         </BulNavLink>
                     </BulMenuListItem>
                 </BulMenuList>
+                }
 
-                <BulMenuLabel>Form</BulMenuLabel>
+                <BulMenuLabel>
+                    <a @onclick="@(() => ExpandForm = !ExpandForm)">
+                        Form @(ExpandForm ? '-' : '+')
+                    </a>
+                </BulMenuLabel>
+                @if(ExpandForm)
+                {
                 <BulMenuList>
                     <BulMenuListItem>
                         <BulNavLink href="/documentation/form/input" Match="NavLinkMatch.All">
@@ -76,8 +92,15 @@
                         </BulNavLink>
                     </BulMenuListItem>
                 </BulMenuList>
+                }
 
-                <BulMenuLabel>Elements</BulMenuLabel>
+                <BulMenuLabel>
+                    <a @onclick="@(() => ExpandElements = !ExpandElements)">
+                        Elements @(ExpandElements ? '-' : '+')
+                    </a>
+                </BulMenuLabel>
+                @if(ExpandElements)
+                {
                 <BulMenuList>
                     <BulMenuListItem>
                         <BulNavLink href="/documentation/elements/box" Match="NavLinkMatch.All">
@@ -130,17 +153,19 @@
                         </BulNavLink>
                     </BulMenuListItem>
                 </BulMenuList>
+                }
 
-                <BulMenuLabel>Extended</BulMenuLabel>
+                <BulMenuLabel>
+                    <a @onclick="@(() => ExpandExtended = !ExpandExtended)">
+                        Extended @(ExpandExtended ? '-' : '+')
+                    </a>
+                </BulMenuLabel>
+                @if(ExpandExtended)
+                {
                 <BulMenuList>
                     <BulMenuListItem>
                         <BulNavLink href="/documentation/extended/busyspinner" Match="NavLinkMatch.All">
                             Busy Spinner
-                        </BulNavLink>
-                    </BulMenuListItem>
-                    <BulMenuListItem>
-                        <BulNavLink href="/documentation/extended/expandablerow" Match="NavLinkMatch.All">
-                            Expandable Row
                         </BulNavLink>
                     </BulMenuListItem>
                     <BulMenuListItem>
@@ -149,8 +174,18 @@
                         </BulNavLink>
                     </BulMenuListItem>
                     <BulMenuListItem>
-                        <BulNavLink href="/documentation/extended/timerprogress" Match="NavLinkMatch.All">
-                            Timer Progress
+                        <BulNavLink href="/documentation/extended/timeslider" Match="NavLinkMatch.All">
+                            Time Slider
+                        </BulNavLink>
+                    </BulMenuListItem>
+                    <BulMenuListItem>
+                        <BulNavLink href="/documentation/extended/timebar" Match="NavLinkMatch.All">
+                            Time Bar
+                        </BulNavLink>
+                    </BulMenuListItem>
+                    <BulMenuListItem>
+                        <BulNavLink href="/documentation/extended/timerprogressbar" Match="NavLinkMatch.All">
+                            Timer Progress Bar
                         </BulNavLink>
                     </BulMenuListItem>
                     <BulMenuListItem>
@@ -158,8 +193,8 @@
                             Image Ribbon
                         </BulNavLink>
                     </BulMenuListItem>
-                    
                 </BulMenuList>
+                }
             </BulMenu>
         </div>
 
@@ -176,4 +211,19 @@
 @code {
     [Parameter]
     public RenderFragment ChildContent { get; set; }
+
+    private bool ExpandComponents { get; set; }
+    private bool ExpandForm { get; set; }
+    private bool ExpandElements { get; set; }
+    private bool ExpandExtended { get; set; }
+
+    protected override void OnInitialized()
+    {
+        var currentPath = _navManager.ToBaseRelativePath(_navManager.Uri);
+
+        ExpandComponents = currentPath.Contains("documentation/components");
+        ExpandForm = currentPath.Contains("documentation/form");
+        ExpandElements = currentPath.Contains("documentation/elements");
+        ExpandExtended = currentPath.Contains("documentation/extended");
+    }
 }
