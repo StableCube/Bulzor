@@ -14,7 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="../../Components/Bulzor.Components.csproj" />
-    <ProjectReference Include="../../Extended/Bulzor.Extended.csproj" />
+    <ProjectReference Include="../../Components.Extended/Bulzor.Components.Extended.csproj" />
   </ItemGroup>
 
 </Project>

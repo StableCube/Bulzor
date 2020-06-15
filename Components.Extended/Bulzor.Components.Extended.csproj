@@ -1,15 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
-    <PackageId>StableCube.Bulzor.Extended</PackageId>
+    <PackageId>StableCube.Bulzor.Components.Extended</PackageId>
     <TargetFramework>netstandard2.1</TargetFramework>
     <RazorLangVersion>3.0</RazorLangVersion>
     <Company>Stable Cube</Company>
     <Version>0.1.0</Version>
-    <Title>StableCube.Bulzor.Extended</Title>
+    <Title>StableCube.Bulzor.Components.Extended</Title>
     <IsPackable>true</IsPackable>
     <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
-    <RootNamespace>StableCube.Bulzor.Extended</RootNamespace>
+    <RootNamespace>StableCube.Bulzor.Components.Extended</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

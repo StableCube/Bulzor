@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using StableCube.Bulzor.Components;
 
-namespace StableCube.Bulzor.Extended
+namespace StableCube.Bulzor.Components.Extended
 {
     public class BulImageRibbonItem : BulComponentBase
     {

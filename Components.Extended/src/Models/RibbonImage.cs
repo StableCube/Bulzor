@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace StableCube.Bulzor.Extended
+namespace StableCube.Bulzor.Components.Extended
 {
     public struct RibbonImage
     {

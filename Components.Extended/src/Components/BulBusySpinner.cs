@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components;
 using StableCube.Bulzor.Components;
 
-namespace StableCube.Bulzor.Extended
+namespace StableCube.Bulzor.Components.Extended
 {
     public class BulBusySpinner : BulComponentBase
     {

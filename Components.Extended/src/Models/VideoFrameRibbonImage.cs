@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace StableCube.Bulzor.Extended
+namespace StableCube.Bulzor.Components.Extended
 {
     public class VideoFrameRibbonImage
     {
