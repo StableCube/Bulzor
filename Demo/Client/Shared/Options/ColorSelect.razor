@@ -2,9 +2,9 @@
 
 <div class="control">
     <label class="label">@Label</label>
-    <BulInputSelect Value="(_selectedString)"
-            ValueExpression="@( () => _selectedString )"
-            ValueChanged="@( async (string value) => await OnChangedHandlerAsync(value) )">
+    <BulInputSelect Value="_selectedString"
+            ValueExpression="@(() => _selectedString)"
+            ValueChanged="@(async (string value) => await OnChangedHandlerAsync(value))">
 
         <option value="default" selected>Default</option>
         @foreach (var option in _options)
