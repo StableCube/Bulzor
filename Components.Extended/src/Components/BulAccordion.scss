@@ -55,3 +55,11 @@ $bul-accordion-color: $light !default;
     display: block;
   }
 }
+
+.bul-accordion-row-footer {
+  display: none;
+
+  &.is-active {
+    display: flex;
+  }
+}
