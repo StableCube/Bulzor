@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)' != 'Release'">
-    <Content Include="src/**/*.scss" Link="bulzor/extended/%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="Always" />
+    <Content Include="src/**/*.scss" Link="bulzor-components-extended/src/%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="Always" />
+    <Content Include="node_modules/**/*.sass" Link="bulzor-components-extended/node_modules/%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="Always" />
   </ItemGroup>
 </Project>

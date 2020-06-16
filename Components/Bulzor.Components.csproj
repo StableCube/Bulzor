@@ -17,7 +17,7 @@
   </ItemGroup>
   
   <ItemGroup Condition="'$(Configuration)' != 'Release'">
-    <Content Include="src/**/*.scss" Link="bulzor/components/%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="Always" />
-    <Content Include="node_modules/bulma/**/*.sass" Link="bulzor/bulma/%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="Always" />
+    <Content Include="src/**/*.scss" Link="bulzor-components/src/%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="Always" />
+    <Content Include="node_modules/bulma/**/*.sass" Link="bulzor-components/bulma/%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="Always" />
   </ItemGroup>
 </Project>

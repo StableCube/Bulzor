@@ -1,0 +1,57 @@
+$bul-accordion-color: $light !default;
+
+.bul-accordion-row-header {
+  background-color: $bul-accordion-color;
+
+  @each $name, $pair in $colors {
+    $color: nth($pair, 1);
+    &.is-#{$name} {
+      background-color: $color;
+    }
+  }
+}
+
+.bul-accordion-row-header .bul-accordion-row-title {
+  margin-left: 1.125em;
+  color: findColorInvert($bul-accordion-color);
+
+  @each $name, $pair in $colors {
+    $color: nth($pair, 1);
+    &.is-#{$name} {
+      color: findColorInvert($color);
+    }
+  }
+}
+
+.bul-accordion-row-header:not(.is-arrowless)
+{
+  padding-left: 1.125em;
+}
+
+.bul-accordion-arrow {
+  @extend %arrow;
+  border-color: findColorInvert($bul-accordion-color);
+  margin-top: -1.125em;
+  margin-left: 1.125em;
+  top: 2.25em;
+  transform: rotate(-135deg);
+
+  &.is-active {
+    transform: rotate(-45deg);
+  }
+
+  @each $name, $pair in $colors {
+    $color: nth($pair, 1);
+    &.is-#{$name} {
+      border-color: findColorInvert($color);
+    }
+  }
+}
+
+.bul-accordion-row-content.card-content {
+  display: none;
+
+  &.is-active {
+    display: block;
+  }
+}
