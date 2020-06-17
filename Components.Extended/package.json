@@ -1,6 +1,12 @@
 {
-  "name": "bulzor-extended",
+  "name": "bulzor-components-extended",
+  "version": "0.1.5",
+  "private": false,
   "license": "MIT",
+  "files": [
+    "src/**/*.sass",
+    "src/**/*.scss"
+   ],
   "dependencies": {
     "bulma-slider": "^2.0.0"
   }

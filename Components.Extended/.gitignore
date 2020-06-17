@@ -29,8 +29,7 @@ _UpgradeReport_Files/
 bin/
 obj/
 vendor/*
-node_modules/bulma-slider/dist/
-node_modules/bulma-slider/src/js/
+node_modules/
 ###################
 # Web publish log #
 ###################

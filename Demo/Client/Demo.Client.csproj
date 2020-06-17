@@ -13,8 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../Components/Bulzor.Components.csproj" />
-    <ProjectReference Include="../../Components.Extended/Bulzor.Components.Extended.csproj" />
+    <PackageReference Include="StableCube.Bulzor.Components.Extended" Version="0.1.3" />
   </ItemGroup>
 
 </Project>

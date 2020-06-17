@@ -5,7 +5,7 @@
     <TargetFramework>netstandard2.1</TargetFramework>
     <RazorLangVersion>3.0</RazorLangVersion>
     <Company>Stable Cube</Company>
-    <Version>0.1.0</Version>
+    <Version>0.1.3</Version>
     <Title>StableCube.Bulzor.Components</Title>
     <IsPackable>true</IsPackable>
     <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
@@ -14,10 +14,5 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.1.4" />
-  </ItemGroup>
-  
-  <ItemGroup Condition="'$(Configuration)' != 'Release'">
-    <Content Include="src/**/*.scss" Link="bulzor-components/src/%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="Always" />
-    <Content Include="node_modules/bulma/**/*.sass" Link="bulzor-components/bulma/%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="Always" />
   </ItemGroup>
 </Project>

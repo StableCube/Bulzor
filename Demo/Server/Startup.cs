@@ -1,8 +1,10 @@
+using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.ResponseCompression;
 
 namespace StableCube.Bulzor.Demo.Server
 {
@@ -20,11 +22,21 @@ namespace StableCube.Bulzor.Demo.Server
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
+            services.AddResponseCompression(options =>
+            {
+                options.Providers.Add<BrotliCompressionProvider>();
+                options.Providers.Add<GzipCompressionProvider>();
+                options.MimeTypes = 
+                    ResponseCompressionDefaults.MimeTypes.Concat(
+                        new[] { "text/css" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseResponseCompression();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

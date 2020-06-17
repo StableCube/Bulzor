@@ -1,0 +1,8 @@
+{
+  "name": "job-shepherd-ui",
+  "license": "MIT",
+  "dependencies": {
+    "bulma": "^0.8.2",
+    "bulzor-components-extended": "^0.1.5"
+  }
+}

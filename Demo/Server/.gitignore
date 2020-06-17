@@ -29,6 +29,7 @@ _UpgradeReport_Files/
 bin/
 obj/
 wwwroot/
+node_modules/
 ###################
 # Web publish log #
 ###################
