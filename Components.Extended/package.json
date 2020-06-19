@@ -6,8 +6,7 @@
   "files": [
     "src/**/*.sass",
     "src/**/*.scss"
-   ],
+  ],
   "dependencies": {
-    "bulma-slider": "^2.0.0"
   }
 }

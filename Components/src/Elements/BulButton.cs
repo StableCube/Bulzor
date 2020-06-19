@@ -14,9 +14,6 @@ namespace StableCube.Bulzor.Components
         public BulSchemeColor? Color { get; set; }
 
         [Parameter]
-        public BulColor? TextColor { get; set; }
-
-        [Parameter]
         public BulSize? Size { get; set; }
 
         [Parameter]
@@ -41,10 +38,10 @@ namespace StableCube.Bulzor.Components
         public bool? Rounded { get; set; }
 
         [Parameter]
-        public EventCallback<MouseEventArgs> OnClick { get; set; }
+        public RenderFragment ChildContent { get; set; }
 
         [Parameter]
-        public RenderFragment ChildContent { get; set; }
+        public EventCallback<MouseEventArgs> OnClick { get; set; }
 
         protected BulmaClassBuilder ClassBuilder { get; set; } = new BulmaClassBuilder("button");
 
@@ -54,7 +51,6 @@ namespace StableCube.Bulzor.Components
         {
             ClassBuilder.SetIsLoading(Loading);
             ClassBuilder.SetSchemeColor(Color);
-            ClassBuilder.SetTextColor(TextColor);
             ClassBuilder.SetSize(Size);
             ClassBuilder.SetIsActive(Active);
             ClassBuilder.SetIsFocused(Focused);

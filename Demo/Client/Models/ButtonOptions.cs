@@ -6,8 +6,6 @@ namespace StableCube.Bulzor.Demo.Client
     {
         public BulSchemeColor? Color { get; set; }
 
-        public BulColor? TextColor { get; set; }
-
         public bool Loading { get; set; }
 
         public BulSize? Size { get; set; }

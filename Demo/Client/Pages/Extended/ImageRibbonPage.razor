@@ -34,6 +34,7 @@
         <ExampleResult>
             <div>Selected: @(FocusedIndex + 1) / @DemoEntries.Length</div>
             <BulImageRibbon @bind-Value="FocusedIndex" 
+                style="min-height: 200px;"
                 Images="DemoEntries" 
                 DisplayCount="DisplayCount" 
                 Color="Color" 
@@ -41,6 +42,19 @@
             />
         </ExampleResult>
     </ExampleBox>
+
+    <div class="columns">
+        <div class="column is-half">
+            <BulMessage>
+                <BulMessageHeader>Note</BulMessageHeader>
+                <BulMessageBody>
+                    You must provide a height greater than any content to prevent 
+                    bobbing while scrolling through items.
+                </BulMessageBody>
+            </BulMessage>
+        </div>
+    </div>
+
 </DocumentationRoot>
 
 @code {
@@ -58,6 +72,10 @@
     private void ValueChangedHandler(BulRatio? value)
     {
         Ratio = value;
+
+        if(value.HasValue)
+            Console.WriteLine($"huh... {value.Value}");
+
         BuildImages(value);
     }
 
@@ -123,6 +141,8 @@
         for (int i = 0; i < DemoEntries.Length; i++)
         {
             DemoEntries[i] = new Uri($"https://bulma.io/images/placeholders/{size}.png");
+            //var s = (i + 1).ToString("00");
+            //DemoEntries[i] = new Uri($"https://localhost:5001/images/zelda-{s}.jpg");
         }
     }
 }

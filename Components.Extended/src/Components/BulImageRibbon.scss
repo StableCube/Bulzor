@@ -3,21 +3,17 @@ $image-ribbon-border-active: $border-hover !default;
 
 .image-ribbon {
   display: flex;
-  flex-direction: row;
-  align-content: flex-end;
-  width: 100%;
+  align-items: flex-end;
 }
 
 .image-ribbon-item {
-  align-self: flex-end;
-  flex-direction: row;
-  display: none;
+  visibility: collapse;
   border-bottom: 5px solid;
   border-color: $image-ribbon-border;
   width: 100%;
 
   &.is-active {
-    display: inline-block;
+    visibility: visible;
   }
 
   &.is-focused {
@@ -35,12 +31,22 @@ $image-ribbon-border-active: $border-hover !default;
     width: 90%;
   }
 
-  &.is-small {
+  &.is-normal {
     width: 80%;
+  }
+
+  &.is-small {
+    width: 70%;
   }
 }
 
-.image-ribbon-item .image img {
+.image-ribbon-item-wrap {
+  align-content: flex-end;
+  display: flex;
+}
+
+// Fit image without distortion
+.image-ribbon-item-wrap img {
   object-fit: contain;
   object-position: center bottom;
 }

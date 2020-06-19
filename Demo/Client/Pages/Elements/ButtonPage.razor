@@ -13,10 +13,6 @@
                     </OptionsBoxItem>
 
                     <OptionsBoxItem>
-                        <ColorSelect Label="Text Color" @bind-Value="Options.TextColor" />
-                    </OptionsBoxItem>
-
-                    <OptionsBoxItem>
                         <SizeSelect @bind-Value="Options.Size" />
                     </OptionsBoxItem>
 
@@ -76,7 +72,6 @@
 
             <BulButton 
                 Color="Options.Color" 
-                TextColor="Options.TextColor" 
                 Size="Options.Size" 
                 Loading="Options.Loading" 
                 Active="Options.Active" 
@@ -93,6 +88,7 @@
 </DocumentationRoot>
 
 @code {
+    private bool PreventDefault { get; set; } = true;
     private int ClickCount { get; set; } = 0;
 
     ButtonOptions Options { get; set; } = new ButtonOptions();

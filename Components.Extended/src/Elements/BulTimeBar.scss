@@ -1,5 +1,5 @@
 $timebar-size: 1rem !default;
-$timebar-background-color: $grey !default;
+$timebar-background-color: $light !default;
 $timebar-font-color: findColorInvert($timebar-background-color) !default;
 
 .time-bar {

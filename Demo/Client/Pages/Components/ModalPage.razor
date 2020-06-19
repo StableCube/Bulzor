@@ -11,13 +11,13 @@
                     <OptionsBoxItem>
                         <BulButton 
                             Color="BulSchemeColor.Primary" 
-                            OnClick="OpenBasicModal">Launch Basic Modal</BulButton>
+                            @onclick="OpenBasicModal">Launch Basic Modal</BulButton>
                     </OptionsBoxItem>
 
                     <OptionsBoxItem>
                         <BulButton 
                             Color="BulSchemeColor.Primary" 
-                            OnClick="OpenCardModal">Launch Card Modal</BulButton>
+                            @onclick="OpenCardModal">Launch Card Modal</BulButton>
                     </OptionsBoxItem>
                 </OptionsBox>
             </EditForm>
@@ -53,9 +53,9 @@
                         <BulModalCardFoot>
                             <BulButton 
                                 Color="BulSchemeColor.Success" 
-                                OnClick="CloseCardModal">Save changes</BulButton>
+                                @onclick="CloseCardModal">Save changes</BulButton>
 
-                            <BulButton OnClick="CloseCardModal">Cancel</BulButton>
+                            <BulButton @onclick="CloseCardModal">Cancel</BulButton>
                         </BulModalCardFoot>
                     </BulModalCard>
                 </BulModalContent>

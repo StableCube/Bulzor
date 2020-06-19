@@ -42,7 +42,10 @@ namespace StableCube.Bulzor.Components.Extended
             if(fromCenter == 1)
                 size = BulSize.Medium;
 
-            if(fromCenter > 1)
+            if(fromCenter == 2)
+                size = BulSize.Normal;
+
+            if(fromCenter > 2)
                 size = BulSize.Small;
 
             InputClassBuilder.SetSize(size);
@@ -66,9 +69,10 @@ namespace StableCube.Bulzor.Components.Extended
             builder.AddAttribute(5, "Ratio", Ratio);
             builder.AddAttribute(6, "ChildContent", (RenderFragment)((builder2) => {
                 builder2.OpenElement(7, "div");
-                builder2.AddContent(8, (RenderFragment)((builder3) => {
-                    builder3.OpenElement(9, "img");
-                    builder3.AddAttribute(10, "src", Image.Uri.AbsoluteUri);
+                builder2.AddAttribute(8, "class", "image-ribbon-item-wrap");
+                builder2.AddContent(9, (RenderFragment)((builder3) => {
+                    builder3.OpenElement(10, "img");
+                    builder3.AddAttribute(11, "src", Image.Uri.AbsoluteUri);
                     builder3.CloseElement();
                 }));
                 builder2.CloseElement();

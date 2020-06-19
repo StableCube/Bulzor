@@ -30,6 +30,7 @@ bin/
 obj/
 node_modules/
 wwwroot/css/
+wwwroot/images/
 ###################
 # Web publish log #
 ###################
