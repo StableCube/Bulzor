@@ -1,6 +1,6 @@
 {
   "license": "MIT",
-  "dependencies": {
+  "devDependencies": {
     "bulma": "^0.8.2",
     "bulzor-components-extended": "^0.2.2"
   }
