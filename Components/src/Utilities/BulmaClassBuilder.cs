@@ -47,6 +47,7 @@ namespace StableCube.Bulzor.Components
         private bool? _isInverted;
         private bool? _hasName;
         private bool? _isCircle;
+        private bool? _hasRatio;
 
         public BulmaClassBuilder(){}
 
@@ -255,6 +256,11 @@ namespace StableCube.Bulzor.Components
             _isCircle = value;
         }
 
+        public void SetHasRatio(bool? value)
+        {
+            _hasRatio = value;
+        }
+
         public override string ToString()
         {
             _sb.Clear();
@@ -414,6 +420,9 @@ namespace StableCube.Bulzor.Components
 
             if(_isCircle.HasValue && _isCircle.Value == true)
                 _sb.Append(" is-circle");
+            
+            if(_hasRatio.HasValue && _hasRatio.Value == true)
+                _sb.Append(" has-ratio");
             
             return _sb.ToString();
         }

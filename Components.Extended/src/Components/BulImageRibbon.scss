@@ -1,20 +1,30 @@
 $image-ribbon-border: $border !default;
 $image-ribbon-border-active: $border-hover !default;
 
+.wraptest1 {
+  display: block;
+  position: relative;
+}
+
+.wraptest2 {
+  @extend %overlay;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+}
+
 .image-ribbon {
   display: flex;
+  justify-content: space-between;
   align-items: flex-end;
 }
 
 .image-ribbon-item {
   visibility: collapse;
+  //width: 100%;
   border-bottom: 5px solid;
   border-color: $image-ribbon-border;
-  width: 100%;
-
-  &.is-active {
-    visibility: visible;
-  }
 
   &.is-focused {
     border-color: $image-ribbon-border-active;
@@ -27,26 +37,36 @@ $image-ribbon-border-active: $border-hover !default;
     }
   }
 
+  &.is-active {
+    visibility: visible;
+  }
+
+  &.is-large {
+    width: 130%;
+  }
+
   &.is-medium {
-    width: 90%;
+    //width: 90%;
+    width: 120%;
   }
 
   &.is-normal {
-    width: 80%;
+    //width: 80%;
+    width: 110%;
   }
 
   &.is-small {
-    width: 70%;
+    width: 100%;
   }
 }
 
-.image-ribbon-item-wrap {
+.image-ribbon-item .image {
   align-content: flex-end;
   display: flex;
 }
 
 // Fit image without distortion
-.image-ribbon-item-wrap img {
+.image-ribbon-item img {
   object-fit: contain;
   object-position: center bottom;
 }

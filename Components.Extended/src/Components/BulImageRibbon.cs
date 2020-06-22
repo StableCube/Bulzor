@@ -16,6 +16,9 @@ namespace StableCube.Bulzor.Components.Extended
         [Parameter]
         public BulSchemeColor? Color { get; set; }
 
+        /// <summary>
+        /// The current focused image index on the ribbon
+        /// </summary>
         [Parameter]
         public int Value { get; set; }
 
@@ -23,16 +26,63 @@ namespace StableCube.Bulzor.Components.Extended
         public EventCallback<int> ValueChanged { get; set; }
         
         [Parameter]
-        public BulRatio? Ratio { get; set; }
+        public BulRatio Ratio { get; set; } = BulRatio.R1by1;
 
         private RibbonImage[] RibbonImages { get; set; }
 
-        protected BulmaClassBuilder InputClassBuilder = new BulmaClassBuilder("image-ribbon");
-        protected string _elementClass = String.Empty;
+        protected BulmaClassBuilder RootClassBuilder = new BulmaClassBuilder("wraptest1");
+        protected string _rootElementClass = String.Empty;
+        protected BulmaClassBuilder WrapperClassBuilder = new BulmaClassBuilder("wraptest2");
+        protected string _wrapperElementClass = String.Empty;
+        protected BulmaClassBuilder ContentClassBuilder = new BulmaClassBuilder("image-ribbon");
+        protected string _contentElementClass = String.Empty;
 
         protected override void BuildBulma()
         {
-            _elementClass = InputClassBuilder.ToString();
+            _rootElementClass = RootClassBuilder.ToString();
+            _wrapperElementClass = WrapperClassBuilder.ToString();
+            _contentElementClass = ContentClassBuilder.ToString();
+        }
+
+        protected override void BuildRenderTree(RenderTreeBuilder builder)
+        {
+            BuildBulma();
+
+            builder.OpenElement(0, "div");
+            builder.AddAttribute(1, "class", _rootElementClass);
+            builder.AddAttribute(2, "style", $"padding-top: {GetRatioPercentage()}%");
+            builder.AddContent(3, (RenderFragment)((builder2) => {
+                builder2.OpenElement(4, "div");
+                builder2.AddAttribute(5, "class", _wrapperElementClass);
+                builder2.AddContent(6, (RenderFragment)((builder3) => {
+                    builder3.OpenElement(7, "div");
+                    builder3.AddMultipleAttributes(8, AdditionalAttributes);
+                    builder3.AddAttribute(9, "class", _contentElementClass);
+                    
+                    builder3.OpenComponent<CascadingValue<int>>(10);
+                    builder3.AddAttribute(11, "Value", Value);
+                    builder3.AddAttribute(12, "ChildContent", (RenderFragment)((builder4) => {
+                        foreach (var image in RibbonImages)
+                        {
+                            builder4.OpenRegion(13);
+
+                            builder4.OpenComponent<BulImageRibbonItem>(0);
+                            builder4.AddAttribute(1, "Image", image);
+                            builder4.AddAttribute(2, "Color", Color);
+                            builder4.AddAttribute(3, "Active", IsVisible(image.Index));
+                            builder4.AddAttribute(4, "Ratio", Ratio);
+                            builder4.AddAttribute<RibbonImage>(5, "OnClick", EventCallback.Factory.Create<RibbonImage>(this, OnClickHandlerAsync));
+                            builder4.CloseComponent();
+
+                            builder4.CloseRegion();
+                        }
+                    }));
+                    builder3.CloseComponent();
+                    builder3.CloseElement();
+                }));
+                builder2.CloseElement();
+            }));
+            builder.CloseElement();
         }
 
         protected override void OnParametersSet()
@@ -43,6 +93,9 @@ namespace StableCube.Bulzor.Components.Extended
             Value = Math.Clamp(Value, 0, Images.Length - 1);
             DisplayCount = Math.Clamp(DisplayCount, 1, Images.Length);
 
+            if(DisplayCount > Images.Length)
+                DisplayCount = Images.Length;
+
             if(RibbonImages == null || RibbonImages.Length != Images.Length)
                 RibbonImages = new RibbonImage[Images.Length];
             
@@ -50,37 +103,49 @@ namespace StableCube.Bulzor.Components.Extended
                 RibbonImages[i] = new RibbonImage(i, Images[i]);
         }
 
-        protected override void BuildRenderTree(RenderTreeBuilder builder)
+        /// <summary>
+        /// Calculate the ribbon ratio using child ratios
+        /// </summary>
+        private double GetRatioPercentage()
         {
-            BuildBulma();
+            double padPerc;
+            double itemRatio = RatioHelper.FractionMap[Ratio];
+            
+            double itemPerc = 100 / itemRatio;
+            int onLeft = VisibleOnSide(true);
+            int onRight = VisibleOnSide(false);
 
-            builder.OpenElement(0, "div");
-            builder.AddMultipleAttributes(1, AdditionalAttributes);
-            builder.AddAttribute(2, "class", _elementClass);
+            double ribbonRatio = (itemRatio * (double)DisplayCount) / 1;
 
-            builder.OpenComponent<CascadingValue<int>>(3);
-            builder.AddAttribute(4, "Value", Value);
-            builder.AddAttribute(5, "ChildContent", (RenderFragment)((builder2) => {
-                foreach (var image in RibbonImages)
-                {
-                    builder2.OpenRegion(6);
-
-                    builder2.OpenComponent<BulImageRibbonItem>(0);
-                    builder2.AddAttribute(1, "Image", image);
-                    builder2.AddAttribute(2, "Color", Color);
-                    builder2.AddAttribute(3, "Active", IsVisible(image.Index));
-                    builder2.AddAttribute(4, "Ratio", Ratio);
-                    builder2.AddAttribute<RibbonImage>(5, "OnClick", EventCallback.Factory.Create<RibbonImage>(this, OnClickHandlerAsync));
-                    builder2.CloseComponent();
-
-                    builder2.CloseRegion();
-                }
-            }));
-            builder.CloseComponent();
-
-            builder.CloseElement();
+            padPerc = 100 / ribbonRatio;
+            
+            return padPerc;
         }
 
+        /// <summary>
+        /// Return the number of visible item to either side of focused index
+        /// </summary>
+        /// <param name="left">if true will return items to the left otherwise to the right</param>
+        private int VisibleOnSide(bool left)
+        {
+            int halfDisp = (int)Math.Ceiling((double)(DisplayCount - 1) / 2);
+            int overCount = Images.Length - Value;
+            int beginIdx = Value - halfDisp;
+            if(Value < halfDisp)
+                beginIdx = 0;
+
+            if(overCount <= halfDisp)
+                beginIdx = Images.Length - DisplayCount;
+
+            if(left)
+                return Value - beginIdx;
+            
+            return (beginIdx + DisplayCount - 1) - Value;
+        }
+
+        /// <summary>
+        /// Returns true if the item at index should be visible
+        /// </summary>
         private bool IsVisible(int index)
         {
             int halfDisp = (int)Math.Ceiling((double)(DisplayCount - 1) / 2);
@@ -88,7 +153,7 @@ namespace StableCube.Bulzor.Components.Extended
             int beginIdx = Value - halfDisp;
             if(Value < halfDisp)
                 beginIdx = 0;
-            
+
             if(overCount <= halfDisp)
                 beginIdx = Images.Length - DisplayCount;
 

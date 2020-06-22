@@ -1,6 +1,12 @@
 ﻿@page "/documentation/extended/imageribbon"
 
 <DocumentationRoot>
+    <BulMessage Color="BulSchemeColor.Warning">
+        <BulMessageBody>
+            Need to fix the aspect ratio sizing issues of the parent container.
+        </BulMessageBody>
+    </BulMessage>
+
     <ExampleBox>
         <ExampleOptions>
             <EditForm Model="@this">
@@ -33,35 +39,25 @@
 
         <ExampleResult>
             <div>Selected: @(FocusedIndex + 1) / @DemoEntries.Length</div>
+            <div>
+            <div style="border: black solid 5px; padding-top: 5%;">
             <BulImageRibbon @bind-Value="FocusedIndex" 
-                style="min-height: 200px;"
                 Images="DemoEntries" 
                 DisplayCount="DisplayCount" 
                 Color="Color" 
-                Ratio="Ratio" 
+                Ratio="Ratio.Value"
             />
+            </div>
+            </div>
         </ExampleResult>
     </ExampleBox>
-
-    <div class="columns">
-        <div class="column is-half">
-            <BulMessage>
-                <BulMessageHeader>Note</BulMessageHeader>
-                <BulMessageBody>
-                    You must provide a height greater than any content to prevent 
-                    bobbing while scrolling through items.
-                </BulMessageBody>
-            </BulMessage>
-        </div>
-    </div>
-
 </DocumentationRoot>
 
 @code {
     public BulSchemeColor? Color { get; set; }
-    public BulRatio? Ratio { get; set; }
+    public BulRatio? Ratio { get; set; } = BulRatio.R1by1;
     public int DisplayCount { get; set; } = 5;
-    public int FocusedIndex { get; set; } = 1;
+    public int FocusedIndex { get; set; } = 0;
     public Uri[] DemoEntries { get; set; } = new Uri[12];
 
     protected override void OnInitialized()
@@ -71,10 +67,10 @@
 
     private void ValueChangedHandler(BulRatio? value)
     {
+        if(!value.HasValue)
+            value = BulRatio.R1by1;
+        
         Ratio = value;
-
-        if(value.HasValue)
-            Console.WriteLine($"huh... {value.Value}");
 
         BuildImages(value);
     }
