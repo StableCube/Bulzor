@@ -26,11 +26,11 @@ namespace StableCube.Bulzor.Components.Extended
         [Parameter]
         public EventCallback<MouseEventArgs> OnClick { get; set; }
 
-        protected BulmaClassBuilder HeaderClassBuilder { get; set; } = new BulmaClassBuilder("bul-accordion-row-header");
+        protected BulmaClassBuilder HeaderClassBuilder { get; set; } = new BulmaClassBuilder("accordion-row-header");
 
-        protected BulmaClassBuilder ArrowClassBuilder { get; set; } = new BulmaClassBuilder("bul-accordion-arrow");
+        protected BulmaClassBuilder ArrowClassBuilder { get; set; } = new BulmaClassBuilder("accordion-arrow");
 
-        protected BulmaClassBuilder TitleClassBuilder { get; set; } = new BulmaClassBuilder("bul-accordion-row-title");
+        protected BulmaClassBuilder TitleClassBuilder { get; set; } = new BulmaClassBuilder("accordion-row-title");
 
         protected string _headerElementClass = String.Empty;
         protected string _arrowElementClass = String.Empty;

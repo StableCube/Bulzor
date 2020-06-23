@@ -1,4 +1,3 @@
-using System;
 
 namespace StableCube.Bulzor.Components
 {

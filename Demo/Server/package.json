@@ -1,7 +1,17 @@
 {
   "license": "MIT",
+  "dependencies": {},
   "devDependencies": {
     "bulma": "^0.8.2",
-    "bulzor-components-extended": "^0.2.2"
+    "bulzor-components-extended": "^0.2.2",
+    "node-sass": "^4.13.1",
+    "postcss": "^7.0.30",
+    "postcss-cli": "^7.1.1",
+    "postcss-prefixer": "^2.1.2"
+  },
+  "scripts": {
+    "build": "npm run build-sass && npm run build-prefix",
+    "build-sass": "node-sass --output-style expanded --source-map true _StyleRoot.scss wwwroot/css/bulzor.base.css",
+    "build-prefix": "postcss --no-map --output wwwroot/css/bulzor.css wwwroot/css/bulzor.base.css --verbose"
   }
 }

@@ -12,7 +12,7 @@ namespace StableCube.Bulzor.Components.Extended
         [Parameter]
         public RenderFragment ChildContent { get; set; }
 
-        protected BulmaClassBuilder ClassBuilder { get; set; } = new BulmaClassBuilder("bul-accordion-row-footer");
+        protected BulmaClassBuilder ClassBuilder { get; set; } = new BulmaClassBuilder("accordion-row-footer");
 
         protected string _elementClass = String.Empty;
 

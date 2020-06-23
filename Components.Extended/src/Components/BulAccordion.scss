@@ -1,6 +1,6 @@
 $bul-accordion-color: $light !default;
 
-.bul-accordion-row-header {
+.accordion-row-header {
   background-color: $bul-accordion-color;
 
   @each $name, $pair in $colors {
@@ -11,7 +11,7 @@ $bul-accordion-color: $light !default;
   }
 }
 
-.bul-accordion-row-header .bul-accordion-row-title {
+.accordion-row-header .accordion-row-title {
   margin-left: 1.125em;
   color: findColorInvert($bul-accordion-color);
 
@@ -23,12 +23,12 @@ $bul-accordion-color: $light !default;
   }
 }
 
-.bul-accordion-row-header:not(.is-arrowless)
+.accordion-row-header:not(.is-arrowless)
 {
   padding-left: 1.125em;
 }
 
-.bul-accordion-arrow {
+.accordion-arrow {
   @extend %arrow;
   border-color: findColorInvert($bul-accordion-color);
   margin-top: -1.125em;
@@ -48,7 +48,7 @@ $bul-accordion-color: $light !default;
   }
 }
 
-.bul-accordion-row-content.card-content {
+.accordion-row-content.card-content {
   display: none;
 
   &.is-active {
@@ -56,7 +56,7 @@ $bul-accordion-color: $light !default;
   }
 }
 
-.bul-accordion-row-footer {
+.accordion-row-footer {
   display: none;
 
   &.is-active {

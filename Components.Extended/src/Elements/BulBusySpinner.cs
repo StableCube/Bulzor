@@ -12,7 +12,7 @@ namespace StableCube.Bulzor.Components.Extended
         [Parameter]
         public BulSchemeColor? Color { get; set; }
 
-        protected BulmaClassBuilder ClassBuilder { get; set; } = new BulmaClassBuilder("bul-busy-spinner");
+        protected BulmaClassBuilder ClassBuilder { get; set; } = new BulmaClassBuilder("busy-spinner");
 
         protected string _elementClass = String.Empty;
 

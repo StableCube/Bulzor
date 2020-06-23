@@ -1,12 +1,12 @@
 $image-ribbon-border: $border !default;
 $image-ribbon-border-active: $border-hover !default;
 
-.wraptest1 {
+.image-ribbon-ratio-wrap {
   display: block;
   position: relative;
 }
 
-.wraptest2 {
+.image-ribbon-ratio-wrap-inner {
   @extend %overlay;
   width: 100%;
   display: flex;

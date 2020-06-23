@@ -266,165 +266,163 @@ namespace StableCube.Bulzor.Components
             _sb.Clear();
             
             if(_baseClass != null)
-                _sb.Append(_baseClass);
+                Append(_baseClass);
 
             if(_color.HasValue)
             {
-                _sb.Append(" ");
-                _sb.Append(BulmaVariableMap.Color(_color.Value));
+                Append(BulmaVariableMap.Color(_color.Value));
             }
 
             if(_schemeColor.HasValue)
             {
-                _sb.Append(" ");
-                _sb.Append(BulmaVariableMap.SchemeColor(_schemeColor.Value));
+                Append(BulmaVariableMap.SchemeColor(_schemeColor.Value));
             }
 
             if(_size.HasValue)
             {
-                _sb.Append(" ");
-                _sb.Append(BulmaVariableMap.Size(_size.Value));
+                Append(BulmaVariableMap.Size(_size.Value));
             }
 
             if(_sizeChild.HasValue)
             {
-                _sb.Append(" ");
-                _sb.Append(BulmaVariableMap.ChildSize(_sizeChild.Value));
+                Append(BulmaVariableMap.ChildSize(_sizeChild.Value));
             }
             
             if(_textColor.HasValue)
             {
-                _sb.Append(" ");
-                _sb.Append(BulmaVariableMap.TextColor(_textColor.Value));
+                Append(BulmaVariableMap.TextColor(_textColor.Value));
             }
 
             if(_backgroundColor.HasValue)
             {
-                _sb.Append(" ");
-                _sb.Append(BulmaVariableMap.BackgroundColor(_backgroundColor.Value));
+                Append(BulmaVariableMap.BackgroundColor(_backgroundColor.Value));
             }
             
             if(_textSize.HasValue)
             {
-                _sb.Append(" ");
-                _sb.Append(BulmaVariableMap.TextSize(_textSize.Value));
+                Append(BulmaVariableMap.TextSize(_textSize.Value));
             }
             
             if(_textWeight.HasValue)
             {
-                _sb.Append(" ");
-                _sb.Append(BulmaVariableMap.TextWeight(_textWeight.Value));
+                Append(BulmaVariableMap.TextWeight(_textWeight.Value));
             }
 
             if(_colSize.HasValue)
             {
-                _sb.Append(" ");
-                _sb.Append(BulmaVariableMap.ColumnSize(_colSize.Value));
+                Append(BulmaVariableMap.ColumnSize(_colSize.Value));
             }
 
             if(_ratio.HasValue)
             {
-                _sb.Append(" ");
-                _sb.Append(BulmaVariableMap.Ratio(_ratio.Value));
+                Append(BulmaVariableMap.Ratio(_ratio.Value));
             }
 
             if(_dimension.HasValue)
             {
-                _sb.Append(" ");
-                _sb.Append(BulmaVariableMap.Dimension(_dimension.Value));
+                Append(BulmaVariableMap.Dimension(_dimension.Value));
             }
 
             if(_separator.HasValue)
-                _sb.Append($" has-{_separator.Value.ToString().ToLower()}-separator");
+                Append($"has-{_separator.Value.ToString().ToLower()}-separator");
 
             if(_isRounded.HasValue && _isRounded.Value == true)
-                _sb.Append(" is-rounded");
+                Append("is-rounded");
 
             if(_isHoverable.HasValue && _isHoverable.Value == true)
-                _sb.Append(" is-hoverable");
+                Append("is-hoverable");
 
             if(_isHovered.HasValue && _isHovered.Value == true)
-                _sb.Append(" is-hovered");
+                Append("is-hovered");
 
             if(_isFocused.HasValue && _isFocused.Value == true)
-                _sb.Append(" is-focused");
+                Append("is-focused");
 
             if(_isActive.HasValue && _isActive.Value == true)
-                _sb.Append(" is-active");
+                Append("is-active");
             
             if(_isLoading.HasValue && _isLoading.Value == true)
-                _sb.Append(" is-loading");
+                Append("is-loading");
 
             if(_hasIconsLeft.HasValue && _hasIconsLeft.Value == true)
-                _sb.Append(" has-icons-left");
+                Append("has-icons-left");
 
             if(_hasIconsRight.HasValue && _hasIconsRight.Value == true)
-                _sb.Append(" has-icons-right");
+                Append("has-icons-right");
 
             if(_isStatic.HasValue && _isStatic.Value == true)
-                _sb.Append(" is-static");
+                Append("is-static");
 
             if(_isBoxed.HasValue && _isBoxed.Value == true)
-                _sb.Append(" is-boxed");
+                Append("is-boxed");
 
             if(_isToggle.HasValue && _isToggle.Value == true)
-                _sb.Append(" is-toggle");
+                Append("is-toggle");
 
             if(_isToggleRounded.HasValue && _isToggleRounded.Value == true)
-                _sb.Append(" is-toggle-rounded");
+                Append("is-toggle-rounded");
 
             if(_hasAddons.HasValue && _hasAddons.Value == true)
-                _sb.Append(" has-addons");
+                Append("has-addons");
 
             if(_isCentered.HasValue && _isCentered.Value == true)
-                _sb.Append(" is-centered");
+                Append("is-centered");
 
             if(_hasDropdown.HasValue && _hasDropdown.Value == true)
-                _sb.Append(" has-dropdown");
+                Append("has-dropdown");
 
             if(_isArrowless.HasValue && _isArrowless.Value == true)
-                _sb.Append(" is-arrowless");
+                Append("is-arrowless");
 
             if(_hasDropdownUp.HasValue && _hasDropdownUp.Value == true)
-                _sb.Append(" has-dropdown-up");
+                Append("has-dropdown-up");
 
             if(_isLeft.HasValue && _isLeft.Value == true)
-                _sb.Append(" is-left");
+                Append("is-left");
 
             if(_isRight.HasValue && _isRight.Value == true)
-                _sb.Append(" is-right");
+                Append("is-right");
 
             if(_isMultiple.HasValue && _isMultiple.Value == true)
-                _sb.Append(" is-multiple");
+                Append("is-multiple");
 
             if(_isSelected.HasValue && _isSelected.Value == true)
-                _sb.Append(" is-selected");
+                Append("is-selected");
 
             if(_isSpaced.HasValue && _isSpaced.Value == true)
-                _sb.Append(" is-spaced");
+                Append("is-spaced");
 
             if(_isLight.HasValue && _isLight.Value == true)
-                _sb.Append(" is-light");
+                Append("is-light");
 
             if(_isOutlined.HasValue && _isOutlined.Value == true)
-                _sb.Append(" is-outlined");
+                Append("is-outlined");
 
             if(_isFullWidth.HasValue && _isFullWidth.Value == true)
-                _sb.Append(" is-fullwidth");
+                Append("is-fullwidth");
 
             if(_isInverted.HasValue && _isInverted.Value == true)
-                _sb.Append(" is-inverted");
+                Append("is-inverted");
 
             if(_hasName.HasValue && _hasName.Value == true)
-                _sb.Append(" has-name");
+                Append("has-name");
 
             if(_isCircle.HasValue && _isCircle.Value == true)
-                _sb.Append(" is-circle");
+                Append("is-circle");
             
             if(_hasRatio.HasValue && _hasRatio.Value == true)
-                _sb.Append(" has-ratio");
+                Append("has-ratio");
             
-            return _sb.ToString();
+            return _sb.ToString().Trim();
+        }
+
+        private void Append(string value)
+        {
+            _sb.Append(" ");
+            if(!string.IsNullOrEmpty(CssConfig.Prefix))
+                _sb.Append(CssConfig.Prefix);
+
+            _sb.Append(value);
         }
     }
 }

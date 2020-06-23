@@ -2,9 +2,9 @@
 
 @inject NavigationManager _navManager
 
-<div id="documentation-root" class="section">
-    <div class="columns">
-        <div class="column is-1">
+<div id="documentation-root" class="bul-section">
+    <div class="bul-columns">
+        <div class="bul-column bul-is-1">
             <BulMenu>
                 <BulMenuLabel>
                     <a @onclick="@(() => ExpandComponents = !ExpandComponents)">
@@ -203,9 +203,9 @@
             </BulMenu>
         </div>
 
-        <div class="column">
-            <div class="section">
-                <div class="container">
+        <div class="bul-column">
+            <div class="bul-section">
+                <div class="bul-container">
                     @ChildContent
                 </div>
             </div>

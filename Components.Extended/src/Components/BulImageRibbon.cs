@@ -30,9 +30,9 @@ namespace StableCube.Bulzor.Components.Extended
 
         private RibbonImage[] RibbonImages { get; set; }
 
-        protected BulmaClassBuilder RootClassBuilder = new BulmaClassBuilder("wraptest1");
+        protected BulmaClassBuilder RootClassBuilder = new BulmaClassBuilder("image-ribbon-ratio-wrap");
         protected string _rootElementClass = String.Empty;
-        protected BulmaClassBuilder WrapperClassBuilder = new BulmaClassBuilder("wraptest2");
+        protected BulmaClassBuilder WrapperClassBuilder = new BulmaClassBuilder("image-ribbon-ratio-wrap-inner");
         protected string _wrapperElementClass = String.Empty;
         protected BulmaClassBuilder ContentClassBuilder = new BulmaClassBuilder("image-ribbon");
         protected string _contentElementClass = String.Empty;

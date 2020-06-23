@@ -1,7 +1,7 @@
 $busy-spinner-size: 2rem !default;
 $busy-spinner-color: $dark !default;
 
-.bul-busy-spinner {
+.busy-spinner {
   border-radius: 50%;
   animation: spinAround 2s linear infinite;
   border: solid transparent;

@@ -17,7 +17,7 @@ namespace StableCube.Bulzor.Components.Extended
 
         public Guid ActiveRow { get; set; }
 
-        protected BulmaClassBuilder ClassBuilder { get; set; } = new BulmaClassBuilder("bul-accordion");
+        protected BulmaClassBuilder ClassBuilder { get; set; } = new BulmaClassBuilder("accordion");
 
         protected string _elementClass = String.Empty;
 

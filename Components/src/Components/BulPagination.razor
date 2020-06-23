@@ -3,39 +3,39 @@
 <nav class="@_class" role="navigation" aria-label="pagination">
     @if(CurrentPage > 1)
     {
-        <button class="pagination-previous" @onclick="@(async (args) => await PreviousClickHandlerAsync(args))">
+        <button class="@(CssConfig.Prefix)pagination-previous" @onclick="@(async (args) => await PreviousClickHandlerAsync(args))">
             Previous
         </button>
     }
     else
     {
-        <button class="pagination-previous" disabled>
+        <button class="@(CssConfig.Prefix)pagination-previous" disabled>
             Previous
         </button>
     }
 
     @if(CurrentPage != PageCount && PageCount > 1)
     {
-        <button class="pagination-next" @onclick="@(async (args) => await NextClickHandlerAsync(args))">
+        <button class="@(CssConfig.Prefix)pagination-next" @onclick="@(async (args) => await NextClickHandlerAsync(args))">
             Next
         </button>
     }
     else
     {
-        <button class="pagination-next" disabled>
+        <button class="@(CssConfig.Prefix)pagination-next" disabled>
             Next
         </button>
     }
 
-    <ul class="pagination-list">
+    <ul class="@(CssConfig.Prefix)pagination-list">
         @if(_showFirstPage)
         {
             <li>
-                <button class="pagination-link" @onclick="@(async (args) => await PageClickHandlerAsync(1))">
+                <button class="@(CssConfig.Prefix)pagination-link" @onclick="@(async (args) => await PageClickHandlerAsync(1))">
                     1
                 </button>
             </li>
-            <li><span class="pagination-ellipsis">&hellip;</span></li>
+            <li><span class="@(CssConfig.Prefix)pagination-ellipsis">&hellip;</span></li>
         }
 
         @foreach (var pageNum in _pages)
@@ -43,7 +43,7 @@
             if(pageNum != CurrentPage)
             {
                 <li>
-                    <button class="pagination-link" @onclick="@(async (args) => await PageClickHandlerAsync(@pageNum))">
+                    <button class="@(CssConfig.Prefix)pagination-link" @onclick="@(async (args) => await PageClickHandlerAsync(@pageNum))">
                         @pageNum
                     </button>
                 </li>
@@ -51,7 +51,7 @@
             else
             {
                 <li>
-                    <button class="pagination-next" disabled>
+                    <button class="@(CssConfig.Prefix)pagination-next" disabled>
                         @pageNum
                     </button>
                 </li>
@@ -60,10 +60,10 @@
 
         @if(_showLastPage)
         {
-            <li><span class="pagination-ellipsis">&hellip;</span></li>
+            <li><span class="@(CssConfig.Prefix)pagination-ellipsis">&hellip;</span></li>
 
             <li>
-                <button class="pagination-link" @onclick="@(async (args) => await PageClickHandlerAsync(@PageCount))">
+                <button class="@(CssConfig.Prefix)pagination-link" @onclick="@(async (args) => await PageClickHandlerAsync(@PageCount))">
                     @PageCount
                 </button>
             </li>

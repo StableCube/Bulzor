@@ -22,7 +22,7 @@ namespace StableCube.Bulzor.Components
         protected override void BuildRenderTree(RenderTreeBuilder builder)
         {
             builder.OpenComponent<NavLink>(0);
-            builder.AddAttribute(1, "ActiveClass", "is-active");
+            builder.AddAttribute(1, "ActiveClass", CssConfig.Prefix + "is-active");
             builder.AddAttribute(2, "Match", Match);
             builder.AddAttribute(3, "AdditionalAttributes", AdditionalAttributes);
 

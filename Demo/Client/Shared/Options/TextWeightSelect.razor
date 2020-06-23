@@ -1,7 +1,7 @@
 ﻿@namespace StableCube.Bulzor.Demo.Client
 
-<div class="control">
-    <label class="label">@Label</label>
+<div class="bul-control">
+    <label class="bul-label">@Label</label>
     <BulInputSelect Value="(_selectedString)"
             ValueExpression="@( () => _selectedString )"
             ValueChanged="@( async (string value) => await OnChangedHandlerAsync(value) )">
