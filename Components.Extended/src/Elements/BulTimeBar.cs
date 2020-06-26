@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components;
+using StableCube.Bulzor.Components;
 
 namespace StableCube.Bulzor.Components.Extended
 {
@@ -41,17 +42,17 @@ namespace StableCube.Bulzor.Components.Extended
 
             builder.AddContent(3, (RenderFragment)((builder2) => {
                 builder2.OpenElement(4, "div");
-                builder2.AddAttribute(5, "class", $"{CssConfig.Prefix}time-bar-landmark {CssConfig.Prefix}time-bar-landmark-start");
+                builder2.AddAttribute(5, "class", BCss.Prefix("time-bar-landmark time-bar-landmark-start"));
                 builder2.AddContent(6, GetTimeString(Min));
                 builder2.CloseElement();
 
                 builder2.OpenElement(7, "div");
-                builder2.AddAttribute(8, "class", $"{CssConfig.Prefix}time-bar-landmark");
+                builder2.AddAttribute(8, "class", BCss.Prefix("time-bar-landmark"));
                 builder2.AddContent(9, GetTimeString(Current));
                 builder2.CloseElement();
 
                 builder2.OpenElement(10, "div");
-                builder2.AddAttribute(11, "class", $"{CssConfig.Prefix}time-bar-landmark {CssConfig.Prefix}time-bar-landmark-end");
+                builder2.AddAttribute(11, "class", BCss.Prefix("time-bar-landmark time-bar-landmark-end"));
                 builder2.AddContent(12, GetTimeString(Max));
                 builder2.CloseElement();
             }));

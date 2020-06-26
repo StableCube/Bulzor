@@ -25,12 +25,12 @@
                     </OptionsBoxItem>
 
                     <OptionsBoxItem>
-                        <label class="bul-label">Display Count</label>
+                        <label class="@BCss.Prefix("label")">Display Count</label>
                         <BulInputNumber @bind-Value="DisplayCount" />
                     </OptionsBoxItem>
 
                     <OptionsBoxItem>
-                        <label class="bul-label">Focused Index</label>
+                        <label class="@BCss.Prefix("label")">Focused Index</label>
                         <BulSlider @bind-Value="FocusedIndex" Min="0" Max="(DemoEntries.Length - 1)" Step="1" />
                     </OptionsBoxItem>
                 </OptionsBox>
