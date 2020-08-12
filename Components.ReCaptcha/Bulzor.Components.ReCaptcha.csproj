@@ -15,9 +15,4 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.1.4" />
   </ItemGroup>
-
-  <ItemGroup>
-    <!-- <PackageReference Include="StableCube.Bulzor.Components" Version="0.2.5" /> -->
-    <ProjectReference Include="../Components/Bulzor.Components.csproj" />
-  </ItemGroup>
 </Project>
