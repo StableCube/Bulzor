@@ -1,7 +1,6 @@
 ﻿using System;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components;
-using StableCube.Bulzor.Components;
 
 namespace StableCube.Bulzor.Components.Extended
 {
