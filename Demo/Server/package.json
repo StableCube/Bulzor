@@ -3,10 +3,10 @@
   "dependencies": {},
   "devDependencies": {
     "bulma": "^0.8.2",
-    "bulzor-components-extended": "^0.2.2",
+    "bulzor-components-extended": "^0.2.3",
     "node-sass": "^4.13.1",
     "postcss": "^7.0.30",
-    "postcss-cli": "^7.1.1",
+    "postcss-cli": "^7.1.2",
     "postcss-prefixer": "^2.1.2"
   },
   "scripts": {
