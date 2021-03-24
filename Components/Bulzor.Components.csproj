@@ -9,6 +9,10 @@
     <IsPackable>true</IsPackable>
     <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
     <RootNamespace>StableCube.Bulzor.Components</RootNamespace>
+    <licenseUrl>https://opensource.org/licenses/MIT</licenseUrl>
+    <projectUrl>httpS://bulzor.stablecube.com</projectUrl>
+    <description>Bulma components implemented in Blazor</description>
+    <copyright>Copyright 2021</copyright>
   </PropertyGroup>
 
   <ItemGroup>

@@ -18,7 +18,7 @@ namespace StableCube.Bulzor.Demo.Client
                 CssPrefix = "bul-"
             });
 
-            builder.RootComponents.Add<App>("app");
+            builder.RootComponents.Add<App>("#app");
 
             builder.Services.AddTransient(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
