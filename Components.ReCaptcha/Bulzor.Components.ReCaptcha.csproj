@@ -9,10 +9,12 @@
     <IsPackable>true</IsPackable>
     <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
     <RootNamespace>StableCube.Bulzor.Components.ReCaptcha</RootNamespace>
-    <licenseUrl>https://opensource.org/licenses/MIT</licenseUrl>
-    <projectUrl>httpS://bulzor.stablecube.com</projectUrl>
-    <description>Google recaptcha component for Bulzor</description>
-    <copyright>Copyright 2021</copyright>
+    <LicenseUrl>https://opensource.org/licenses/MIT</LicenseUrl>
+    <ProjectUrl>httpS://bulzor.stablecube.com</ProjectUrl>
+    <RepositoryUrl>https://github.com/StableCube/Bulzor</RepositoryUrl>
+    <Copyright>Copyright 2021</Copyright>
+    <Authors>Zachary Boyet</Authors>
+    <Description>Google recaptcha component for Bulzor</Description>
   </PropertyGroup>
 
   <ItemGroup>
