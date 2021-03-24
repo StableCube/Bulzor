@@ -1,5 +1,6 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
+﻿using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Hosting;
+using Serilog;
 
 namespace StableCube.Bulzor.Demo.Server
 {
@@ -7,14 +8,20 @@ namespace StableCube.Bulzor.Demo.Server
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            CreateWebHostBuilder(args).Build().Run();
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args)
+        {
+            var builder = WebHost
+                .CreateDefaultBuilder(args)
+                .UseStartup<Startup>()           
+                .UseSerilog((context, configuration) =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    configuration.ReadFrom.Configuration(context.Configuration);
                 });
+
+            return builder;
+        }
     }
 }
