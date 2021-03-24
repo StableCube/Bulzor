@@ -4,15 +4,17 @@
     <PackageId>StableCube.Bulzor.Components.Extended</PackageId>
     <TargetFramework>net5.0</TargetFramework>
     <Company>Stable Cube</Company>
-    <Version>0.2.7</Version>
+    <Version>0.2.8</Version>
     <Title>StableCube.Bulzor.Components.Extended</Title>
     <IsPackable>true</IsPackable>
     <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
     <RootNamespace>StableCube.Bulzor.Components.Extended</RootNamespace>
-    <licenseUrl>https://opensource.org/licenses/MIT</licenseUrl>
-    <projectUrl>httpS://bulzor.stablecube.com</projectUrl>
-    <description>Additional components for Bulzor that are not a part of Bulma base</description>
-    <copyright>Copyright 2021</copyright>
+    <LicenseUrl>https://opensource.org/licenses/MIT</LicenseUrl>
+    <ProjectUrl>httpS://bulzor.stablecube.com</ProjectUrl>
+    <RepositoryUrl>https://github.com/StableCube/Bulzor</RepositoryUrl>
+    <Copyright>Copyright 2021</Copyright>
+    <Authors>Zachary Boyet</Authors>
+    <Description>Additional components for Bulzor that are not a part of Bulma base</Description>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <!-- <PackageReference Include="StableCube.Bulzor.Components" Version="0.2.7" /> -->
-    <ProjectReference Include="../Components/Bulzor.Components.csproj" />
+    <PackageReference Include="StableCube.Bulzor.Components" Version="0.2.8" />
+    <!-- <ProjectReference Include="../Components/Bulzor.Components.csproj" /> -->
   </ItemGroup>
 </Project>
