@@ -1,16 +1,26 @@
 ﻿@namespace StableCube.Bulzor.Demo.Client
 
-<div class="bul-columns">
-    <div class="bul-column bul-is-half">
+<div>
+    @if(ExampleOptions != null)
+    {
+    <div style="margin-bottom: 2em;">
         <BulTitle Size="BulTextSize.S4">Options</BulTitle>
+        <hr style="margin-top: -1.0em;" />
         <BulNotification>
             @ExampleOptions
         </BulNotification>
     </div>
-    <div class="bul-column bul-is-half">
+    }
+    
+    @if(ExampleResult != null)
+    {
+    <div>
         <BulTitle Size="BulTextSize.S4">Example</BulTitle>
+        <hr style="margin-top: -1.0em;" />
         @ExampleResult
     </div>
+    }
+
 </div>
 
 @code {

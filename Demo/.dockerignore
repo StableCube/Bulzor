@@ -1,0 +1,7 @@
+.git/
+core
+Server/node_modules/
+Server/bin/
+Server/obj/
+Client/bin/
+Client/obj/
