@@ -27,7 +27,7 @@ dotnet add package StableCube.Bulzor.Components.Extended --version 0.2.8
 
 ## Building CSS With NPM
 
-Bulma uses SASS to build their CSS. There are a variety of ways to build the SASS into usable CSS but NPM is one of the easier options. Below is an example of the packages needed to compile the SASS as well as adding a prefix to the class names to avoid conflicts.
+Pull in the Bulma and extended source Sass however you would like. NPM in a convenient option.
 
 #### package.json
 ```json
@@ -36,42 +36,14 @@ Bulma uses SASS to build their CSS. There are a variety of ways to build the SAS
   "dependencies": {},
   "devDependencies": {
     "bulma": "^0.8.2",
-    "bulzor-components-extended": "^0.2.3",
-    "node-sass": "^4.13.1",
-    "postcss": "^7.0.30",
-    "postcss-cli": "^7.1.2",
-    "postcss-prefixer": "^2.1.2"
-  },
-  "scripts": {
-    "build": "npm run build-sass && npm run build-prefix",
-    "build-sass": "node-sass --output-style expanded --source-map true _StyleRoot.scss wwwroot/css/bulzor.base.css",
-    "build-prefix": "postcss --no-map --output wwwroot/css/bulzor.css wwwroot/css/bulzor.base.css --verbose"
+    "bulzor-components-extended": "^0.2.3"
   }
 }
 ```
 
-#### postcss.config.js
-```js
-module.exports = (ctx) => ({
-    map: ctx.options.map,
-    plugins: [
-        require('postcss-prefixer')({ 
-            prefix: 'bul-' 
-        })
-    ]
-});
-```
-
-Currently the extended components requires a small amount of interop code which can be installed with the **bulzor-components-extended** package
-
-```bash
-npm i bulzor-components-extended
-```
-
-
 ## Configure CSS Prefix
 
-Register the CSS prefix you chose when you compiled the SASS
+If you build your sass with a namespace prefix you can set this in Bulzor.
 
 ```C#
 public class Program

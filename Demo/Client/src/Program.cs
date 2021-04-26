@@ -13,10 +13,10 @@ namespace StableCube.Bulzor.Demo.Client
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
-            new BulzorOptionsBuilder(builder.Services, new BulzorConfig()
-            {
-                CssPrefix = "bul-"
-            });
+            // new BulzorOptionsBuilder(builder.Services, new BulzorConfig()
+            // {
+            //     CssPrefix = "bul-"
+            // });
 
             builder.RootComponents.Add<App>("#app");
 

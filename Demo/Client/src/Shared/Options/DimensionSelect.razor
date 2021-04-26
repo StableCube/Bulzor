@@ -1,10 +1,10 @@
 ﻿@namespace StableCube.Bulzor.Demo.Client
 
-<div class="bul-control">
-    <label class="bul-label">@Label</label>
-    <BulInputSelect Value="_selectedString"
-            ValueExpression="@(() => _selectedString)"
-            ValueChanged="@(async (string value) => await OnChangedHandlerAsync(value))">
+<div class="control">
+    <label class="label">@Label</label>
+    <BulInputSelect Value="(_selectedString)"
+            ValueExpression="@( () => _selectedString )"
+            ValueChanged="@( async (string value) => await OnChangedHandlerAsync(value) )">
 
         <option value="default" selected>Default</option>
         @foreach (var option in _options)
@@ -16,29 +16,29 @@
 
 @code {
     [Parameter]
-    public string Label { get; set; } = "Size";
+    public string Label { get; set; } = "Dimension";
 
     [Parameter]
-    public BulSize? Value { get; set; }
+    public BulDimension? Value { get; set; }
 
     [Parameter]
-    public EventCallback<BulSize?> ValueChanged { get; set; }
+    public EventCallback<BulDimension?> ValueChanged { get; set; }
 
     private string _selectedString = "default";
-    private IEnumerable<BulSize> _options;
+    private IEnumerable<BulDimension> _options;
 
     protected override void OnInitialized()
     {
-        _options = Enum.GetValues(typeof(BulSize)).Cast<BulSize>();
+        _options = Enum.GetValues(typeof(BulDimension)).Cast<BulDimension>();
     }
 
     public async Task OnChangedHandlerAsync(string value)
     {
         _selectedString = value;
-        BulSize? enumVal = null;
+        BulDimension? enumVal = null;
         if(value != "default")
         {
-            enumVal = Enum.Parse<BulSize>(value);
+            enumVal = Enum.Parse<BulDimension>(value);
         }
 
         await ValueChanged.InvokeAsync(enumVal);

@@ -1,0 +1,151 @@
+﻿@page "/documentation/form/input"
+
+<DocumentationRoot>
+    <ExampleBox>
+        <ExampleOptions>
+            <EditForm Model="@this">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+
+                <OptionsBox>
+                    <OptionsBoxItem>
+                        <SchemeColorSelect Label="Color" @bind-Value="Color" />
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <SizeSelect Label="Size" @bind-Value="Size" />
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <BulInputCheckbox @bind-Value="Rounded">
+                            Rounded
+                        </BulInputCheckbox>
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <BulInputCheckbox @bind-Value="Loading">
+                            Loading
+                        </BulInputCheckbox>
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <BulInputCheckbox @bind-Value="HasIconsLeft">
+                            Has Icons Left
+                        </BulInputCheckbox>
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <BulInputCheckbox @bind-Value="HasIconsRight">
+                            Has Icons Right
+                        </BulInputCheckbox>
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <BulInputCheckbox @bind-Value="DemoIconLeft">
+                            Demo Icon Left
+                        </BulInputCheckbox>
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <BulInputCheckbox @bind-Value="DemoIconRight">
+                            Demo Icon Right
+                        </BulInputCheckbox>
+                    </OptionsBoxItem>
+                </OptionsBox>
+            </EditForm>
+        </ExampleOptions>
+
+        <ExampleResult>
+            <EditForm Model="@Data">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+
+                <div class="field">
+                    <label class="label">Number</label>
+                    <BulInputNumber @bind-Value="Data.IntData" 
+                        Size="Size" 
+                        Color="Color" 
+                        Rounded="Rounded"
+                        Loading="Loading"
+                        HasIconsLeft="HasIconsLeft"
+                        HasIconsRight="HasIconsRight">
+                        <BulIcons>
+                            @if(DemoIconLeft)
+                            {
+                                <BulIcon class="fa fa-globe fa-2x" Position="BulIconPosition.Left" />
+                            }
+
+                            @if(DemoIconRight)
+                            {
+                                <BulIcon class="fa fa-shield fa-2x" Position="BulIconPosition.Right" />
+                            }
+                        </BulIcons>
+                    </BulInputNumber>
+                </div>
+
+                <div class="field">
+                    <label class="label">Text</label>
+                    <BulInputText @bind-Value="Data.StringData" 
+                        Size="Size" 
+                        Color="Color" 
+                        Rounded="Rounded"
+                        Loading="Loading"
+                        HasIconsLeft="HasIconsLeft"
+                        HasIconsRight="HasIconsRight">
+                        <BulIcons>
+                            @if(DemoIconLeft)
+                            {
+                                <BulIcon class="fa fa-globe fa-2x" Position="BulIconPosition.Left" />
+                            }
+
+                            @if(DemoIconRight)
+                            {
+                                <BulIcon class="fa fa-shield fa-2x" Position="BulIconPosition.Right" />
+                            }
+                        </BulIcons>
+                    </BulInputText>
+                </div>
+
+                <div class="field">
+                    <label class="label">Password</label>
+                    <BulInputPassword @bind-Value="Data.StringData" 
+                        Size="Size" 
+                        Color="Color" 
+                        Rounded="Rounded"
+                        Loading="Loading"
+                        HasIconsLeft="HasIconsLeft"
+                        HasIconsRight="HasIconsRight">
+                        <BulIcons>
+                            @if(DemoIconLeft)
+                            {
+                                <BulIcon class="fa fa-globe fa-2x" Position="BulIconPosition.Left" />
+                            }
+
+                            @if(DemoIconRight)
+                            {
+                                <BulIcon class="fa fa-shield fa-2x" Position="BulIconPosition.Right" />
+                            }
+                        </BulIcons>
+                    </BulInputPassword>
+                </div>
+
+            </EditForm>
+        </ExampleResult>
+    </ExampleBox>
+</DocumentationRoot>
+
+@code {
+    public BulSchemeColor? Color { get; set; }
+    public BulSize? Size { get; set; }
+    public bool Rounded { get; set; }
+    public bool Loading { get; set; }
+    public bool HasIconsLeft { get; set; }
+    public bool HasIconsRight { get; set; }
+    public bool DemoIconLeft { get; set; }
+    public bool DemoIconRight { get; set; }
+
+    private DemoDataModel Data = new DemoDataModel() {
+        IntData = 8,
+        StringData = "Lorem ipsum dolor sit amet",
+    };
+}
