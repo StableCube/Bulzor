@@ -1,7 +1,7 @@
 ﻿@namespace StableCube.Bulzor.Demo.Client
 
-<div class="bul-control">
-    <label class="bul-label">@Label</label>
+<div class="control">
+    <label class="label">@Label</label>
     <BulInputSelect Value="(_selectedString)"
             ValueExpression="@( () => _selectedString )"
             ValueChanged="@( async (string value) => await OnChangedHandlerAsync(value) )">
@@ -16,29 +16,29 @@
 
 @code {
     [Parameter]
-    public string Label { get; set; } = "Dimension";
+    public string Label { get; set; } = "Ratio";
 
     [Parameter]
-    public BulDimension? Value { get; set; }
+    public BulRatio? Value { get; set; }
 
     [Parameter]
-    public EventCallback<BulDimension?> ValueChanged { get; set; }
+    public EventCallback<BulRatio?> ValueChanged { get; set; }
 
     private string _selectedString = "default";
-    private IEnumerable<BulDimension> _options;
+    private IEnumerable<BulRatio> _options;
 
     protected override void OnInitialized()
     {
-        _options = Enum.GetValues(typeof(BulDimension)).Cast<BulDimension>();
+        _options = Enum.GetValues(typeof(BulRatio)).Cast<BulRatio>();
     }
 
     public async Task OnChangedHandlerAsync(string value)
     {
         _selectedString = value;
-        BulDimension? enumVal = null;
+        BulRatio? enumVal = null;
         if(value != "default")
         {
-            enumVal = Enum.Parse<BulDimension>(value);
+            enumVal = Enum.Parse<BulRatio>(value);
         }
 
         await ValueChanged.InvokeAsync(enumVal);

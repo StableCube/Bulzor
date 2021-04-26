@@ -1,29 +1,26 @@
-FROM us.gcr.io/stablecube/dotnet-sdk:5.0-1 AS build
+FROM us.gcr.io/stablecube/aspnet-runtime:5.0-11 AS base
+WORKDIR /app
+EXPOSE 8080
 
-ARG CSPROJ_FILENAME=Demo.Server.csproj
-
-COPY . /app/aspnetapp/
-WORKDIR /app/aspnetapp
-RUN mv /app/aspnetapp/Server/"${CSPROJ_FILENAME}" /app/aspnetapp/Server/app.csproj
-WORKDIR /app/aspnetapp/Server
-
-RUN dotnet restore -r linux-musl-x64
-RUN dotnet build -r linux-musl-x64
+FROM mcr.microsoft.com/dotnet/sdk:5.0-alpine AS build
+WORKDIR /src
+COPY Server/*.csproj ./Server/
+WORKDIR /src/Server
+RUN dotnet restore
+WORKDIR /src
+COPY . .
+WORKDIR "/src/Server/."
+RUN dotnet build -c Release -o /app/build
 
 FROM build AS publish
-WORKDIR /app/aspnetapp/Server
 
-RUN dotnet publish --self-contained true -r linux-musl-x64 -c Release -o out
+# optimize dotnet publish
+RUN dotnet publish -c Release -o /app/publish \
+    --runtime alpine-x64 \
+    --self-contained true \
+    /p:PublishTrimmed=true
 
-FROM us.gcr.io/stablecube/aspnet-runtime:5.0-0 AS release
+FROM base AS final
 WORKDIR /app
-COPY --from=publish /app/aspnetapp/Server/out ./Server/
-
-WORKDIR /app/Server
-
-RUN chown -R www:www /app
-
-USER www
-
-ENTRYPOINT ["dotnet"]
-CMD ["app.dll"]
+COPY --from=publish /app/publish .
+COPY --from=base /docker-entrypoint.sh /docker-entrypoint.sh

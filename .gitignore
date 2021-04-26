@@ -28,6 +28,7 @@ _UpgradeReport_Files/
 ###############
 bin/
 obj/
+node_modules/
 ###################
 # Web publish log #
 ###################
@@ -91,3 +92,8 @@ _[Ss]cripts
 *.nupkg
 *.ncrunchsolution
 *.dot[Cc]over
+core
+#############################
+# CSS is compiled from sass #
+#############################
+*.css

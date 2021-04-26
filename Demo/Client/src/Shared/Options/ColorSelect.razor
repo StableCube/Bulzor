@@ -1,10 +1,10 @@
 ﻿@namespace StableCube.Bulzor.Demo.Client
 
-<div class="bul-control">
-    <label class="bul-label">@Label</label>
-    <BulInputSelect Value="(_selectedString)"
-            ValueExpression="@( () => _selectedString )"
-            ValueChanged="@( async (string value) => await OnChangedHandlerAsync(value) )">
+<div class="control">
+    <label class="label">@Label</label>
+    <BulInputSelect Value="_selectedString"
+            ValueExpression="@(() => _selectedString)"
+            ValueChanged="@(async (string value) => await OnChangedHandlerAsync(value))">
 
         <option value="default" selected>Default</option>
         @foreach (var option in _options)
@@ -16,29 +16,29 @@
 
 @code {
     [Parameter]
-    public string Label { get; set; } = "Text Weight";
+    public string Label { get; set; } = "Color";
 
     [Parameter]
-    public BulTextWeight? Value { get; set; }
+    public BulColor? Value { get; set; }
 
     [Parameter]
-    public EventCallback<BulTextWeight?> ValueChanged { get; set; }
+    public EventCallback<BulColor?> ValueChanged { get; set; }
 
     private string _selectedString = "default";
-    private IEnumerable<BulTextWeight> _options;
+    private IEnumerable<BulColor> _options;
 
     protected override void OnInitialized()
     {
-        _options = Enum.GetValues(typeof(BulTextWeight)).Cast<BulTextWeight>();
+        _options = Enum.GetValues(typeof(BulColor)).Cast<BulColor>();
     }
 
     public async Task OnChangedHandlerAsync(string value)
     {
         _selectedString = value;
-        BulTextWeight? enumVal = null;
+        BulColor? enumVal = null;
         if(value != "default")
         {
-            enumVal = Enum.Parse<BulTextWeight>(value);
+            enumVal = Enum.Parse<BulColor>(value);
         }
 
         await ValueChanged.InvokeAsync(enumVal);

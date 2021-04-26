@@ -1,7 +1,7 @@
 ﻿@namespace StableCube.Bulzor.Demo.Client
 
-<div class="bul-control">
-    <label class="bul-label">@Label</label>
+<div class="control">
+    <label class="label">@Label</label>
     <BulInputSelect Value="(_selectedString)"
             ValueExpression="@( () => _selectedString )"
             ValueChanged="@( async (string value) => await OnChangedHandlerAsync(value) )">
@@ -16,30 +16,29 @@
 
 @code {
     [Parameter]
-    public string Label { get; set; } = "Separator";
+    public string Label { get; set; } = "Text Size";
 
     [Parameter]
-    public BulSeparator? Value { get; set; }
+    public BulTextSize? Value { get; set; }
 
     [Parameter]
-    public EventCallback<BulSeparator?> ValueChanged { get; set; }
+    public EventCallback<BulTextSize?> ValueChanged { get; set; }
 
     private string _selectedString = "default";
-    private IEnumerable<BulSeparator> _options;
+    private IEnumerable<BulTextSize> _options;
 
     protected override void OnInitialized()
     {
-        _options = Enum.GetValues(typeof(BulSeparator)).Cast<BulSeparator>();
+        _options = Enum.GetValues(typeof(BulTextSize)).Cast<BulTextSize>();
     }
 
     public async Task OnChangedHandlerAsync(string value)
     {
         _selectedString = value;
-
-        BulSeparator? enumVal = null;
+        BulTextSize? enumVal = null;
         if(value != "default")
         {
-            enumVal = Enum.Parse<BulSeparator>(value);
+            enumVal = Enum.Parse<BulTextSize>(value);
         }
 
         await ValueChanged.InvokeAsync(enumVal);
