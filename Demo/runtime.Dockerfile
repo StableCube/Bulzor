@@ -1,16 +1,21 @@
-FROM us.gcr.io/stablecube/aspnet-runtime:5.0-11 AS base
+FROM us.gcr.io/stablecube/aspnet-runtime:5.0-13 AS base
+
+ARG CSPROJ_FILENAME=Demo.Server.csproj
+
 WORKDIR /app
 EXPOSE 8080
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0-alpine AS build
 WORKDIR /src
-COPY Server/*.csproj ./Server/
+COPY Server/"${CSPROJ_FILENAME}" ./Server/app.csproj
 WORKDIR /src/Server
 RUN dotnet restore
+COPY --from=base /nuget.config /nuget.config
 WORKDIR /src
 COPY . .
 WORKDIR "/src/Server/."
-RUN dotnet build -c Release -o /app/build
+RUN rm "${CSPROJ_FILENAME}" && \
+    dotnet build -c Release -o /app/build
 
 FROM build AS publish
 
