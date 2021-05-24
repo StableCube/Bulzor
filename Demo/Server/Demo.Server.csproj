@@ -18,14 +18,11 @@
 
   <ItemGroup>
     <Watch Include="../Client/**/*.razor" />
-    <Watch Include="../Client/**/*.cshtml" />
     <Watch Include="../Client/**/*.scss" />
   </ItemGroup>
 
   <ItemGroup>
     <SassFile Include="wwwroot/css/base.scss" />
-    <SassFile Include="../Client/src/Components/**/*.scss" /> 
-    <SassFile Include="../Client/src/Pages/**/*.scss" />
-    <SassFile Include="../Client/src/Shared/**/*.scss" />
+    <SassFile Include="../Client/src/**/*.scss" />
   </ItemGroup>
 </Project>

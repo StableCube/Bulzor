@@ -48,6 +48,7 @@ namespace StableCube.Bulzor.Components
         private bool? _hasName;
         private bool? _isCircle;
         private bool? _hasRatio;
+        private bool? _isDelete;
 
         public BulmaClassBuilder(){}
 
@@ -261,6 +262,11 @@ namespace StableCube.Bulzor.Components
             _hasRatio = value;
         }
 
+        public void SetIsDelete(bool? value)
+        {
+            _isDelete = value;
+        }
+
         public override string ToString()
         {
             _sb.Clear();
@@ -413,6 +419,9 @@ namespace StableCube.Bulzor.Components
             if(_hasRatio.HasValue && _hasRatio.Value == true)
                 Append("has-ratio");
             
+            if(_isDelete.HasValue && _isDelete.Value == true)
+                Append("is-delete");
+
             return _sb.ToString().Trim();
         }
 

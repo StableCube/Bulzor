@@ -29,39 +29,41 @@
         </ExampleOptions>
 
         <ExampleResult>
-            <BulTag Color="Color" Size="Size" Light="Light" Rounded="Rounded">
-                Tag label
-            </BulTag>
+            <section class="section">
+                <div class="tag-block">
+                    <BulTag Color="Color" Size="Size" Light="Light" Rounded="Rounded">
+                        Basic Tag
+                    </BulTag>
+                </div>
+
+                <div class="tag-block">
+                    <BulTags>
+                        <BulTag Color="Color" Size="Size" Light="Light" Rounded="Rounded">Tag List One</BulTag>
+                        <BulTag Color="Color" Size="Size" Light="Light" Rounded="Rounded">Tag List Two</BulTag>
+                        <BulTag Color="Color" Size="Size" Light="Light" Rounded="Rounded">Tag List Three</BulTag>
+                        <BulTag Color="Color" Size="Size" Light="Light" Rounded="Rounded">Tag List Four</BulTag>
+                        <BulTag Color="Color" Size="Size" Light="Light" Rounded="Rounded">Tag List Five</BulTag>
+                    </BulTags>
+                </div>
+                
+                <div class="tag-block">
+                    <BulTags HasAddons="true">
+                        <BulTag Color="Color" Size="Size" Light="Light" Rounded="Rounded">With Label</BulTag>
+                        <BulTag Size="Size" Light="Light" Rounded="Rounded" Color="BulSchemeColor.Primary">The Label</BulTag>
+                    </BulTags>
+                </div>
+
+                <div class="tag-block">
+                    <div>Click Count: @ClickCount</div>
+                    <BulTags HasAddons="true">
+                        <BulTag Color="Color" Size="Size" Light="Light" Rounded="Rounded">With Delete</BulTag>
+                        <BulTagDelete Size="Size" Light="Light" Rounded="Rounded" Color="BulSchemeColor.Primary" OnClick="TagDeleteClickHandler" />
+                    </BulTags>
+                </div
+            </section>
+
         </ExampleResult>
     </ExampleBox>
-
-    <section class="@BCss.Prefix("section")">
-        <div class="@BCss.Prefix("container")">
-            <BulTags>
-                <BulTag>One</BulTag>
-                <BulTag>Two</BulTag>
-                <BulTag>Three</BulTag>
-                <BulTag>Four</BulTag>
-                <BulTag>Five</BulTag>
-                <BulTag>Six</BulTag>
-                <BulTag>Seven</BulTag>
-                <BulTag>Eight</BulTag>
-                <BulTag>Nine</BulTag>
-                <BulTag>Ten</BulTag>
-                <BulTag>Eleven</BulTag>
-                <BulTag>Twelve</BulTag>
-                <BulTag>Thirteen</BulTag>
-                <BulTag>Fourteen</BulTag>
-            </BulTags>
-        </div>
-        <div class="@BCss.Prefix("container")">
-            <BulTags HasAddons="true">
-                <BulTag>Label</BulTag>
-                <BulTag Color="BulSchemeColor.Primary">Tag</BulTag>
-            </BulTags>
-        </div>
-    </section>
-
 </DocumentationRoot>
 
 @code {
@@ -69,4 +71,10 @@
     public BulSize? Size { get; set; }
     public bool Light { get; set; }
     public bool Rounded { get; set; }
+    public int ClickCount { get; set; }
+
+    private void TagDeleteClickHandler(MouseEventArgs args)
+    {
+        ClickCount++;
+    }
 }

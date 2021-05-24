@@ -1,5 +1,5 @@
 // Add our custom variables
-@import "../../../Client/src/Sass/Themes/default.scss";
+@import "../../../Client/src/Sass/Themes/_default.scss";
 
 // Normally you would select only the packages from Bulma that you need 
 // to keep file sizes down but for this demo we add the whole package
@@ -8,4 +8,4 @@
 // Add extended components
 @import "../../node_modules/bulzor-components-extended/src/root.scss";
 
-@import "../../../Client/src/Sass/blazor-error.scss";
+@import "../../../Client/src/Sass/_blazor-error.scss";
