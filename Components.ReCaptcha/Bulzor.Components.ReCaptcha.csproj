@@ -4,7 +4,7 @@
     <PackageId>StableCube.Bulzor.Components.ReCaptcha</PackageId>
     <TargetFramework>net5.0</TargetFramework>
     <Company>Stable Cube</Company>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
     <Title>StableCube.Bulzor.Components.ReCaptcha</Title>
     <IsPackable>true</IsPackable>
     <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
