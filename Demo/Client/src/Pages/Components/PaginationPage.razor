@@ -9,12 +9,21 @@
 
                 <OptionsBox>
                     <OptionsBoxItem>
-                        <SizeSelect @bind-Value="Size" />
+                        <div class="control">
+                            <label class="label">Size</label>
+                            <BulInputSelectEnum @bind-Value="Size" />
+                        </div>
                     </OptionsBoxItem>
 
                     <OptionsBoxItem>
                         <BulInputCheckbox @bind-Value="Centered">
                             Centered
+                        </BulInputCheckbox>
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <BulInputCheckbox @bind-Value="Rounded">
+                            Rounded
                         </BulInputCheckbox>
                     </OptionsBoxItem>
                 </OptionsBox>
@@ -28,6 +37,7 @@
                 OnPageSelected="OnPageSelectedHandler" 
                 Centered="Centered"
                 Size="Size"
+                Rounded="Rounded"
                 />
                 
         </ExampleResult>
@@ -35,10 +45,10 @@
 </DocumentationRoot>
 
 @code {
-    public BulSchemeColor? Color { get; set; }
-    public BulSize? Size { get; set; }
+    public BulSize Size { get; set; } = BulSize.Default;
     private int CurrentPage { get; set; } = 15;
     private bool Centered { get; set; }
+    private bool Rounded { get; set; }
 
     public void OnPageSelectedHandler(int pageNum)
     {

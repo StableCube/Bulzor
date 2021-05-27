@@ -9,11 +9,17 @@
 
                 <OptionsBox>
                     <OptionsBoxItem>
-                        <RatioSelect Label="Ratio" @bind-Value="Ratio" />
+                        <div class="control">
+                            <label class="label">Ratio</label>
+                            <BulInputSelectEnum @bind-Value="Ratio" />
+                        </div>
                     </OptionsBoxItem>
 
                     <OptionsBoxItem>
-                        <DimensionSelect Label="Dimension" @bind-Value="Dimension" />
+                        <div class="control">
+                            <label class="label">Ratio</label>
+                            <BulInputSelectEnum @bind-Value="Dimension" />
+                        </div>
                     </OptionsBoxItem>
                 </OptionsBox>
             </EditForm>
@@ -28,6 +34,6 @@
 </DocumentationRoot>
 
 @code {
-    public BulRatio? Ratio { get; set; }
-    public BulDimension? Dimension { get; set; }
+    public BulRatio Ratio { get; set; } = BulRatio.Default;
+    public BulDimension Dimension { get; set; } = BulDimension.Default;
 }

@@ -3,7 +3,7 @@
 <DocumentationRoot>
     <BulMessage Color="BulSchemeColor.Warning">
         <BulMessageBody>
-            Need to fix the aspect ratio sizing issues of the parent container.
+            **BETA** Need to fix the aspect ratio sizing issues of the parent container.
         </BulMessageBody>
     </BulMessage>
 
@@ -15,22 +15,29 @@
 
                 <OptionsBox>
                     <OptionsBoxItem>
-                        <SchemeColorSelect Label="Color" @bind-Value="Color" />
+                        <div class="control">
+                            <label class="label">Color</label>
+                            <BulInputSelectEnum @bind-Value="Color" />
+                        </div>
                     </OptionsBoxItem>
 
                     <OptionsBoxItem>
-                        <RatioSelect Label="Ratio"                    
-                            Value="Ratio"
-                            ValueChanged="@((value) => ValueChangedHandler(value))" />
+                        <div class="control">
+                            <label class="label">Ratio</label>
+                            <BulInputSelectEnum 
+                                Value="Ratio"
+                                ValueExpression="@( () => Ratio )"
+                                ValueChanged="@((BulRatio value) => ValueChangedHandler(value))" />
+                        </div>
                     </OptionsBoxItem>
 
                     <OptionsBoxItem>
-                        <label class="@BCss.Prefix("label")">Display Count</label>
+                        <label class="label">Display Count</label>
                         <BulInputNumber @bind-Value="DisplayCount" />
                     </OptionsBoxItem>
 
                     <OptionsBoxItem>
-                        <label class="@BCss.Prefix("label")">Focused Index</label>
+                        <label class="label">Focused Index</label>
                         <BulSlider @bind-Value="FocusedIndex" Min="0" Max="(DemoEntries.Length - 1)" Step="1" />
                     </OptionsBoxItem>
                 </OptionsBox>
@@ -45,7 +52,7 @@
                 Images="DemoEntries" 
                 DisplayCount="DisplayCount" 
                 Color="Color" 
-                Ratio="Ratio.Value"
+                Ratio="Ratio"
             />
             </div>
             </div>
@@ -54,8 +61,8 @@
 </DocumentationRoot>
 
 @code {
-    public BulSchemeColor? Color { get; set; }
-    public BulRatio? Ratio { get; set; } = BulRatio.R1by1;
+    public BulSchemeColor Color { get; set; } = BulSchemeColor.Default;
+    public BulRatio Ratio { get; set; } = BulRatio.R1by1;
     public int DisplayCount { get; set; } = 5;
     public int FocusedIndex { get; set; } = 0;
     public Uri[] DemoEntries { get; set; } = new Uri[12];
@@ -65,11 +72,8 @@
         BuildImages(null);
     }
 
-    private void ValueChangedHandler(BulRatio? value)
+    private void ValueChangedHandler(BulRatio value)
     {
-        if(!value.HasValue)
-            value = BulRatio.R1by1;
-        
         Ratio = value;
 
         BuildImages(value);

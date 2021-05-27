@@ -9,7 +9,10 @@
 
                 <OptionsBox>
                     <OptionsBoxItem>
-                        <SeparatorSelect @bind-Value="Separator" />
+                        <div class="control">
+                            <label class="label">Separator</label>
+                            <BulInputSelectEnum @bind-Value="Separator" />
+                        </div>
                     </OptionsBoxItem>
                 </OptionsBox>
             </EditForm>
@@ -29,5 +32,5 @@
 </DocumentationRoot>
 
 @code {
-    public BulSeparator? Separator { get; set; }
+    public BulSeparator Separator { get; set; } = BulSeparator.Default;
 }

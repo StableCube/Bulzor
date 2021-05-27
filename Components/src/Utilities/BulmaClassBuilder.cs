@@ -59,61 +59,97 @@ namespace StableCube.Bulzor.Components
 
         public void SetColor(BulColor? value)
         {
+            if(value.HasValue && value.Value == BulColor.Default)
+                value = null;
+            
             _color = value;
         }
 
         public void SetSchemeColor(BulSchemeColor? value)
         {
+            if(value.HasValue && value.Value == BulSchemeColor.Default)
+                value = null;
+            
             _schemeColor = value;
         }
 
         public void SetSize(BulSize? value)
         {
+            if(value.HasValue && value.Value == BulSize.Default)
+                value = null;
+
             _size = value;
         }
 
         public void SetSizeChild(BulSize? value)
         {
+            if(value.HasValue && value.Value == BulSize.Default)
+                value = null;
+            
             _sizeChild = value;
         }
 
         public void SetTextColor(BulColor? value)
         {
+            if(value.HasValue && value.Value == BulColor.Default)
+                value = null;
+
             _textColor = value;
         }
 
         public void SetTextSize(BulTextSize? value)
         {
+            if(value.HasValue && value.Value == BulTextSize.Default)
+                value = null;
+
             _textSize = value;
         }
 
         public void SetTextWeight(BulTextWeight? value)
         {
+            if(value.HasValue && value.Value == BulTextWeight.Default)
+                value = null;
+            
             _textWeight = value;
         }
 
         public void SetBackgroundColor(BulColor? value)
         {
+            if(value.HasValue && value.Value == BulColor.Default)
+                value = null;
+
             _backgroundColor = value;
         }
 
         public void SetColumnSize(BulColumnSize? value)
         {
+            if(value.HasValue && value.Value == BulColumnSize.Default)
+                value = null;
+
             _colSize = value;
         }
 
         public void SetSeparator(BulSeparator? value)
         {
+            if(value.HasValue && value.Value == BulSeparator.Default)
+                value = null;
+            
             _separator = value;
         }
 
         public void SetRatio(BulRatio? value)
         {
+            if(value.HasValue && value.Value == BulRatio.Default)
+                value = null;
+            
             _ratio = value;
         }
 
         public void SetDimension(BulDimension? value)
         {
+            if(value.HasValue && value.Value == BulDimension.Default)
+                value = null;
+            
             _dimension = value;
         }
 

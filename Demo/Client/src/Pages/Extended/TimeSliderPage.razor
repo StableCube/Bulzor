@@ -9,15 +9,21 @@
 
                 <OptionsBox>
                     <OptionsBoxItem>
-                        <SchemeColorSelect Label="Color" @bind-Value="Color" />
+                        <div class="control">
+                            <label class="label">Color</label>
+                            <BulInputSelectEnum @bind-Value="Color" />
+                        </div>
                     </OptionsBoxItem>
 
                     <OptionsBoxItem>
-                        <SizeSelect Label="Size" @bind-Value="Size" />
+                        <div class="control">
+                            <label class="label">Size</label>
+                            <BulInputSelectEnum @bind-Value="Size" />
+                        </div>
                     </OptionsBoxItem>
 
                     <OptionsBoxItem>
-                        <label class="@BCss.Prefix("label")">Step Milliseconds</label>
+                        <label class="label">Step Milliseconds</label>
                         <BulInputNumber 
                             Value="StepMilliseconds"
                             ValueExpression="@( () => StepMilliseconds )"
@@ -68,8 +74,8 @@
     public TimeSpan DemoMax { get; set; } = TimeSpan.FromSeconds(30);
     public TimeSpan DemoStep { get; set; } = TimeSpan.FromSeconds(1);
     public double StepMilliseconds { get; set; } = 1000;
-    public BulSchemeColor? Color { get; set; }
-    public BulSize? Size { get; set; }
+    public BulSchemeColor Color { get; set; } = BulSchemeColor.Default;
+    public BulSize Size { get; set; } = BulSize.Default;
     public bool FullWidth { get; set; }
     public bool Circle { get; set; }
 

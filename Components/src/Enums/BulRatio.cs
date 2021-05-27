@@ -3,6 +3,7 @@ namespace StableCube.Bulzor.Components
 {
     public enum BulRatio
     {
+        Default,
         RSquare,
         R1by1,
         R5by4,

@@ -13,7 +13,10 @@
 
                 <OptionsBox>
                     <OptionsBoxItem>
-                        <SchemeColorSelect Label="Color" @bind-Value="Color" />
+                        <div class="control">
+                            <label class="label">Color</label>
+                            <BulInputSelectEnum @bind-Value="Color" />
+                        </div>
                     </OptionsBoxItem>
 
                     <OptionsBoxItem>
@@ -76,7 +79,7 @@
                     </BulNavbarStart>
 
                     <BulNavbarEnd>
-                        <div class="@BCss.Prefix("buttons")">
+                        <div class="buttons">
                             <BulButton Color="BulSchemeColor.Success">Sign up</BulButton>
                             <BulButton>Log in</BulButton>
                         </div>
@@ -89,7 +92,7 @@
 </DocumentationRoot>
 
 @code {
-    public BulSchemeColor? Color { get; set; }
+    public BulSchemeColor Color { get; set; } = BulSchemeColor.Default;
     private bool HideDropdownArrow { get; set; }
     private bool BoxedDropdown { get; set; }
 }

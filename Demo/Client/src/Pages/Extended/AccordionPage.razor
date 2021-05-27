@@ -9,7 +9,10 @@
 
                 <OptionsBox>
                     <OptionsBoxItem>
-                        <SchemeColorSelect Label="Color" @bind-Value="DemoColor" />
+                        <div class="control">
+                            <label class="label">Color</label>
+                            <BulInputSelectEnum @bind-Value="DemoColor" />
+                        </div>
                     </OptionsBoxItem>
                     
                     <OptionsBoxItem>
@@ -77,6 +80,6 @@
 </DocumentationRoot>
 
 @code {
-    public BulSchemeColor? DemoColor { get; set; }
+    public BulSchemeColor DemoColor { get; set; } = BulSchemeColor.Default;
     public bool AllowMultiple { get; set; }
 }

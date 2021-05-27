@@ -1,3 +1,8 @@
+﻿@page "/fallback"
+@namespace StableCube.Bulzor.Demo.Server
+@using StableCube.Bulzor.Demo.Client
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
 <!DOCTYPE html>
 <html>
 
@@ -9,22 +14,12 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet" type="text/css">
     <link href="css/base.css" rel="stylesheet" type="text/css"/>
     <link href="Demo.Client.styles.css" rel="stylesheet" type="text/css"/>
+    <link href="StableCube.Bulzor.Demo.Client.styles.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
-    <!-- <div id="app">
-        <text>Loading...</text>
-    </div> -->
-
     <div id="app">
-        <div style="max-width: 20em; margin: auto;">
-            <div style="text-align: center; margin-bottom: 1em;">
-                <h1 class="title">Loading</h1>
-            </div>
-            <div>
-                <div class="progress is-primary" max="100"></div>
-            </div>
-        </div>
+        <component type="typeof(App)" render-mode="WebAssemblyPrerendered" />
     </div>
 
     <div id="blazor-error-ui">
@@ -33,6 +28,7 @@
         <a class="dismiss">X</a>
     </div>
     
+    <script src="_content/StableCube.Bulzor.Components/js/interop.js"></script>
     <script src="_content/StableCube.Bulzor.Components.Extended/js/interop.js"></script>
     <script src="_framework/blazor.webassembly.js"></script>
 

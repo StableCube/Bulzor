@@ -9,15 +9,21 @@
 
                 <OptionsBox>
                     <OptionsBoxItem>
-                        <SchemeColorSelect Label="Color" @bind-Value="Color" />
-                    </OptionsBoxItem>
-                    
-                    <OptionsBoxItem>
-                        <SizeSelect Label="Size" @bind-Value="Size" />
+                        <div class="control">
+                            <label class="label">Color</label>
+                            <BulInputSelectEnum @bind-Value="Color" />
+                        </div>
                     </OptionsBoxItem>
 
                     <OptionsBoxItem>
-                        <label class="@BCss.Prefix("label")">Interval Milliseconds</label>
+                        <div class="control">
+                            <label class="label">Size</label>
+                            <BulInputSelectEnum @bind-Value="Size" />
+                        </div>
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <label class="label">Interval Milliseconds</label>
                         <BulInputNumber 
                             Value="IntervalMilliseconds"
                             ValueExpression="@( () => IntervalMilliseconds )"
@@ -57,8 +63,8 @@
 </DocumentationRoot>
 
 @code {
-    public BulSchemeColor? Color { get; set; }
-    public BulSize? Size { get; set; }
+    public BulSchemeColor Color { get; set; } = BulSchemeColor.Default;
+    public BulSize Size { get; set; } = BulSize.Default;
     public TimeSpan DemoRuntime { get; set; } = TimeSpan.FromSeconds(10);
     public TimeSpan DemoValue { get; set; } = TimeSpan.Zero;
     public TimeSpan DemoInterval { get; set; } = TimeSpan.FromMilliseconds(500);

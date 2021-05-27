@@ -3,6 +3,7 @@ namespace StableCube.Bulzor.Components
 {
     public enum BulDimension
     {
+        Default,
         D16x16,
         D24x24,
         D32x32,

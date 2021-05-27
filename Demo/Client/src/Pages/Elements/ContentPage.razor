@@ -9,7 +9,10 @@
 
                 <OptionsBox>
                     <OptionsBoxItem>
-                        <SizeSelect @bind-Value="Size" />
+                        <div class="control">
+                            <label class="label">Size</label>
+                            <BulInputSelectEnum @bind-Value="Size" />
+                        </div>
                     </OptionsBoxItem>
                 </OptionsBox>
             </EditForm>
@@ -33,5 +36,5 @@
 </DocumentationRoot>
 
 @code {
-    public BulSize? Size { get; set; }
+    public BulSize Size { get; set; } = BulSize.Default;
 }

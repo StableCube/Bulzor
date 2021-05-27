@@ -9,14 +9,17 @@
 
                 <OptionsBox>
                     <OptionsBoxItem>
-                        <SizeSelect @bind-Value="Size" />
+                        <div class="control">
+                            <label class="label">Size</label>
+                            <BulInputSelectEnum @bind-Value="Size" />
+                        </div>
                     </OptionsBoxItem>
                 </OptionsBox>
             </EditForm>
         </ExampleOptions>
 
         <ExampleResult>
-            <div class="@BCss.Prefix("container")">
+            <div class=""container">
                 <div>Click Count: @ClickCount</div>
                 <BulDelete Size="Size" OnClick="OnClickedHandler"/>
             </div>
@@ -25,7 +28,7 @@
 </DocumentationRoot>
 
 @code {
-    public BulSize? Size { get; set; }
+    public BulSize Size { get; set; } = BulSize.Default;
     private int ClickCount { get; set; }
 
     private void OnClickedHandler(MouseEventArgs args)

@@ -10,48 +10,59 @@ namespace StableCube.Bulzor.Components
         [Parameter] 
         public RenderFragment ChildContent { get; set; }
 
-        [Parameter] 
-        public int Multiple { get; set; }
-
         [Parameter]
         public bool Rounded { get; set; }
 
-        protected BulmaClassBuilder WrapperClassBuilder { get; set; } = new BulmaClassBuilder("select");
+        /// <summary>
+        /// Add an icon with the supplied class. For instance "fa fa-globe fa-2x"
+        /// </summary>
+        [Parameter]
+        public string IconClass { get; set; }
 
-        private readonly Type _nullableUnderlyingType = Nullable.GetUnderlyingType(typeof(TValue));
-        protected string _wrapperClass = String.Empty;
+        protected BulmaClassBuilder ControlClassBuilder { get; set; } = new BulmaClassBuilder("control");
+        protected BulmaClassBuilder SelectClassBuilder { get; set; } = new BulmaClassBuilder("select");
+        protected BulmaClassBuilder IconClassBuilder { get; set; } = new BulmaClassBuilder("icon");
+
+        protected string _controlClass = String.Empty;
+        protected string _selectClass = String.Empty;
+        protected string _iconClass = String.Empty;
 
         protected override void BuildBulma()
         {
-            WrapperClassBuilder.SetSize(Size);
-            WrapperClassBuilder.SetIsLoading(Loading);
-            WrapperClassBuilder.SetSchemeColor(Color);
-            WrapperClassBuilder.SetSize(Size);
-            WrapperClassBuilder.SetIsRounded(Rounded);
+            SelectClassBuilder.SetSize(Size);
+            SelectClassBuilder.SetIsLoading(Loading);
+            SelectClassBuilder.SetIsRounded(Rounded);
 
-            if(Multiple > 1)
-                WrapperClassBuilder.SetIsMultiple(true);
+            if(Loading.HasValue == false || Loading.Value == false)
+            {
+                SelectClassBuilder.SetSchemeColor(Color);
+            }
+            else
+            {
+                SelectClassBuilder.SetSchemeColor(null);
+            }
 
-            _wrapperClass = WrapperClassBuilder.ToString();
+            if(!string.IsNullOrEmpty(IconClass))
+            {
+                IconClassBuilder.SetIsLeft(true);
+                IconClassBuilder.SetSize(Size);
+            }
+
+            ControlClassBuilder.SetHasIconsLeft(!string.IsNullOrEmpty(IconClass));
+
+            _controlClass = ControlClassBuilder.ToString();
+            _selectClass = SelectClassBuilder.ToString();
+            _iconClass = IconClassBuilder.ToString();
         }
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)
         {
             BuildBulma();
 
-            if(Multiple > 1)
-            {
-                if(!AdditionalAttributes.ContainsKey("multiple"))
-                    AdditionalAttributes.Add("multiple", String.Empty);
-
-                if(!AdditionalAttributes.ContainsKey("size"))
-                    AdditionalAttributes.Add("size", Multiple);  
-            }
-
             builder.OpenElement(0, "div");
-            builder.AddAttribute(1, "class", "control");
+            builder.AddAttribute(1, "class", _controlClass);
             builder.OpenElement(2, "div");
-            builder.AddAttribute(3, "class", _wrapperClass);
+            builder.AddAttribute(3, "class", _selectClass);
 
             builder.OpenComponent<InputSelect<TValue>>(4);
             builder.AddAttribute(5, "Value", Value);
@@ -64,8 +75,20 @@ namespace StableCube.Bulzor.Components
             }));
 
             builder.CloseComponent();
-
             builder.CloseElement();
+
+            if(!string.IsNullOrEmpty(IconClass))
+            {
+                builder.OpenElement(12, "span");
+                builder.AddAttribute(13, "class", _iconClass);
+
+                builder.OpenElement(15, "i");
+                builder.AddAttribute(16, "class", IconClass);
+                builder.CloseElement();
+
+                builder.CloseElement();
+            }
+
             builder.CloseElement();
         }
     }

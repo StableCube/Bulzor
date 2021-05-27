@@ -4,11 +4,11 @@ namespace StableCube.Bulzor.Demo.Client
 {
     public class ButtonOptions
     {
-        public BulSchemeColor? Color { get; set; }
+        public BulSchemeColor Color { get; set; } = BulSchemeColor.Default;
 
         public bool Loading { get; set; }
 
-        public BulSize? Size { get; set; }
+        public BulSize Size { get; set; } = BulSize.Default;
 
         public bool Focused { get; set; }
 

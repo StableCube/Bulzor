@@ -9,15 +9,21 @@
 
                 <OptionsBox>
                     <OptionsBoxItem>
-                        <SchemeColorSelect Label="Color" @bind-Value="Color" />
+                        <div class="control">
+                            <label class="label">Color</label>
+                            <BulInputSelectEnum @bind-Value="Color" />
+                        </div>
                     </OptionsBoxItem>
 
                     <OptionsBoxItem>
-                        <SizeSelect Label="Size" @bind-Value="Size" />
+                        <div class="control">
+                            <label class="label">Size</label>
+                            <BulInputSelectEnum @bind-Value="Size" />
+                        </div>
                     </OptionsBoxItem>
 
                     <OptionsBoxItem>
-                        <label class="@BCss.Prefix("label")">Time</label>
+                        <label class="label">Time</label>
                         <BulTimeSlider @bind-Value="DemoValue" Min="DemoMin" Max="DemoMax" />
                     </OptionsBoxItem>
                 </OptionsBox>
@@ -44,6 +50,6 @@
     public TimeSpan DemoValue { get; set; } = TimeSpan.Zero;
     public TimeSpan DemoMin { get; set; } = TimeSpan.Zero;
     public TimeSpan DemoMax { get; set; } = TimeSpan.FromSeconds(30);
-    public BulSchemeColor? Color { get; set; }
-    public BulSize? Size { get; set; }
+    public BulSchemeColor Color { get; set; } = BulSchemeColor.Default;
+    public BulSize Size { get; set; } = BulSize.Default;
 }

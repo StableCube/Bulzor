@@ -9,7 +9,10 @@
 
                 <OptionsBox>
                     <OptionsBoxItem>
-                        <TextSizeSelect Label="Size" @bind-Value="Size" />
+                        <div class="control">
+                            <label class="label">Size</label>
+                            <BulInputSelectEnum @bind-Value="Size" />
+                        </div>
                     </OptionsBoxItem>
 
                     <OptionsBoxItem>
@@ -109,8 +112,7 @@
 </DocumentationRoot>
 
 @code {
-    public BulColor? Color { get; set; }
-    public BulTextSize? Size { get; set; }
+    public BulTextSize Size { get; set; } = BulTextSize.Default;
     public bool Boxed { get; set; }
     public bool Toggle { get; set; }
     public bool ToggleRounded { get; set; }

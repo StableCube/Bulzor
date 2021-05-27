@@ -9,15 +9,21 @@
 
                 <OptionsBox>
                     <OptionsBoxItem>
-                        <SchemeColorSelect Label="Color" @bind-Value="Color" />
+                        <div class="control">
+                            <label class="label">Color</label>
+                            <BulInputSelectEnum @bind-Value="Color" />
+                        </div>
                     </OptionsBoxItem>
 
                     <OptionsBoxItem>
-                        <SizeSelect @bind-Value="Size" />
+                        <div class="control">
+                            <label class="label">Size</label>
+                            <BulInputSelectEnum @bind-Value="Size" />
+                        </div>
                     </OptionsBoxItem>
 
                     <OptionsBoxItem>
-                        <label class="@BCss.Prefix("label")">Progress</label>
+                        <label class="label">Progress</label>
                         <BulSlider @bind-Value="Progress" Color="BulSchemeColor.Primary" Min="0" Max="100" />
                     </OptionsBoxItem>
 
@@ -42,8 +48,8 @@
 </DocumentationRoot>
 
 @code {
-    public BulSchemeColor? Color { get; set; }
-    public BulSize? Size { get; set; }
+    public BulSchemeColor Color { get; set; } = BulSchemeColor.Default;
+    public BulSize Size { get; set; } = BulSize.Default;
     public double Progress { get; set; } = 25;
     public bool Indeterminate { get; set; }
 

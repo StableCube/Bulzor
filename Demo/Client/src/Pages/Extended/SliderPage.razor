@@ -9,15 +9,21 @@
 
                 <OptionsBox>
                     <OptionsBoxItem>
-                        <SchemeColorSelect Label="Color" @bind-Value="Color" />
+                        <div class="control">
+                            <label class="label">Color</label>
+                            <BulInputSelectEnum @bind-Value="Color" />
+                        </div>
                     </OptionsBoxItem>
 
                     <OptionsBoxItem>
-                        <SizeSelect Label="Size" @bind-Value="Size" />
+                        <div class="control">
+                            <label class="label">Size</label>
+                            <BulInputSelectEnum @bind-Value="Size" />
+                        </div>
                     </OptionsBoxItem>
 
                     <OptionsBoxItem>
-                        <label class="@BCss.Prefix("label")">Step</label>
+                        <label class="label">Step</label>
                         <BulInputNumber Step="0.1" @bind-Value="DemoStep" />
                     </OptionsBoxItem>
 
@@ -58,8 +64,8 @@
 @code {
     public double DemoValue { get; set; } = 25;
     public double DemoStep { get; set; } = 0.5;
-    public BulSchemeColor? Color { get; set; }
-    public BulSize? Size { get; set; }
+    public BulSchemeColor Color { get; set; } = BulSchemeColor.Default;
+    public BulSize Size { get; set; } = BulSize.Default;
     public bool FullWidth { get; set; }
     public bool Circle { get; set; }
 }

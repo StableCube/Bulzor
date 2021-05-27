@@ -4,6 +4,7 @@ namespace StableCube.Bulzor.Components
 {
     public enum BulTextSize
     {
+        Default,
         S1,
         S2,
         S3,

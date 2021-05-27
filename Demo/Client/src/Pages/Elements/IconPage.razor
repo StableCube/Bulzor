@@ -9,15 +9,21 @@
 
                 <OptionsBox>
                     <OptionsBoxItem>
-                        <ColorSelect Label="Color" @bind-Value="Color" />
+                        <div class="control">
+                            <label class="label">Color</label>
+                            <BulInputSelectEnum @bind-Value="Color" />
+                        </div>
                     </OptionsBoxItem>
 
                     <OptionsBoxItem>
-                        <SizeSelect Label="Icon Size" @bind-Value="Size" />
+                        <div class="control">
+                            <label class="label">Icon Size</label>
+                            <BulInputSelectEnum @bind-Value="Size" />
+                        </div>
                     </OptionsBoxItem>
 
                     <OptionsBoxItem>
-                        <label class="@BCss.Prefix("label")">Font Awesome Size</label>
+                        <label class="label">Font Awesome Size</label>
                         <BulInputSelect @bind-Value="FontAwsomeSize">
                             <option value="default" selected>Default</option>
                             @foreach (var option in FontAwsomeSizes)
@@ -41,8 +47,8 @@
 </DocumentationRoot>
 
 @code {
-    public BulColor? Color { get; set; }
-    public BulSize? Size { get; set; }
+    public BulColor Color { get; set; } = BulColor.Default;
+    public BulSize Size { get; set; } = BulSize.Default;
     public string ClassString { get {
         var val = "fa fa-home";
         if(FontAwsomeSize != "default")

@@ -9,16 +9,17 @@
 
                 <OptionsBox>
                     <OptionsBoxItem>
-                        <SchemeColorSelect Label="Color" @bind-Value="Color" />
+                        <div class="control">
+                            <label class="label">Color</label>
+                            <BulInputSelectEnum @bind-Value="Color" />
+                        </div>
                     </OptionsBoxItem>
 
                     <OptionsBoxItem>
-                        <SizeSelect Label="Size" @bind-Value="Size" />
-                    </OptionsBoxItem>
-
-                    <OptionsBoxItem>
-                        <label class="@BCss.Prefix("label")">Multiple</label>
-                        <BulInputNumber @bind-Value="Multiple" />
+                        <div class="control">
+                            <label class="label">Size</label>
+                            <BulInputSelectEnum @bind-Value="Size" />
+                        </div>
                     </OptionsBoxItem>
 
                     <OptionsBoxItem>
@@ -34,26 +35,8 @@
                     </OptionsBoxItem>
 
                     <OptionsBoxItem>
-                        <BulInputCheckbox @bind-Value="HasIconsLeft">
-                            Has Icons Left
-                        </BulInputCheckbox>
-                    </OptionsBoxItem>
-
-                    <OptionsBoxItem>
-                        <BulInputCheckbox @bind-Value="HasIconsRight">
-                            Has Icons Right
-                        </BulInputCheckbox>
-                    </OptionsBoxItem>
-
-                    <OptionsBoxItem>
-                        <BulInputCheckbox @bind-Value="DemoIconLeft">
-                            Demo Icon Left
-                        </BulInputCheckbox>
-                    </OptionsBoxItem>
-
-                    <OptionsBoxItem>
-                        <BulInputCheckbox @bind-Value="DemoIconRight">
-                            Demo Icon Right
+                        <BulInputCheckbox @bind-Value="HasIcon">
+                            Has Icon
                         </BulInputCheckbox>
                     </OptionsBoxItem>
                 </OptionsBox>
@@ -65,36 +48,69 @@
                 <DataAnnotationsValidator />
                 <ValidationSummary />
 
-                <div>Value: @(DemoDataOptions[DemoDataValue])</div>
-                <BulInputSelect @bind-Value="DemoDataValue" 
-                    Multiple="Multiple"
-                    Size="Size" 
-                    Color="Color" 
-                    Rounded="Rounded"
-                    Loading="Loading"
-                    HasIconsLeft="HasIconsLeft"
-                    HasIconsRight="HasIconsRight" >
+                <section>
+                    <div class="input-block">
+                        <div class="input-type">Generic Select</div>
+                        <div>Value: @(DemoDataOptions[DemoDataValue])</div>
+                        <BulInputSelect @bind-Value="DemoDataValue" 
+                            Size="Size" 
+                            Color="Color" 
+                            Rounded="Rounded"
+                            Loading="Loading"
+                            IconClass="@IconString" >
 
-                    @foreach(var item in DemoDataOptions)
-                    {
-                        <option value="@item.Key">@item.Value</option>
-                    }
-                </BulInputSelect>
+                            @foreach(var item in DemoDataOptions)
+                            {
+                                <option value="@item.Key">@item.Value</option>
+                            }
+                        </BulInputSelect>
+                    </div>
+
+                    <div class="input-block">
+                        <div class="input-type">Dictionary Select</div>
+                        <div>Value: @(DemoDataOptions[DicSelectValue.Key])</div>
+                        <BulInputSelectDictionary @bind-Value="@DicSelectValue" 
+                            Options="@DemoDataOptions"
+                            Size="Size" 
+                            Color="Color" 
+                            Rounded="Rounded"
+                            Loading="Loading"
+                            IconClass="@IconString" />
+                    </div>
+
+                    <div class="input-block">
+                        <div class="input-type">Enum Select</div>
+                        <div>Value: @(EnumSelectValue)</div>
+                        <BulInputSelectEnum @bind-Value="@EnumSelectValue" 
+                            DisplayNames="EnumDisplayNames"
+                            Size="Size" 
+                            Color="Color" 
+                            Rounded="Rounded"
+                            Loading="Loading"
+                            IconClass="@IconString" />
+                    </div>
+                </section>
+
             </EditForm>
         </ExampleResult>
     </ExampleBox>
 </DocumentationRoot>
 
 @code {
-    public BulSchemeColor? Color { get; set; }
-    public BulSize? Size { get; set; }
-    public int Multiple { get; set; }
+    public KeyValuePair<string, string> DicSelectValue { get; set; } = new KeyValuePair<string, string>("chewbacca", "Chewbacca");
+
+    public BulSize EnumSelectValue { get; set; } = BulSize.Medium;
+    public Dictionary<BulSize, string> EnumDisplayNames { get; set; } = new Dictionary<BulSize, string>()
+    {
+        { BulSize.Normal, "Normal Pretty" }
+    };
+
+    public BulSchemeColor Color { get; set; } = BulSchemeColor.Default;
+    public BulSize Size { get; set; } = BulSize.Default;
     public bool Rounded { get; set; }
     public bool Loading { get; set; }
-    public bool HasIconsLeft { get; set; }
-    public bool HasIconsRight { get; set; }
-    public bool DemoIconLeft { get; set; }
-    public bool DemoIconRight { get; set; }
+    public bool HasIcon { get; set; }
+    public string IconString { get { return (HasIcon ? "fa fa-save fa-2x" : null); } }
     public string DemoDataValue { get; set; } = "luke";
     public Dictionary<string, string> DemoDataOptions { get; set; } = new Dictionary<string, string>()
     {

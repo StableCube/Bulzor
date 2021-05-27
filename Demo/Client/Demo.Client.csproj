@@ -1,7 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
   <PropertyGroup>
+    <PackageId>StableCube.Bulzor.Demo.Client</PackageId>
+    <Title>StableCube.Bulzor.Demo.Client</Title>
     <TargetFramework>net5.0</TargetFramework>
+    <Company>Stable Cube</Company>
   </PropertyGroup>
 
   <ItemGroup>
@@ -10,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="StableCube.Bulzor.Components.Extended" Version="0.2.10" />
+    <PackageReference Include="StableCube.Bulzor.Components.Extended" Version="0.2.11" />
     <!-- <ProjectReference Include="../../Components.Extended/Bulzor.Components.Extended.csproj" /> -->
   </ItemGroup>
 

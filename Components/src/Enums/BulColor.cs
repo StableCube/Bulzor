@@ -4,6 +4,7 @@ namespace StableCube.Bulzor.Components
 {
     public enum BulColor
     {
+        Default,
         White,
         Black,
         Light,

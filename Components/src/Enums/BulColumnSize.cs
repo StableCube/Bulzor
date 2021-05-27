@@ -4,6 +4,7 @@ namespace StableCube.Bulzor.Components
 {
     public enum BulColumnSize
     {
+        Default,
         S1,
         S2,
         S3,

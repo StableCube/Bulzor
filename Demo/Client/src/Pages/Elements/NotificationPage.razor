@@ -9,7 +9,10 @@
 
                 <OptionsBox>
                     <OptionsBoxItem>
-                        <SchemeColorSelect Label="Color" @bind-Value="Color" />
+                        <div class="control">
+                            <label class="label">Color</label>
+                            <BulInputSelectEnum @bind-Value="Color" />
+                        </div>
                     </OptionsBoxItem>
                 </OptionsBox>
             </EditForm>
@@ -29,5 +32,5 @@
 </DocumentationRoot>
 
 @code {
-    public BulSchemeColor? Color { get; set; }
+    public BulSchemeColor Color { get; set; } = BulSchemeColor.Default;
 }

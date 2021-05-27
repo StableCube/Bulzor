@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Routing;
 
 namespace StableCube.Bulzor.Demo.Server
 {
@@ -19,7 +20,18 @@ namespace StableCube.Bulzor.Demo.Server
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddRazorPages();
+            services.AddRazorPages()
+            .AddRazorPagesOptions(options => 
+            {
+                options.RootDirectory = "/src/Pages";
+            })
+            ;
+
+            services.Configure<RouteOptions>(option =>
+            {
+                option.LowercaseUrls = true;
+                option.LowercaseQueryStrings = true;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -39,8 +51,7 @@ namespace StableCube.Bulzor.Demo.Server
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapRazorPages();
-                endpoints.MapFallbackToFile("index.html");
+                endpoints.MapFallbackToPage("/_Host");
             });
         }
     }

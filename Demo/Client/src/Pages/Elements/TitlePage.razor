@@ -9,11 +9,17 @@
 
                 <OptionsBox>
                     <OptionsBoxItem>
-                        <TextSizeSelect Label="Title Size" @bind-Value="TitleSize" />
+                        <div class="control">
+                            <label class="label">Title Size</label>
+                            <BulInputSelectEnum @bind-Value="TitleSize" />
+                        </div>
                     </OptionsBoxItem>
 
                     <OptionsBoxItem>
-                        <TextSizeSelect Label="Subtitle Size" @bind-Value="SubtitleSize" />
+                        <div class="control">
+                            <label class="label">Subtitle Size</label>
+                            <BulInputSelectEnum @bind-Value="SubtitleSize" />
+                        </div>
                     </OptionsBoxItem>
                 </OptionsBox>
             </EditForm>
@@ -31,6 +37,6 @@
 </DocumentationRoot>
 
 @code {
-    public BulTextSize? TitleSize { get; set; }
-    public BulTextSize? SubtitleSize { get; set; }
+    public BulTextSize TitleSize { get; set; } = BulTextSize.Default;
+    public BulTextSize SubtitleSize { get; set; } = BulTextSize.Default;
 }
