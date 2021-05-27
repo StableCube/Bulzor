@@ -18,15 +18,7 @@ A sample client/server project can be found in the [Demo directory](https://gith
 
 Install the [Nuget package](https://www.nuget.org/packages/StableCube.Bulzor.Components/) into your project.
 
-```bash
-dotnet add package StableCube.Bulzor.Components --version 0.2.8
-```
-
 Or install the extended [Nuget package](https://www.nuget.org/packages/StableCube.Bulzor.Components.Extended/) for the base components as well as additional tools not included in base Bulma.
-
-```bash
-dotnet add package StableCube.Bulzor.Components.Extended --version 0.2.8
-```
 
 ## Building CSS With NPM
 
