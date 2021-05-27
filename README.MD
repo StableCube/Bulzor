@@ -2,6 +2,9 @@
 
 Bulzor is a component system for Blazor built on top of the Bulma css framework. One of the main goals of Bulzor is to only use JavaScript where absolutely necessary. Since Bulma is a purely CSS framework it makes it a great pair for Blazor.
 
+Some things are not implemented such as the layout elements. These do not benefit from Blazor components and can be used 
+in the usual way laid out in the Bulma docs.
+
 ## Live Demo
 
 A live demo as well as additional documentation can be found here [bulzor.stablecube.com](https://bulzor.stablecube.com)
