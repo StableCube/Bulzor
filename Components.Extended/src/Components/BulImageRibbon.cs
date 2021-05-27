@@ -71,7 +71,7 @@ namespace StableCube.Bulzor.Components.Extended
                             builder4.AddAttribute(2, "Color", Color);
                             builder4.AddAttribute(3, "Active", IsVisible(image.Index));
                             builder4.AddAttribute(4, "Ratio", Ratio);
-                            builder4.AddAttribute<RibbonImage>(5, "OnClick", EventCallback.Factory.Create<RibbonImage>(this, OnClickHandlerAsync));
+                            builder4.AddAttribute<BulImageRibbonItemClickEventArgs>(5, "OnClick", EventCallback.Factory.Create<BulImageRibbonItemClickEventArgs>(this, OnClickHandlerAsync));
                             builder4.CloseComponent();
 
                             builder4.CloseRegion();
@@ -160,9 +160,9 @@ namespace StableCube.Bulzor.Components.Extended
             return (index >= beginIdx && index <= beginIdx + DisplayCount - 1);
         }
 
-        private async Task OnClickHandlerAsync(RibbonImage args)
+        private async Task OnClickHandlerAsync(BulImageRibbonItemClickEventArgs args)
         {
-            Value = args.Index;
+            Value = args.Image.Index;
             await ValueChanged.InvokeAsync(Value);
         }
     }

@@ -14,15 +14,19 @@ A live demo as well as additional documentation can be found here [bulzor.stable
 
 A sample client/server project can be found in the [Demo directory](https://github.com/StableCube/Bulzor/tree/master/Demo)
 
+This sample project is the source code for the live demo and should give you a good understanding of how everything works.
+
 ## Installation
 
 Install the [Nuget package](https://www.nuget.org/packages/StableCube.Bulzor.Components/) into your project.
 
 Or install the extended [Nuget package](https://www.nuget.org/packages/StableCube.Bulzor.Components.Extended/) for the base components as well as additional tools not included in base Bulma.
 
-## Building CSS With NPM
+## Grabbing Sass and javascript With NPM
 
-Pull in the Bulma and extended source Sass however you would like. NPM in a convenient option.
+Pull in the Bulma sass and extended components sass/javascript however you would like but using the NPM packages in a convenient option. 
+
+The base Bulzor components currently do not use any non Bulma Sass or javascript and do not need to pull in any additional files.
 
 #### package.json
 ```json
@@ -30,11 +34,15 @@ Pull in the Bulma and extended source Sass however you would like. NPM in a conv
   "license": "MIT",
   "dependencies": {},
   "devDependencies": {
-    "bulma": "^0.8.2",
-    "bulzor-components-extended": "^0.2.3"
+    "bulma": "^0.9.*",
+    "bulzor-components-extended": "^0.3.*"
   }
 }
 ```
+
+## Compiling sass to css
+
+You can compile the sass to css in many different ways but the demo project shows how you can do it in an automatic way with component css isolation.
 
 ## Configure CSS Prefix
 

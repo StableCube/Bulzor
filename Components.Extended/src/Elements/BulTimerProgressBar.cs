@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components;
@@ -13,6 +14,9 @@ namespace StableCube.Bulzor.Components.Extended
         [Parameter]
         public TimeSpan Max { get; set; } = TimeSpan.FromSeconds(30);
 
+        /// <summary>
+        /// Time interval between UI refreshes
+        /// </summary>
         [Parameter]
         public TimeSpan Interval { get; set; } = TimeSpan.FromSeconds(1);
 
@@ -23,26 +27,29 @@ namespace StableCube.Bulzor.Components.Extended
         public BulSize? Size { get; set; }
 
         [Parameter] 
-        public EventCallback<TimeSpan> OnElapsed { get; set; }
+        public EventCallback<BulTimeElapsedEventArgs> OnElapsed { get; set; }
 
         [Parameter]
         public EventCallback<TimeSpan> ValueChanged { get; set; }
 
-        private bool RunTimer { get; set; }
-        
+        /// <summary>
+        /// To reset the timer or offset start you can change this value
+        /// </summary>
+        [Parameter]
+        public DateTime StartDate { get; set; } = DateTime.UtcNow;
+
         private double Progress { get; set; }
+
+        private Timer Timer { get; set; }
 
         protected override void OnInitialized()
         {
-            if(RunTimer == false)
-            {
-                StartTimerAsync();
-            }
+            StartTimer();
         }
 
         public void Dispose()
         {
-            RunTimer = false;
+            Timer = null;
         }
 
         protected override void BuildBulma()
@@ -68,18 +75,15 @@ namespace StableCube.Bulzor.Components.Extended
             builder.CloseComponent();
         }
 
-        private async void StartTimerAsync()
+        private void StartTimer()
         {
-            RunTimer = true;
-
-            while (RunTimer)
+            Timer = new Timer(_ =>
             {
-                await ProgressTickHandlerAsync();
-                await Task.Delay(Interval);
-            }
+                InvokeAsync(ProgressTickHandlerAsync);
+            }, null, TimeSpan.Zero, Interval);
         }
 
-        private async Task ProgressTickHandlerAsync()
+        private async void ProgressTickHandlerAsync()
         {
             if(Value >= Max)
             {
@@ -87,11 +91,13 @@ namespace StableCube.Bulzor.Components.Extended
                 return;
             }
 
+            Timer.Change(Interval, Interval);
+
+            Value = (DateTime.UtcNow - StartDate);
+
             Progress = (100 * Value.TotalMilliseconds) / Max.TotalMilliseconds;
             if(Progress >= 100)
                 Progress = 100;
-
-            Value += Interval;
 
             if(Value >= Max)
             {
@@ -102,7 +108,9 @@ namespace StableCube.Bulzor.Components.Extended
             await ValueChanged.InvokeAsync(Value);
 
             if(Value == Max)
-                await OnElapsed.InvokeAsync(Value);
+            {
+                await OnElapsed.InvokeAsync(new BulTimeElapsedEventArgs(Max, Interval));
+            }
         }
     }
 }

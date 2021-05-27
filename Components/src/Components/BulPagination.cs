@@ -34,7 +34,7 @@ namespace StableCube.Bulzor.Components
         public int PagePadLinks { get; set; } = 4;
 
         [Parameter]
-        public EventCallback<int> OnPageSelected { get; set; }
+        public EventCallback<BulPageClickEventArgs> OnPageSelected { get; set; }
 
         protected BulmaClassBuilder NavClassBuilder { get; set; } = new BulmaClassBuilder("pagination");
 
@@ -76,7 +76,7 @@ namespace StableCube.Bulzor.Components
                 builder.AddAttribute(2, "disabled");
             
             builder.AddAttribute(3, "onclick", 
-                EventCallback.Factory.Create<MouseEventArgs>(this, async (args) => await PageClickHandlerAsync(CurrentPage - 1)));
+                EventCallback.Factory.Create<MouseEventArgs>(this, async (args) => await PageClickHandlerAsync(args, CurrentPage - 1)));
             builder.AddContent(4, PreviousLinkText);
             builder.CloseElement();
             builder.CloseRegion();
@@ -91,7 +91,7 @@ namespace StableCube.Bulzor.Components
                 builder.AddAttribute(2, "disabled");
 
             builder.AddAttribute(3, "onclick", 
-                EventCallback.Factory.Create<MouseEventArgs>(this, async (args) => await PageClickHandlerAsync(CurrentPage + 1)));
+                EventCallback.Factory.Create<MouseEventArgs>(this, async (args) => await PageClickHandlerAsync(args, CurrentPage + 1)));
             builder.AddContent(4, NextLinkText);
             builder.CloseElement();
             builder.CloseRegion();
@@ -189,7 +189,7 @@ namespace StableCube.Bulzor.Components
 
             var loopP = page;
             builder.AddAttribute(2, "onclick", 
-                EventCallback.Factory.Create<MouseEventArgs>(this, async (args) => await PageClickHandlerAsync(loopP)));
+                EventCallback.Factory.Create<MouseEventArgs>(this, async (args) => await PageClickHandlerAsync(args, loopP)));
 
             builder.AddAttribute(3, "class", "pagination-link" + ((page == CurrentPage) ? " is-current" : String.Empty));
             builder.AddContent(4, page.ToString());
@@ -199,14 +199,14 @@ namespace StableCube.Bulzor.Components
             builder.CloseRegion();
         }
 
-        public async Task PageClickHandlerAsync(int pageNum)
+        public async Task PageClickHandlerAsync(MouseEventArgs args, int pageNum)
         {
             if(pageNum < 1 || pageNum > PageCount || pageNum == CurrentPage)
                 return;
-            
+
             CurrentPage = pageNum;
-Console.WriteLine($"Got new page {CurrentPage}");
-            await OnPageSelected.InvokeAsync(pageNum);
+
+            await OnPageSelected.InvokeAsync(new BulPageClickEventArgs(args, pageNum));
         }
     }
 }

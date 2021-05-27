@@ -50,9 +50,9 @@
     private bool Centered { get; set; }
     private bool Rounded { get; set; }
 
-    public void OnPageSelectedHandler(int pageNum)
+    public void OnPageSelectedHandler(BulPageClickEventArgs args)
     {
-        CurrentPage = pageNum;
+        CurrentPage = args.Page;
         StateHasChanged();
     }
 }

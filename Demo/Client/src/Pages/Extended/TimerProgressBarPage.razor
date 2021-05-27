@@ -23,13 +23,13 @@
                     </OptionsBoxItem>
 
                     <OptionsBoxItem>
-                        <label class="label">Interval Milliseconds</label>
+                        <label class="label">Refresh Interval Milliseconds</label>
                         <BulInputNumber 
                             Value="IntervalMilliseconds"
                             ValueExpression="@( () => IntervalMilliseconds )"
                             ValueChanged="@((double value) => {
-                                if(value < 50)
-                                    value = 50;
+                                if(value < 5)
+                                    value = 5;
                                 IntervalMilliseconds = value;
                                 DemoInterval = TimeSpan.FromMilliseconds(value);
                             })" />
@@ -55,6 +55,7 @@
                     Size="Size" 
                     Interval="DemoInterval"
                     Max="DemoRuntime"
+                    StartDate="StartDate"
                     OnElapsed="OnElapsedHandler"
                      />
             </EditForm>
@@ -65,19 +66,21 @@
 @code {
     public BulSchemeColor Color { get; set; } = BulSchemeColor.Default;
     public BulSize Size { get; set; } = BulSize.Default;
-    public TimeSpan DemoRuntime { get; set; } = TimeSpan.FromSeconds(10);
+    public TimeSpan DemoRuntime { get; set; } = TimeSpan.FromSeconds(30);
     public TimeSpan DemoValue { get; set; } = TimeSpan.Zero;
     public TimeSpan DemoInterval { get; set; } = TimeSpan.FromMilliseconds(500);
     public double IntervalMilliseconds { get; set; } = 500;
     public bool Complete { get; set; }
+    public DateTime StartDate { get; set; } = DateTime.UtcNow;
 
-    private void OnElapsedHandler(TimeSpan value)
+    private void OnElapsedHandler(BulTimeElapsedEventArgs args)
     {
         Complete = true;
     }
 
     private void OnResetHandler()
     {
+        StartDate = DateTime.UtcNow;
         DemoValue = TimeSpan.Zero;
         Complete = false;
     }

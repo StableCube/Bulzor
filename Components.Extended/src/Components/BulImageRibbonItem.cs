@@ -24,7 +24,7 @@ namespace StableCube.Bulzor.Components.Extended
         public BulRatio Ratio { get; set; } = BulRatio.R1by1;
 
         [Parameter]
-        public EventCallback<RibbonImage> OnClick { get; set; }
+        public EventCallback<BulImageRibbonItemClickEventArgs> OnClick { get; set; }
 
         protected BulmaClassBuilder RootClassBuilder = new BulmaClassBuilder("image-ribbon-item");
         protected BulmaClassBuilder WrapClassBuilder = new BulmaClassBuilder("image");
@@ -73,7 +73,7 @@ namespace StableCube.Bulzor.Components.Extended
 
         private async Task OnClickHandlerAsync(MouseEventArgs args)
         {
-            await OnClick.InvokeAsync(Image);
+            await OnClick.InvokeAsync(new BulImageRibbonItemClickEventArgs(args, Image));
         }
 
         /// <summary>
