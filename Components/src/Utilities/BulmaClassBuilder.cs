@@ -49,6 +49,7 @@ namespace StableCube.Bulzor.Components
         private bool? _isCircle;
         private bool? _hasRatio;
         private bool? _isDelete;
+        private bool? _isVertical;
 
         public BulmaClassBuilder(){}
 
@@ -303,6 +304,11 @@ namespace StableCube.Bulzor.Components
             _isDelete = value;
         }
 
+        public void SetIsVertical(bool? value)
+        {
+            _isVertical = value;
+        }
+
         public override string ToString()
         {
             _sb.Clear();
@@ -457,6 +463,9 @@ namespace StableCube.Bulzor.Components
             
             if(_isDelete.HasValue && _isDelete.Value == true)
                 Append("is-delete");
+
+            if(_isVertical.HasValue && _isVertical.Value == true)
+                Append("is-vertical");
 
             return _sb.ToString().Trim();
         }

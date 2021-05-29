@@ -4,7 +4,7 @@
     <PackageId>StableCube.Bulzor.Components</PackageId>
     <TargetFramework>net5.0</TargetFramework>
     <Company>Stable Cube</Company>
-    <Version>0.3.0</Version>
+    <Version>0.3.1</Version>
     <Title>StableCube.Bulzor.Components</Title>
     <IsPackable>true</IsPackable>
     <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>

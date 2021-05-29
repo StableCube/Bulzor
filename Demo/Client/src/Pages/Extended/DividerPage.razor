@@ -1,0 +1,55 @@
+﻿@page "/documentation/extended/divider"
+
+<DocumentationRoot>
+    <div class="section">
+        Based off of the <a href="https://github.com/CreativeBulma/bulma-divider/">bulma-divider</a> plugin.
+    </div>
+
+    <ExampleBox>
+        <ExampleOptions>
+            <EditForm Model="@this">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+
+                <OptionsBox>
+                    <OptionsBoxItem>
+                        <div class="control">
+                            <label class="label">Color</label>
+                            <BulInputSelectEnum @bind-Value="Color" />
+                        </div>
+                    </OptionsBoxItem>
+                    <OptionsBoxItem>
+                        <BulInputCheckbox @bind-Value="Left">
+                            Left
+                        </BulInputCheckbox>
+                    </OptionsBoxItem>
+                    <OptionsBoxItem>
+                        <BulInputCheckbox @bind-Value="Right">
+                            Right
+                        </BulInputCheckbox>
+                    </OptionsBoxItem>
+                </OptionsBox>
+            </EditForm>
+        </ExampleOptions>
+
+        <ExampleResult>
+            <BulDivider Color="Color" IsLeft="Left" IsRight="Right">
+                Horizontal
+            </BulDivider>
+
+            <div style="display: flex;">
+                <div style="flex: 1;height: 200px; background-color: #f4f5f8"></div>
+                <BulDivider Color="Color" IsLeft="Left" IsRight="Right" IsVertical="true">
+                    Vertical
+                </BulDivider>
+                <div style="flex: 1;height: 200px; background-color: #f4f5f8"></div>
+            </div>
+        </ExampleResult>
+    </ExampleBox>
+</DocumentationRoot>
+
+@code {
+    public BulSchemeColor Color { get; set; } = BulSchemeColor.Default;
+    public bool Left { get; set; }
+    public bool Right { get; set; }
+}
