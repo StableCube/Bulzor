@@ -10,13 +10,10 @@ namespace StableCube.Bulzor.Components.Extended
         public BulSchemeColor? Color { get; set; }
 
         [Parameter]
-        public bool? IsLeft { get; set; }
+        public BulHorizontalPosition? Position { get; set; }
 
         [Parameter]
-        public bool? IsRight { get; set; }
-
-        [Parameter]
-        public bool? IsVertical { get; set; }
+        public bool? Vertical { get; set; }
 
         [Parameter]
         public RenderFragment ChildContent { get; set; }
@@ -27,9 +24,26 @@ namespace StableCube.Bulzor.Components.Extended
         protected override void BuildBulma()
         {
             InputClassBuilder.SetSchemeColor(Color);
-            InputClassBuilder.SetIsLeft(IsLeft);
-            InputClassBuilder.SetIsRight(IsRight);
-            InputClassBuilder.SetIsVertical(IsVertical);
+            InputClassBuilder.SetIsVertical(Vertical);
+
+            if(Position.HasValue)
+            {
+                if(Position.Value == BulHorizontalPosition.Left)
+                {
+                    InputClassBuilder.SetIsLeft(true);
+                    InputClassBuilder.SetIsRight(null);
+                }
+                else if(Position.Value == BulHorizontalPosition.Right)
+                {
+                    InputClassBuilder.SetIsLeft(null);
+                    InputClassBuilder.SetIsRight(true);
+                }
+                else
+                {
+                    InputClassBuilder.SetIsLeft(null);
+                    InputClassBuilder.SetIsRight(null);
+                }
+            }
 
             _elementClass = InputClassBuilder.ToString();
         }

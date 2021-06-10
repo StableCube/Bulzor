@@ -1,0 +1,15 @@
+$bul-datetime-number-width: 6rem !default;
+
+.bul-datetime-number input {
+  width: $bul-datetime-number-width !important;
+
+  &.is-small {
+    width: $bul-datetime-number-width - 1.5 !important;
+  }
+  &.is-medium {
+    $size: $bul-datetime-number-width !important;
+  }
+  &.is-large {
+    width: $bul-datetime-number-width + 2 !important;
+  }
+}

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components;
 
@@ -49,7 +48,8 @@ namespace StableCube.Bulzor.Components.Extended
 
         public void Dispose()
         {
-            Timer = null;
+            Timer.Change(Timeout.Infinite, Timeout.Infinite);
+            Timer.Dispose();
         }
 
         protected override void BuildBulma()

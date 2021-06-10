@@ -19,27 +19,23 @@
                         </div>
                     </OptionsBoxItem>
                     <OptionsBoxItem>
-                        <BulInputCheckbox @bind-Value="Left">
-                            Left
-                        </BulInputCheckbox>
-                    </OptionsBoxItem>
-                    <OptionsBoxItem>
-                        <BulInputCheckbox @bind-Value="Right">
-                            Right
-                        </BulInputCheckbox>
+                        <div class="control">
+                            <label class="label">Position</label>
+                            <BulInputSelectEnum @bind-Value="Position" />
+                        </div>
                     </OptionsBoxItem>
                 </OptionsBox>
             </EditForm>
         </ExampleOptions>
 
         <ExampleResult>
-            <BulDivider Color="Color" IsLeft="Left" IsRight="Right">
+            <BulDivider Color="Color" Position="Position">
                 Horizontal
             </BulDivider>
 
             <div style="display: flex;">
                 <div style="flex: 1;height: 200px; background-color: #f4f5f8"></div>
-                <BulDivider Color="Color" IsLeft="Left" IsRight="Right" IsVertical="true">
+                <BulDivider Color="Color" Position="Position" Vertical="true">
                     Vertical
                 </BulDivider>
                 <div style="flex: 1;height: 200px; background-color: #f4f5f8"></div>
@@ -50,6 +46,5 @@
 
 @code {
     public BulSchemeColor Color { get; set; } = BulSchemeColor.Default;
-    public bool Left { get; set; }
-    public bool Right { get; set; }
+    public BulHorizontalPosition Position { get; set; } = BulHorizontalPosition.Default;
 }

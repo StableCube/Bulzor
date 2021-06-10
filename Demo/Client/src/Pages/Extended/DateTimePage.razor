@@ -1,0 +1,117 @@
+﻿@page "/documentation/extended/datetime"
+
+<DocumentationRoot>
+    <ExampleBox>
+        <ExampleOptions>
+            <EditForm Model="@this">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+
+                <OptionsBox>
+                    <OptionsBoxItem>
+                        <div class="control">
+                            <label class="label">Color</label>
+                            <BulInputSelectEnum @bind-Value="Color" />
+                        </div>
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <div class="control">
+                            <label class="label">Size</label>
+                            <BulInputSelectEnum @bind-Value="Size" />
+                        </div>
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <BulInputCheckbox @bind-Value="ShowYears">
+                            Show Years
+                        </BulInputCheckbox>
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <BulInputCheckbox @bind-Value="ShowMonths">
+                            Show Months
+                        </BulInputCheckbox>
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <BulInputCheckbox @bind-Value="ShowDays">
+                            Show Days
+                        </BulInputCheckbox>
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <BulInputCheckbox @bind-Value="ShowHours">
+                            Show Hours
+                        </BulInputCheckbox>
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <BulInputCheckbox @bind-Value="ShowMinutes">
+                            Show Minutes
+                        </BulInputCheckbox>
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <BulInputCheckbox @bind-Value="ShowMilliseconds">
+                            Show Milliseconds
+                        </BulInputCheckbox>
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <BulInputCheckbox @bind-Value="Rounded">
+                            Rounded
+                        </BulInputCheckbox>
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <BulInputCheckbox @bind-Value="Loading">
+                            Loading
+                        </BulInputCheckbox>
+                    </OptionsBoxItem>
+                </OptionsBox>
+            </EditForm>
+        </ExampleOptions>
+
+        <ExampleResult>
+            <EditForm Model="@this">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+
+                <div>Value: @DemoDate</div>
+
+                <div class="field">
+                    <label class="label">Date</label>
+                    <BulInputDateTime @bind-Value="DemoDate" 
+                        Size="Size" 
+                        Color="Color" 
+                        Rounded="Rounded"
+                        Loading="Loading"
+                        YearRange="YearRange"
+                        ShowYears="ShowYears"
+                        ShowMonths="ShowMonths"
+                        ShowDays="ShowDays"
+                        ShowHours="ShowHours"
+                        ShowMinutes="ShowMinutes"
+                        ShowMilliseconds="ShowMilliseconds" />
+                </div>
+
+            </EditForm>
+        </ExampleResult>
+    </ExampleBox>
+</DocumentationRoot>
+
+@code {
+    public BulSchemeColor Color { get; set; } = BulSchemeColor.Default;
+    public BulSize Size { get; set; } = BulSize.Default;
+    public bool Rounded { get; set; }
+    public bool Loading { get; set; }
+    public bool ShowYears { get; set; } = true;
+    public bool ShowMonths { get; set; } = true;
+    public bool ShowDays { get; set; } = true;
+    public bool ShowHours { get; set; }
+    public bool ShowMinutes { get; set; }
+    public bool ShowMilliseconds { get; set; }
+    public Range YearRange { get; set; } = new Range(1970, 1990);
+    private DateTime DemoDate { get; set; } = new DateTime(1982, 1, 25);
+}
