@@ -1,0 +1,76 @@
+﻿@page "/documentation/components/dropdown"
+
+<DocumentationRoot>
+    <ExampleBox>
+        <ExampleOptions>
+            <EditForm Model="@this">
+                <OptionsBox>
+                    <OptionsBoxItem>
+                        <BulInputCheckbox @bind-Value="Right">
+                            Is Right
+                        </BulInputCheckbox>
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <BulInputCheckbox @bind-Value="Dropup">
+                            Dropup
+                        </BulInputCheckbox>
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <BulInputCheckbox @bind-Value="Hoverable">
+                            Hoverable
+                        </BulInputCheckbox>
+                    </OptionsBoxItem>
+                </OptionsBox>
+            </EditForm>
+        </ExampleOptions>
+
+        <ExampleResult>
+            <BulDropdown Active="Active" Right="Right" Up="Dropup" Hoverable="Hoverable">
+                <BulDropdownTrigger>
+                    <BulButton OnClick="OnToggleDropdownClickedHandler">
+                        <span>Dropdown</span>
+                        <BulIcon Size="BulSize.Small" class="fas fa-angle-down" />
+                    </BulButton>
+                </BulDropdownTrigger>
+
+                <BulDropdownContent>
+                    <BulDropdownItemLink href="/" Match="NavLinkMatch.All">
+                        Link Dropdown item
+                    </BulDropdownItemLink>
+
+                    <BulDropdownItemLink Active="true">
+                        Active dropdown item
+                    </BulDropdownItemLink>
+
+                    <BulDropdownItemDiv>
+                        Div dropdown item
+                    </BulDropdownItemDiv>
+
+                    <BulDropdownItemLink href="/documentation" Match="NavLinkMatch.Prefix">
+                        Matches Prefix
+                    </BulDropdownItemLink>
+
+                    <BulDropdownDivider />
+
+                    <BulDropdownItemLink>
+                        With divider
+                    </BulDropdownItemLink>
+                </BulDropdownContent>
+            </BulDropdown>
+        </ExampleResult>
+    </ExampleBox>
+</DocumentationRoot>
+
+@code {
+    public bool Right { get; set; }
+    public bool Dropup { get; set; }
+    public bool Hoverable { get; set; }
+    public bool Active { get; set; }
+
+    private void OnToggleDropdownClickedHandler(MouseEventArgs args)
+    {
+        Active = !Active;
+    }
+}

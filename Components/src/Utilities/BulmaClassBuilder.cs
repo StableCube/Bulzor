@@ -50,6 +50,7 @@ namespace StableCube.Bulzor.Components
         private bool? _hasRatio;
         private bool? _isDelete;
         private bool? _isVertical;
+        private bool? _isUp;
 
         public BulmaClassBuilder(){}
 
@@ -309,6 +310,11 @@ namespace StableCube.Bulzor.Components
             _isVertical = value;
         }
 
+        public void SetIsUp(bool? value)
+        {
+            _isUp = value;
+        }
+
         public override string ToString()
         {
             _sb.Clear();
@@ -466,6 +472,9 @@ namespace StableCube.Bulzor.Components
 
             if(_isVertical.HasValue && _isVertical.Value == true)
                 Append("is-vertical");
+
+            if(_isUp.HasValue && _isUp.Value == true)
+                Append("is-up");
 
             return _sb.ToString().Trim();
         }
