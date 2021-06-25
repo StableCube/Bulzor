@@ -27,7 +27,13 @@
         </ExampleOptions>
 
         <ExampleResult>
-            <BulDropdown Active="Active" Right="Right" Up="Dropup" Hoverable="Hoverable">
+            <BulDropdown 
+                Active="IsDropdownActive" 
+                Right="Right" 
+                Up="Dropup" 
+                Hoverable="Hoverable" 
+                OnClickOut="OnBlurHandler">
+
                 <BulDropdownTrigger>
                     <BulButton OnClick="OnToggleDropdownClickedHandler">
                         <span>Dropdown</span>
@@ -67,10 +73,15 @@
     public bool Right { get; set; }
     public bool Dropup { get; set; }
     public bool Hoverable { get; set; }
-    public bool Active { get; set; }
+    public bool IsDropdownActive { get; set; }
 
     private void OnToggleDropdownClickedHandler(MouseEventArgs args)
     {
-        Active = !Active;
+        IsDropdownActive = !IsDropdownActive;
+    }
+
+    private void OnBlurHandler(MouseEventArgs args)
+    {
+        IsDropdownActive = false;
     }
 }

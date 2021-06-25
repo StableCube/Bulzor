@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 
 namespace StableCube.Bulzor.Components
 {
@@ -33,12 +34,21 @@ namespace StableCube.Bulzor.Components
         [Parameter]
         public RenderFragment BulDropdownContent { get; set; }
         
+        [Parameter]
+        public EventCallback<MouseEventArgs> OnClickOut { get; set; }
+
+        protected BulmaClassBuilder BackgroundClassBuilder { get; set; } = new BulmaClassBuilder("dropdown-bg");
         protected BulmaClassBuilder DropdownClassBuilder { get; set; } = new BulmaClassBuilder("dropdown");
 
+        protected string _backgroundClass = String.Empty;
         protected string _dropdownClass = String.Empty;
 
         protected override void BuildBulma()
         {
+            BackgroundClassBuilder.SetIsHidden(true);
+
+            _backgroundClass = DropdownClassBuilder.ToString();
+
             DropdownClassBuilder.SetIsActive(Active);
             DropdownClassBuilder.SetIsRight(Right);
             DropdownClassBuilder.SetIsHoverable(Hoverable);
@@ -50,6 +60,17 @@ namespace StableCube.Bulzor.Components
         protected override void BuildRenderTree(RenderTreeBuilder builder)
         {
             BuildBulma();
+
+            if(Active)
+            {
+                builder.OpenRegion(0);
+                builder.OpenElement(1, "div");
+                builder.AddAttribute(2, "class", _backgroundClass);
+                builder.AddAttribute(3, "style", "position: fixed; top: 0px; left: 0px; width: 100%; height: 100%;");
+                builder.AddAttribute(4, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, OnClickOut));
+                builder.CloseElement();
+                builder.CloseRegion();
+            }
 
             builder.OpenElement(0, "div");
             builder.AddMultipleAttributes(1, AdditionalAttributes);
@@ -64,6 +85,7 @@ namespace StableCube.Bulzor.Components
             builder.AddAttribute(7, "class", "dropdown-menu");
             builder.OpenElement(8, "div");
             builder.AddAttribute(9, "class", "dropdown-content");
+            
             builder.AddContent(10, BulDropdownContent);
             builder.CloseElement();
             builder.CloseElement();

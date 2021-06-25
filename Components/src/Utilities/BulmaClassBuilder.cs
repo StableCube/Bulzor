@@ -7,7 +7,8 @@ namespace StableCube.Bulzor.Components
     {
         private StringBuilder _sb = new StringBuilder();
         private string _baseClass;
-        private BulColor? _color;
+
+        public BulColor? _color;
         private BulSchemeColor? _schemeColor;
         private BulSize? _size;
         private BulSize? _sizeChild;
@@ -51,6 +52,8 @@ namespace StableCube.Bulzor.Components
         private bool? _isDelete;
         private bool? _isVertical;
         private bool? _isUp;
+        private bool? _isHidden;
+        private bool? _isInvisible;
 
         public BulmaClassBuilder(){}
 
@@ -315,6 +318,16 @@ namespace StableCube.Bulzor.Components
             _isUp = value;
         }
 
+        public void SetIsHidden(bool? value)
+        {
+            _isHidden = value;
+        }
+
+        public void SetIsInvisible(bool? value)
+        {
+            _isInvisible = value;
+        }
+
         public override string ToString()
         {
             _sb.Clear();
@@ -475,6 +488,12 @@ namespace StableCube.Bulzor.Components
 
             if(_isUp.HasValue && _isUp.Value == true)
                 Append("is-up");
+
+            if(_isHidden.HasValue && _isHidden.Value == true)
+                Append("is-hidden");
+
+            if(_isInvisible.HasValue && _isInvisible.Value == true)
+                Append("is-hidden");
 
             return _sb.ToString().Trim();
         }
