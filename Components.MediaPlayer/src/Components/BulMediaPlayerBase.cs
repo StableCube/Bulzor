@@ -50,7 +50,7 @@ namespace StableCube.Bulzor.Components.MediaPlayer
         [Parameter]
         public EventCallback<bool> OnFullscreenChange { get; set; }
 
-        protected BulMediaPlayerStateModel PlayerState { get; set; } = new BulMediaPlayerStateModel();
+        public BulMediaPlayerState PlayerState { get; set; } = new BulMediaPlayerState();
 
         protected string ElementId { get; } = Regex.Replace(Convert.ToBase64String(Guid.NewGuid().ToByteArray()), "[/+=]", "");
 
@@ -104,6 +104,7 @@ namespace StableCube.Bulzor.Components.MediaPlayer
 
         protected override void BuildBulma()
         {
+            MergeBuilderClassAttribute(MediaRootClassBuilder);
         }
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -114,7 +115,6 @@ namespace StableCube.Bulzor.Components.MediaPlayer
             builder.AddAttribute(1, "id", ElementId);
             builder.AddAttribute(2, "class", MediaPlayerClassBuilder.ClassString);
             builder.AddContent(3, (RenderFragment)((builder2) => {
-
                 BuildMediaTag(builder2, 4);
                 BuildControls(builder2, 5);
             }));

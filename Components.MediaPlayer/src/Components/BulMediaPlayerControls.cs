@@ -12,7 +12,7 @@ namespace StableCube.Bulzor.Components.MediaPlayer
     public class BulMediaPlayerControls : BulComponentBase
     {
         [Parameter]
-        public BulMediaPlayerStateModel PlayerState { get; set; }
+        public BulMediaPlayerState PlayerState { get; set; }
 
         [Parameter]
         public BulSize? Size { get; set; }
@@ -382,14 +382,17 @@ namespace StableCube.Bulzor.Components.MediaPlayer
 
             builder.OpenRegion(index);
             builder.OpenElement(0, "a");
-            builder.AddAttribute(1, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, async (args) => await OnChangePlaybackRateClickHandler(rate)));
+            builder.AddAttribute(1, "onclick", 
+                EventCallback.Factory.Create<MouseEventArgs>(this, async (args) => await OnChangePlaybackRateClickHandler(rate)));
             builder.AddContent(2, (rate == 1) ? "Normal" : rate);
+
             builder.CloseElement();
             builder.CloseRegion();
         }
 
         private async Task OnChangePlaybackRateClickHandler(double value)
         {
+            _isRateMenuExpanded = false;
             _isAdditionalControlsMenuActive = false;
             await OnPlaybackRateChange.InvokeAsync(value);
         }
@@ -407,6 +410,7 @@ namespace StableCube.Bulzor.Components.MediaPlayer
 
         private void OnAdditionalControlsToggleClickHandler(MouseEventArgs args)
         {
+            _isRateMenuExpanded = false;
             _isAdditionalControlsMenuActive = !_isAdditionalControlsMenuActive;
         }
 

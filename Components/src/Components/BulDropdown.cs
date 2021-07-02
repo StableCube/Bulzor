@@ -48,6 +48,8 @@ namespace StableCube.Bulzor.Components
             DropdownClassBuilder.IsRight = Right;
             DropdownClassBuilder.IsHoverable = Hoverable;
             DropdownClassBuilder.IsUp = Up;
+
+            MergeBuilderClassAttribute(DropdownClassBuilder);
         }
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -66,20 +68,19 @@ namespace StableCube.Bulzor.Components
             }
 
             builder.OpenElement(0, "div");
-            builder.AddMultipleAttributes(1, AdditionalAttributes);
-            builder.AddAttribute(2, "class", MergeClassAttribute(DropdownClassBuilder.ClassString));
+            builder.AddMultipleAttributes(1, CombinedAdditionalAttributes);
 
-            builder.OpenElement(3, "div");
-            builder.AddAttribute(4, "class", "dropdown-trigger");
-            builder.AddContent(5, BulDropdownTrigger);
+            builder.OpenElement(2, "div");
+            builder.AddAttribute(3, "class", "dropdown-trigger");
+            builder.AddContent(4, BulDropdownTrigger);
             builder.CloseElement();
 
-            builder.OpenElement(6, "div");
-            builder.AddAttribute(7, "class", "dropdown-menu");
-            builder.OpenElement(8, "div");
-            builder.AddAttribute(9, "class", "dropdown-content");
+            builder.OpenElement(5, "div");
+            builder.AddAttribute(6, "class", "dropdown-menu");
+            builder.OpenElement(7, "div");
+            builder.AddAttribute(8, "class", "dropdown-content");
             
-            builder.AddContent(10, BulDropdownContent);
+            builder.AddContent(9, BulDropdownContent);
             builder.CloseElement();
             builder.CloseElement();
 

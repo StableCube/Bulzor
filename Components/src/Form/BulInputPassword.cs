@@ -19,7 +19,7 @@ namespace StableCube.Bulzor.Components
             builder.AddAttribute(3, "Value", Value);
             builder.AddAttribute(4, "ValueExpression", ValueExpression);
             builder.AddAttribute(5, "ValueChanged", ValueChanged);
-            builder.AddAttribute(6, "AdditionalAttributes", AdditionalAttributes);
+            builder.AddAttribute(6, "AdditionalAttributes", CombinedAdditionalAttributes);
             builder.CloseComponent();
 
             if(BulIcons != null)

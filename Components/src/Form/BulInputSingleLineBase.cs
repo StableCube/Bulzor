@@ -35,14 +35,7 @@ namespace StableCube.Bulzor.Components
             InputClassBuilder.Size = Size;
             InputClassBuilder.IsRounded = Rounded;
 
-            if(AdditionalAttributes.ContainsKey("class"))
-            {
-                AdditionalAttributes["class"] = InputClassBuilder.ClassString;
-            }
-            else
-            {
-                AdditionalAttributes.Add("class", InputClassBuilder.ClassString);
-            }
+            MergeBuilderClassAttribute(InputClassBuilder);
         }
     }
 }

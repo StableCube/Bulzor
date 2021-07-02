@@ -41,6 +41,8 @@ namespace StableCube.Bulzor.Components
             ClassBuilder.IsFullWidth = FullWidth;
             ClassBuilder.IsCentered = Centered;
             ClassBuilder.IsRight = Right;
+
+            MergeBuilderClassAttribute(ClassBuilder);
         }
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -48,11 +50,9 @@ namespace StableCube.Bulzor.Components
             BuildBulma();
 
             builder.OpenElement(0, "div");
-            builder.AddMultipleAttributes(1, AdditionalAttributes);
-            builder.AddAttribute(2, "class", MergeClassAttribute(ClassBuilder.ClassString));
-
-            builder.OpenElement(3, "ul");
-            builder.AddContent(4, ChildContent);
+            builder.AddMultipleAttributes(1, CombinedAdditionalAttributes);
+            builder.OpenElement(2, "ul");
+            builder.AddContent(3, ChildContent);
             builder.CloseElement();
 
             builder.CloseElement();

@@ -15,16 +15,26 @@ namespace StableCube.Bulzor.Components
         [Parameter]
         public NavLinkMatch Match { get; set; }
 
+        [Parameter]
+        public bool Active { get; set; }
+
+        protected BulmaClassBuilder ClassBuilder { get; set; } = new BulmaClassBuilder("bul-nav-link");
+
         protected override void BuildBulma()
         {
+            ClassBuilder.IsActive = Active;
+
+            MergeBuilderClassAttribute(ClassBuilder);
         }
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)
         {
+            BuildBulma();
+
             builder.OpenComponent<NavLink>(0);
             builder.AddAttribute(1, "ActiveClass", CssConfig.Prefix + "is-active");
             builder.AddAttribute(2, "Match", Match);
-            builder.AddAttribute(3, "AdditionalAttributes", AdditionalAttributes);
+            builder.AddMultipleAttributes(3, CombinedAdditionalAttributes);
 
             builder.AddAttribute(4, "ChildContent", (RenderFragment)((builder2) => {
                 builder2.AddContent(5, ChildContent);

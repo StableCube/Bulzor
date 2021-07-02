@@ -61,6 +61,7 @@ namespace StableCube.Bulzor.Components
         private string ValueInternal { get; set; }
         private Expression<Func<string>> ValueExpressionInternal { get; set; }
         private TKey InitialValue { get; set; } = default(TKey);
+        
         protected override void BuildBulma()
         {
             SelectClassBuilder.Size = Size;

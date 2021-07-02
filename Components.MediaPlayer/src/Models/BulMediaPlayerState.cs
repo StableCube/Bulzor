@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace StableCube.Bulzor.Components.MediaPlayer
 {
-    public class BulMediaPlayerStateModel
+    public class BulMediaPlayerState
     {
         public BulMediaPlayMediaType MediaType { get; set; }
         public BulMediaPlayState PlayState { get; set; } = BulMediaPlayState.Stopped;

@@ -43,6 +43,8 @@ namespace StableCube.Bulzor.Components.Extended
                     InputClassBuilder.IsRight = null;
                 }
             }
+
+            MergeBuilderClassAttribute(InputClassBuilder);
         }
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -50,9 +52,8 @@ namespace StableCube.Bulzor.Components.Extended
             BuildBulma();
 
             builder.OpenElement(0, "div");
-            builder.AddMultipleAttributes(1, AdditionalAttributes);
-            builder.AddAttribute(2, "class", MergeClassAttribute(InputClassBuilder.ClassString));
-            builder.AddContent(3, ChildContent);
+            builder.AddMultipleAttributes(1, CombinedAdditionalAttributes);
+            builder.AddContent(2, ChildContent);
             builder.CloseElement();
         }
     }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Text;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Components;
 
 namespace StableCube.Bulzor.Components
@@ -11,17 +12,50 @@ namespace StableCube.Bulzor.Components
         [Parameter(CaptureUnmatchedValues = true)] 
         public IDictionary<string, object> AdditionalAttributes { get; set; } = new Dictionary<string, object>();
 
+        protected IDictionary<string, object> CombinedAdditionalAttributes { get; set; } = new Dictionary<string, object>();
+
+        private StringBuilder _combinedClassSb = new StringBuilder();
+
         protected abstract void BuildBulma();
 
         /// <summary>
-        /// Merges a 
+        /// Merges or creates given class string into AdditionalAttributes
         /// </summary>
-        protected string MergeClassAttribute(string classString)
+        protected void MergeOrCreateClassAttribute(string classString)
         {
-            if(AdditionalAttributes == null || !AdditionalAttributes.ContainsKey("class"))
-                return classString;
+            _combinedClassSb.Clear();
+            CombinedAdditionalAttributes.Clear();
 
-            return AdditionalAttributes["class"] + " " + classString;
+            if(AdditionalAttributes.ContainsKey("class"))
+                _combinedClassSb.Append(AdditionalAttributes["class"] + " ");
+
+            _combinedClassSb.Append(classString.Trim());
+
+            if(!CombinedAdditionalAttributes.ContainsKey("class"))
+            {
+                CombinedAdditionalAttributes.Add("class", _combinedClassSb.ToString());
+            }
+            else
+            {
+                CombinedAdditionalAttributes["class"] = _combinedClassSb.ToString();
+            }
+
+            //Copy any other attributes
+            foreach (var pair in AdditionalAttributes)
+            {
+                if(pair.Key == "class")
+                    continue;
+
+                CombinedAdditionalAttributes.Add(pair);
+            }
+        }
+
+        /// <summary>
+        /// Merges the builder class into AdditionalAttributes
+        /// </summary>
+        protected void MergeBuilderClassAttribute(BulmaClassBuilder builder)
+        {
+            MergeOrCreateClassAttribute(builder.ClassString);
         }
     }
 }

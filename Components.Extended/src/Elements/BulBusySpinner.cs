@@ -19,6 +19,8 @@ namespace StableCube.Bulzor.Components.Extended
         {
             ClassBuilder.Size = Size;
             ClassBuilder.SchemeColor = Color;
+
+            MergeBuilderClassAttribute(ClassBuilder);
         }
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -26,8 +28,7 @@ namespace StableCube.Bulzor.Components.Extended
             BuildBulma();
 
             builder.OpenElement(0, "div");
-            builder.AddMultipleAttributes(1, AdditionalAttributes);
-            builder.AddAttribute(2, "class", MergeClassAttribute(ClassBuilder.ClassString));
+            builder.AddMultipleAttributes(1, CombinedAdditionalAttributes);
             builder.CloseElement();
         }
     }

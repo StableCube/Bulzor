@@ -147,6 +147,7 @@ namespace StableCube.Bulzor.Components
             return _sb.ToString().Trim();
         }
 
+
         private void Append(string value)
         {
             _sb.Append(" ");
@@ -160,6 +161,15 @@ namespace StableCube.Bulzor.Components
         {
             if(doAppend.HasValue && doAppend.Value == true)
                 Append(value);
+        }
+
+        /// <summary>
+        /// Adds a raw class value to the builder. 
+        /// </summary>
+        /// <param name="value">Class attribute to be added</param>
+        public void SetRaw(string value)
+        {
+            Append(value);
         }
     }
 }

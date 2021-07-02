@@ -67,7 +67,7 @@ namespace StableCube.Bulzor.Components.Extended
                 Interval = TimeSpan.FromMilliseconds(1);
 
             builder.OpenComponent<BulProgressBar>(0);
-            builder.AddMultipleAttributes(1, AdditionalAttributes);
+            builder.AddMultipleAttributes(1, CombinedAdditionalAttributes);
             builder.AddAttribute(2, "Value", Progress);
             builder.AddAttribute(3, "Color", Color);
             builder.AddAttribute(4, "Size", Size);

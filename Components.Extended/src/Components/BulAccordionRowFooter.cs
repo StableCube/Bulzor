@@ -17,6 +17,8 @@ namespace StableCube.Bulzor.Components.Extended
         protected override void BuildBulma()
         {
             ClassBuilder.IsActive = Active;
+
+            MergeBuilderClassAttribute(ClassBuilder);
         }
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -24,9 +26,8 @@ namespace StableCube.Bulzor.Components.Extended
             BuildBulma();
 
             builder.OpenComponent<BulCardFooter>(0);
-            builder.AddMultipleAttributes(1, AdditionalAttributes);
-            builder.AddAttribute(2, "class", MergeClassAttribute(ClassBuilder.ClassString));
-            builder.AddAttribute(3, "ChildContent", ChildContent);
+            builder.AddMultipleAttributes(1, CombinedAdditionalAttributes);
+            builder.AddAttribute(2, "ChildContent", ChildContent);
             builder.CloseComponent();
         }
     }

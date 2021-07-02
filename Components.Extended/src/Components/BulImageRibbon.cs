@@ -50,7 +50,7 @@ namespace StableCube.Bulzor.Components.Extended
                 builder2.AddAttribute(5, "class", WrapperClassBuilder.ClassString);
                 builder2.AddContent(6, (RenderFragment)((builder3) => {
                     builder3.OpenElement(7, "div");
-                    builder3.AddMultipleAttributes(8, AdditionalAttributes);
+                    builder3.AddMultipleAttributes(8, CombinedAdditionalAttributes);
                     builder3.AddAttribute(9, "class", ContentClassBuilder.ClassString);
                     
                     builder3.OpenComponent<CascadingValue<int>>(10);

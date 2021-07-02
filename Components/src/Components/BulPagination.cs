@@ -45,6 +45,8 @@ namespace StableCube.Bulzor.Components
             NavClassBuilder.IsRounded = Rounded;
             NavClassBuilder.Size = Size;
             NavClassBuilder.IsCentered = Centered;
+
+            MergeBuilderClassAttribute(NavClassBuilder);
         }
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -52,13 +54,12 @@ namespace StableCube.Bulzor.Components
             BuildBulma();
 
             builder.OpenElement(0, "nav");
-            builder.AddMultipleAttributes(1, AdditionalAttributes);
-            builder.AddAttribute(2, "class", MergeClassAttribute(NavClassBuilder.ClassString));
-            builder.AddAttribute(3, "role", "navigation");
+            builder.AddMultipleAttributes(1, CombinedAdditionalAttributes);
+            builder.AddAttribute(2, "role", "navigation");
 
-            BuildPreviousLink(builder, 4);
-            BuildNextLink(builder, 5);
-            BuildLinkList(builder, 6);
+            BuildPreviousLink(builder, 3);
+            BuildNextLink(builder, 4);
+            BuildLinkList(builder, 5);
 
             builder.CloseElement();
         }

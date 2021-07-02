@@ -34,6 +34,8 @@ namespace StableCube.Bulzor.Components
             ClassBuilder.IsLight = Light;
             ClassBuilder.IsRounded = Rounded;
             ClassBuilder.IsDelete = true;
+
+            MergeBuilderClassAttribute(ClassBuilder);
         }
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -41,9 +43,8 @@ namespace StableCube.Bulzor.Components
             BuildBulma();
 
             builder.OpenElement(0, "a");
-            builder.AddMultipleAttributes(1, AdditionalAttributes);
-            builder.AddAttribute(2, "class", MergeClassAttribute(ClassBuilder.ClassString));
-            builder.AddAttribute(3, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, OnClick));
+            builder.AddMultipleAttributes(1, CombinedAdditionalAttributes);
+            builder.AddAttribute(2, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, OnClick));
             builder.CloseElement();
         }
     }

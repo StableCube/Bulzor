@@ -5,7 +5,7 @@ using Microsoft.JSInterop;
 
 namespace StableCube.Bulzor.Components.MediaPlayer
 {
-    public class BulMediaTrack : ComponentBase
+    public class BulMediaTrack : BulComponentBase
     {
         [Parameter]
         public Uri SrcUri { get; set; }
@@ -22,8 +22,14 @@ namespace StableCube.Bulzor.Components.MediaPlayer
         [Parameter]
         public bool IsDefault { get; set; }
 
+        protected override void BuildBulma()
+        {
+        }
+
         protected override void BuildRenderTree(RenderTreeBuilder builder)
         {
+            BuildBulma();
+            
             builder.OpenElement(0, "track");
             builder.AddAttribute(1, "src", SrcUri);
             builder.AddAttribute(2, "kind", Kind);

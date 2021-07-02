@@ -18,15 +18,8 @@ namespace StableCube.Bulzor.Components
 
             InputClassBuilder.SchemeColor = Color;
             InputClassBuilder.Size = Size;
-            
-            if(AdditionalAttributes.ContainsKey("class"))
-            {
-                AdditionalAttributes["class"] =  InputClassBuilder.ClassString;
-            }
-            else
-            {
-                AdditionalAttributes.Add("class", InputClassBuilder.ClassString);
-            }
+
+            MergeBuilderClassAttribute(InputClassBuilder);
         }
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -40,7 +33,7 @@ namespace StableCube.Bulzor.Components
             builder.AddAttribute(3, "Value", Value);
             builder.AddAttribute(4, "ValueExpression", ValueExpression);
             builder.AddAttribute(5, "ValueChanged", ValueChanged);
-            builder.AddAttribute(6, "AdditionalAttributes", AdditionalAttributes);
+            builder.AddAttribute(6, "AdditionalAttributes", CombinedAdditionalAttributes);
             builder.CloseComponent();
 
             builder.CloseElement();

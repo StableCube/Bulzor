@@ -10,7 +10,7 @@ namespace StableCube.Bulzor.Components.MediaPlayer
 
             builder.OpenRegion(index);
             builder.OpenElement(0, "video");
-            builder.AddAttribute(1, "class", MediaRootClassBuilder.ClassString);
+            builder.AddMultipleAttributes(1, CombinedAdditionalAttributes);
             builder.AddAttribute(2, "src", Src);
 
             if(Poster != null)

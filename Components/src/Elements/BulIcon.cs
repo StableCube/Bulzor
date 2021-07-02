@@ -42,6 +42,7 @@ namespace StableCube.Bulzor.Components
                     WrapperClassBuilder.IsRight = true;
                 }
             }
+            
         }
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)
