@@ -18,7 +18,7 @@ namespace StableCube.Bulzor.Components.MediaPlayer
         public bool CanPlayThrough { get; set; }
         public bool Loop { get; set; }
         public bool Autoplay { get; set; }
-        public double Rate { get; set; }
-        
+        public double Rate { get; set; } = 1;
+
     }
 }

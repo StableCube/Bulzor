@@ -2,6 +2,7 @@
   "license": "MIT",
   "devDependencies": {
     "bulma": "^0.9.*",
-    "bulzor-components-extended": "^0.3.*"
+    "bulzor-components-extended": "^0.3.*",
+    "bulzor-components-mediaplayer": "^0.3.*"
   }
 }

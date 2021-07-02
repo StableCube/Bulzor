@@ -32,6 +32,8 @@ namespace StableCube.Bulzor.Components.MediaPlayer
             { "additional-controls", "fas fa-cog" },
             { "fullscreen-in", "fas fa-expand" },
             { "fullscreen-out", "fas fa-compress" },
+            { "checkbox-empty", "far fa-square" },
+            { "checkbox-checked", "far fa-check-square" }
         };
 
         [Parameter]
@@ -329,12 +331,19 @@ namespace StableCube.Bulzor.Components.MediaPlayer
         {
             builder.OpenRegion(index);
             builder.OpenComponent<BulDropdownItemLink>(0);
-            builder.AddAttribute(1, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, OnLoopToggleClickHandler));
-            builder.AddAttribute(2, "ChildContent", (RenderFragment)((builder2) => {
-                builder2.OpenElement(3, "span");
-                builder2.AddContent(4, "Loop");
+            //builder.AddAttribute(1, "Active", PlayerState.Loop);
+            builder.AddAttribute(2, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, OnLoopToggleClickHandler));
+            builder.AddAttribute(3, "ChildContent", (RenderFragment)((builder2) => {
+                builder2.OpenElement(4, "span");
+                builder2.AddContent(5, "Loop");
                 builder2.CloseElement();
+
+                builder2.OpenComponent<BulIcon>(6);
+                builder2.AddAttribute(7, "Size", Size);
+                builder2.AddAttribute(8, "class", PlayerState.Loop ? IconClassMap["checkbox-checked"] : IconClassMap["checkbox-empty"]);
+                builder2.CloseComponent();
             }));
+            builder.AddAttribute(6, "class", "menu-label");
             builder.CloseComponent();
             builder.CloseRegion();
         }
@@ -351,7 +360,7 @@ namespace StableCube.Bulzor.Components.MediaPlayer
                     builder3.AddAttribute(5, "ChildContent", (RenderFragment)((builder4) => {
                         builder4.OpenElement(6, "a");
                         builder4.AddAttribute(7, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, OnRateMenuToggleClickHandler));
-                        builder4.AddContent(8, "Speed");
+                        builder4.AddContent(8, String.Format("Speed ({0})", (PlayerState.Rate == 1) ? "Normal" : PlayerState.Rate));
                         builder4.CloseElement();
                     }));
                     builder3.CloseComponent();
@@ -381,12 +390,18 @@ namespace StableCube.Bulzor.Components.MediaPlayer
             double rate = 0.25 * menuIndex;
 
             builder.OpenRegion(index);
-            builder.OpenElement(0, "a");
-            builder.AddAttribute(1, "onclick", 
+            builder.OpenComponent<BulNavLink>(0);
+            builder.AddAttribute(1, "Active", (rate == PlayerState.Rate));
+            builder.AddAttribute(2, "onclick", 
                 EventCallback.Factory.Create<MouseEventArgs>(this, async (args) => await OnChangePlaybackRateClickHandler(rate)));
-            builder.AddContent(2, (rate == 1) ? "Normal" : rate);
+            
+            builder.AddAttribute(3, "ChildContent", (RenderFragment)((builder2) => {
+                builder2.OpenElement(4, "span");
+                builder2.AddContent(5, (rate == 1) ? "Normal" : rate);
+                builder2.CloseElement();
+            }));
 
-            builder.CloseElement();
+            builder.CloseComponent();
             builder.CloseRegion();
         }
 

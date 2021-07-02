@@ -250,3 +250,9 @@ $media-player-control-group-padding: 0.5rem 0.5rem 0 0.5rem !default;
     @include media-player-size($size-large);
   }
 }
+
+.bul-media-additional-controls .menu-label a {
+  width: 100%;
+  color: $text;
+  display: inline-block;
+}

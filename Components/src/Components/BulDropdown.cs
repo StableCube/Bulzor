@@ -42,8 +42,6 @@ namespace StableCube.Bulzor.Components
 
         protected override void BuildBulma()
         {
-            BackgroundClassBuilder.IsHidden = true;
-
             DropdownClassBuilder.IsActive = Active;
             DropdownClassBuilder.IsRight = Right;
             DropdownClassBuilder.IsHoverable = Hoverable;
@@ -61,7 +59,7 @@ namespace StableCube.Bulzor.Components
                 builder.OpenRegion(0);
                 builder.OpenElement(1, "div");
                 builder.AddAttribute(2, "class", BackgroundClassBuilder.ClassString);
-                builder.AddAttribute(3, "style", "position: fixed; top: 0px; left: 0px; width: 100%; height: 100%;");
+                builder.AddAttribute(3, "style", "position: fixed; top: 0px; left: 0px; width: 100%; height: 100%; opacity: 0;");
                 builder.AddAttribute(4, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, OnClickOut));
                 builder.CloseElement();
                 builder.CloseRegion();
