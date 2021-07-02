@@ -1,0 +1,252 @@
+$media-player-load-progress-value-background-color: $grey-light !default;
+$media-player-load-progress-bar-background-color: $grey !default;
+$media-player-text-color: $white !default;
+$media-player-scrubber-border: 1px solid rgba($white, .15) !default;
+$media-player-controls-background: rgba($color: $black, $alpha: 0.5) !default;
+$media-player-control-group-padding: 0.5rem 0.5rem 0 0.5rem !default;
+
+@mixin media-player-size($size) {
+  $track-height: $size / 1.5;
+
+  &::-webkit-slider-runnable-track {
+    height: $track-height;
+  }
+
+  &::-moz-range-track {
+    height: $track-height;
+  }
+
+  &::-ms-track {
+    height: $track-height;
+  }
+
+  &.bul-media-player-scrubber {
+    height: $track-height;
+  }
+
+  &.bul-media-player-scrubber .slider {
+    top: -($size * 0.40);
+  }
+
+  &.bul-media-player-play-progress {
+    height: $track-height;
+  }
+
+  &.bul-media-player-load-progress {
+    height: $track-height;
+  }
+
+  &.bul-media-player-control-time {
+    font-size: $size;
+  }
+}
+
+.bul-media-player {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.bul-media-player-media-root {
+  display: block;
+  width: 100%;
+  height: 100%;
+  z-index: 4;
+}
+
+.bul-media-player-input {
+  position: absolute;
+  z-index: 5;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.bul-media-player-input.is-cursor-hidden {
+  cursor: none;
+}
+
+.bul-media-player-input .button {
+  border: none !important;
+  background: rgba($color: $white, $alpha: 0) !important;
+  color: $media-player-text-color !important;
+}
+
+.bul-media-player-input .button.is-loading {
+  color: $grey !important;
+}
+
+.bul-media-player-input .button:focus {
+  box-shadow: none !important;
+}
+
+.bul-media-player-control-group {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  z-index: 6;
+  left: 0;
+  bottom: 0;
+  background: $media-player-controls-background;
+  width: 100%;
+  padding: $media-player-control-group-padding;
+}
+
+.bul-media-scrubber-row {
+ display: flex;
+ flex-direction: row;
+ width: 100%;
+ justify-content: center;
+ align-items: center;
+}
+
+.bul-media-player-scrubber {
+  width: 100%;
+  margin: 0;
+  position: relative;
+  border: $media-player-scrubber-border;
+
+  @include media-player-size($size-normal);
+
+  &.is-small {
+    @include media-player-size($size-small);
+  }
+
+  &.is-medium {
+    @include media-player-size($size-medium);
+  }
+
+  &.is-large {
+    @include media-player-size($size-large);
+  }
+}
+
+.bul-media-player-input .slider {
+  margin: 0 !important;
+  z-index: 10;
+}
+
+.bul-media-player-scrubber .slider {
+  width: 100%;
+  position: absolute;
+  left: 0;
+  opacity: 0 !important;
+
+  @include media-player-size($size-normal);
+
+  &.is-small {
+    @include media-player-size($size-small);
+  }
+
+  &.is-medium {
+    @include media-player-size($size-medium);
+  }
+
+  &.is-large {
+    @include media-player-size($size-large);
+  }
+}
+
+.bul-media-scrubber-row progress {
+  background-color: transparent;
+  z-index: 9;
+  position: absolute;
+  left: 0;
+  top: -1px;
+  width: 100%;
+  border-radius: 0 !important;
+
+  &::-webkit-progress-bar { 
+    background-color: transparent;
+  }
+
+  @include media-player-size($size-normal);
+
+  &.is-small {
+    @include media-player-size($size-small);
+  }
+
+  &.is-medium {
+    @include media-player-size($size-medium);
+  }
+
+  &.is-large {
+    @include media-player-size($size-large);
+  }
+}
+
+.bul-media-player-load-progress {
+  z-index: 8;
+  background-color: $media-player-load-progress-bar-background-color !important;
+
+  &::-webkit-progress-bar { 
+    background-color: $media-player-load-progress-bar-background-color !important;
+  }
+
+  &::-webkit-progress-value {
+    background-color: $media-player-load-progress-value-background-color !important;
+  }
+    
+  &::-moz-progress-bar {
+    background-color: $media-player-load-progress-value-background-color !important;
+  }
+    
+  &::-ms-fill {
+    background-color: $media-player-load-progress-value-background-color !important;
+  }
+}
+
+.bul-media-player-scrubber .slider::-webkit-slider-runnable-track {
+  opacity: 0 !important;
+}
+
+.bul-media-player-scrubber .slider::-moz-range-track {
+  opacity: 0 !important;
+}
+
+.bul-media-player-scrubber .slider::-ms-track {
+  opacity: 0 !important;
+}
+
+.bul-media-controls-row {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.bul-media-controls-left {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  flex-grow: 1;
+}
+
+.bul-media-controls-right {
+  display: flex;
+  flex-direction: row;
+  flex-shrink: 0;
+}
+
+.bul-media-player-control-time {
+  color: $media-player-text-color;
+  font-family: $family-primary;
+  margin-left: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  @include media-player-size($size-normal);
+
+  &.is-small {
+    @include media-player-size($size-small);
+  }
+
+  &.is-medium {
+    @include media-player-size($size-medium);
+  }
+
+  &.is-large {
+    @include media-player-size($size-large);
+  }
+}

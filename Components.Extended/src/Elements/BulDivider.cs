@@ -19,33 +19,30 @@ namespace StableCube.Bulzor.Components.Extended
         public RenderFragment ChildContent { get; set; }
 
         protected BulmaClassBuilder InputClassBuilder = new BulmaClassBuilder("divider");
-        protected string _elementClass = String.Empty;
 
         protected override void BuildBulma()
         {
-            InputClassBuilder.SetSchemeColor(Color);
-            InputClassBuilder.SetIsVertical(Vertical);
+            InputClassBuilder.SchemeColor = Color;
+            InputClassBuilder.IsVertical = Vertical;
 
             if(Position.HasValue)
             {
                 if(Position.Value == BulHorizontalPosition.Left)
                 {
-                    InputClassBuilder.SetIsLeft(true);
-                    InputClassBuilder.SetIsRight(null);
+                    InputClassBuilder.IsLeft = true;
+                    InputClassBuilder.IsRight = null;
                 }
                 else if(Position.Value == BulHorizontalPosition.Right)
                 {
-                    InputClassBuilder.SetIsLeft(null);
-                    InputClassBuilder.SetIsRight(true);
+                    InputClassBuilder.IsLeft = null;
+                    InputClassBuilder.IsRight = true;
                 }
                 else
                 {
-                    InputClassBuilder.SetIsLeft(null);
-                    InputClassBuilder.SetIsRight(null);
+                    InputClassBuilder.IsLeft = null;
+                    InputClassBuilder.IsRight = null;
                 }
             }
-
-            _elementClass = InputClassBuilder.ToString();
         }
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -54,7 +51,7 @@ namespace StableCube.Bulzor.Components.Extended
 
             builder.OpenElement(0, "div");
             builder.AddMultipleAttributes(1, AdditionalAttributes);
-            builder.AddAttribute(2, "class", MergeClassAttribute(_elementClass));
+            builder.AddAttribute(2, "class", MergeClassAttribute(InputClassBuilder.ClassString));
             builder.AddContent(3, ChildContent);
             builder.CloseElement();
         }

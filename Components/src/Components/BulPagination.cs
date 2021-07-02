@@ -38,17 +38,13 @@ namespace StableCube.Bulzor.Components
 
         protected BulmaClassBuilder NavClassBuilder { get; set; } = new BulmaClassBuilder("pagination");
 
-        protected string _navClass = String.Empty;
-
         List<int> _pages = new List<int>();
 
         protected override void BuildBulma()
         {
-            NavClassBuilder.SetIsRounded(Rounded);
-            NavClassBuilder.SetSize(Size);
-            NavClassBuilder.SetIsCentered(Centered);
-
-            _navClass = NavClassBuilder.ToString();
+            NavClassBuilder.IsRounded = Rounded;
+            NavClassBuilder.Size = Size;
+            NavClassBuilder.IsCentered = Centered;
         }
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -57,7 +53,7 @@ namespace StableCube.Bulzor.Components
 
             builder.OpenElement(0, "nav");
             builder.AddMultipleAttributes(1, AdditionalAttributes);
-            builder.AddAttribute(2, "class", MergeClassAttribute(_navClass));
+            builder.AddAttribute(2, "class", MergeClassAttribute(NavClassBuilder.ClassString));
             builder.AddAttribute(3, "role", "navigation");
 
             BuildPreviousLink(builder, 4);

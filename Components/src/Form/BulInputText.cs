@@ -10,7 +10,7 @@ namespace StableCube.Bulzor.Components
             BuildBulma();
 
             builder.OpenElement(0, "div");
-            builder.AddAttribute(1, "class", _wrapperClass);
+            builder.AddAttribute(1, "class", WrapperClassBuilder.ClassString);
 
             builder.OpenComponent<InputText>(2);
             builder.AddAttribute(3, "Value", Value);

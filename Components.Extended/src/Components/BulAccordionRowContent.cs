@@ -14,12 +14,9 @@ namespace StableCube.Bulzor.Components.Extended
 
         protected BulmaClassBuilder ClassBuilder { get; set; } = new BulmaClassBuilder("accordion-row-content");
 
-        protected string _elementClass = String.Empty;
-
         protected override void BuildBulma()
         {
-            ClassBuilder.SetIsActive(Active);
-            _elementClass = ClassBuilder.ToString();
+            ClassBuilder.IsActive = Active;
         }
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -28,7 +25,7 @@ namespace StableCube.Bulzor.Components.Extended
 
             builder.OpenComponent<BulCardContent>(0);
             builder.AddMultipleAttributes(1, AdditionalAttributes);
-            builder.AddAttribute(2, "class", MergeClassAttribute(_elementClass));
+            builder.AddAttribute(2, "class", MergeClassAttribute(ClassBuilder.ClassString));
             builder.AddAttribute(3, "ChildContent", ChildContent);
             builder.CloseComponent();
         }

@@ -40,21 +40,14 @@ namespace StableCube.Bulzor.Components
         protected BulmaClassBuilder BackgroundClassBuilder { get; set; } = new BulmaClassBuilder("dropdown-bg");
         protected BulmaClassBuilder DropdownClassBuilder { get; set; } = new BulmaClassBuilder("dropdown");
 
-        protected string _backgroundClass = String.Empty;
-        protected string _dropdownClass = String.Empty;
-
         protected override void BuildBulma()
         {
-            BackgroundClassBuilder.SetIsHidden(true);
+            BackgroundClassBuilder.IsHidden = true;
 
-            _backgroundClass = DropdownClassBuilder.ToString();
-
-            DropdownClassBuilder.SetIsActive(Active);
-            DropdownClassBuilder.SetIsRight(Right);
-            DropdownClassBuilder.SetIsHoverable(Hoverable);
-            DropdownClassBuilder.SetIsUp(Up);
-            
-            _dropdownClass = DropdownClassBuilder.ToString();
+            DropdownClassBuilder.IsActive = Active;
+            DropdownClassBuilder.IsRight = Right;
+            DropdownClassBuilder.IsHoverable = Hoverable;
+            DropdownClassBuilder.IsUp = Up;
         }
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -65,7 +58,7 @@ namespace StableCube.Bulzor.Components
             {
                 builder.OpenRegion(0);
                 builder.OpenElement(1, "div");
-                builder.AddAttribute(2, "class", _backgroundClass);
+                builder.AddAttribute(2, "class", BackgroundClassBuilder.ClassString);
                 builder.AddAttribute(3, "style", "position: fixed; top: 0px; left: 0px; width: 100%; height: 100%;");
                 builder.AddAttribute(4, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, OnClickOut));
                 builder.CloseElement();
@@ -74,7 +67,7 @@ namespace StableCube.Bulzor.Components
 
             builder.OpenElement(0, "div");
             builder.AddMultipleAttributes(1, AdditionalAttributes);
-            builder.AddAttribute(2, "class", MergeClassAttribute(_dropdownClass));
+            builder.AddAttribute(2, "class", MergeClassAttribute(DropdownClassBuilder.ClassString));
 
             builder.OpenElement(3, "div");
             builder.AddAttribute(4, "class", "dropdown-trigger");

@@ -14,13 +14,11 @@ namespace StableCube.Bulzor.Components.Extended
 
         protected BulmaClassBuilder ClassBuilder { get; set; } = new BulmaClassBuilder("busy-spinner");
 
-        protected string _elementClass = String.Empty;
 
         protected override void BuildBulma()
         {
-            ClassBuilder.SetSize(Size);
-            ClassBuilder.SetSchemeColor(Color);
-            _elementClass = ClassBuilder.ToString();
+            ClassBuilder.Size = Size;
+            ClassBuilder.SchemeColor = Color;
         }
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -29,7 +27,7 @@ namespace StableCube.Bulzor.Components.Extended
 
             builder.OpenElement(0, "div");
             builder.AddMultipleAttributes(1, AdditionalAttributes);
-            builder.AddAttribute(2, "class", MergeClassAttribute(_elementClass));
+            builder.AddAttribute(2, "class", MergeClassAttribute(ClassBuilder.ClassString));
             builder.CloseElement();
         }
     }

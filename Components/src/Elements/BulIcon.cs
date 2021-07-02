@@ -26,26 +26,22 @@ namespace StableCube.Bulzor.Components
 
         protected BulmaClassBuilder WrapperClassBuilder { get; set; } = new BulmaClassBuilder("icon");
 
-        protected string _wrapperClass = String.Empty;
-
         protected override void BuildBulma()
         {
-            WrapperClassBuilder.SetSize(Size);
-            WrapperClassBuilder.SetTextColor(Color);
+            WrapperClassBuilder.Size = Size;
+            WrapperClassBuilder.TextColor = Color;
 
             if(Position.HasValue)
             {
                 if(Position.Value == BulIconPosition.Left)
                 {
-                    WrapperClassBuilder.SetIsLeft(true);
+                    WrapperClassBuilder.IsLeft = true;
                 }
                 else
                 {
-                    WrapperClassBuilder.SetIsRight(true);
+                    WrapperClassBuilder.IsRight = true;
                 }
             }
-
-            _wrapperClass = WrapperClassBuilder.ToString();
         }
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -53,7 +49,7 @@ namespace StableCube.Bulzor.Components
             BuildBulma();
 
             builder.OpenElement(0, "span");
-            builder.AddAttribute(1, "class", _wrapperClass);
+            builder.AddAttribute(1, "class", WrapperClassBuilder.ClassString);
 
             builder.OpenElement(2, "i");
             builder.AddMultipleAttributes(3, AdditionalAttributes);

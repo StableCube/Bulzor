@@ -31,17 +31,11 @@ namespace StableCube.Bulzor.Components.Extended
         private RibbonImage[] RibbonImages { get; set; }
 
         protected BulmaClassBuilder RootClassBuilder = new BulmaClassBuilder("image-ribbon-ratio-wrap");
-        protected string _rootElementClass = String.Empty;
         protected BulmaClassBuilder WrapperClassBuilder = new BulmaClassBuilder("image-ribbon-ratio-wrap-inner");
-        protected string _wrapperElementClass = String.Empty;
         protected BulmaClassBuilder ContentClassBuilder = new BulmaClassBuilder("image-ribbon");
-        protected string _contentElementClass = String.Empty;
 
         protected override void BuildBulma()
         {
-            _rootElementClass = RootClassBuilder.ToString();
-            _wrapperElementClass = WrapperClassBuilder.ToString();
-            _contentElementClass = ContentClassBuilder.ToString();
         }
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -49,15 +43,15 @@ namespace StableCube.Bulzor.Components.Extended
             BuildBulma();
 
             builder.OpenElement(0, "div");
-            builder.AddAttribute(1, "class", _rootElementClass);
+            builder.AddAttribute(1, "class", RootClassBuilder.ClassString);
             builder.AddAttribute(2, "style", $"padding-top: {GetRatioPercentage()}%");
             builder.AddContent(3, (RenderFragment)((builder2) => {
                 builder2.OpenElement(4, "div");
-                builder2.AddAttribute(5, "class", _wrapperElementClass);
+                builder2.AddAttribute(5, "class", WrapperClassBuilder.ClassString);
                 builder2.AddContent(6, (RenderFragment)((builder3) => {
                     builder3.OpenElement(7, "div");
                     builder3.AddMultipleAttributes(8, AdditionalAttributes);
-                    builder3.AddAttribute(9, "class", _contentElementClass);
+                    builder3.AddAttribute(9, "class", ContentClassBuilder.ClassString);
                     
                     builder3.OpenComponent<CascadingValue<int>>(10);
                     builder3.AddAttribute(11, "Value", Value);

@@ -78,41 +78,36 @@ namespace StableCube.Bulzor.Components.Extended
         protected BulmaClassBuilder SelectInputClassBuilder { get; set; } = new BulmaClassBuilder("select");
         protected BulmaClassBuilder NumberInputClassBuilder { get; set; } = new BulmaClassBuilder("input");
 
-        protected string _wrapperClass = String.Empty;
-        protected string _labelClass = String.Empty;
         protected string _selectInputClass = String.Empty;
         protected string _numberInputClass = String.Empty;
 
         protected override void BuildBulma()
         {
-            WrapperClassBuilder.SetHasAddons(true);
+            WrapperClassBuilder.HasAddons = true;
 
-            LabelClassBuilder.SetSchemeColor(Color);
-            LabelClassBuilder.SetSize(Size);
+            LabelClassBuilder.SchemeColor = Color;
+            LabelClassBuilder.Size = Size;
 
             BuildPart(SelectInputClassBuilder, ref _selectInputClass);
             BuildPart(NumberInputClassBuilder, ref _numberInputClass);
-
-            _wrapperClass = WrapperClassBuilder.ToString();
-            _labelClass = LabelClassBuilder.ToString();
         }
 
         private void BuildPart(BulmaClassBuilder classBuilder, ref string classString)
         {
-            classBuilder.SetSize(Size);
-            classBuilder.SetIsLoading(Loading);
-            classBuilder.SetIsRounded(Rounded);
+            classBuilder.Size = Size;
+            classBuilder.IsLoading = Loading;
+            classBuilder.IsRounded = Rounded;
 
             if(Loading.HasValue == false || Loading.Value == false)
             {
-                classBuilder.SetSchemeColor(Color);
+                classBuilder.SchemeColor = Color;
             }
             else
             {
-                classBuilder.SetSchemeColor(null);
+                classBuilder.SchemeColor = null;
             }
 
-            classString = classBuilder.ToString();
+            classString = classBuilder.ClassString;
         }
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -120,7 +115,7 @@ namespace StableCube.Bulzor.Components.Extended
             BuildBulma();
 
             builder.OpenElement(0, "div");
-            builder.AddAttribute(1, "class", _wrapperClass);
+            builder.AddAttribute(1, "class", WrapperClassBuilder.ClassString);
 
             if(ShowMonths)
                 BuildSelectInput(builder, 2, Value.Month, MonthRange, MonthLabel, EventCallback.Factory.Create<int>(this, MonthValueChangedHandler));
@@ -166,7 +161,7 @@ namespace StableCube.Bulzor.Components.Extended
                 builder.OpenElement(2, "p");
                 builder.AddAttribute(3, "class", "control");
                 builder.OpenElement(4, "p");
-                builder.AddAttribute(5, "class", _labelClass);
+                builder.AddAttribute(5, "class", LabelClassBuilder.ClassString);
                 builder.AddContent(6, label);
                 builder.CloseElement();
                 builder.CloseElement();
@@ -227,7 +222,7 @@ namespace StableCube.Bulzor.Components.Extended
                 builder.OpenElement(0, "div");
                 builder.AddAttribute(1, "class", "control");
                 builder.OpenElement(2, "div");
-                builder.AddAttribute(3, "class", _labelClass);
+                builder.AddAttribute(3, "class", LabelClassBuilder.ClassString);
                 builder.AddContent(4, label);
                 builder.CloseElement();
                 builder.CloseElement();

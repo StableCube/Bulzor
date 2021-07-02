@@ -7,11 +7,8 @@ namespace StableCube.Bulzor.Components
     {
         protected BulmaClassBuilder ClassBuilder { get; set; } = new BulmaClassBuilder("card-footer-item");
 
-        protected string _elementClass = String.Empty;
-
         protected override void BuildBulma()
         {
-            _elementClass = ClassBuilder.ToString();
         }
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -20,11 +17,11 @@ namespace StableCube.Bulzor.Components
 
             if(!AdditionalAttributes.ContainsKey("class"))
             {
-                AdditionalAttributes.Add("class", MergeClassAttribute(_elementClass));
+                AdditionalAttributes.Add("class", MergeClassAttribute(ClassBuilder.ClassString));
             }
             else
             {
-                AdditionalAttributes["class"] = MergeClassAttribute(_elementClass);
+                AdditionalAttributes["class"] = MergeClassAttribute(ClassBuilder.ClassString);
             }
             
             base.BuildRenderTree(builder);

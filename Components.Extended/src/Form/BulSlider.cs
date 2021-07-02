@@ -30,15 +30,13 @@ namespace StableCube.Bulzor.Components.Extended
         public bool Circle { get; set; }
 
         protected BulmaClassBuilder InputClassBuilder = new BulmaClassBuilder("slider");
-        protected string _elementClass = String.Empty;
 
         protected void BuildBulma()
         {
-            InputClassBuilder.SetSchemeColor(Color);
-            InputClassBuilder.SetSize(Size);
-            InputClassBuilder.SetIsFullWidth(FullWidth);
-            InputClassBuilder.SetIsCircle(Circle);
-            _elementClass = InputClassBuilder.ToString();
+            InputClassBuilder.SchemeColor = Color;
+            InputClassBuilder.Size = Size;
+            InputClassBuilder.IsFullWidth = FullWidth;
+            InputClassBuilder.IsCircle = Circle;
         }
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -48,7 +46,7 @@ namespace StableCube.Bulzor.Components.Extended
             builder.OpenElement(0, "input");
             builder.AddMultipleAttributes(1, AdditionalAttributes);
             builder.AddAttribute(2, "type", "range");
-            builder.AddAttribute(3, "class", _elementClass);
+            builder.AddAttribute(3, "class", InputClassBuilder.ClassString);
             builder.AddAttribute(4, "min", Min);
             builder.AddAttribute(5, "max", Max);
             builder.AddAttribute(6, "step", Step);

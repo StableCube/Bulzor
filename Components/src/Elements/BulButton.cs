@@ -45,22 +45,18 @@ namespace StableCube.Bulzor.Components
 
         protected BulmaClassBuilder ClassBuilder { get; set; } = new BulmaClassBuilder("button");
 
-        protected string _elementClass = String.Empty;
-
         protected override void BuildBulma()
         {
-            ClassBuilder.SetIsLoading(Loading);
-            ClassBuilder.SetSchemeColor(Color);
-            ClassBuilder.SetSize(Size);
-            ClassBuilder.SetIsActive(Active);
-            ClassBuilder.SetIsFocused(Focused);
-            ClassBuilder.SetIsHovered(Hovered);
-            ClassBuilder.SetIsOutlined(Outlined);
-            ClassBuilder.SetIsFullWidth(FullWidth);
-            ClassBuilder.SetIsInverted(Inverted);
-            ClassBuilder.SetIsRounded(Rounded);
-
-            _elementClass = ClassBuilder.ToString();
+            ClassBuilder.IsLoading = Loading;
+            ClassBuilder.SchemeColor = Color;
+            ClassBuilder.Size = Size;
+            ClassBuilder.IsActive = Active;
+            ClassBuilder.IsFocused = Focused;
+            ClassBuilder.IsHovered = Hovered;
+            ClassBuilder.IsOutlined = Outlined;
+            ClassBuilder.IsFullWidth = FullWidth;
+            ClassBuilder.IsInverted = Inverted;
+            ClassBuilder.IsRounded = Rounded;
         }
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -69,7 +65,7 @@ namespace StableCube.Bulzor.Components
 
             builder.OpenElement(0, "button");
             builder.AddMultipleAttributes(1, AdditionalAttributes);
-            builder.AddAttribute(2, "class", MergeClassAttribute(_elementClass));
+            builder.AddAttribute(2, "class", MergeClassAttribute(ClassBuilder.ClassString));
             builder.AddAttribute(3, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, OnClick));
             builder.AddContent(4, ChildContent);
             builder.CloseElement();

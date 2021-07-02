@@ -15,11 +15,8 @@ namespace StableCube.Bulzor.Components
 
         protected BulmaClassBuilder ClassBuilder { get; set; } = new BulmaClassBuilder("modal-background");
 
-        protected string _elementClass = String.Empty;
-
         protected override void BuildBulma()
         {
-            _elementClass = ClassBuilder.ToString();
         }
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -28,7 +25,7 @@ namespace StableCube.Bulzor.Components
 
             builder.OpenElement(0, "div");
             builder.AddMultipleAttributes(1, AdditionalAttributes);
-            builder.AddAttribute(2, "class", MergeClassAttribute(_elementClass));
+            builder.AddAttribute(2, "class", MergeClassAttribute(ClassBuilder.ClassString));
             builder.AddAttribute(3, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, OnClick));
             builder.CloseElement();
         }

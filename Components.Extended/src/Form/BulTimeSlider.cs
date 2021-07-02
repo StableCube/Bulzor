@@ -33,14 +33,12 @@ namespace StableCube.Bulzor.Components.Extended
         public string ParsingErrorMessage { get; set; }
 
         protected BulmaClassBuilder InputClassBuilder = new BulmaClassBuilder("time-slider");
-        protected string _elementClass = String.Empty;
 
         private long LongValue { get; set; }
         private Expression<Func<long>> LongValueExpression { get; set; }
 
         protected void BuildBulma()
         {
-            _elementClass = InputClassBuilder.ToString();
         }
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -50,7 +48,7 @@ namespace StableCube.Bulzor.Components.Extended
             LongValueExpression = () => LongValue;
 
             builder.OpenElement(0, "div");
-            builder.AddAttribute(1, "class", _elementClass);
+            builder.AddAttribute(1, "class", InputClassBuilder.ClassString);
             builder.AddAttribute(2, "AdditionalAttributes", AdditionalAttributes);
 
             builder.OpenComponent<BulSlider<long>>(3);

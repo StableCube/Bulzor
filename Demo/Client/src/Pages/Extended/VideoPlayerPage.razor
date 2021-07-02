@@ -1,0 +1,68 @@
+﻿@page "/documentation/extended/video-player"
+
+<DocumentationRoot>
+    <section class="content">
+        <p class="mt-2 has-text-weight-semibold">
+            The following components need to be imported for the player to work properly
+        </p>
+        <ul>
+            <li>Progress Bar</li>
+            <li>Slider</li>
+            <li>Dropdown</li>
+            <li>Button</li>
+            <li>Icon</li>
+            <li>Menu</li>
+        </ul>
+
+        <p class="mt-2 has-text-weight-semibold">
+            ToDo
+        </p>
+        <ul>
+            <li>HLS/DASH support using <a href="https://developer.mozilla.org/en-US/docs/Web/API/MediaSource" target="_blank">MediaSource</a></li>
+            <li>Playlists</li>
+            <li>Spritesheet support for scrubber preview images</li>
+            <li>Subtitle support</li>
+        </ul>
+    </section>
+    <ExampleBox>
+        <ExampleOptions>
+            <EditForm Model="@this">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+
+                <OptionsBox>
+                    <OptionsBoxItem>
+                        <div class="control">
+                            <label class="label">Color</label>
+                            <BulInputSelectEnum @bind-Value="Color" />
+                        </div>
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <div class="control">
+                            <label class="label">Size</label>
+                            <BulInputSelectEnum @bind-Value="Size" />
+                        </div>
+                    </OptionsBoxItem>
+                </OptionsBox>
+            </EditForm>
+        </ExampleOptions>
+
+        <ExampleResult>
+            <BulVideoPlayer Color="Color" Size="Size" Muted="true" Poster="PosterUri">
+                <BulMediaSource MediaUri="Video720pMp4Uri" MediaType="video/mp4" />
+                <BulMediaSource MediaUri="Video360pMp4Uri" MediaType="video/mp4" />
+            </BulVideoPlayer>
+        </ExampleResult>
+    </ExampleBox>
+</DocumentationRoot>
+
+@code {
+    public BulSchemeColor Color { get; set; } = BulSchemeColor.Primary;
+    public BulSize Size { get; set; } = BulSize.Default;
+    public Uri Video720pHlsUri { get; set; } = new Uri("https://ad-media.stablecube.com/file/sc-bulzor-demo/nature-720p.m3u8");
+    public Uri Video360pHlsUri { get; set; } = new Uri("https://ad-media.stablecube.com/file/sc-bulzor-demo/nature-360p.m3u8");
+    public Uri Video720pMp4Uri { get; set; } = new Uri("https://ad-media.stablecube.com/file/sc-bulzor-demo/nature-720p.mp4");
+    public Uri Video360pMp4Uri { get; set; } = new Uri("https://ad-media.stablecube.com/file/sc-bulzor-demo/nature-360p.mp4");
+    public Uri PosterUri { get; set; } = new Uri("https://ad-media.stablecube.com/file/sc-bulzor-demo/nature-poster.jpeg");
+}

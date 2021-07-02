@@ -23,14 +23,10 @@ namespace StableCube.Bulzor.Components
 
         protected BulmaClassBuilder ClassBuilder { get; set; } = new BulmaClassBuilder("progress");
 
-        protected string _elementClass = String.Empty;
-
         protected override void BuildBulma()
         {
-            ClassBuilder.SetSchemeColor(Color);
-            ClassBuilder.SetSize(Size);
-
-            _elementClass = ClassBuilder.ToString();
+            ClassBuilder.SchemeColor = Color;
+            ClassBuilder.Size = Size;
         }
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -39,7 +35,7 @@ namespace StableCube.Bulzor.Components
 
             builder.OpenElement(0, "progress");
             builder.AddMultipleAttributes(1, AdditionalAttributes);
-            builder.AddAttribute(2, "class", MergeClassAttribute(_elementClass));
+            builder.AddAttribute(2, "class", MergeClassAttribute(ClassBuilder.ClassString));
             builder.AddAttribute(3, "max", "100");
 
             if(Indeterminate == false)

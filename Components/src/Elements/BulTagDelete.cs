@@ -27,17 +27,13 @@ namespace StableCube.Bulzor.Components
 
         protected BulmaClassBuilder ClassBuilder { get; set; } = new BulmaClassBuilder("tag");
 
-        protected string _elementClass = String.Empty;
-
         protected override void BuildBulma()
         {
-            ClassBuilder.SetSize(Size);
-            ClassBuilder.SetSchemeColor(Color);
-            ClassBuilder.SetIsLight(Light);
-            ClassBuilder.SetIsRounded(Rounded);
-            ClassBuilder.SetIsDelete(true);
-
-            _elementClass = ClassBuilder.ToString();
+            ClassBuilder.Size = Size;
+            ClassBuilder.SchemeColor = Color;
+            ClassBuilder.IsLight = Light;
+            ClassBuilder.IsRounded = Rounded;
+            ClassBuilder.IsDelete = true;
         }
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -46,7 +42,7 @@ namespace StableCube.Bulzor.Components
 
             builder.OpenElement(0, "a");
             builder.AddMultipleAttributes(1, AdditionalAttributes);
-            builder.AddAttribute(2, "class", MergeClassAttribute(_elementClass));
+            builder.AddAttribute(2, "class", MergeClassAttribute(ClassBuilder.ClassString));
             builder.AddAttribute(3, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, OnClick));
             builder.CloseElement();
         }

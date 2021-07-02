@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <PackageId>StableCube.Bulzor.Components.MediaPlayer</PackageId>
+    <TargetFramework>net5.0</TargetFramework>
+    <Company>Stable Cube</Company>
+    <Version>0.1</Version>
+    <Title>StableCube.Bulzor.Components.MediaPlayer</Title>
+    <IsPackable>true</IsPackable>
+    <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
+    <RootNamespace>StableCube.Bulzor.Components.MediaPlayer</RootNamespace>
+    <LicenseUrl>https://opensource.org/licenses/MIT</LicenseUrl>
+    <ProjectUrl>httpS://bulzor.stablecube.com</ProjectUrl>
+    <RepositoryUrl>https://github.com/StableCube/Bulzor</RepositoryUrl>
+    <Copyright>Copyright 2021</Copyright>
+    <Authors>Zachary Boyet</Authors>
+    <Description>Bulzor media player using Bulma</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- <PackageReference Include="StableCube.Bulzor.Components.Extended" Version="0.3.4" /> -->
+    <ProjectReference Include="../Components.Extended/Bulzor.Components.Extended.csproj" />
+  </ItemGroup>
+</Project>

@@ -17,13 +17,10 @@ namespace StableCube.Bulzor.Components
         
         protected BulmaClassBuilder ClassBuilder { get; set; } = new BulmaClassBuilder("navbar-dropdown");
 
-        protected string _elementClass = String.Empty;
-
         protected override void BuildBulma()
         {
-            ClassBuilder.SetIsRight(Right);
-            ClassBuilder.SetIsBoxed(Boxed);
-            _elementClass = ClassBuilder.ToString();
+            ClassBuilder.IsRight = Right;
+            ClassBuilder.IsBoxed = Boxed;
         }
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -32,7 +29,7 @@ namespace StableCube.Bulzor.Components
 
             builder.OpenElement(0, "div");
             builder.AddMultipleAttributes(1, AdditionalAttributes);
-            builder.AddAttribute(2, "class", MergeClassAttribute(_elementClass));
+            builder.AddAttribute(2, "class", MergeClassAttribute(ClassBuilder.ClassString));
             builder.AddContent(3, ChildContent);
             builder.CloseElement();
         }

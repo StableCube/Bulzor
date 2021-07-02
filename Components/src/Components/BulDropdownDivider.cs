@@ -7,11 +7,8 @@ namespace StableCube.Bulzor.Components
     {
         protected BulmaClassBuilder ClassBuilder { get; set; } = new BulmaClassBuilder("dropdown-divider");
 
-        protected string _elementClass = String.Empty;
-
         protected override void BuildBulma()
         {
-            _elementClass = ClassBuilder.ToString();
         }
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -20,7 +17,7 @@ namespace StableCube.Bulzor.Components
 
             builder.OpenElement(0, "hr");
             builder.AddMultipleAttributes(1, AdditionalAttributes);
-            builder.AddAttribute(2, "class", MergeClassAttribute(_elementClass));
+            builder.AddAttribute(2, "class", MergeClassAttribute(ClassBuilder.ClassString));
 
             builder.CloseElement();
         }

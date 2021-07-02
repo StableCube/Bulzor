@@ -23,32 +23,25 @@ namespace StableCube.Bulzor.Components
         protected BulmaClassBuilder WrapperClassBuilder { get; set; } = new BulmaClassBuilder("control");
         protected BulmaClassBuilder InputClassBuilder { get; set; } = new BulmaClassBuilder("input");
 
-        protected string _wrapperClass = String.Empty;
-
-        protected string _inputClass = String.Empty;
-
         protected override void BuildBulma()
         {
-            WrapperClassBuilder.SetSize(Size);
-            WrapperClassBuilder.SetIsLoading(Loading);
-            WrapperClassBuilder.SetIsStatic(Static);
-            WrapperClassBuilder.SetHasIconsLeft(HasIconsLeft);
-            WrapperClassBuilder.SetHasIconsRight(HasIconsRight);
+            WrapperClassBuilder.Size = Size;
+            WrapperClassBuilder.IsLoading = Loading;
+            WrapperClassBuilder.IsStatic = Static;
+            WrapperClassBuilder.HasIconsLeft = HasIconsLeft;
+            WrapperClassBuilder.HasIconsRight = HasIconsRight;
 
-            _wrapperClass = WrapperClassBuilder.ToString();
-
-            InputClassBuilder.SetSchemeColor(Color);
-            InputClassBuilder.SetSize(Size);
-            InputClassBuilder.SetIsRounded(Rounded);
-            _inputClass = InputClassBuilder.ToString();
+            InputClassBuilder.SchemeColor = Color;
+            InputClassBuilder.Size = Size;
+            InputClassBuilder.IsRounded = Rounded;
 
             if(AdditionalAttributes.ContainsKey("class"))
             {
-                AdditionalAttributes["class"] = _inputClass;
+                AdditionalAttributes["class"] = InputClassBuilder.ClassString;
             }
             else
             {
-                AdditionalAttributes.Add("class", _inputClass);
+                AdditionalAttributes.Add("class", InputClassBuilder.ClassString);
             }
         }
     }

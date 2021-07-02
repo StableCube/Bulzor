@@ -23,36 +23,28 @@ namespace StableCube.Bulzor.Components
         protected BulmaClassBuilder SelectClassBuilder { get; set; } = new BulmaClassBuilder("select");
         protected BulmaClassBuilder IconClassBuilder { get; set; } = new BulmaClassBuilder("icon");
 
-        protected string _controlClass = String.Empty;
-        protected string _selectClass = String.Empty;
-        protected string _iconClass = String.Empty;
-
         protected override void BuildBulma()
         {
-            SelectClassBuilder.SetSize(Size);
-            SelectClassBuilder.SetIsLoading(Loading);
-            SelectClassBuilder.SetIsRounded(Rounded);
+            SelectClassBuilder.Size = Size;
+            SelectClassBuilder.IsLoading = Loading;
+            SelectClassBuilder.IsRounded = Rounded;
 
             if(Loading.HasValue == false || Loading.Value == false)
             {
-                SelectClassBuilder.SetSchemeColor(Color);
+                SelectClassBuilder.SchemeColor = Color;
             }
             else
             {
-                SelectClassBuilder.SetSchemeColor(null);
+                SelectClassBuilder.SchemeColor = null;
             }
 
             if(!string.IsNullOrEmpty(IconClass))
             {
-                IconClassBuilder.SetIsLeft(true);
-                IconClassBuilder.SetSize(Size);
+                IconClassBuilder.IsLeft = true;
+                IconClassBuilder.Size = Size;
             }
 
-            ControlClassBuilder.SetHasIconsLeft(!string.IsNullOrEmpty(IconClass));
-
-            _controlClass = ControlClassBuilder.ToString();
-            _selectClass = SelectClassBuilder.ToString();
-            _iconClass = IconClassBuilder.ToString();
+            ControlClassBuilder.HasIconsLeft = !string.IsNullOrEmpty(IconClass);
         }
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -60,9 +52,9 @@ namespace StableCube.Bulzor.Components
             BuildBulma();
 
             builder.OpenElement(0, "div");
-            builder.AddAttribute(1, "class", _controlClass);
+            builder.AddAttribute(1, "class", ControlClassBuilder.ClassString);
             builder.OpenElement(2, "div");
-            builder.AddAttribute(3, "class", _selectClass);
+            builder.AddAttribute(3, "class", SelectClassBuilder.ClassString);
 
             builder.OpenComponent<InputSelect<TValue>>(4);
             builder.AddAttribute(5, "Value", Value);
@@ -80,7 +72,7 @@ namespace StableCube.Bulzor.Components
             if(!string.IsNullOrEmpty(IconClass))
             {
                 builder.OpenElement(12, "span");
-                builder.AddAttribute(13, "class", _iconClass);
+                builder.AddAttribute(13, "class", IconClassBuilder.ClassString);
 
                 builder.OpenElement(15, "i");
                 builder.AddAttribute(16, "class", IconClass);

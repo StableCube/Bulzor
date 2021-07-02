@@ -93,6 +93,7 @@ _[Ss]cripts
 *.ncrunchsolution
 *.dot[Cc]over
 core
+mono_crash.*
 #############################
 # CSS is compiled from sass #
 #############################

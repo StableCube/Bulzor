@@ -12,11 +12,8 @@ namespace StableCube.Bulzor.Components
 
         protected BulmaClassBuilder WrapperClassBuilder { get; set; } = new BulmaClassBuilder("checkbox");
 
-        protected string _wrapperClass = String.Empty;
-
         protected override void BuildBulma()
         {
-            _wrapperClass = WrapperClassBuilder.ToString();
         }
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -24,7 +21,7 @@ namespace StableCube.Bulzor.Components
             BuildBulma();
 
             builder.OpenElement(0, "label");
-            builder.AddAttribute(1, "class", _wrapperClass);
+            builder.AddAttribute(1, "class", WrapperClassBuilder.ClassString);
 
             builder.OpenComponent<InputCheckbox>(2);
             builder.AddAttribute(3, "Value", Value);

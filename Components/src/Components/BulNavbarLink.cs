@@ -11,12 +11,9 @@ namespace StableCube.Bulzor.Components
 
         protected BulmaClassBuilder ClassBuilder { get; set; } = new BulmaClassBuilder("navbar-link");
 
-        protected string _elementClass = String.Empty;
-
         protected override void BuildBulma()
         {
-            ClassBuilder.SetIsArrowless(Arrowless);
-            _elementClass = ClassBuilder.ToString();
+            ClassBuilder.IsArrowless = Arrowless;
         }
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -25,11 +22,11 @@ namespace StableCube.Bulzor.Components
 
             if(!AdditionalAttributes.ContainsKey("class"))
             {
-                AdditionalAttributes.Add("class", MergeClassAttribute(_elementClass));
+                AdditionalAttributes.Add("class", MergeClassAttribute(ClassBuilder.ClassString));
             }
             else
             {
-                AdditionalAttributes["class"] = _elementClass;
+                AdditionalAttributes["class"] = ClassBuilder.ClassString;
             }
             
             base.BuildRenderTree(builder);

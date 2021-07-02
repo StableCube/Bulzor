@@ -30,22 +30,14 @@ namespace StableCube.Bulzor.Components.Extended
         protected BulmaClassBuilder WrapClassBuilder = new BulmaClassBuilder("image");
         protected BulmaClassBuilder ImageClassBuilder = new BulmaClassBuilder();
 
-        protected string _rootElementClass = String.Empty;
-        protected string _wrapElementClass = String.Empty;
-        protected string _imageElementClass = String.Empty;
-
         protected override void BuildBulma()
         {
-            RootClassBuilder.SetSize(GetSize());
-            RootClassBuilder.SetSchemeColor(Color);
-            RootClassBuilder.SetIsActive(Active);
-            RootClassBuilder.SetIsFocused((FocusedIndex == Image.Index));
-            _rootElementClass = RootClassBuilder.ToString();
+            RootClassBuilder.Size = GetSize();
+            RootClassBuilder.SchemeColor = Color;
+            RootClassBuilder.IsActive = Active;
+            RootClassBuilder.IsFocused = (FocusedIndex == Image.Index);
 
-            WrapClassBuilder.SetRatio(Ratio);
-            _wrapElementClass = WrapClassBuilder.ToString();
-
-            _imageElementClass = ImageClassBuilder.ToString();
+            WrapClassBuilder.Ratio = Ratio;
         }
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -53,15 +45,15 @@ namespace StableCube.Bulzor.Components.Extended
             BuildBulma();
 
             builder.OpenElement(0, "div");
-            builder.AddAttribute(1, "class", _rootElementClass);
+            builder.AddAttribute(1, "class", RootClassBuilder.ClassString);
             builder.AddAttribute(2, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, OnClickHandlerAsync));
 
             builder.AddContent(3, (RenderFragment)((builder2) => {
                 builder2.OpenElement(4, "figure");
-                builder2.AddAttribute(5, "class", _wrapElementClass);
+                builder2.AddAttribute(5, "class", WrapClassBuilder.ClassString);
                 builder2.AddContent(6, (RenderFragment)((builder3) => {
                     builder3.OpenElement(7, "img");
-                    builder3.AddAttribute(8, "class", _imageElementClass);
+                    builder3.AddAttribute(8, "class", ImageClassBuilder.ClassString);
                     builder3.AddAttribute(9, "src", Image.Uri.AbsoluteUri);
                     builder3.CloseElement();
                 }));

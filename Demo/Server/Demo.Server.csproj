@@ -17,6 +17,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Watch Remove="wwwroot/css/*.css" />
+    <Watch Remove="../Client/**/*.css" />
     <Watch Include="../Client/**/*.razor" />
     <Watch Include="../Client/**/*.scss" />
   </ItemGroup>

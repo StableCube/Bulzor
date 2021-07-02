@@ -32,7 +32,7 @@
                 Right="Right" 
                 Up="Dropup" 
                 Hoverable="Hoverable" 
-                OnClickOut="OnBlurHandler">
+                OnClickOut="OnClickOutHandler">
 
                 <BulDropdownTrigger>
                     <BulButton OnClick="OnToggleDropdownClickedHandler">
@@ -80,7 +80,7 @@
         IsDropdownActive = !IsDropdownActive;
     }
 
-    private void OnBlurHandler(MouseEventArgs args)
+    private void OnClickOutHandler(MouseEventArgs args)
     {
         IsDropdownActive = false;
     }

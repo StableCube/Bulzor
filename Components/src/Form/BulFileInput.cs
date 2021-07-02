@@ -7,11 +7,8 @@ namespace StableCube.Bulzor.Components
     {
         protected BulmaClassBuilder ClassBuilder { get; set; } = new BulmaClassBuilder("file-input");
 
-        protected string _elementClass = String.Empty;
-
         protected override void BuildBulma()
         {
-            _elementClass = ClassBuilder.ToString();
         }
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -19,7 +16,7 @@ namespace StableCube.Bulzor.Components
             BuildBulma();
 
             builder.OpenElement(0, "input");
-            builder.AddAttribute(1, "class", _elementClass);
+            builder.AddAttribute(1, "class", ClassBuilder.ClassString);
             builder.AddMultipleAttributes(2, AdditionalAttributes);
             builder.AddAttribute(3, "type", "file");
 

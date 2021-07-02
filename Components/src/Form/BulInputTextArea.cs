@@ -11,27 +11,21 @@ namespace StableCube.Bulzor.Components
 
         protected BulmaClassBuilder InputClassBuilder { get; set; } = new BulmaClassBuilder("textarea");
 
-        protected string _wrapperClass = String.Empty;
-        protected string _inputClass = String.Empty;
-
         protected override void BuildBulma()
         {
-            WrapperClassBuilder.SetSize(Size);
-            WrapperClassBuilder.SetIsLoading(Loading);
+            WrapperClassBuilder.Size = Size;
+            WrapperClassBuilder.IsLoading = Loading;
 
-            _wrapperClass = WrapperClassBuilder.ToString();
-
-            InputClassBuilder.SetSchemeColor(Color);
-            InputClassBuilder.SetSize(Size);
-            _inputClass = InputClassBuilder.ToString();
+            InputClassBuilder.SchemeColor = Color;
+            InputClassBuilder.Size = Size;
             
             if(AdditionalAttributes.ContainsKey("class"))
             {
-                AdditionalAttributes["class"] =  _inputClass;
+                AdditionalAttributes["class"] =  InputClassBuilder.ClassString;
             }
             else
             {
-                AdditionalAttributes.Add("class", _inputClass);
+                AdditionalAttributes.Add("class", InputClassBuilder.ClassString);
             }
         }
 
@@ -40,7 +34,7 @@ namespace StableCube.Bulzor.Components
             BuildBulma();
 
             builder.OpenElement(0, "div");
-            builder.AddAttribute(1, "class", _wrapperClass);
+            builder.AddAttribute(1, "class", WrapperClassBuilder.ClassString);
 
             builder.OpenComponent<InputTextArea>(2);
             builder.AddAttribute(3, "Value", Value);

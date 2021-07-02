@@ -13,8 +13,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="StableCube.Bulzor.Components.Extended" Version="0.3.4" />
-    <!-- <ProjectReference Include="../../Components.Extended/Bulzor.Components.Extended.csproj" /> -->
+    <!-- <PackageReference Include="StableCube.Bulzor.Components.Extended" Version="0.3.4" /> -->
+    <ProjectReference Include="../../Components.Extended/Bulzor.Components.Extended.csproj" />
+    <ProjectReference Include="../../Components.MediaPlayer/Bulzor.Components.MediaPlayer.csproj" />
   </ItemGroup>
 
 </Project>
