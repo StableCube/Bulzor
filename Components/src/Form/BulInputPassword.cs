@@ -9,8 +9,8 @@ namespace StableCube.Bulzor.Components
         {
             BuildBulma();
 
-            if(!AdditionalAttributes.ContainsKey("type"))
-                AdditionalAttributes.Add("type", "password");
+            if(!CombinedAdditionalAttributes.ContainsKey("type"))
+                CombinedAdditionalAttributes.Add("type", "password");
             
             builder.OpenElement(0, "div");
             builder.AddAttribute(1, "class", WrapperClassBuilder.ClassString);

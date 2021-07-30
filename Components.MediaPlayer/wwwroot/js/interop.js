@@ -16,21 +16,24 @@
         onSeekedEvent,
         onCanPlayEvent,
         onCanPlayThroughEvent,
-        onRateChangeEvent
+        onRateChangeEvent,
+        onAbortEvent,
+        onEmptiedEvent,
+        onErrorEvent,
     ) => {
         const rootElm = document.getElementById(elementId);
         const mediaElm = rootElm.getElementsByClassName('bul-media-player-media-root')[0];
         
         mediaElm.onplay = function() {
-            instance.invokeMethodAsync(onPlayEvent, null);
+            instance.invokeMethodAsync(onPlayEvent, mediaElm.currentSrc);
         };
 
         mediaElm.onplaying = function() {
-            instance.invokeMethodAsync(onPlayingEvent, null);
+            instance.invokeMethodAsync(onPlayingEvent, mediaElm.currentSrc);
         };
 
         mediaElm.onpause = function() {
-            instance.invokeMethodAsync(onPauseEvent, null);
+            instance.invokeMethodAsync(onPauseEvent, mediaElm.currentSrc);
         };
 
         mediaElm.onvolumechange = function () {
@@ -51,7 +54,7 @@
         });
 
         mediaElm.onended = function() {
-            instance.invokeMethodAsync(onEndedEvent, null);
+            instance.invokeMethodAsync(onEndedEvent, mediaElm.currentSrc);
         };
 
         mediaElm.ondurationchange = function() {
@@ -87,15 +90,27 @@
         };
 
         mediaElm.oncanplay = function() {
-            instance.invokeMethodAsync(onCanPlayEvent, null);
+            instance.invokeMethodAsync(onCanPlayEvent, `{ "CurrentSrc": "${mediaElm.currentSrc}", "Width": ${mediaElm.videoWidth}, "Height": ${mediaElm.videoHeight} }`);
         };
 
         mediaElm.oncanplaythrough = function() {
-            instance.invokeMethodAsync(onCanPlayThroughEvent, null);
+            instance.invokeMethodAsync(onCanPlayThroughEvent, mediaElm.currentSrc);
         };
 
         mediaElm.onratechange = function() {
             instance.invokeMethodAsync(onRateChangeEvent, mediaElm.playbackRate);
+        };
+
+        mediaElm.onabort = function() {
+            instance.invokeMethodAsync(onAbortEvent, mediaElm.currentSrc);
+        };
+
+        mediaElm.onemptied = function() {
+            instance.invokeMethodAsync(onEmptiedEvent, null);
+        };
+
+        mediaElm.onerror = function() {
+            instance.invokeMethodAsync(onErrorEvent, mediaElm.currentSrc);
         };
     };
 

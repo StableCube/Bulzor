@@ -5,7 +5,6 @@ using System.Text;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
-using StableCube.Bulzor.Components;
 
 namespace StableCube.Bulzor.Components.MediaPlayer
 {
@@ -24,6 +23,7 @@ namespace StableCube.Bulzor.Components.MediaPlayer
         public Dictionary<string, string> IconClassMap { get; set; } = new Dictionary<string, string>()
         {
             { "play", "fas fa-play" },
+            { "play-stopped-centered", "fas fa-play-circle" },
             { "pause", "fas fa-pause" },
             { "volume-muted", "fas fa-volume-mute" },
             { "volume-high", "fas fa-volume-up" },
@@ -133,18 +133,26 @@ namespace StableCube.Bulzor.Components.MediaPlayer
                 _seekStateCache = PlayerState.Seeking;
             }
 
-            if(PlayerState.CurrentTime != _lastCurrentTime || _durationStrBuilder.Length == 0 || PlayerState.Duration != _lastDuration)
+            if(_isScrubberMouseDown || PlayerState.CurrentTime != _lastCurrentTime || _durationStrBuilder.Length == 0 || PlayerState.Duration != _lastDuration)
             {
                 _lastCurrentTime = PlayerState.CurrentTime;
                 _currentTimeStrBuilder.Clear();
-                _currentTimeStrBuilder.Append(GetTimeSpanString(PlayerState.CurrentTime, (PlayerState.Duration.Hours > 0), PlayerState.Duration.Minutes > 0));
+
+                if(_isScrubberMouseDown || PlayerState.Seeking)
+                {
+                    _currentTimeStrBuilder.Append(GetTimeSpanString(_scrubberPos, (PlayerState.Duration.Hours > 0), true));
+                }
+                else
+                {
+                    _currentTimeStrBuilder.Append(GetTimeSpanString(PlayerState.CurrentTime, (PlayerState.Duration.Hours > 0), true));
+                }
             }
             
             if(PlayerState.Duration != _lastDuration || _durationStrBuilder.Length == 0)
             {
                 _lastDuration = PlayerState.Duration;
                 _durationStrBuilder.Clear();
-                _durationStrBuilder.Append(GetTimeSpanString(PlayerState.Duration, (PlayerState.Duration.Hours > 0), PlayerState.Duration.Minutes > 0));
+                _durationStrBuilder.Append(GetTimeSpanString(PlayerState.Duration, (PlayerState.Duration.Hours > 0), true));
             }
 
             builder.OpenElement(0, "div");
@@ -153,9 +161,29 @@ namespace StableCube.Bulzor.Components.MediaPlayer
             builder.AddAttribute(3, "onmouseout", EventCallback.Factory.Create<MouseEventArgs>(this, OnPlayerMouseOutHandler));
             builder.AddAttribute(4, "onpointermove", EventCallback.Factory.Create<PointerEventArgs>(this, OnPointerMoveHandler));
 
-            BuildControlGroup(builder, 5);
+            BuildControlGroup(builder, 6);
+
+            if(PlayerState.PlayState == BulMediaPlayState.Stopped)
+                BuildStoppedCenteredPlayButton(builder, 7);
 
             builder.CloseElement();
+        }
+
+        private void BuildStoppedCenteredPlayButton(RenderTreeBuilder builder, int index)
+        {
+            builder.OpenRegion(index);
+            builder.OpenComponent<BulButton>(0);
+            builder.AddAttribute(1, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, OnPlayPauseClick));
+            builder.AddAttribute(2, "class", "bul-play-stopped-centered");
+            builder.AddAttribute(3, "Size", BulSize.Large);
+            builder.AddAttribute(4, "ChildContent", (RenderFragment)((builder2) => {
+                builder2.OpenComponent<BulIcon>(5);
+                builder2.AddAttribute(6, "Size", BulSize.Large);
+                builder2.AddAttribute(7, "class", IconClassMap["play-stopped-centered"]);
+                builder2.CloseComponent();
+            }));
+            builder.CloseComponent();
+            builder.CloseRegion();
         }
 
         private void BuildControlGroup(RenderTreeBuilder builder, int index)
@@ -217,7 +245,7 @@ namespace StableCube.Bulzor.Components.MediaPlayer
         private string GetTimeSpanString(TimeSpan time, bool showHours, bool showMinutes)
         {
             string result = string.Format("{0}{1}{2}",
-                showHours ? string.Format("{0:0}", time.TotalHours) : string.Empty,
+                showHours ? string.Format("{0:0}", Math.Floor(time.TotalHours)) : string.Empty,
                 showMinutes ? string.Format("{1}{0:0}", time.Minutes, showHours ? ":" : string.Empty) : string.Empty,
                 string.Format("{1}{0:D2}", time.Seconds, showMinutes ? ":" : string.Empty));
 
@@ -243,7 +271,6 @@ namespace StableCube.Bulzor.Components.MediaPlayer
                     btnClass = IconClassMap["pause"];
 
                 builder2.AddAttribute(7, "class", btnClass);
-                
                 builder2.CloseComponent();
             }));
             builder.CloseComponent();
@@ -331,19 +358,18 @@ namespace StableCube.Bulzor.Components.MediaPlayer
         {
             builder.OpenRegion(index);
             builder.OpenComponent<BulDropdownItemLink>(0);
-            //builder.AddAttribute(1, "Active", PlayerState.Loop);
-            builder.AddAttribute(2, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, OnLoopToggleClickHandler));
-            builder.AddAttribute(3, "ChildContent", (RenderFragment)((builder2) => {
-                builder2.OpenElement(4, "span");
-                builder2.AddContent(5, "Loop");
+            builder.AddAttribute(1, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, OnLoopToggleClickHandler));
+            builder.AddAttribute(2, "ChildContent", (RenderFragment)((builder2) => {
+                builder2.OpenElement(3, "span");
+                builder2.AddContent(4, "Loop");
                 builder2.CloseElement();
 
-                builder2.OpenComponent<BulIcon>(6);
-                builder2.AddAttribute(7, "Size", Size);
-                builder2.AddAttribute(8, "class", PlayerState.Loop ? IconClassMap["checkbox-checked"] : IconClassMap["checkbox-empty"]);
+                builder2.OpenComponent<BulIcon>(5);
+                builder2.AddAttribute(6, "Size", Size);
+                builder2.AddAttribute(7, "class", PlayerState.Loop ? IconClassMap["checkbox-checked"] : IconClassMap["checkbox-empty"]);
                 builder2.CloseComponent();
             }));
-            builder.AddAttribute(6, "class", "menu-label");
+            builder.AddAttribute(8, "class", "menu-label");
             builder.CloseComponent();
             builder.CloseRegion();
         }
@@ -588,6 +614,9 @@ namespace StableCube.Bulzor.Components.MediaPlayer
         private async Task OnVolumeChangeHandler(EventArgs args)
         {
             await OnVolumeChange.InvokeAsync(_volumePos);
+
+            if(PlayerState.Muted)
+                await OnMuteClick.InvokeAsync();
         }
 
         private async Task OnScrubberInputHandler(ChangeEventArgs args)
@@ -595,6 +624,10 @@ namespace StableCube.Bulzor.Components.MediaPlayer
             _seekLock = true;
             _seekStateCache = PlayerState.Seeking;
             _scrubberPos = TimeSpan.FromSeconds(double.Parse(args.Value as string));
+
+            if(_scrubberPos > PlayerState.Duration)
+                _scrubberPos = PlayerState.Duration;
+
             await OnScrubberTimeInput.InvokeAsync(_scrubberPos);
         }
 

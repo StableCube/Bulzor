@@ -100,6 +100,8 @@
     public KeyValuePair<string, string> DicSelectValue { get; set; } = new KeyValuePair<string, string>("chewbacca", "Chewbacca");
 
     public BulSize EnumSelectValue { get; set; } = BulSize.Medium;
+
+    // You can pass enum selection DisplayNames with the value being display name override. Otherwise it is just the value of ToString
     public Dictionary<BulSize, string> EnumDisplayNames { get; set; } = new Dictionary<BulSize, string>()
     {
         { BulSize.Normal, "Normal Pretty" }

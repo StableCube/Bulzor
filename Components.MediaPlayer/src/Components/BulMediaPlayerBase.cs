@@ -13,7 +13,9 @@ namespace StableCube.Bulzor.Components.MediaPlayer
     {
         [Inject]
         public IJSRuntime JSRuntime { get; set; }
-    
+
+        private MediaPlayerCommands Commands { get; set; }
+
         [Parameter]
         public Uri Src { get; set; }
 
@@ -25,6 +27,9 @@ namespace StableCube.Bulzor.Components.MediaPlayer
 
         [Parameter]
         public BulSize? Size { get; set; }
+
+        [Parameter]
+        public BulRatio? Ratio { get; set; } = BulRatio.R16by9;
 
         [Parameter]
         public bool Loop { get; set; }
@@ -42,24 +47,68 @@ namespace StableCube.Bulzor.Components.MediaPlayer
         public RenderFragment ChildContent { get; set; }
 
         [Parameter]
-        public EventCallback<BulMediaPlayState> OnPlayStateChange { get; set; }
+        public EventCallback<BulMediaPlayerState> OnPlayChange { get; set; }
 
         [Parameter]
-        public EventCallback<BulMediaPlayerVolumeChangeEvent> OnVolumeChange { get; set; }
+        public EventCallback<BulMediaPlayerState> OnPlayingChange { get; set; }
 
         [Parameter]
-        public EventCallback<bool> OnFullscreenChange { get; set; }
+        public EventCallback<BulMediaPlayerState> OnPauseChange { get; set; }
+
+        [Parameter]
+        public EventCallback<BulMediaPlayerState> OnVolumeChange { get; set; }
+
+        [Parameter]
+        public EventCallback<BulMediaPlayerState> OnFullscreenChange { get; set; }
+
+        [Parameter]
+        public EventCallback<BulMediaPlayerState> OnEnded { get; set; }
+
+        [Parameter]
+        public EventCallback<BulMediaPlayerState> OnAbort { get; set; }
+
+        [Parameter]
+        public EventCallback<BulMediaPlayerState> OnEmptied { get; set; }
+
+        [Parameter]
+        public EventCallback<BulMediaPlayerState> OnError { get; set; }
+
+        [Parameter]
+        public EventCallback<BulMediaPlayerState> OnRateChange { get; set; }
+
+        [Parameter]
+        public EventCallback<BulMediaPlayerState> OnDurationChanged { get; set; }
+
+        [Parameter]
+        public EventCallback<BulMediaPlayerState> OnProgress { get; set; }
+
+        [Parameter]
+        public EventCallback<BulMediaPlayerState> OnTimeUpdated { get; set; }
+
+        [Parameter]
+        public EventCallback<BulMediaPlayerState> OnSeeking { get; set; }
+
+        [Parameter]
+        public EventCallback<BulMediaPlayerState> OnSeeked { get; set; }
+
+        [Parameter]
+        public EventCallback<BulMediaPlayerState> OnCanPlay { get; set; }
+
+        [Parameter]
+        public EventCallback<BulMediaPlayerState> OnCanPlayThrough { get; set; }
 
         public BulMediaPlayerState PlayerState { get; set; } = new BulMediaPlayerState();
 
         protected string ElementId { get; } = Regex.Replace(Convert.ToBase64String(Guid.NewGuid().ToByteArray()), "[/+=]", "");
 
-        protected BulmaClassBuilder MediaPlayerClassBuilder { get; set; } = new BulmaClassBuilder("bul-media-player");
+        protected BulmaClassBuilder MediaPlayerClassBuilder { get; set; } = new BulmaClassBuilder("bul-media-player image");
         protected BulmaClassBuilder MediaRootClassBuilder { get; set; } = new BulmaClassBuilder("bul-media-player-media-root");
 
         protected override void OnInitialized()
         {
             base.OnInitialized();
+
+            Commands = new MediaPlayerCommands(JSRuntime);
 
             PlayerState.Loop = Loop;
             PlayerState.Autoplay = Autoplay;
@@ -87,7 +136,10 @@ namespace StableCube.Bulzor.Components.MediaPlayer
                     "OnSeekedEventHandler",
                     "OnCanPlayEventHandler",
                     "OnCanPlayThroughEventHandler",
-                    "OnRateChangeEventHandler"
+                    "OnRateChangeEventHandler",
+                    "OnAbortEventHandler",
+                    "OnEmptiedEventHandler",
+                    "OnErrorEventHandler"
                 );
 
                 if(Muted != PlayerState.Muted)
@@ -104,6 +156,15 @@ namespace StableCube.Bulzor.Components.MediaPlayer
 
         protected override void BuildBulma()
         {
+            if(Ratio.HasValue)
+            {
+                if(Ratio.Value == BulRatio.Default)
+                    Ratio = BulRatio.R16by9;
+                
+                MediaPlayerClassBuilder.Ratio = Ratio;
+                MediaRootClassBuilder.HasRatio = true;
+            }
+            
             MergeBuilderClassAttribute(MediaRootClassBuilder);
         }
 
@@ -143,27 +204,30 @@ namespace StableCube.Bulzor.Components.MediaPlayer
         }
 
         [JSInvokable]
-        public async Task OnPlayingEventHandler()
+        public async Task OnPlayingEventHandler(string currentSrc)
         {
+            PlayerState.CurrentSrc = new Uri(currentSrc);
             PlayerState.PlayState = BulMediaPlayState.Playing;
-            await OnPlayStateChange.InvokeAsync(PlayerState.PlayState);
+            await OnPlayingChange.InvokeAsync(PlayerState);
             StateHasChanged();
 
         }
 
         [JSInvokable]
-        public async Task OnPlayEventHandler()
+        public async Task OnPlayEventHandler(string currentSrc)
         {
+            PlayerState.CurrentSrc = new Uri(currentSrc);
             PlayerState.PlayState = BulMediaPlayState.Playing;
-            await OnPlayStateChange.InvokeAsync(PlayerState.PlayState);
+            await OnPlayChange.InvokeAsync(PlayerState);
             StateHasChanged();
         }
 
         [JSInvokable]
-        public async Task OnPauseEventHandler()
+        public async Task OnPauseEventHandler(string currentSrc)
         {
+            PlayerState.CurrentSrc = new Uri(currentSrc);
             PlayerState.PlayState = BulMediaPlayState.Paused;
-            await OnPlayStateChange.InvokeAsync(PlayerState.PlayState);
+            await OnPauseChange.InvokeAsync(PlayerState);
             StateHasChanged();
         }
 
@@ -173,7 +237,7 @@ namespace StableCube.Bulzor.Components.MediaPlayer
             var eventObj = JsonSerializer.Deserialize<BulMediaPlayerVolumeChangeEvent>(eventJson);
             PlayerState.Volume = eventObj.Volume;
             PlayerState.Muted = eventObj.Muted;
-            await OnVolumeChange.InvokeAsync(eventObj);
+            await OnVolumeChange.InvokeAsync(PlayerState);
             StateHasChanged();
         }
 
@@ -181,27 +245,29 @@ namespace StableCube.Bulzor.Components.MediaPlayer
         public async Task OnFullscreenChangeEventHandler(bool value)
         {
             PlayerState.Fullscreen = value;
-            await OnFullscreenChange.InvokeAsync(value);
+            await OnFullscreenChange.InvokeAsync(PlayerState);
             StateHasChanged();
         }
 
         [JSInvokable]
-        public async Task OnEndedEventHandler()
+        public async Task OnEndedEventHandler(string currentSrc)
         {
+            PlayerState.CurrentSrc = new Uri(currentSrc);
             PlayerState.PlayState = BulMediaPlayState.Stopped;
-            await OnPlayStateChange.InvokeAsync(PlayerState.PlayState);
+            await OnEnded.InvokeAsync(PlayerState);
             StateHasChanged();
         }
 
         [JSInvokable]
-        public void OnDurationChangeEventHandler(double value)
+        public async Task OnDurationChangeEventHandler(double value)
         {
             PlayerState.Duration = TimeSpan.FromSeconds(value);
+            await OnDurationChanged.InvokeAsync(PlayerState);
             StateHasChanged();
         }
 
         [JSInvokable]
-        public void OnProgressEventHandler(string eventJson)
+        public async Task OnProgressEventHandler(string eventJson)
         {
             var eventObj = JsonSerializer.Deserialize<BulMediaProgressChangeEvent>(eventJson);
             PlayerState.BufferProgress.Clear();
@@ -214,48 +280,92 @@ namespace StableCube.Bulzor.Components.MediaPlayer
                     End = TimeSpan.FromSeconds(progressItem.Value.End),
                 });
             }
+
+            await OnProgress.InvokeAsync(PlayerState);
             StateHasChanged();
         }
 
         [JSInvokable]
-        public void OnTimeUpdateEventHandler(double value)
+        public async Task OnTimeUpdateEventHandler(double value)
         {
             PlayerState.CurrentTime = TimeSpan.FromSeconds(value);
+            await OnTimeUpdated.InvokeAsync(PlayerState);
             StateHasChanged();
         }
 
         [JSInvokable]
-        public void OnSeekingEventHandler()
+        public async Task OnSeekingEventHandler()
         {
             PlayerState.Seeking = true;
+            await OnSeeking.InvokeAsync(PlayerState);
             StateHasChanged();
         }
 
         [JSInvokable]
-        public void OnSeekedEventHandler()
+        public async Task OnSeekedEventHandler()
         {
             PlayerState.Seeking = false;
+
+            await OnSeeked.InvokeAsync(PlayerState);
             StateHasChanged();
         }
 
         [JSInvokable]
-        public void OnCanPlayEventHandler()
+        public async Task OnCanPlayEventHandler(string json)
         {
+            var eventObj = JsonSerializer.Deserialize<BulMediaCanPlayEvent>(json);
+            PlayerState.CurrentSrc = new Uri(eventObj.CurrentSrc);
+            PlayerState.Width = eventObj.Width;
+            PlayerState.Height = eventObj.Height;
             PlayerState.CanPlay = true;
+
+            await OnCanPlay.InvokeAsync(PlayerState);
             StateHasChanged();
         }
 
         [JSInvokable]
-        public void OnCanPlayThroughEventHandler()
+        public async Task OnCanPlayThroughEventHandler(string currentSrc)
         {
+            PlayerState.CurrentSrc = new Uri(currentSrc);
             PlayerState.CanPlayThrough = true;
+
+            await OnCanPlayThrough.InvokeAsync(PlayerState);
             StateHasChanged();
         }
 
         [JSInvokable]
-        public void OnRateChangeEventHandler(double value)
+        public async Task OnRateChangeEventHandler(double value)
         {
             PlayerState.Rate = value;
+            await OnRateChange.InvokeAsync(PlayerState);
+            StateHasChanged();
+        }
+
+        [JSInvokable]
+        public async Task OnAbortEventHandler(string currentSrc)
+        {
+            PlayerState.CurrentSrc = new Uri(currentSrc);
+            PlayerState.PlayState = BulMediaPlayState.Stopped;
+            await OnAbort.InvokeAsync(PlayerState);
+            StateHasChanged();
+        }
+
+        [JSInvokable]
+        public async Task OnEmptiedEventHandler()
+        {
+            PlayerState.PlayState = BulMediaPlayState.Stopped;
+            PlayerState.CanPlay = false;
+            await OnEmptied.InvokeAsync(PlayerState);
+            StateHasChanged();
+        }
+
+        [JSInvokable]
+        public async Task OnErrorEventHandler(string currentSrc)
+        {
+            PlayerState.CurrentSrc = new Uri(currentSrc);
+            PlayerState.PlayState = BulMediaPlayState.Stopped;
+            PlayerState.CanPlay = false;
+            await OnError.InvokeAsync(PlayerState);
             StateHasChanged();
         }
 
@@ -263,53 +373,32 @@ namespace StableCube.Bulzor.Components.MediaPlayer
         {
             if(PlayerState.PlayState == BulMediaPlayState.Playing)
             {
-                await JSRuntime.InvokeVoidAsync(
-                    "bulMediaPlayerPause",
-                    ElementId
-                );
+                await Commands.PauseAsync(ElementId);
             }
             else if(PlayerState.PlayState == BulMediaPlayState.Paused || PlayerState.PlayState == BulMediaPlayState.Stopped)
             {
-                await JSRuntime.InvokeVoidAsync(
-                    "bulMediaPlayerPlay",
-                    ElementId
-                );
+                await Commands.PlayAsync(ElementId);
             }
         }
 
         private async Task FullscreenClickHandlerAsync(MouseEventArgs args)
         {
-            await JSRuntime.InvokeVoidAsync(
-                "bulMediaPlayerFullscreenToggle",
-                ElementId
-            );
+            await Commands.FullscreenToggleAsync(ElementId);
         }
 
         private async Task MuteClickHandlerAsync(MouseEventArgs args)
         {
-            await JSRuntime.InvokeVoidAsync(
-                "bulMediaPlayerSetMuted",
-                ElementId,
-                !PlayerState.Muted
-            );
+            await Commands.SetMuteAsync(ElementId, !PlayerState.Muted);
         }
 
         private async Task VolumeChangeHandlerAsync(double volume)
         {
-            await JSRuntime.InvokeVoidAsync(
-                "bulMediaPlayerSetVolume",
-                ElementId,
-                volume
-            );
+            await Commands.SetVolumeAsync(ElementId, volume);
         }
 
         private async Task ScrubberTimeChangeHandlerAsync(TimeSpan value)
         {
-            await JSRuntime.InvokeVoidAsync(
-                "bulMediaPlayerSetCurrentTime",
-                ElementId,
-                value.TotalSeconds
-            );
+            await Commands.SetTimeAsync(ElementId, value);
         }
 
         private void OnLoopClickHandler(MouseEventArgs args)
@@ -319,11 +408,7 @@ namespace StableCube.Bulzor.Components.MediaPlayer
 
         private async Task PlaybackRateChangeHandlerAsync(double value)
         {
-            await JSRuntime.InvokeVoidAsync(
-                "bulMediaPlayerSetPlaybackRate",
-                ElementId,
-                value
-            );
+            await Commands.SetPlaybackRateAsync(ElementId, value);
         }
     }
 }

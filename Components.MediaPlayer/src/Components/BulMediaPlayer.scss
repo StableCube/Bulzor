@@ -45,6 +45,7 @@ $media-player-control-group-padding: 0.5rem 0.5rem 0 0.5rem !default;
   width: 100%;
   height: 100%;
   position: relative;
+  background-color: #000;
 }
 
 .bul-media-player-media-root {
@@ -255,4 +256,19 @@ $media-player-control-group-padding: 0.5rem 0.5rem 0 0.5rem !default;
   width: 100%;
   color: $text;
   display: inline-block;
+}
+
+.bul-media-additional-controls ul {
+  list-style: none !important;
+}
+
+.bul-play-stopped-centered {
+  height: 3rem !important;
+  position: relative;
+  top: 45%;
+  left: 45%;
+}
+
+.bul-play-stopped-centered .icon {
+  font-size: 5rem !important;
 }

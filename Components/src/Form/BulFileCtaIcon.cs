@@ -19,7 +19,7 @@ namespace StableCube.Bulzor.Components
             builder.AddAttribute(1, "class", ClassBuilder.ClassString);
 
             builder.OpenElement(2, "i");
-            builder.AddMultipleAttributes(3, CombinedAdditionalAttributes);
+            builder.AddMultipleAttributes(3, AdditionalAttributes);
             builder.CloseElement();
 
             builder.CloseElement();

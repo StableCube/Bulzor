@@ -20,4 +20,8 @@
             }
         });
     };
+
+    window.bulReCaptchaResetV2 = () => {
+        grecaptcha.reset();
+    };
 })();

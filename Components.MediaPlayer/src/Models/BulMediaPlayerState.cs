@@ -5,6 +5,7 @@ namespace StableCube.Bulzor.Components.MediaPlayer
 {
     public class BulMediaPlayerState
     {
+        public Uri CurrentSrc { get; set; }
         public BulMediaPlayMediaType MediaType { get; set; }
         public BulMediaPlayState PlayState { get; set; } = BulMediaPlayState.Stopped;
         public double Volume { get; set; } = 1;
@@ -19,6 +20,8 @@ namespace StableCube.Bulzor.Components.MediaPlayer
         public bool Loop { get; set; }
         public bool Autoplay { get; set; }
         public double Rate { get; set; } = 1;
+        public int Width { get; set; }
+        public int Height { get; set; }
 
     }
 }

@@ -44,14 +44,31 @@
                             <BulInputSelectEnum @bind-Value="Size" />
                         </div>
                     </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <div class="control">
+                            <label class="label">Ratio</label>
+                            <BulInputSelectEnum @bind-Value="Ratio" />
+                        </div>
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <div class="control">
+                            <label class="label">Video</label>
+                            <BulInputSelectEnum 
+                                Value="CurrentlyPlaying"
+                                ValueExpression="@( () => CurrentlyPlaying )"
+                                ValueChanged="@((VideoSelection value) => CurrentlyPlayingChangedHandler(value))" />
+                        </div>
+                    </OptionsBoxItem>
                 </OptionsBox>
             </EditForm>
         </ExampleOptions>
 
         <ExampleResult>
-            <BulVideoPlayer Color="Color" Size="Size" Muted="true" Poster="PosterUri">
-                <BulMediaSource MediaUri="Video720pMp4Uri" MediaType="video/mp4" />
-                <BulMediaSource MediaUri="Video360pMp4Uri" MediaType="video/mp4" />
+            <BulVideoPlayer Color="Color" Size="Size" Ratio="Ratio" Muted="true" Poster="CurrentlyPlayingPoster" Src="CurrentlyPlayingSrc">
+                @* <BulMediaSource MediaUri="Nature720pMp4Uri" MediaType="video/mp4" />
+                <BulMediaSource MediaUri="Nature360pMp4Uri" MediaType="video/mp4" /> *@
             </BulVideoPlayer>
         </ExampleResult>
     </ExampleBox>
@@ -60,9 +77,47 @@
 @code {
     public BulSchemeColor Color { get; set; } = BulSchemeColor.Primary;
     public BulSize Size { get; set; } = BulSize.Default;
-    public Uri Video720pHlsUri { get; set; } = new Uri("https://ad-media.stablecube.com/file/sc-bulzor-demo/nature-720p.m3u8");
-    public Uri Video360pHlsUri { get; set; } = new Uri("https://ad-media.stablecube.com/file/sc-bulzor-demo/nature-360p.m3u8");
-    public Uri Video720pMp4Uri { get; set; } = new Uri("https://ad-media.stablecube.com/file/sc-bulzor-demo/nature-720p.mp4");
-    public Uri Video360pMp4Uri { get; set; } = new Uri("https://ad-media.stablecube.com/file/sc-bulzor-demo/nature-360p.mp4");
-    public Uri PosterUri { get; set; } = new Uri("https://ad-media.stablecube.com/file/sc-bulzor-demo/nature-poster.jpeg");
+    public BulRatio Ratio { get; set; } = BulRatio.Default;
+    private VideoSelection CurrentlyPlaying { get; set; } = VideoSelection.JapaneseGardens;
+    private Uri CurrentlyPlayingSrc { get; set; } = Japanese720pUri;
+    private Uri CurrentlyPlayingPoster { get; set; } = JapanesePosterUri;
+    private enum VideoSelection
+    {
+        Nature,
+        JapaneseGardens,
+        ForgottenPlaces
+    }
+
+    private static Uri Nature720pHlsUri { get; set; } = new Uri("https://bbcdn.stablecube.com/file/sc-bulzor-demo/nature-720p.m3u8");
+    private static Uri Nature360pHlsUri { get; set; } = new Uri("https://bbcdn.stablecube.com/file/sc-bulzor-demo/nature-360p.m3u8");
+    private static Uri Nature720pMp4Uri { get; set; } = new Uri("https://bbcdn.stablecube.com/file/sc-bulzor-demo/nature-720p.mp4");
+    private static Uri Nature360pMp4Uri { get; set; } = new Uri("https://bbcdn.stablecube.com/file/sc-bulzor-demo/nature-360p.mp4");
+    private static Uri NaturePosterUri { get; set; } = new Uri("https://bbcdn.stablecube.com/file/sc-bulzor-demo/nature-poster.jpeg");
+    
+    private static Uri JapanesePosterUri { get; set; } = new Uri("https://bbcdn.stablecube.com/file/sc-bulzor-demo/japanese-gardens-poster.jpg");
+    private static Uri Japanese720pUri { get; set; } = new Uri("https://bbcdn.stablecube.com/file/sc-bulzor-demo/japanese-gardens-720p.mp4");
+
+    private static Uri ForgottenPosterUri { get; set; } = new Uri("https://bbcdn.stablecube.com/file/sc-bulzor-demo/abandoned-poster.jpg");
+    private static Uri Forgotten720pUri { get; set; } = new Uri("https://bbcdn.stablecube.com/file/sc-bulzor-demo/abandoned-720p.mp4");
+
+    private void CurrentlyPlayingChangedHandler(VideoSelection value)
+    {
+        CurrentlyPlaying = value;
+
+        switch (value)
+        {
+            case VideoSelection.Nature:
+                CurrentlyPlayingSrc = Nature720pMp4Uri;
+                CurrentlyPlayingPoster = NaturePosterUri;
+                break;
+            case VideoSelection.ForgottenPlaces:
+                CurrentlyPlayingSrc = Forgotten720pUri;
+                CurrentlyPlayingPoster = ForgottenPosterUri;
+                break;
+            case VideoSelection.JapaneseGardens:
+                CurrentlyPlayingSrc = Japanese720pUri;
+                CurrentlyPlayingPoster = JapanesePosterUri;
+                break;
+        }
+    }
 }

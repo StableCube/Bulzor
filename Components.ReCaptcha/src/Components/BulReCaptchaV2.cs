@@ -25,25 +25,32 @@ namespace StableCube.Bulzor.Components.ReCaptcha
         public BulRecaptchaSize Size { get; set; } = BulRecaptchaSize.Normal;
 
         [Parameter]
+        public EventCallback<string> OnExpired { get; set; }
+
+        [Parameter]
+        public EventCallback<string> OnComplete { get; set; }
+
+        [Parameter]
         public EventCallback<string> ValueChanged { get; set; }
 
-        public Guid ElementId { get; } = Guid.NewGuid();
+        [Parameter]
+        public string ElementId { get; set; } = Guid.NewGuid().ToString();
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            if (firstRender)
-            {
-                await JSRuntime.InvokeVoidAsync(
-                    "bulReCaptchaRenderV2", 
-                    DotNetObjectReference.Create(this),
-                    ElementId.ToString(), 
-                    SiteKey, 
-                    Theme.ToString().ToLower(),
-                    Size.ToString().ToLower(),
-                    "OnCompleteHandler",
-                    "OnExpiredHandler"
-                );
-            }
+            if (!firstRender)
+                return;
+            
+            await JSRuntime.InvokeVoidAsync(
+                "bulReCaptchaRenderV2", 
+                DotNetObjectReference.Create(this),
+                ElementId, 
+                SiteKey, 
+                Theme.ToString().ToLower(),
+                Size.ToString().ToLower(),
+                "OnCompleteHandler",
+                "OnExpiredHandler"
+            );
         }
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -59,6 +66,7 @@ namespace StableCube.Bulzor.Components.ReCaptcha
         public async Task OnCompleteHandler(string responseToken)
         {
             Value = responseToken;
+            await OnComplete.InvokeAsync(Value);
             await ValueChanged.InvokeAsync(Value);
         }
         
@@ -66,7 +74,13 @@ namespace StableCube.Bulzor.Components.ReCaptcha
         public async Task OnExpiredHandler()
         {
             Value = null;
+            await OnExpired.InvokeAsync(ElementId);
             await ValueChanged.InvokeAsync(Value);
+        }
+
+        public async Task ResetAsync()
+        {
+            await JSRuntime.InvokeVoidAsync("bulReCaptchaResetV2");
         }
     }
 }
