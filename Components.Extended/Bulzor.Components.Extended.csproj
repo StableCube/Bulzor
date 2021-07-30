@@ -4,13 +4,13 @@
     <PackageId>StableCube.Bulzor.Components.Extended</PackageId>
     <TargetFramework>net5.0</TargetFramework>
     <Company>Stable Cube</Company>
-    <Version>0.3.5</Version>
+    <Version>0.3.6</Version>
     <Title>StableCube.Bulzor.Components.Extended</Title>
     <IsPackable>true</IsPackable>
     <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
     <RootNamespace>StableCube.Bulzor.Components.Extended</RootNamespace>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <ProjectUrl>httpS://bulzor.stablecube.com</ProjectUrl>
+    <ProjectUrl>https://bulzor.stablecube.com</ProjectUrl>
     <RepositoryUrl>https://github.com/StableCube/Bulzor</RepositoryUrl>
     <Copyright>Copyright 2021</Copyright>
     <Authors>Zachary Boyet</Authors>
@@ -18,11 +18,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.8" />
   </ItemGroup>
 
   <ItemGroup>
-    <!-- <PackageReference Include="StableCube.Bulzor.Components" Version="0.3.5" /> -->
-    <ProjectReference Include="../Components/Bulzor.Components.csproj" />
+    <PackageReference Include="StableCube.Bulzor.Components" Version="0.3.6" />
+    <!-- <ProjectReference Include="../Components/Bulzor.Components.csproj" /> -->
   </ItemGroup>
 </Project>

@@ -8,15 +8,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="5.0.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="5.0.8" />
     <PackageReference Include="System.Net.Http.Json" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="StableCube.Bulzor.Components.Extended" Version="0.3.5" />
+    <PackageReference Include="StableCube.Bulzor.Components.Extended" Version="0.3.6" />
     <!-- <ProjectReference Include="../../Components.Extended/Bulzor.Components.Extended.csproj" /> -->
-    <!-- <PackageReference Include="StableCube.Bulzor.Components.MediaPlayer" Version="0.3.5" /> -->
-    <ProjectReference Include="../../Components.MediaPlayer/Bulzor.Components.MediaPlayer.csproj" />
+    <PackageReference Include="StableCube.Bulzor.Components.MediaPlayer" Version="0.3.6" />
+    <!-- <ProjectReference Include="../../Components.MediaPlayer/Bulzor.Components.MediaPlayer.csproj" /> -->
   </ItemGroup>
 
 </Project>
