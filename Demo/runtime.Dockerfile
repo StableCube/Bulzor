@@ -1,4 +1,4 @@
-FROM us.gcr.io/stablecube/aspnet-runtime:5.0-13 AS base
+FROM us.gcr.io/stablecube/aspnet-runtime:5.0-14 AS base
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0-alpine AS build
 
