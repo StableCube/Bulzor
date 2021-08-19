@@ -1,0 +1,79 @@
+﻿@page "/documentation/extended/switch"
+
+<DocumentationRoot>
+    <ExampleBox>
+        <ExampleOptions>
+            <EditForm Model="@this">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+
+                <OptionsBox>
+                    <OptionsBoxItem>
+                        <div class="control">
+                            <label class="label">Color</label>
+                            <BulInputSelectEnum @bind-Value="Color" />
+                        </div>
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <div class="control">
+                            <label class="label">Size</label>
+                            <BulInputSelectEnum @bind-Value="Size" />
+                        </div>
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <BulInputCheckbox @bind-Value="IsThin">
+                            Thin
+                        </BulInputCheckbox>
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <BulInputCheckbox @bind-Value="IsRounded">
+                            Rounded
+                        </BulInputCheckbox>
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <BulInputCheckbox @bind-Value="IsOutlined">
+                            Outlined
+                        </BulInputCheckbox>
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <BulInputCheckbox @bind-Value="IsRightToLeft">
+                            Right To Left
+                        </BulInputCheckbox>
+                    </OptionsBoxItem>
+                </OptionsBox>
+            </EditForm>
+        </ExampleOptions>
+
+        <ExampleResult>
+            <EditForm Model="@this">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+                <div>Value: @DemoValue</div>
+                <BulSwitch @bind-Value="DemoValue"
+                    Color="Color" 
+                    Size="Size"
+                    Thin="IsThin"
+                    Rounded="IsRounded"
+                    Outlined="IsOutlined"
+                    RightToLeft="IsRightToLeft"
+                    Label="Switch Label" />
+            </EditForm>
+        </ExampleResult>
+    </ExampleBox>
+</DocumentationRoot>
+
+@code {
+    public bool DemoValue { get; set; } = false;
+    public BulSchemeColor Color { get; set; } = BulSchemeColor.Default;
+    public BulSize Size { get; set; } = BulSize.Default;
+    public bool IsThin { get; set; }
+    public bool IsRounded { get; set; }
+    public bool IsOutlined { get; set; }
+    public bool IsRightToLeft { get; set; }
+
+}

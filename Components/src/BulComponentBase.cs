@@ -53,7 +53,7 @@ namespace StableCube.Bulzor.Components
         /// <summary>
         /// Merges the builder class into AdditionalAttributes
         /// </summary>
-        protected void MergeBuilderClassAttribute(BulmaClassBuilder builder)
+        protected void MergeBuilderClassAttribute(IBulmaClassBuilder builder)
         {
             MergeOrCreateClassAttribute(builder.ClassString);
         }

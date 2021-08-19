@@ -3,7 +3,7 @@ using System.Text;
 
 namespace StableCube.Bulzor.Components
 {
-    public class BulmaClassBuilder
+    public class BulmaClassBuilder : IBulmaClassBuilder
     {
         private StringBuilder _sb = new StringBuilder();
         private string _baseClass;
@@ -65,10 +65,18 @@ namespace StableCube.Bulzor.Components
             _baseClass = baseClass;
         }
 
-        public override string ToString()
+        protected void ClearClassString()
         {
             _sb.Clear();
-            
+        }
+
+        protected string GetClassString()
+        {
+            return _sb.ToString().Trim();
+        }
+
+        protected virtual void BuildClassString()
+        {
             if(_baseClass != null)
                 Append(_baseClass);
 
@@ -143,12 +151,17 @@ namespace StableCube.Bulzor.Components
             AppendIfTrue(IsHidden, "is-hidden");
             AppendIfTrue(IsInvisible, "is-invisible");
             AppendIfTrue(IsCursorHidden, "is-cursor-hidden");
-
-            return _sb.ToString().Trim();
         }
 
+        public override string ToString()
+        {
+            ClearClassString();
+            BuildClassString();
 
-        private void Append(string value)
+            return GetClassString();
+        }
+
+        protected void Append(string value)
         {
             _sb.Append(" ");
             if(!string.IsNullOrEmpty(CssConfig.Prefix))
@@ -157,7 +170,7 @@ namespace StableCube.Bulzor.Components
             _sb.Append(value);
         }
 
-        private void AppendIfTrue(bool? doAppend, string value)
+        protected void AppendIfTrue(bool? doAppend, string value)
         {
             if(doAppend.HasValue && doAppend.Value == true)
                 Append(value);
