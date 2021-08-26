@@ -4,7 +4,7 @@
     <PackageId>StableCube.Bulzor.Components.MediaPlayer</PackageId>
     <TargetFramework>net5.0</TargetFramework>
     <Company>Stable Cube</Company>
-    <Version>0.3.8</Version>
+    <Version>0.3.9</Version>
     <Title>StableCube.Bulzor.Components.MediaPlayer</Title>
     <IsPackable>true</IsPackable>
     <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="StableCube.Bulzor.Components.Extended" Version="0.3.8" />
+    <PackageReference Include="StableCube.Bulzor.Components.Extended" Version="0.3.9" />
     <!-- <ProjectReference Include="../Components.Extended/Bulzor.Components.Extended.csproj" /> -->
   </ItemGroup>
 </Project>

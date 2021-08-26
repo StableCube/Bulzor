@@ -11,7 +11,7 @@
                     <OptionsBoxItem>
                         <div class="control">
                             <label class="label">Separator</label>
-                            <BulInputSelectEnum @bind-Value="Separator" />
+                            <BulInputSelectEnum @bind-Value="SeparatorType" />
                         </div>
                     </OptionsBoxItem>
                 </OptionsBox>
@@ -19,12 +19,10 @@
         </ExampleOptions>
 
         <ExampleResult>
-            <BulBreadcrumb Separator="Separator">
-                <ul>
-                    <li><a>Root</a></li>
-                    <li><a>Cool Place</a></li>
-                    <li><a>Details</a></li>
-                </ul>
+            <BulBreadcrumb Separator="SeparatorType">
+                <BulBreadcrumbItem><a>Root</a></BulBreadcrumbItem>
+                <BulBreadcrumbItem><a>Cool Place</a></BulBreadcrumbItem>
+                <BulBreadcrumbItem><a>Details</a></BulBreadcrumbItem>
             </BulBreadcrumb>
         </ExampleResult>
     </ExampleBox>
@@ -32,5 +30,5 @@
 </DocumentationRoot>
 
 @code {
-    public BulSeparator Separator { get; set; } = BulSeparator.Default;
+    public BulSeparator SeparatorType { get; set; } = BulSeparator.Default;
 }

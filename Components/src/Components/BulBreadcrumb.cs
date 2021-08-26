@@ -41,7 +41,14 @@ namespace StableCube.Bulzor.Components
 
             builder.OpenElement(0, "nav");
             builder.AddMultipleAttributes(1, CombinedAdditionalAttributes);
-            builder.AddContent(2, ChildContent);
+
+            builder.OpenElement(2, "ul");
+            builder.AddContent(3, ChildContent);
+            // builder.AddAttribute(3, "ChildContent", (RenderFragment)((builder2) => {
+            //     builder2.AddContent(5, ChildContent);
+            // }));
+            builder.CloseElement();
+
             builder.CloseElement();
         }
     }
