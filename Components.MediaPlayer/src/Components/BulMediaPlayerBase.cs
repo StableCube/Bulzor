@@ -116,41 +116,41 @@ namespace StableCube.Bulzor.Components.MediaPlayer
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            if (firstRender)
-            {
-                // Media event triggers do not work in Dotnet 5 but should be fixed in 6 and many of these should then not be needed.
-                await JSRuntime.InvokeVoidAsync(
-                    "bulMediaPlayerEvents", 
-                    DotNetObjectReference.Create(this),
-                    ElementId.ToString(),
-                    "OnPlayEventHandler",
-                    "OnPlayingEventHandler",
-                    "OnPauseEventHandler",
-                    "OnVolumeChangeEventHandler",
-                    "OnFullscreenChangeEventHandler",
-                    "OnEndedEventHandler",
-                    "OnDurationChangeEventHandler",
-                    "OnProgressEventHandler",
-                    "OnTimeUpdateEventHandler",
-                    "OnSeekingEventHandler",
-                    "OnSeekedEventHandler",
-                    "OnCanPlayEventHandler",
-                    "OnCanPlayThroughEventHandler",
-                    "OnRateChangeEventHandler",
-                    "OnAbortEventHandler",
-                    "OnEmptiedEventHandler",
-                    "OnErrorEventHandler"
-                );
+            if (!firstRender)
+                return;
+        
+            // Media event triggers do not work in Dotnet 5 but should be fixed in 6 and many of these should then not be needed.
+            await JSRuntime.InvokeVoidAsync(
+                "bulMediaPlayerEvents", 
+                DotNetObjectReference.Create(this),
+                ElementId.ToString(),
+                "OnPlayEventHandler",
+                "OnPlayingEventHandler",
+                "OnPauseEventHandler",
+                "OnVolumeChangeEventHandler",
+                "OnFullscreenChangeEventHandler",
+                "OnEndedEventHandler",
+                "OnDurationChangeEventHandler",
+                "OnProgressEventHandler",
+                "OnTimeUpdateEventHandler",
+                "OnSeekingEventHandler",
+                "OnSeekedEventHandler",
+                "OnCanPlayEventHandler",
+                "OnCanPlayThroughEventHandler",
+                "OnRateChangeEventHandler",
+                "OnAbortEventHandler",
+                "OnEmptiedEventHandler",
+                "OnErrorEventHandler"
+            );
 
-                if(Muted != PlayerState.Muted)
-                {
-                    PlayerState.Muted = Muted;
-                    await JSRuntime.InvokeVoidAsync(
-                        "bulMediaPlayerSetMuted",
-                        ElementId,
-                        PlayerState.Muted
-                    );
-                }
+            if(Muted != PlayerState.Muted)
+            {
+                PlayerState.Muted = Muted;
+                await JSRuntime.InvokeVoidAsync(
+                    "bulMediaPlayerSetMuted",
+                    ElementId,
+                    PlayerState.Muted
+                );
             }
         }
 

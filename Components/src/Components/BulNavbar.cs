@@ -10,6 +10,21 @@ namespace StableCube.Bulzor.Components
         public BulSchemeColor? Color { get; set; }
 
         [Parameter]
+        public bool Transparent { get; set; }
+
+        [Parameter]
+        public bool FixedTop { get; set; }
+
+        [Parameter]
+        public bool FixedBottom { get; set; }
+
+        [Parameter]
+        public bool Spaced { get; set; }
+
+        [Parameter]
+        public bool Shadowed { get; set; }
+
+        [Parameter]
         public RenderFragment ChildContent { get; set; }
         
         protected BulmaClassBuilder ClassBuilder { get; set; } = new BulmaClassBuilder("navbar");
@@ -19,6 +34,11 @@ namespace StableCube.Bulzor.Components
         protected override void BuildBulma()
         {
             ClassBuilder.SchemeColor = Color;
+            ClassBuilder.IsTransparent = Transparent;
+            ClassBuilder.IsFixedTop = FixedTop;
+            ClassBuilder.IsFixedBottom = FixedBottom;
+            ClassBuilder.IsSpaced = Spaced;
+            ClassBuilder.HasShadow = Shadowed;
 
             MergeBuilderClassAttribute(ClassBuilder);
         }

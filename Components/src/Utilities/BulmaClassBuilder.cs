@@ -57,6 +57,10 @@ namespace StableCube.Bulzor.Components
         public bool? IsHidden { get; set; }
         public bool? IsInvisible { get; set; }
         public bool? IsCursorHidden { get; set; }
+        public bool? IsTransparent { get; set; }
+        public bool? IsFixedTop { get; set; }
+        public bool? IsFixedBottom { get; set; }
+        public bool? HasShadow { get; set; }
 
         public BulmaClassBuilder(){}
 
@@ -151,6 +155,10 @@ namespace StableCube.Bulzor.Components
             AppendIfTrue(IsHidden, "is-hidden");
             AppendIfTrue(IsInvisible, "is-invisible");
             AppendIfTrue(IsCursorHidden, "is-cursor-hidden");
+            AppendIfTrue(IsTransparent, "is-transparent");
+            AppendIfTrue(IsFixedTop, "is-fixed-top");
+            AppendIfTrue(IsFixedBottom, "is-fixed-bottom");
+            AppendIfTrue(HasShadow, "has-shadow");
         }
 
         public override string ToString()

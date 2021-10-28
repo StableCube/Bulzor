@@ -2,22 +2,36 @@
 
 <BulNavbar>
     <BulNavbarBrand>
-        <BulNavbarItemLink href="/">
-            <BulTitle Size="BulTextSize.S4" Color="BulColor.Primary">Bulzor</BulTitle>
-        </BulNavbarItemLink>
+        <BulNavbarItem>
+            <a href="/">
+                <BulTitle Size="BulTextSize.S4" Color="BulColor.Primary">Bulzor</BulTitle>
+            </a>
+        </BulNavbarItem>
+
+        <BulNavbarBurger Active="IsBurgerMenuActive" OnClick="OnToggleMenuActiveClickHandler" />
     </BulNavbarBrand>
-    <BulNavbarStart>
-        <BulNavbarItemLink href="/getting-started" Match="NavLinkMatch.Prefix">
-            Get Started
-        </BulNavbarItemLink>
-        <BulNavbarItemLink href="/documentation" Match="NavLinkMatch.Prefix">
-            Component Demo
-        </BulNavbarItemLink>
-    </BulNavbarStart>
-    <BulNavbarEnd>
-        <BulNavbarItemLink href="https://github.com/StableCube/Bulzor" target="_blank">
-            <BulIcon Bul class="fa fa-github-square fa-2x" />
-        </BulNavbarItemLink>
-    </BulNavbarEnd>
+    <BulNavbarMenu Active="IsBurgerMenuActive">
+        <BulNavbarStart>
+            <BulNavbarItemLink href="/getting-started" Match="NavLinkMatch.Prefix">
+                Get Started
+            </BulNavbarItemLink>
+            <BulNavbarItemLink href="/documentation" Match="NavLinkMatch.Prefix">
+                Component Demo
+            </BulNavbarItemLink>
+        </BulNavbarStart>
+        <BulNavbarEnd>
+            <BulNavbarItemLink href="https://github.com/StableCube/Bulzor" target="_blank">
+                <BulIcon Bul class="fab fa-github-square fa-2x" />
+            </BulNavbarItemLink>
+        </BulNavbarEnd>
+    </BulNavbarMenu>
 </BulNavbar>
 
+@code {
+    private bool IsBurgerMenuActive { get; set; }
+
+    private void OnToggleMenuActiveClickHandler()
+    {
+        IsBurgerMenuActive = !IsBurgerMenuActive;
+    }
+}

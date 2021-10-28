@@ -1,16 +1,9 @@
 ﻿@page "/documentation/components/navbar"
 
 <DocumentationRoot>
-    <BulNotification Color="BulSchemeColor.Warning">
-        Gotta fix burger button
-    </BulNotification>
-
     <ExampleBox>
         <ExampleOptions>
             <EditForm Model="@this">
-                <DataAnnotationsValidator />
-                <ValidationSummary />
-
                 <OptionsBox>
                     <OptionsBoxItem>
                         <div class="control">
@@ -30,24 +23,52 @@
                             Boxed Dropdown
                         </BulInputCheckbox>
                     </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <BulInputCheckbox @bind-Value="DropdownUp">
+                            Dropdown Up
+                        </BulInputCheckbox>
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <BulInputCheckbox @bind-Value="DropdownRight">
+                            Dropdown Right
+                        </BulInputCheckbox>
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <BulInputCheckbox @bind-Value="IsTransparent">
+                            Transparent
+                        </BulInputCheckbox>
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <BulInputCheckbox @bind-Value="IsSpaced">
+                            Is Spaced
+                        </BulInputCheckbox>
+                    </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <BulInputCheckbox @bind-Value="HasShadow">
+                            Has Shadow
+                        </BulInputCheckbox>
+                    </OptionsBoxItem>
                 </OptionsBox>
             </EditForm>
         </ExampleOptions>
 
         <ExampleResult>
-            <BulNavbar Color="Color">
+            <BulNavbar Color="Color" Transparent="IsTransparent" Spaced="IsSpaced" Shadowed="HasShadow">
                 <BulNavbarBrand>
-                    <BulNavbarItemLink href="/">
-                        <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28" alt="Bulma">
-                    </BulNavbarItemLink>
+                    <BulNavbarItem>
+                        <a href="https://bulma.io/" target="_blank">
+                            <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28" alt="Bulma">
+                        </a>
+                    </BulNavbarItem>
 
-                    <BulNavbarBurger data-target="navbarBasicExample">
-                        <span aria-hidden="true"></span>
-                        <span aria-hidden="true"></span>
-                        <span aria-hidden="true"></span>
-                    </BulNavbarBurger>
+                    <BulNavbarBurger Active="IsBurgerMenuActive" OnClick="OnToggleMenuActiveClickHandler" />
                 </BulNavbarBrand>
-                <BulNavbarMenu id="navbarBasicExample">
+                <BulNavbarMenu Active="IsBurgerMenuActive">
                     <BulNavbarStart>
                         <BulNavbarItem>
                             Basic Item
@@ -56,13 +77,34 @@
                             Link Item
                         </BulNavbarItemLink>
 
-                        <BulNavbarItem Dropdown="true" Hoverable="true">
+                        <BulNavbarItem Dropdown="true" Hoverable="true" DropdownUp="DropdownUp">
                             <BulNavbarLink Arrowless="HideDropdownArrow">
-                                Dropdown
+                                Hoverable
                             </BulNavbarLink>
-                            <BulNavbarDropdown Boxed="BoxedDropdown">
+                            <BulNavbarDropdown Boxed="BoxedDropdown" Right="DropdownRight">
                                 <BulNavbarItem>
                                     Item 1
+                                </BulNavbarItem>
+                                <BulNavbarItem>
+                                    Item 2
+                                </BulNavbarItem>
+                                <BulNavbarItemLink href="/documentation">
+                                    Item 3
+                                </BulNavbarItemLink>
+                                <BulNavbarDivider />
+                                <BulNavbarItem>
+                                    Divided Item 4
+                                </BulNavbarItem>
+                            </BulNavbarDropdown>
+                        </BulNavbarItem>
+
+                        <BulNavbarItem Active="DropdownIsActive" Dropdown="true" DropdownUp="DropdownUp">
+                            <BulNavbarLink Arrowless="HideDropdownArrow" OnClick="OnDropdownToggleClickHandler">
+                                Manual
+                            </BulNavbarLink>
+                            <BulNavbarDropdown Boxed="BoxedDropdown" Right="DropdownRight">
+                                <BulNavbarItem>
+                                    Long item to show how dropdown right looks
                                 </BulNavbarItem>
                                 <BulNavbarItem>
                                     Item 2
@@ -95,4 +137,21 @@
     public BulSchemeColor Color { get; set; } = BulSchemeColor.Default;
     private bool HideDropdownArrow { get; set; }
     private bool BoxedDropdown { get; set; }
+    private bool DropdownUp { get; set; }
+    private bool DropdownRight { get; set; }
+    private bool IsTransparent { get; set; }
+    private bool IsSpaced { get; set; }
+    private bool HasShadow { get; set; }
+    private bool DropdownIsActive { get; set; }
+    private bool IsBurgerMenuActive { get; set; }
+
+    private void OnToggleMenuActiveClickHandler()
+    {
+        IsBurgerMenuActive = !IsBurgerMenuActive;
+    }
+
+    private void OnDropdownToggleClickHandler()
+    {
+        DropdownIsActive = !DropdownIsActive;
+    }
 }

@@ -161,6 +161,7 @@ namespace StableCube.Bulzor.Components.MediaPlayer
             builder.AddAttribute(3, "onmouseout", EventCallback.Factory.Create<MouseEventArgs>(this, OnPlayerMouseOutHandler));
             builder.AddAttribute(4, "onpointermove", EventCallback.Factory.Create<PointerEventArgs>(this, OnPointerMoveHandler));
 
+            BuildScreenClickTrigger(builder, 5);
             BuildControlGroup(builder, 6);
 
             if(PlayerState.PlayState == BulMediaPlayState.Stopped)
@@ -169,19 +170,31 @@ namespace StableCube.Bulzor.Components.MediaPlayer
             builder.CloseElement();
         }
 
+        private void BuildScreenClickTrigger(RenderTreeBuilder builder, int index)
+        {
+            builder.OpenRegion(index);
+            builder.OpenElement(0, "div");
+            builder.AddAttribute(1, "class", "bul-screen-click-trigger");
+            builder.AddAttribute(2, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, OnScreenClickHandler));
+            
+            builder.CloseElement();
+            builder.CloseRegion();
+        }
+
         private void BuildStoppedCenteredPlayButton(RenderTreeBuilder builder, int index)
         {
             builder.OpenRegion(index);
-            builder.OpenComponent<BulButton>(0);
-            builder.AddAttribute(1, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, OnPlayPauseClick));
-            builder.AddAttribute(2, "class", "bul-play-stopped-centered");
-            builder.AddAttribute(3, "Size", BulSize.Large);
-            builder.AddAttribute(4, "ChildContent", (RenderFragment)((builder2) => {
-                builder2.OpenComponent<BulIcon>(5);
-                builder2.AddAttribute(6, "Size", BulSize.Large);
-                builder2.AddAttribute(7, "class", IconClassMap["play-stopped-centered"]);
+
+            builder.OpenElement(0, "div");
+            builder.AddAttribute(1, "class", "bul-play-stopped-centered");
+
+            builder.AddContent(2, (RenderFragment)((builder2) => {
+                builder2.OpenComponent<BulIcon>(3);
+                builder2.AddAttribute(4, "Size", BulSize.Large);
+                builder2.AddAttribute(5, "class", IconClassMap["play-stopped-centered"]);
                 builder2.CloseComponent();
             }));
+
             builder.CloseComponent();
             builder.CloseRegion();
         }
@@ -486,7 +499,7 @@ namespace StableCube.Bulzor.Components.MediaPlayer
             builder.OpenRegion(index);
             builder.OpenElement(0, "input");
             builder.AddAttribute(1, "type", "range");
-            builder.AddAttribute(2, "class", VolumeClassBuilder.ClassString);
+            builder.AddAttribute(2, "class", $"bul-player-volume {VolumeClassBuilder.ClassString}");
             builder.AddAttribute(3, "min", 0);
             builder.AddAttribute(4, "max", 1);
             builder.AddAttribute(5, "step", 0.01);
@@ -501,7 +514,7 @@ namespace StableCube.Bulzor.Components.MediaPlayer
         {
             builder.OpenRegion(index);
             builder.OpenElement(0, "div");
-            builder.AddAttribute(1, "class", TimeDisplayClassBuilder.ClassString);
+            builder.AddAttribute(1, "class", $"{TimeDisplayClassBuilder.ClassString} is-hidden-mobile");
             builder.AddContent(2, String.Format("{0} / {1}", _currentTimeStrBuilder, _durationStrBuilder));
             builder.CloseElement();
             builder.CloseRegion();
@@ -589,6 +602,11 @@ namespace StableCube.Bulzor.Components.MediaPlayer
             
             builder.CloseComponent();
             builder.CloseRegion();
+        }
+
+        private async Task OnScreenClickHandler(MouseEventArgs args)
+        {
+            await OnPlayPauseClick.InvokeAsync(args);
         }
 
         private void OnPlayerMouseOverHandler(MouseEventArgs args)

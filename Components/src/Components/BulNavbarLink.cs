@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Routing;
+using Microsoft.AspNetCore.Components.Web;
 
 namespace StableCube.Bulzor.Components
 {
@@ -22,6 +23,9 @@ namespace StableCube.Bulzor.Components
         [Parameter]
         public bool Arrowless { get; set; }
 
+        [Parameter]
+        public EventCallback<MouseEventArgs> OnClick { get; set; }
+
         protected BulmaClassBuilder ClassBuilder { get; set; } = new BulmaClassBuilder("navbar-link");
 
         protected override void BuildBulma()
@@ -39,10 +43,11 @@ namespace StableCube.Bulzor.Components
             builder.OpenComponent<NavLink>(0);
             builder.AddAttribute(1, "ActiveClass", CssConfig.Prefix + "is-active");
             builder.AddAttribute(2, "Match", Match);
-            builder.AddMultipleAttributes(3, CombinedAdditionalAttributes);
+            builder.AddAttribute(3, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, OnClick));
+            builder.AddMultipleAttributes(4, CombinedAdditionalAttributes);
 
-            builder.AddAttribute(4, "ChildContent", (RenderFragment)((builder2) => {
-                builder2.AddContent(5, ChildContent);
+            builder.AddAttribute(5, "ChildContent", (RenderFragment)((builder2) => {
+                builder2.AddContent(6, ChildContent);
             }));
 
             builder.CloseComponent();

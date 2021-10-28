@@ -27,8 +27,8 @@ namespace StableCube.Bulzor.Components
             BuildBulma();
 
             builder.OpenElement(0, "a");
-            builder.AddMultipleAttributes(1, CombinedAdditionalAttributes);
-            builder.AddAttribute(2, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, OnClick));
+            builder.AddAttribute(1, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, OnClick));
+            builder.AddMultipleAttributes(2, CombinedAdditionalAttributes);
 
             builder.AddContent(3, (RenderFragment)((builder2) => {
                 builder2.OpenElement(4, "span");
