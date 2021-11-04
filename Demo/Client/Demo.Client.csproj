@@ -17,4 +17,7 @@
     <!-- <ProjectReference Include="../../Components.MediaPlayer/Bulzor.Components.MediaPlayer.csproj" /> -->
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="**/*.css" Watch="false" />
+  </ItemGroup>
 </Project>

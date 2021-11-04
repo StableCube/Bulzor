@@ -9,7 +9,7 @@
     <PackageReference Include="Serilog" Version="2.10.0" />
     <PackageReference Include="Serilog.AspNetCore" Version="4.1.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="4.0.0" />
-    <PackageReference Include="LibSassBuilder" Version="1.6.3" />
+    <PackageReference Include="LibSassBuilder" Version="1.6.4" />
   </ItemGroup>
 
   <ItemGroup>
@@ -17,13 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Watch Remove="wwwroot/css/*.css" />
-    <Watch Remove="../Client/**/*.css" />
-    <Watch Include="../Client/**/*.razor" />
-    <Watch Include="../Client/**/*.scss" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <Watch Include="wwwroot/**;../Client/src/**/*.scss" />
     <SassFile Include="wwwroot/css/base.scss" />
     <SassFile Include="../Client/src/**/*.scss" />
   </ItemGroup>
