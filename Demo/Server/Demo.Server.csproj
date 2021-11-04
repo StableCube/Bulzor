@@ -1,15 +1,19 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="5.0.11" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="6.0.0-rc.2.21480.10" />
     <PackageReference Include="Serilog" Version="2.10.0" />
     <PackageReference Include="Serilog.AspNetCore" Version="4.1.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="4.0.0" />
-    <PackageReference Include="LibSassBuilder" Version="1.6.3" />
+    <!-- <PackageReference Include="LibSassBuilder" Version="1.6.4" Condition=" '$(Configuration)' == 'Debug' "  /> -->
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../../LibSassBuilder/src/LibSassBuilder/LibSassBuilder.csproj" Condition=" '$(Configuration)' == 'Debug' "  />
   </ItemGroup>
 
   <ItemGroup>
@@ -17,13 +21,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Watch Remove="wwwroot/css/*.css" />
-    <Watch Remove="../Client/**/*.css" />
-    <Watch Include="../Client/**/*.razor" />
-    <Watch Include="../Client/**/*.scss" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <Watch Include="wwwroot/**;../Client/src/**/*.scss" />
+    <None Update="**/*.css" Watch="false" />
     <SassFile Include="wwwroot/css/base.scss" />
     <SassFile Include="../Client/src/**/*.scss" />
   </ItemGroup>

@@ -69,6 +69,12 @@
                             Rounded
                         </BulInputCheckbox>
                     </OptionsBoxItem>
+
+                    <OptionsBoxItem>
+                        <BulInputCheckbox @bind-Value="Options.Static">
+                            Static
+                        </BulInputCheckbox>
+                    </OptionsBoxItem>
                 </OptionsBox>
             </EditForm>
         </ExampleOptions>
@@ -87,6 +93,7 @@
                 FullWidth="Options.FullWidth"
                 Inverted="Options.Inverted"
                 Rounded="Options.Rounded"
+                Static="Options.Static"
                 OnClick="OnButtonClickedHandler"
                 >Button</BulButton>
         </ExampleResult>

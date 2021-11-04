@@ -38,6 +38,9 @@ namespace StableCube.Bulzor.Components
         public bool? Rounded { get; set; }
 
         [Parameter]
+        public bool? Static { get; set; }
+
+        [Parameter]
         public RenderFragment ChildContent { get; set; }
 
         [Parameter]
@@ -57,6 +60,7 @@ namespace StableCube.Bulzor.Components
             ClassBuilder.IsFullWidth = FullWidth;
             ClassBuilder.IsInverted = Inverted;
             ClassBuilder.IsRounded = Rounded;
+            ClassBuilder.IsStatic = Static;
 
             MergeBuilderClassAttribute(ClassBuilder);
         }
