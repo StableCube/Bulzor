@@ -1,6 +1,6 @@
-FROM us.gcr.io/stablecube/aspnet-runtime:5.0-14 AS base
+FROM us.gcr.io/stablecube/aspnet-runtime-ubuntu:6.0-0 AS base
 
-FROM mcr.microsoft.com/dotnet/sdk:5.0-alpine AS build
+FROM mcr.microsoft.com/dotnet/sdk:6.0-focal AS build
 
 ARG CSPROJ_FILENAME=Demo.Server.csproj
 WORKDIR /source
@@ -20,7 +20,7 @@ FROM build AS publish
 
 # optimize dotnet publish
 RUN dotnet publish -c Release -o /app/publish \
-    --runtime alpine-x64 \
+    --runtime linux-x64 \
     --self-contained true \
     /p:PublishTrimmed=true
 

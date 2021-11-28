@@ -28,6 +28,7 @@ namespace StableCube.Bulzor.Components
         public bool? IsFocused { get; set; }
         public bool? IsActive { get; set; }
         public bool? IsLoading { get; set; }
+        public bool? IsExpanded { get; set; }
         public bool? IsStatic { get; set; }
         public bool? HasIconsLeft { get; set; }
         public bool? HasIconsRight { get; set; }
@@ -126,6 +127,7 @@ namespace StableCube.Bulzor.Components
             AppendIfTrue(IsFocused, "is-focused");
             AppendIfTrue(IsActive, "is-active");
             AppendIfTrue(IsLoading, "is-loading");
+            AppendIfTrue(IsExpanded, "is-expanded");
             AppendIfTrue(HasIconsLeft, "has-icons-left");
             AppendIfTrue(HasIconsRight, "has-icons-right");
             AppendIfTrue(IsStatic, "is-static");

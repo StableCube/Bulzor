@@ -7,6 +7,9 @@ namespace StableCube.Bulzor.Components
 {
     public class BulInputTextArea : BulInputBase<string>
     {
+        [Parameter]
+        public bool? Expanded { get; set; }
+
         protected BulmaClassBuilder WrapperClassBuilder { get; set; } = new BulmaClassBuilder("control");
 
         protected BulmaClassBuilder InputClassBuilder { get; set; } = new BulmaClassBuilder("textarea");
@@ -15,6 +18,7 @@ namespace StableCube.Bulzor.Components
         {
             WrapperClassBuilder.Size = Size;
             WrapperClassBuilder.IsLoading = Loading;
+            WrapperClassBuilder.IsExpanded = Expanded;
 
             InputClassBuilder.SchemeColor = Color;
             InputClassBuilder.Size = Size;

@@ -19,6 +19,12 @@ namespace StableCube.Bulzor.Components
         [Parameter]
         public string IconClass { get; set; }
 
+        [Parameter]
+        public bool? Expanded { get; set; }
+
+        [Parameter]
+        public bool? FullWidth { get; set; }
+
         protected BulmaClassBuilder ControlClassBuilder { get; set; } = new BulmaClassBuilder("control");
         protected BulmaClassBuilder SelectClassBuilder { get; set; } = new BulmaClassBuilder("select");
         protected BulmaClassBuilder IconClassBuilder { get; set; } = new BulmaClassBuilder("icon");
@@ -28,6 +34,7 @@ namespace StableCube.Bulzor.Components
             SelectClassBuilder.Size = Size;
             SelectClassBuilder.IsLoading = Loading;
             SelectClassBuilder.IsRounded = Rounded;
+            SelectClassBuilder.IsFullWidth = FullWidth;
 
             if(Loading.HasValue == false || Loading.Value == false)
             {
@@ -44,6 +51,7 @@ namespace StableCube.Bulzor.Components
                 IconClassBuilder.Size = Size;
             }
 
+            ControlClassBuilder.IsExpanded = Expanded;
             ControlClassBuilder.HasIconsLeft = !string.IsNullOrEmpty(IconClass);
         }
 
