@@ -1,6 +1,12 @@
 ﻿@page "/documentation/extended/dateinput"
 
 <DocumentationRoot>
+    <BulMessage>
+        <BulMessageBody>
+            Supports DateTime, DateTimeOffset and DateOnly.
+        </BulMessageBody>
+    </BulMessage>
+
     <ExampleBox>
         <ExampleOptions>
             <EditForm Model="@this">
@@ -57,8 +63,7 @@
                 <div>Value: @DemoDate</div>
 
                 <div class="field">
-                    <label class="label">Date</label>
-                    <BulInputDateOnly @bind-Value="DemoDate" 
+                    <BulInputDate @bind-Value="DemoDate" 
                         Size="Size" 
                         Color="Color" 
                         Rounded="Rounded"

@@ -5,13 +5,13 @@ using Microsoft.AspNetCore.Components;
 
 namespace StableCube.Bulzor.Components.Extended
 {
-    public class BulInputDateOnly : BulInputBase<DateOnly>
+    public partial class BulInputDate<TValue> : BulInputBase<TValue>
     {
         [Parameter]
         public bool? Rounded { get; set; }
 
         [Parameter]
-        public Range YearRange { get; set; } = new Range (1900, DateTimeOffset.UtcNow.Year);
+        public Range YearRange { get; set; } = new Range (1900, DateTime.UtcNow.Year);
 
         [Parameter]
         public bool ShowYears { get; set; } = true;
@@ -37,7 +37,11 @@ namespace StableCube.Bulzor.Components.Extended
         [Parameter]
         public string DayLabel { get; set; } = "DD";
 
-        protected BulmaClassBuilder WrapperClassBuilder { get; set; } = new BulmaClassBuilder("field bul-dateonly-input");
+        protected BulDateGeneric _genericValue;
+        protected DateTimeOffset _dateTimeOffsetSourceRef;
+        protected DateTime _dateTimeSourceRef;
+
+        protected BulmaClassBuilder WrapperClassBuilder { get; set; } = new BulmaClassBuilder("field bul-inputdate");
         protected BulmaClassBuilder LabelClassBuilder { get; set; } = new BulmaClassBuilder("button is-static");
         protected BulmaClassBuilder SelectInputClassBuilder { get; set; } = new BulmaClassBuilder("select");
         protected BulmaClassBuilder NumberInputClassBuilder { get; set; } = new BulmaClassBuilder("input");
@@ -76,19 +80,38 @@ namespace StableCube.Bulzor.Components.Extended
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)
         {
+            if(Value is DateOnly)
+            {
+                _genericValue = new BulDateGeneric((DateOnly)(object)Value);
+            }
+            else if(Value is DateTime)
+            {
+                _dateTimeSourceRef = (DateTime)(object)Value;
+                _genericValue = new BulDateGeneric(_dateTimeSourceRef);
+            }
+            else if(Value is DateTimeOffset)
+            {
+                _dateTimeOffsetSourceRef = (DateTimeOffset)(object)Value;
+                _genericValue = new BulDateGeneric(_dateTimeOffsetSourceRef);
+            }
+            else
+            {
+                throw new NotSupportedException("Invalid type. Must be one of DateOnly, DateTime or DateTimeOffset");
+            }
+
             BuildBulma();
 
             builder.OpenElement(0, "div");
             builder.AddAttribute(1, "class", WrapperClassBuilder.ClassString);
 
             if(ShowMonths)
-                BuildNumberInput(builder, 2, Value.Month, MonthRange, MonthLabel, "month", EventCallback.Factory.Create<int>(this, MonthValueChangedHandler));
+                BuildNumberInput(builder, 2, _genericValue.Month, MonthRange, MonthLabel, "month", EventCallback.Factory.Create<int>(this, MonthValueChangedHandler));
 
             if(ShowDays)
-                BuildNumberInput(builder, 3, Value.Day, DayRange, DayLabel, "day", EventCallback.Factory.Create<int>(this, DayValueChangedHandler));
+                BuildNumberInput(builder, 3, _genericValue.Day, DayRange, DayLabel, "day", EventCallback.Factory.Create<int>(this, DayValueChangedHandler));
 
             if(ShowYears)
-                BuildNumberInput(builder, 4, Value.Year, YearRange, YearLabel, "year", EventCallback.Factory.Create<int>(this, YearValueChangedHandler));
+                BuildNumberInput(builder, 4, _genericValue.Year, YearRange, YearLabel, "year", EventCallback.Factory.Create<int>(this, YearValueChangedHandler));
             
             builder.CloseElement();
         }
@@ -121,7 +144,7 @@ namespace StableCube.Bulzor.Components.Extended
             }
 
             builder.OpenElement(5, "div");
-            builder.AddAttribute(6, "class", $"control bul-dateinput-{type}");
+            builder.AddAttribute(6, "class", $"control bul-inputdate-{type}");
 
             builder.OpenComponent<BulInputNumber<int>>(7);
             builder.AddAttribute(8, "Value", value);
@@ -139,28 +162,58 @@ namespace StableCube.Bulzor.Components.Extended
             builder.CloseRegion();
         }
 
-        private async void YearValueChangedHandler(int year)
+        private TValue GetGeneric()
+        {
+            if(Value is DateOnly)
+            {
+                var newVal = new DateOnly(_genericValue.Year, _genericValue.Month, _genericValue.Day);
+                return (TValue)Convert.ChangeType(newVal, typeof(TValue));
+            }
+            else if(Value is DateTime)
+            {
+                DateTime newVal = new DateTime(_genericValue.Year, _genericValue.Month, _genericValue.Day) + _dateTimeSourceRef.TimeOfDay;
+                return (TValue)Convert.ChangeType(newVal, typeof(TValue));
+            }
+            else if(Value is DateTimeOffset)
+            {
+                DateTimeOffset newVal = new DateTimeOffset(
+                    _genericValue.Year, 
+                    _genericValue.Month, 
+                    _genericValue.Day, 
+                    _dateTimeOffsetSourceRef.Hour, 
+                    _dateTimeOffsetSourceRef.Minute, 
+                    _dateTimeOffsetSourceRef.Second,
+                    _dateTimeOffsetSourceRef.Offset
+                );
+                
+                return (TValue)Convert.ChangeType(newVal, typeof(TValue));
+            }
+
+            throw new NotSupportedException("Invalid type. Must be one of DateOnly, DateTime or DateTimeOffset");
+        }
+
+        protected async void YearValueChangedHandler(int year)
         {
             year = Math.Clamp(year, YearRange.Start.Value, YearRange.End.Value);
-            Value = new DateOnly(year, Value.Month, Value.Day);
+            _genericValue = new BulDateGeneric(year, _genericValue.Month, _genericValue.Day);
 
-            await ValueChanged.InvokeAsync(Value);
+            await ValueChanged.InvokeAsync(GetGeneric());
         }
 
         private async void MonthValueChangedHandler(int month)
         {
             month = Math.Clamp(month, MonthRange.Start.Value, MonthRange.End.Value);
-            Value = new DateOnly(Value.Year, month, Value.Day);
+            _genericValue = new BulDateGeneric(_genericValue.Year, month, _genericValue.Day);
 
-            await ValueChanged.InvokeAsync(Value);
+            await ValueChanged.InvokeAsync(GetGeneric());
         }
 
         private async void DayValueChangedHandler(int day)
         {
             day = Math.Clamp(day, DayRange.Start.Value, DayRange.End.Value);
-            Value = new DateOnly(Value.Year, Value.Month, day);
+            _genericValue = new BulDateGeneric(_genericValue.Year, _genericValue.Month, day);
 
-            await ValueChanged.InvokeAsync(Value);
+            await ValueChanged.InvokeAsync(GetGeneric());
         }
     }
 }

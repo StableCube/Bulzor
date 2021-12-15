@@ -1,0 +1,49 @@
+$bul-inputdate-day-width: 5rem !default;
+$bul-inputdate-month-width: 5rem !default;
+$bul-inputdate-year-width: 7rem !default;
+
+.bul-inputdate .control {
+  margin-right: 0 !important;
+}
+
+.bul-inputdate-day input {
+  width: $bul-inputdate-day-width !important;
+
+  &.is-small {
+    width: $bul-inputdate-day-width - 1.5 !important;
+  }
+  &.is-medium {
+    $size: $bul-inputdate-day-width !important;
+  }
+  &.is-large {
+    width: $bul-inputdate-day-width + 2 !important;
+  }
+}
+
+.bul-inputdate-month input {
+  width: $bul-inputdate-month-width !important;
+
+  &.is-small {
+    width: $bul-inputdate-month-width - 1.5 !important;
+  }
+  &.is-medium {
+    $size: $bul-inputdate-month-width !important;
+  }
+  &.is-large {
+    width: $bul-inputdate-month-width + 2 !important;
+  }
+}
+
+.bul-inputdate-year input {
+  width: $bul-inputdate-year-width !important;
+
+  &.is-small {
+    width: $bul-inputdate-year-width - 1.5 !important;
+  }
+  &.is-medium {
+    $size: $bul-inputdate-year-width !important;
+  }
+  &.is-large {
+    width: $bul-inputdate-year-width + 2 !important;
+  }
+}

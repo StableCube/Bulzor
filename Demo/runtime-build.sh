@@ -1,6 +1,6 @@
 #!/bin/sh
 
-DOCKER_BUILD_TAG=6.0-1
+DOCKER_BUILD_TAG=6.0-2
 DOCKER_IMAGE=bulzor-demo
 
 set -e

@@ -4,7 +4,7 @@
     <PackageId>StableCube.Bulzor.Components.Extended</PackageId>
     <TargetFramework>net6.0</TargetFramework>
     <Company>Stable Cube</Company>
-    <Version>0.3.12</Version>
+    <Version>0.3.14</Version>
     <Title>StableCube.Bulzor.Components.Extended</Title>
     <IsPackable>true</IsPackable>
     <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
@@ -18,11 +18,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="StableCube.Bulzor.Components" Version="0.3.12" />
+    <PackageReference Include="StableCube.Bulzor.Components" Version="0.3.14" />
     <!-- <ProjectReference Include="../Components/Bulzor.Components.csproj" /> -->
   </ItemGroup>
 </Project>
