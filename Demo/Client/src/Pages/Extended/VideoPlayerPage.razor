@@ -52,13 +52,6 @@
 
                     <OptionsBoxItem>
                         <div class="control">
-                            <label class="label">Ratio</label>
-                            <BulInputSelectEnum @bind-Value="Ratio" />
-                        </div>
-                    </OptionsBoxItem>
-
-                    <OptionsBoxItem>
-                        <div class="control">
                             <label class="label">Video</label>
                             <BulInputSelectEnum 
                                 Value="CurrentlyPlaying"
@@ -71,7 +64,7 @@
         </ExampleOptions>
 
         <ExampleResult>
-            <BulVideoPlayer Color="Color" Size="Size" Ratio="Ratio" Muted="true" Poster="CurrentlyPlayingPoster" Src="CurrentlyPlayingSrc">
+            <BulVideoPlayer Color="Color" Size="Size" Muted="true" Poster="CurrentlyPlayingPoster" Src="CurrentlyPlayingSrc">
                 @* <BulMediaSource MediaUri="Nature720pMp4Uri" MediaType="video/mp4" />
                 <BulMediaSource MediaUri="Nature360pMp4Uri" MediaType="video/mp4" /> *@
             </BulVideoPlayer>
@@ -82,7 +75,6 @@
 @code {
     public BulSchemeColor Color { get; set; } = BulSchemeColor.Primary;
     public BulSize Size { get; set; } = BulSize.Default;
-    public BulRatio Ratio { get; set; } = BulRatio.Default;
     private VideoSelection CurrentlyPlaying { get; set; } = VideoSelection.JapaneseGardens;
     private Uri CurrentlyPlayingSrc { get; set; } = Japanese720pUri;
     private Uri CurrentlyPlayingPoster { get; set; } = JapanesePosterUri;

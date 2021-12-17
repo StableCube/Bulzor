@@ -29,9 +29,6 @@ namespace StableCube.Bulzor.Components.MediaPlayer
         public BulSize? Size { get; set; }
 
         [Parameter]
-        public BulRatio? Ratio { get; set; } = BulRatio.R16by9;
-
-        [Parameter]
         public bool Loop { get; set; }
 
         [Parameter]
@@ -156,15 +153,6 @@ namespace StableCube.Bulzor.Components.MediaPlayer
 
         protected override void BuildBulma()
         {
-            if(Ratio.HasValue)
-            {
-                if(Ratio.Value == BulRatio.Default)
-                    Ratio = BulRatio.R16by9;
-                
-                MediaPlayerClassBuilder.Ratio = Ratio;
-                MediaRootClassBuilder.HasRatio = true;
-            }
-            
             MergeBuilderClassAttribute(MediaRootClassBuilder);
         }
 

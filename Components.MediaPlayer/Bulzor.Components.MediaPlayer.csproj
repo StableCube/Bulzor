@@ -4,7 +4,7 @@
     <PackageId>StableCube.Bulzor.Components.MediaPlayer</PackageId>
     <TargetFramework>net6.0</TargetFramework>
     <Company>Stable Cube</Company>
-    <Version>0.3.14</Version>
+    <Version>0.3.15</Version>
     <Title>StableCube.Bulzor.Components.MediaPlayer</Title>
     <IsPackable>true</IsPackable>
     <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
