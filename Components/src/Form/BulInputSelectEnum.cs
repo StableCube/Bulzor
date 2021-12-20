@@ -23,6 +23,12 @@ namespace StableCube.Bulzor.Components
         public IDictionary<TValue, string> DisplayNames { get; set; }
 
         /// <summary>
+        /// Optionally exclude some enum values
+        /// </summary>
+        [Parameter]
+        public IList<TValue> Exclude { get; set; }
+
+        /// <summary>
         /// Gets or sets a callback that updates the bound value.
         /// </summary>
         [Parameter]
@@ -190,6 +196,9 @@ namespace StableCube.Bulzor.Components
                 string stringKey = ((int)enumI).ToString();
                 string stringVal = Enum.GetName(typeof(TValue), enumI);
                 TValue enumVal = (TValue)Enum.ToObject(typeof(TValue) , enumI);
+
+                if(Exclude != null && Exclude.Contains(enumVal))
+                    continue;
 
                 if(DisplayNames != null && DisplayNames.ContainsKey(enumVal))
                 {
