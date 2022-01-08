@@ -7,7 +7,7 @@ using Microsoft.JSInterop;
 
 namespace StableCube.Bulzor.Components.ReCaptcha
 {
-    public class BulReCaptchaV2 : ComponentBase
+    public class BulReCaptchaV2 : ComponentBase, IAsyncDisposable
     {
         [Inject]
         public IJSRuntime JSRuntime { get; set; }
@@ -36,12 +36,21 @@ namespace StableCube.Bulzor.Components.ReCaptcha
         [Parameter]
         public string ElementId { get; set; } = Guid.NewGuid().ToString();
 
+        [Parameter]
+        public string JSRootPath { get; set; } = String.Empty;
+
+        private IJSObjectReference _js;
+
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             if (!firstRender)
                 return;
+
+            _js = await JSRuntime.InvokeAsync<IJSObjectReference>("import", $"{JSRootPath}/_content/StableCube.Bulzor.Components.ReCaptcha/js/bulrecaptcha.js");
+
+            await _js.InvokeVoidAsync("loadScript", "https://www.google.com/recaptcha/api.js?onload=pageLoad&render=explicit");
             
-            await JSRuntime.InvokeVoidAsync(
+            await _js.InvokeVoidAsync(
                 "bulReCaptchaRenderV2", 
                 DotNetObjectReference.Create(this),
                 ElementId, 
@@ -51,6 +60,12 @@ namespace StableCube.Bulzor.Components.ReCaptcha
                 "OnCompleteHandler",
                 "OnExpiredHandler"
             );
+        }
+
+        async ValueTask IAsyncDisposable.DisposeAsync()
+        {
+            if (_js != null)
+                await _js.DisposeAsync();
         }
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -80,7 +95,7 @@ namespace StableCube.Bulzor.Components.ReCaptcha
 
         public async Task ResetAsync()
         {
-            await JSRuntime.InvokeVoidAsync("bulReCaptchaResetV2");
+            await _js.InvokeVoidAsync("bulReCaptchaResetV2");
         }
     }
 }
