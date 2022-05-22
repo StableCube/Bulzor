@@ -10,6 +10,7 @@
     <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
     <RootNamespace>StableCube.Bulzor.Components.Extended</RootNamespace>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageLicenseUrl>https://licenses.nuget.org/MIT</PackageLicenseUrl>
     <ProjectUrl>https://bulzor.stablecube.com</ProjectUrl>
     <RepositoryUrl>https://github.com/StableCube/Bulzor</RepositoryUrl>
     <Copyright>Copyright 2021</Copyright>

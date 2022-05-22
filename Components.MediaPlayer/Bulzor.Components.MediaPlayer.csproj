@@ -9,7 +9,8 @@
     <IsPackable>true</IsPackable>
     <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
     <RootNamespace>StableCube.Bulzor.Components.MediaPlayer</RootNamespace>
-    <LicenseUrl>https://opensource.org/licenses/MIT</LicenseUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageLicenseUrl>https://licenses.nuget.org/MIT</PackageLicenseUrl>
     <ProjectUrl>https://bulzor.stablecube.com</ProjectUrl>
     <RepositoryUrl>https://github.com/StableCube/Bulzor</RepositoryUrl>
     <Copyright>Copyright 2021</Copyright>
