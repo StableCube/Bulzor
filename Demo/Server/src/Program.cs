@@ -1,51 +1,47 @@
-﻿using System;
-using Microsoft.AspNetCore;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 using Serilog;
 
-namespace StableCube.Bulzor.Demo.Server
+var builder = WebApplication.CreateBuilder(args);
+builder.Host.UseSystemd();
+
+builder.Host.UseSerilog((context, configuration) =>
 {
-    public class Program
+    configuration.ReadFrom.Configuration(context.Configuration);
+});
+
+builder.Services.AddRazorPages()
+    .AddRazorPagesOptions(options => 
     {
-        public static void Main(string[] args)
-        {
-            CreateWebHostBuilder(args).Build().Run();
-        }
+        options.RootDirectory = "/src/Pages";
+    });
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args)
-        {
-            var builder = WebHost
-                .CreateDefaultBuilder(args)
-                .UseStartup<Startup>()           
-                .UseSerilog((context, configuration) =>
-                {
-                    configuration.ReadFrom.Configuration(context.Configuration);
-                    if(IsInContainer() && !IsRemoteDev())
-                        configuration.WriteTo.Console(new Serilog.Formatting.Json.JsonFormatter());
-                });
+builder.Services.Configure<RouteOptions>(option =>
+    {
+        option.LowercaseUrls = true;
+        option.LowercaseQueryStrings = true;
+    });
 
-            return builder;
-        }
+var app = builder.Build();
 
-        private static bool IsInContainer()
-        {
-            string envVal = Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER");
-            if(String.IsNullOrEmpty(envVal))
-                return false;
-
-            return Convert.ToBoolean(envVal);
-        }
-
-        private static bool IsRemoteDev()
-        {
-            string envVal = Environment.GetEnvironmentVariable("REMOTE_DEV_MODE");
-            if(String.IsNullOrEmpty(envVal))
-                return false;
-
-            if(!Int32.TryParse(envVal.AsSpan(), out int isRemote))
-                return false;
-
-            return isRemote == 1 ? true : false;
-        }
-    }
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+    app.UseWebAssemblyDebugging();
 }
+
+app.UseHttpsRedirection();
+app.UseBlazorFrameworkFiles();
+app.UseStaticFiles();
+
+app.UseRouting();
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapFallbackToPage("/_Host");
+});
+
+app.Run();

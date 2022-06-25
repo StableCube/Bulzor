@@ -34,7 +34,17 @@ namespace StableCube.Bulzor.Components.Extended
         {
             RootClassBuilder.Size = GetSize();
             RootClassBuilder.SchemeColor = Color;
-            RootClassBuilder.IsActive = Active;
+            if(Active)
+            {
+                RootClassBuilder.IsActive = true;
+                RootClassBuilder.IsHidden = false;
+            }
+            else
+            {
+                RootClassBuilder.IsActive = false;
+                RootClassBuilder.IsHidden = true;
+            }
+            
             RootClassBuilder.IsFocused = (FocusedIndex == Image.Index);
 
             WrapClassBuilder.Ratio = Ratio;
