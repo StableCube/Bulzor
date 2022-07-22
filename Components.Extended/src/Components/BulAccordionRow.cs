@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components;
 
@@ -15,13 +16,23 @@ namespace StableCube.Bulzor.Components.Extended
         [Parameter]
         public bool Active { get; set; }
 
+        [Parameter]
+        public EventCallback<Guid> OnExpand { get; set; }
+
+        [Parameter]
+        public EventCallback<Guid> OnCollapse { get; set; }
+
         public Guid RowId { get; set; }
 
         protected BulmaClassBuilder ClassBuilder { get; set; } = new BulmaClassBuilder("accordion-row");
 
+        private bool _cachedActiveValue;
+
         public BulAccordionRow()
         {
             RowId = Guid.NewGuid();
+
+            _cachedActiveValue = Active;
         }
 
         protected override void BuildBulma()
@@ -60,16 +71,24 @@ namespace StableCube.Bulzor.Components.Extended
                 ParentRoot.OnRowActivated(RowId);
         }
 
-        protected override void OnParametersSet()
+        protected override async Task OnParametersSetAsync()
         {
             if(Active && !ParentRoot.AllowMultiple && !ParentRoot.ActiveRow.Equals(RowId))
             {
                 Active = false;
                 StateHasChanged();
             }
+
+            if(_cachedActiveValue && !Active)
+                await OnCollapse.InvokeAsync(RowId);
+
+            if(!_cachedActiveValue && Active)
+                await OnExpand.InvokeAsync(RowId);
+
+            _cachedActiveValue = Active;
         }
 
-        public void OnActiveToggle()
+        public async void OnActiveToggle()
         {
             if(!Active)
                 ParentRoot.OnRowActivated(RowId);
@@ -79,6 +98,14 @@ namespace StableCube.Bulzor.Components.Extended
                 Active = !Active;
                 StateHasChanged();
             }
+
+            if(_cachedActiveValue && !Active)
+                await OnCollapse.InvokeAsync(RowId);
+
+            if(!_cachedActiveValue && Active)
+                await OnExpand.InvokeAsync(RowId);
+
+            _cachedActiveValue = Active;
         }
     }
 }

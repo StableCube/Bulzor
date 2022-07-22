@@ -33,6 +33,9 @@ namespace StableCube.Bulzor.Components
         [Parameter]
         public Expression<Func<KeyValuePair<TKey, TValue>>> ValueExpression { get; set; }
 
+        [Parameter]
+        public EventCallback<KeyValuePair<TKey, TValue>> OnValueChanged { get; set; }
+
         /// <summary>
         /// Add an icon with the supplied class. For instance "fa fa-globe fa-2x"
         /// </summary>
@@ -189,8 +192,13 @@ namespace StableCube.Bulzor.Components
         private async void InputValueChangedInternalHandler(string value)
         {
             var sourceKey = (TKey)_dicMap[value];
+            var newValue = new KeyValuePair<TKey, TValue>(sourceKey, Options[sourceKey]);
 
-            await ValueChanged.InvokeAsync(new KeyValuePair<TKey, TValue>(sourceKey, Options[sourceKey]));
+
+            InitialValue = newValue.Key;
+
+            await ValueChanged.InvokeAsync(newValue);
+            await OnValueChanged.InvokeAsync(newValue);
         }
     }
 }

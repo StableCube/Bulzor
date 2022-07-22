@@ -40,6 +40,9 @@ namespace StableCube.Bulzor.Components
         [Parameter]
         public Expression<Func<TValue>> ValueExpression { get; set; }
 
+        [Parameter]
+        public EventCallback<TValue> OnValueChanged { get; set; }
+
         /// <summary>
         /// Add an icon with the supplied class. For instance "fa fa-globe fa-2x"
         /// </summary>
@@ -218,6 +221,7 @@ namespace StableCube.Bulzor.Components
             var sourceValue = (TValue)_dicMap[value];
 
             await ValueChanged.InvokeAsync(sourceValue);
+            await OnValueChanged.InvokeAsync(sourceValue);
         }
     }
 }

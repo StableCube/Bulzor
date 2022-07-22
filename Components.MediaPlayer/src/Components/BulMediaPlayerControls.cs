@@ -164,9 +164,15 @@ namespace StableCube.Bulzor.Components.MediaPlayer
             BuildScreenClickTrigger(builder, 5);
             BuildControlGroup(builder, 6);
 
-            if(PlayerState.PlayState == BulMediaPlayState.Stopped)
+            if(!PlayerState.CanPlay || PlayerState.Seeking || PlayerState.Duration == TimeSpan.Zero)
+            {
+                //Maybe put a loading icon here?
+            }
+            else if(PlayerState.PlayState == BulMediaPlayState.Stopped)
+            {
                 BuildStoppedCenteredPlayButton(builder, 7);
-
+            }
+            
             builder.CloseElement();
         }
 

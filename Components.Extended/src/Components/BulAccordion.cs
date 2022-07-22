@@ -12,6 +12,9 @@ namespace StableCube.Bulzor.Components.Extended
         [Parameter]
         public BulSchemeColor? Color { get; set; }
 
+        /// <summary>
+        /// If true multiple rows can be open at once
+        /// </summary>
         [Parameter]
         public bool AllowMultiple { get; set; }
 
