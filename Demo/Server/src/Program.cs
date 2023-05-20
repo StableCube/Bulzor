@@ -39,9 +39,6 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapFallbackToPage("/_Host");
-});
+app.MapFallbackToPage("/_Host");
 
 app.Run();

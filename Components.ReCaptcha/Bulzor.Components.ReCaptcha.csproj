@@ -2,9 +2,9 @@
 
   <PropertyGroup>
     <PackageId>StableCube.Bulzor.Components.ReCaptcha</PackageId>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <Company>Stable Cube</Company>
-    <Version>1.0.6</Version>
+    <Version>1.0.7</Version>
     <Title>StableCube.Bulzor.Components.ReCaptcha</Title>
     <IsPackable>true</IsPackable>
     <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
@@ -16,6 +16,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.6" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.5" />
   </ItemGroup>
 </Project>
