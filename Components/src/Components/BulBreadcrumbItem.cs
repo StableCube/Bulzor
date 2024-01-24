@@ -1,26 +1,29 @@
-﻿using System;
-using Microsoft.AspNetCore.Components.Rendering;
+﻿using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components;
 
-namespace StableCube.Bulzor.Components
+namespace StableCube.Bulzor.Components;
+
+public class BulBreadcrumbItem : BulComponentBase
 {
-    public class BulBreadcrumbItem : BulComponentBase
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    protected override void OnParametersSet()
     {
-        [Parameter]
-        public RenderFragment ChildContent { get; set; }
+        BuildBulma();
 
-        protected override void BuildBulma()
-        {
-        }
+        base.OnParametersSet();
+    }
 
-        protected override void BuildRenderTree(RenderTreeBuilder builder)
-        {
-            BuildBulma();
+    protected override void BuildBulma()
+    {
+    }
 
-            builder.OpenElement(0, "li");
-            builder.AddMultipleAttributes(1, AdditionalAttributes);
-            builder.AddContent(2, ChildContent);
-            builder.CloseElement();
-        }
+    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    {
+        builder.OpenElement(0, "li");
+        builder.AddMultipleAttributes(1, AdditionalAttributes);
+        builder.AddContent(2, ChildContent);
+        builder.CloseElement();
     }
 }

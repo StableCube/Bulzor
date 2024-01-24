@@ -3,114 +3,118 @@ using System.Threading;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components;
 
-namespace StableCube.Bulzor.Components.Extended
+namespace StableCube.Bulzor.Components.Extended;
+
+public class BulTimerProgressBar : BulComponentBase, IDisposable
 {
-    public class BulTimerProgressBar : BulComponentBase, IDisposable
+    [Parameter]
+    public TimeSpan Value { get; set; } = TimeSpan.Zero;
+
+    [Parameter]
+    public TimeSpan Max { get; set; } = TimeSpan.FromSeconds(30);
+
+    /// <summary>
+    /// Time interval between UI refreshes
+    /// </summary>
+    [Parameter]
+    public TimeSpan Interval { get; set; } = TimeSpan.FromSeconds(1);
+
+    [Parameter]
+    public BulSchemeColor? Color { get; set; }
+
+    [Parameter]
+    public BulSize? Size { get; set; }
+
+    [Parameter] 
+    public EventCallback<BulTimeElapsedEventArgs> OnElapsed { get; set; }
+
+    [Parameter]
+    public EventCallback<TimeSpan> ValueChanged { get; set; }
+
+    /// <summary>
+    /// To reset the timer or offset start you can change this value
+    /// </summary>
+    [Parameter]
+    public DateTime StartDate { get; set; } = DateTime.UtcNow;
+
+    private double Progress { get; set; }
+
+    private Timer Timer { get; set; }
+
+    protected override void OnInitialized()
     {
-        [Parameter]
-        public TimeSpan Value { get; set; } = TimeSpan.Zero;
+        StartTimer();
+    }
 
-        [Parameter]
-        public TimeSpan Max { get; set; } = TimeSpan.FromSeconds(30);
+    public void Dispose()
+    {
+        Timer.Change(Timeout.Infinite, Timeout.Infinite);
+        Timer.Dispose();
+    }
 
-        /// <summary>
-        /// Time interval between UI refreshes
-        /// </summary>
-        [Parameter]
-        public TimeSpan Interval { get; set; } = TimeSpan.FromSeconds(1);
+    protected override void OnParametersSet()
+    {
+        BuildBulma();
 
-        [Parameter]
-        public BulSchemeColor? Color { get; set; }
+        base.OnParametersSet();
+    }
 
-        [Parameter]
-        public BulSize? Size { get; set; }
+    protected override void BuildBulma()
+    {
+    }
 
-        [Parameter] 
-        public EventCallback<BulTimeElapsedEventArgs> OnElapsed { get; set; }
+    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    {
+        if(Interval > Max)
+            Interval = Max;
+        
+        if(Interval.TotalMilliseconds < 1)
+            Interval = TimeSpan.FromMilliseconds(1);
 
-        [Parameter]
-        public EventCallback<TimeSpan> ValueChanged { get; set; }
+        builder.OpenComponent<BulProgressBar>(0);
+        builder.AddMultipleAttributes(1, CombinedAdditionalAttributes);
+        builder.AddAttribute(2, "Value", Progress);
+        builder.AddAttribute(3, "Color", Color);
+        builder.AddAttribute(4, "Size", Size);
+        
+        builder.CloseComponent();
+    }
 
-        /// <summary>
-        /// To reset the timer or offset start you can change this value
-        /// </summary>
-        [Parameter]
-        public DateTime StartDate { get; set; } = DateTime.UtcNow;
-
-        private double Progress { get; set; }
-
-        private Timer Timer { get; set; }
-
-        protected override void OnInitialized()
+    private void StartTimer()
+    {
+        Timer = new Timer(_ =>
         {
-            StartTimer();
+            InvokeAsync(ProgressTickHandlerAsync);
+        }, null, TimeSpan.Zero, Interval);
+    }
+
+    private async void ProgressTickHandlerAsync()
+    {
+        if(Value >= Max)
+        {
+            Progress = 100;
+            return;
         }
 
-        public void Dispose()
+        Timer.Change(Interval, Interval);
+
+        Value = (DateTime.UtcNow - StartDate);
+
+        Progress = (100 * Value.TotalMilliseconds) / Max.TotalMilliseconds;
+        if(Progress >= 100)
+            Progress = 100;
+
+        if(Value >= Max)
         {
-            Timer.Change(Timeout.Infinite, Timeout.Infinite);
-            Timer.Dispose();
+            Value = Max;
+            Progress = 100;
         }
 
-        protected override void BuildBulma()
+        await ValueChanged.InvokeAsync(Value);
+
+        if(Value == Max)
         {
-        }
-
-        protected override void BuildRenderTree(RenderTreeBuilder builder)
-        {
-            BuildBulma();
-
-            if(Interval > Max)
-                Interval = Max;
-            
-            if(Interval.TotalMilliseconds < 1)
-                Interval = TimeSpan.FromMilliseconds(1);
-
-            builder.OpenComponent<BulProgressBar>(0);
-            builder.AddMultipleAttributes(1, CombinedAdditionalAttributes);
-            builder.AddAttribute(2, "Value", Progress);
-            builder.AddAttribute(3, "Color", Color);
-            builder.AddAttribute(4, "Size", Size);
-            
-            builder.CloseComponent();
-        }
-
-        private void StartTimer()
-        {
-            Timer = new Timer(_ =>
-            {
-                InvokeAsync(ProgressTickHandlerAsync);
-            }, null, TimeSpan.Zero, Interval);
-        }
-
-        private async void ProgressTickHandlerAsync()
-        {
-            if(Value >= Max)
-            {
-                Progress = 100;
-                return;
-            }
-
-            Timer.Change(Interval, Interval);
-
-            Value = (DateTime.UtcNow - StartDate);
-
-            Progress = (100 * Value.TotalMilliseconds) / Max.TotalMilliseconds;
-            if(Progress >= 100)
-                Progress = 100;
-
-            if(Value >= Max)
-            {
-                Value = Max;
-                Progress = 100;
-            }
-
-            await ValueChanged.InvokeAsync(Value);
-
-            if(Value == Max)
-            {
-                await OnElapsed.InvokeAsync(new BulTimeElapsedEventArgs(Max, Interval));
-            }
+            await OnElapsed.InvokeAsync(new BulTimeElapsedEventArgs(Max, Interval));
         }
     }
 }

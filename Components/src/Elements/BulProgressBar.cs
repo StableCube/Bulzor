@@ -2,51 +2,55 @@
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components;
 
-namespace StableCube.Bulzor.Components
+namespace StableCube.Bulzor.Components;
+
+public class BulProgressBar : BulComponentBase
 {
-    public class BulProgressBar : BulComponentBase
+    /// <summary>
+    /// Progress as a percentage from 0 - 100
+    /// </summary>
+    [Parameter]
+    public double Value { get; set; }
+
+    [Parameter]
+    public bool Indeterminate { get; set; }
+
+    [Parameter]
+    public BulSchemeColor? Color { get; set; }
+
+    [Parameter]
+    public BulSize? Size { get; set; }
+
+    protected BulmaClassBuilder ClassBuilder { get; set; } = new BulmaClassBuilder("progress");
+
+    protected override void OnParametersSet()
     {
-        /// <summary>
-        /// Progress as a percentage from 0 - 100
-        /// </summary>
-        [Parameter]
-        public double Value { get; set; }
+        BuildBulma();
 
-        [Parameter]
-        public bool Indeterminate { get; set; }
+        base.OnParametersSet();
+    }
 
-        [Parameter]
-        public BulSchemeColor? Color { get; set; }
+    protected override void BuildBulma()
+    {
+        ClassBuilder.SchemeColor = Color;
+        ClassBuilder.Size = Size;
 
-        [Parameter]
-        public BulSize? Size { get; set; }
+        MergeBuilderClassAttribute(ClassBuilder);
+    }
 
-        protected BulmaClassBuilder ClassBuilder { get; set; } = new BulmaClassBuilder("progress");
+    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    {
+        builder.OpenElement(0, "progress");
+        builder.AddMultipleAttributes(1, CombinedAdditionalAttributes);
+        builder.AddAttribute(2, "max", "100");
 
-        protected override void BuildBulma()
+        if(Indeterminate == false)
         {
-            ClassBuilder.SchemeColor = Color;
-            ClassBuilder.Size = Size;
+            Value = Math.Clamp(Value, 0, 100);
 
-            MergeBuilderClassAttribute(ClassBuilder);
+            builder.AddAttribute(3, "value", Value);
         }
 
-        protected override void BuildRenderTree(RenderTreeBuilder builder)
-        {
-            BuildBulma();
-
-            builder.OpenElement(0, "progress");
-            builder.AddMultipleAttributes(1, CombinedAdditionalAttributes);
-            builder.AddAttribute(2, "max", "100");
-
-            if(Indeterminate == false)
-            {
-                Value = Math.Clamp(Value, 0, 100);
-
-                builder.AddAttribute(3, "value", Value);
-            }
-
-            builder.CloseElement();
-        }
+        builder.CloseElement();
     }
 }

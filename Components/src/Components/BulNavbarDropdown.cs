@@ -1,38 +1,41 @@
-﻿using System;
-using Microsoft.AspNetCore.Components.Rendering;
+﻿using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components;
 
-namespace StableCube.Bulzor.Components
+namespace StableCube.Bulzor.Components;
+
+public class BulNavbarDropdown : BulComponentBase
 {
-    public class BulNavbarDropdown : BulComponentBase
+    [Parameter]
+    public bool Right { get; set; }
+
+    [Parameter]
+    public bool Boxed { get; set; }
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+    
+    protected BulmaClassBuilder ClassBuilder { get; set; } = new BulmaClassBuilder("navbar-dropdown");
+
+    protected override void OnParametersSet()
     {
-        [Parameter]
-        public bool Right { get; set; }
+        BuildBulma();
 
-        [Parameter]
-        public bool Boxed { get; set; }
+        base.OnParametersSet();
+    }
 
-        [Parameter]
-        public RenderFragment ChildContent { get; set; }
-        
-        protected BulmaClassBuilder ClassBuilder { get; set; } = new BulmaClassBuilder("navbar-dropdown");
+    protected override void BuildBulma()
+    {
+        ClassBuilder.IsRight = Right;
+        ClassBuilder.IsBoxed = Boxed;
 
-        protected override void BuildBulma()
-        {
-            ClassBuilder.IsRight = Right;
-            ClassBuilder.IsBoxed = Boxed;
+        MergeBuilderClassAttribute(ClassBuilder);
+    }
 
-            MergeBuilderClassAttribute(ClassBuilder);
-        }
-
-        protected override void BuildRenderTree(RenderTreeBuilder builder)
-        {
-            BuildBulma();
-
-            builder.OpenElement(0, "div");
-            builder.AddMultipleAttributes(1, CombinedAdditionalAttributes);
-            builder.AddContent(2, ChildContent);
-            builder.CloseElement();
-        }
+    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    {
+        builder.OpenElement(0, "div");
+        builder.AddMultipleAttributes(1, CombinedAdditionalAttributes);
+        builder.AddContent(2, ChildContent);
+        builder.CloseElement();
     }
 }

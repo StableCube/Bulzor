@@ -1,34 +1,37 @@
-﻿using System;
-using Microsoft.AspNetCore.Components.Rendering;
+﻿using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components;
 
-namespace StableCube.Bulzor.Components
+namespace StableCube.Bulzor.Components;
+
+public class BulModal : BulComponentBase
 {
-    public class BulModal : BulComponentBase
+    [Parameter]
+    public bool Active { get; set; }
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+    
+    protected BulmaClassBuilder ClassBuilder { get; set; } = new BulmaClassBuilder("modal");
+
+    protected override void OnParametersSet()
     {
-        [Parameter]
-        public bool Active { get; set; }
+        BuildBulma();
 
-        [Parameter]
-        public RenderFragment ChildContent { get; set; }
-        
-        protected BulmaClassBuilder ClassBuilder { get; set; } = new BulmaClassBuilder("modal");
+        base.OnParametersSet();
+    }
 
-        protected override void BuildBulma()
-        {
-            ClassBuilder.IsActive = Active;
+    protected override void BuildBulma()
+    {
+        ClassBuilder.IsActive = Active;
 
-            MergeBuilderClassAttribute(ClassBuilder);
-        }
+        MergeBuilderClassAttribute(ClassBuilder);
+    }
 
-        protected override void BuildRenderTree(RenderTreeBuilder builder)
-        {
-            BuildBulma();
-
-            builder.OpenElement(0, "div");
-            builder.AddMultipleAttributes(1, CombinedAdditionalAttributes);
-            builder.AddContent(2, ChildContent);
-            builder.CloseElement();
-        }
+    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    {
+        builder.OpenElement(0, "div");
+        builder.AddMultipleAttributes(1, CombinedAdditionalAttributes);
+        builder.AddContent(2, ChildContent);
+        builder.CloseElement();
     }
 }

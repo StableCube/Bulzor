@@ -1,11 +1,9 @@
-﻿using System;
+﻿
+namespace StableCube.Bulzor.Components.MediaPlayer;
 
-namespace StableCube.Bulzor.Components.MediaPlayer
+public enum BulMediaPlayState
 {
-    public enum BulMediaPlayState
-    {
-        Stopped,
-        Playing,
-        Paused
-    }
+    Stopped,
+    Playing,
+    Paused
 }

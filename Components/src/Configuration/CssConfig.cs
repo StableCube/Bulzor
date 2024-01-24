@@ -1,8 +1,7 @@
 ﻿
-namespace StableCube.Bulzor.Components
+namespace StableCube.Bulzor.Components;
+
+public static class CssConfig
 {
-    public static class CssConfig
-    {
-        public static string Prefix { get; set; } = string.Empty;
-    }
+    public static string Prefix { get; set; } = string.Empty;
 }

@@ -1,25 +1,28 @@
-﻿using System;
-using Microsoft.AspNetCore.Components.Rendering;
+﻿using Microsoft.AspNetCore.Components.Rendering;
 
-namespace StableCube.Bulzor.Components
+namespace StableCube.Bulzor.Components;
+
+public class BulDropdownDivider : BulComponentBase
 {
-    public class BulDropdownDivider : BulComponentBase
+    protected BulmaClassBuilder ClassBuilder { get; set; } = new BulmaClassBuilder("dropdown-divider");
+
+    protected override void OnParametersSet()
     {
-        protected BulmaClassBuilder ClassBuilder { get; set; } = new BulmaClassBuilder("dropdown-divider");
+        BuildBulma();
 
-        protected override void BuildBulma()
-        {
-            MergeBuilderClassAttribute(ClassBuilder);
-        }
+        base.OnParametersSet();
+    }
 
-        protected override void BuildRenderTree(RenderTreeBuilder builder)
-        {
-            BuildBulma();
+    protected override void BuildBulma()
+    {
+        MergeBuilderClassAttribute(ClassBuilder);
+    }
 
-            builder.OpenElement(0, "hr");
-            builder.AddMultipleAttributes(1, CombinedAdditionalAttributes);
+    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    {
+        builder.OpenElement(0, "hr");
+        builder.AddMultipleAttributes(1, CombinedAdditionalAttributes);
 
-            builder.CloseElement();
-        }
+        builder.CloseElement();
     }
 }

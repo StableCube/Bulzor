@@ -1,13 +1,11 @@
-using System;
 
-namespace StableCube.Bulzor.Components
+namespace StableCube.Bulzor.Components;
+
+public enum BulSeparator
 {
-    public enum BulSeparator
-    {
-        Default,
-        Arrow,
-        Bullet,
-        Dot,
-        Succeeds
-    }
+    Default,
+    Arrow,
+    Bullet,
+    Dot,
+    Succeeds
 }

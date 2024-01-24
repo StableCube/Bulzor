@@ -1,28 +1,32 @@
 ﻿using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Forms;
 
-namespace StableCube.Bulzor.Components
+namespace StableCube.Bulzor.Components;
+
+public class BulInputNumber<TValue> : BulInputSingleLineBase<TValue>
 {
-    public class BulInputNumber<TValue> : BulInputSingleLineBase<TValue>
+    protected override void OnParametersSet()
     {
-        protected override void BuildRenderTree(RenderTreeBuilder builder)
-        {
-            BuildBulma();
+        BuildBulma();
 
-            builder.OpenElement(0, "div");
-            builder.AddAttribute(1, "class", WrapperClassBuilder.ClassString);
+        base.OnParametersSet();
+    }
 
-            builder.OpenComponent<InputNumber<TValue>>(2);
-            builder.AddAttribute(3, "Value", Value);
-            builder.AddAttribute(4, "ValueExpression", ValueExpression);
-            builder.AddAttribute(5, "ValueChanged", ValueChanged);
-            builder.AddAttribute(6, "AdditionalAttributes", CombinedAdditionalAttributes);
-            builder.CloseComponent();
+    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    {
+        builder.OpenElement(0, "div");
+        builder.AddAttribute(1, "class", WrapperClassBuilder.ClassString);
 
-            if(BulIcons != null)
-                builder.AddContent(7, BulIcons);
+        builder.OpenComponent<InputNumber<TValue>>(2);
+        builder.AddAttribute(3, "Value", Value);
+        builder.AddAttribute(4, "ValueExpression", ValueExpression);
+        builder.AddAttribute(5, "ValueChanged", ValueChanged);
+        builder.AddAttribute(6, "AdditionalAttributes", CombinedAdditionalAttributes);
+        builder.CloseComponent();
 
-            builder.CloseElement();
-        }
+        if(BulIcons != null)
+            builder.AddContent(7, BulIcons);
+
+        builder.CloseElement();
     }
 }

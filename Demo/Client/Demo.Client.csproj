@@ -13,8 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="StableCube.Bulzor.Components.MediaPlayer" Version="0.3.20" />
-    <!-- <ProjectReference Include="../../Components.MediaPlayer/Bulzor.Components.MediaPlayer.csproj" /> -->
+    <!-- <PackageReference Include="StableCube.Bulzor.Components.MediaPlayer" Version="0.3.20" /> -->
+    <ProjectReference Include="../../Components.MediaPlayer/Bulzor.Components.MediaPlayer.csproj" />
   </ItemGroup>
 
   <ItemGroup>

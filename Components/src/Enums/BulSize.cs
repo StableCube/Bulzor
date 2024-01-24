@@ -1,13 +1,11 @@
-using System;
 
-namespace StableCube.Bulzor.Components
+namespace StableCube.Bulzor.Components;
+
+public enum BulSize
 {
-    public enum BulSize
-    {
-        Default,
-        Small,
-        Normal,
-        Medium,
-        Large
-    }
+    Default,
+    Small,
+    Normal,
+    Medium,
+    Large
 }

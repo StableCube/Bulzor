@@ -1,47 +1,50 @@
-﻿using System;
-using Microsoft.AspNetCore.Components.Rendering;
+﻿using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Routing;
 
-namespace StableCube.Bulzor.Components
+namespace StableCube.Bulzor.Components;
+
+public class BulNavbarItemLink : BulComponentBase
 {
-    public class BulNavbarItemLink : BulComponentBase
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value representing the URL matching behavior.
+    /// </summary>
+    [Parameter]
+    public NavLinkMatch Match { get; set; }
+
+    [Parameter]
+    public bool Active { get; set; }
+
+    protected BulmaClassBuilder ClassBuilder { get; set; } = new BulmaClassBuilder("navbar-item");
+
+    protected override void OnParametersSet()
     {
-        [Parameter]
-        public RenderFragment ChildContent { get; set; }
+        BuildBulma();
 
-        /// <summary>
-        /// Gets or sets a value representing the URL matching behavior.
-        /// </summary>
-        [Parameter]
-        public NavLinkMatch Match { get; set; }
+        base.OnParametersSet();
+    }
 
-        [Parameter]
-        public bool Active { get; set; }
+    protected override void BuildBulma()
+    {
+        ClassBuilder.IsActive = Active;
+        
+        MergeBuilderClassAttribute(ClassBuilder);
+    }
 
-        protected BulmaClassBuilder ClassBuilder { get; set; } = new BulmaClassBuilder("navbar-item");
+    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    {
+        builder.OpenComponent<NavLink>(0);
+        builder.AddAttribute(1, "ActiveClass", CssConfig.Prefix + "is-active");
+        builder.AddAttribute(2, "Match", Match);
+        builder.AddMultipleAttributes(3, CombinedAdditionalAttributes);
 
-        protected override void BuildBulma()
-        {
-            ClassBuilder.IsActive = Active;
-            
-            MergeBuilderClassAttribute(ClassBuilder);
-        }
+        builder.AddAttribute(4, "ChildContent", (RenderFragment)((builder2) => {
+            builder2.AddContent(5, ChildContent);
+        }));
 
-        protected override void BuildRenderTree(RenderTreeBuilder builder)
-        {
-            BuildBulma();
-
-            builder.OpenComponent<NavLink>(0);
-            builder.AddAttribute(1, "ActiveClass", CssConfig.Prefix + "is-active");
-            builder.AddAttribute(2, "Match", Match);
-            builder.AddMultipleAttributes(3, CombinedAdditionalAttributes);
-
-            builder.AddAttribute(4, "ChildContent", (RenderFragment)((builder2) => {
-                builder2.AddContent(5, ChildContent);
-            }));
-
-            builder.CloseComponent();
-        }
+        builder.CloseComponent();
     }
 }

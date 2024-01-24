@@ -44,15 +44,15 @@
         </ExampleOptions>
 
         <ExampleResult>
-            <EditForm Model="@this">
+            <EditForm EditContext="@EditContext">
                 <DataAnnotationsValidator />
                 <ValidationSummary />
 
                 <section>
                     <div class="input-block">
                         <div class="input-type">Generic Select</div>
-                        <div>Value: @(DemoDataOptions[DemoDataValue])</div>
-                        <BulInputSelect @bind-Value="DemoDataValue" 
+                        <div>Value: @FormData.GenericSelectValue</div>
+                        <BulInputSelect @bind-Value="FormData.GenericSelectValue" 
                             Size="Size" 
                             Color="Color" 
                             Rounded="Rounded"
@@ -61,16 +61,16 @@
 
                             @foreach(var item in DemoDataOptions)
                             {
-                                <option value="@item.Key">@item.Value</option>
+                                <option value="@item.Value">@item.Key</option>
                             }
                         </BulInputSelect>
                     </div>
 
                     <div class="input-block">
                         <div class="input-type">Dictionary Select</div>
-                        <div>Value: @(DemoDataOptions[DicSelectValue.Key])</div>
-                        <BulInputSelectDictionary @bind-Value="@DicSelectValue" 
-                            Options="@DemoDataOptions"
+                        <div>Value: @FormData.DicSelectValue2.Value</div>
+                        <BulInputSelectDictionary @bind-Value="@FormData.DicSelectValue2" 
+                            Options="@DecadeOptions"
                             Size="Size" 
                             Color="Color" 
                             Rounded="Rounded"
@@ -80,8 +80,8 @@
 
                     <div class="input-block">
                         <div class="input-type">Enum Select</div>
-                        <div>Value: @(EnumSelectValue)</div>
-                        <BulInputSelectEnum @bind-Value="@EnumSelectValue" 
+                        <div>Value: @(FormData.EnumSelectValue)</div>
+                        <BulInputSelectEnum @bind-Value="@FormData.EnumSelectValue" 
                             DisplayNames="EnumDisplayNames"
                             Size="Size" 
                             Color="Color" 
@@ -97,15 +97,15 @@
 </DocumentationRoot>
 
 @code {
-    public KeyValuePair<string, string> DicSelectValue { get; set; } = new KeyValuePair<string, string>("chewbacca", "Chewbacca");
-
-    public BulSize EnumSelectValue { get; set; } = BulSize.Medium;
+    private EditContext EditContext { get; set; }
+    private InputSelectPageFormData FormData { get; set; }
 
     // You can pass enum selection DisplayNames with the value being display name override. Otherwise it is just the value of ToString
-    public Dictionary<BulSize, string> EnumDisplayNames { get; set; } = new Dictionary<BulSize, string>()
-    {
-        { BulSize.Normal, "Normal Pretty" }
-    };
+    public ImmutableDictionary<BulSize, string> EnumDisplayNames { get; set; } = ImmutableDictionary.CreateRange<BulSize, string>(
+        new KeyValuePair<BulSize, string>[] {
+            KeyValuePair.Create(BulSize.Normal, "Normal Pretty")
+        }
+    );
 
     public BulSchemeColor Color { get; set; } = BulSchemeColor.Default;
     public BulSize Size { get; set; } = BulSize.Default;
@@ -113,12 +113,27 @@
     public bool Loading { get; set; }
     public bool HasIcon { get; set; }
     public string IconString { get { return (HasIcon ? "fa fa-save fa-2x" : null); } }
-    public string DemoDataValue { get; set; } = "luke";
-    public Dictionary<string, string> DemoDataOptions { get; set; } = new Dictionary<string, string>()
+
+    public ImmutableDictionary<string, string> DemoDataOptions { get; set; } = ImmutableDictionary.CreateRange<string, string>(
+        new KeyValuePair<string, string>[] {
+            KeyValuePair.Create("Luke", "luke"),
+            KeyValuePair.Create("Han", "han"),
+            KeyValuePair.Create("Chewbacca", "chewbacca"),
+            KeyValuePair.Create("Darth Vader", "darth-vadar")
+        }
+    );
+
+    public ImmutableDictionary<int, string> DecadeOptions { get; set; }
+
+    protected override void OnInitialized()
     {
-        { "luke", "Luke" },
-        { "han", "Han" },
-        { "chewbacca", "Chewbacca" },
-        { "darth-vadar", "Darth Vader" },
-    };
+        var decadeOptions = ImmutableDictionary.CreateBuilder<int, string>();
+        for (int i = 1940; i < DateTime.UtcNow.Year; i += 10)
+            decadeOptions.Add(i, i.ToString() + "'s");
+
+        DecadeOptions = decadeOptions.ToImmutable();
+
+        FormData = new InputSelectPageFormData();
+        EditContext = new EditContext(FormData);
+    }
 }

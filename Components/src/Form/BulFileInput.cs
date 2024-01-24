@@ -1,26 +1,30 @@
 ﻿using System;
 using Microsoft.AspNetCore.Components.Rendering;
 
-namespace StableCube.Bulzor.Components
+namespace StableCube.Bulzor.Components;
+
+public class BulFileInput : BulComponentBase
 {
-    public class BulFileInput : BulComponentBase
+    protected BulmaClassBuilder ClassBuilder { get; set; } = new BulmaClassBuilder("file-input");
+
+    protected override void OnParametersSet()
     {
-        protected BulmaClassBuilder ClassBuilder { get; set; } = new BulmaClassBuilder("file-input");
+        BuildBulma();
 
-        protected override void BuildBulma()
-        {
-            MergeBuilderClassAttribute(ClassBuilder);
-        }
+        base.OnParametersSet();
+    }
 
-        protected override void BuildRenderTree(RenderTreeBuilder builder)
-        {
-            BuildBulma();
+    protected override void BuildBulma()
+    {
+        MergeBuilderClassAttribute(ClassBuilder);
+    }
 
-            builder.OpenElement(0, "input");
-            builder.AddMultipleAttributes(2, CombinedAdditionalAttributes);
-            builder.AddAttribute(3, "type", "file");
+    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    {
+        builder.OpenElement(0, "input");
+        builder.AddMultipleAttributes(2, CombinedAdditionalAttributes);
+        builder.AddAttribute(3, "type", "file");
 
-            builder.CloseElement();
-        }
+        builder.CloseElement();
     }
 }

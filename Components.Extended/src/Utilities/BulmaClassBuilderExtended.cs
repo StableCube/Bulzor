@@ -1,23 +1,22 @@
 
-namespace StableCube.Bulzor.Components.Extended
+namespace StableCube.Bulzor.Components.Extended;
+
+public class BulmaClassBuilderExtended : BulmaClassBuilder
 {
-    public class BulmaClassBuilderExtended : BulmaClassBuilder
+    public bool? IsThin { get; set; }
+    public bool? IsRightToLeft { get; set; }
+
+    public BulmaClassBuilderExtended(){}
+
+    public BulmaClassBuilderExtended(string baseClass) : base(baseClass)
     {
-        public bool? IsThin { get; set; }
-        public bool? IsRightToLeft { get; set; }
+    }
 
-        public BulmaClassBuilderExtended(){}
+    protected override void BuildClassString()
+    {
+        base.BuildClassString();
 
-        public BulmaClassBuilderExtended(string baseClass) : base(baseClass)
-        {
-        }
-
-        protected override void BuildClassString()
-        {
-            base.BuildClassString();
-
-            AppendIfTrue(IsThin, "is-thin");
-            AppendIfTrue(IsRightToLeft, "is-rtl");
-        }
+        AppendIfTrue(IsThin, "is-thin");
+        AppendIfTrue(IsRightToLeft, "is-rtl");
     }
 }

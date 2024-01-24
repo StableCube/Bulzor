@@ -1,14 +1,11 @@
-using System;
-using System.Text;
 
-namespace StableCube.Bulzor.Components
+namespace StableCube.Bulzor.Components;
+
+public interface IBulmaClassBuilder
 {
-    public interface IBulmaClassBuilder
-    {
-        string ClassString { get; }
+    string ClassString { get; }
 
-        string ToString();
+    string ToString();
 
-        void SetRaw(string value);
-    }
+    void SetRaw(string value);
 }

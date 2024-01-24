@@ -1,10 +1,8 @@
-﻿using System;
+﻿
+namespace StableCube.Bulzor.Components.MediaPlayer;
 
-namespace StableCube.Bulzor.Components.MediaPlayer
+public enum BulMediaPlayMediaType
 {
-    public enum BulMediaPlayMediaType
-    {
-        Video,
-        Audio
-    }
+    Video,
+    Audio
 }

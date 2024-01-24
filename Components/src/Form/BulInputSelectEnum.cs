@@ -1,227 +1,168 @@
 ﻿using System;
-using System.Linq;
-using System.Linq.Expressions;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components;
+using System.Globalization;
 
-namespace StableCube.Bulzor.Components
+namespace StableCube.Bulzor.Components;
+
+public class BulInputSelectEnum<TValue> : BulInputSelectBase<TValue>
 {
-    public class BulInputSelectEnum<TValue> : BulComponentBase
+    /// <summary>
+    /// Optionally set formatted display names
+    /// </summary>
+    [Parameter]
+    public IImmutableDictionary<TValue, string> DisplayNames { get; set; }
+
+    /// <summary>
+    /// Optionally exclude some enum values
+    /// </summary>
+    [Parameter]
+    public IList<TValue> Exclude { get; set; }
+
+    [Parameter]
+    public EventCallback<TValue> OnValueChanged { get; set; }
+
+    protected override void OnParametersSet()
     {
-        /// <summary>
-        /// Gets or sets the value of the input. This should be used with two-way binding.
-        /// </summary>
-        [Parameter]
-        public TValue Value { get; set; }
+        BuildBulma();
 
-        /// <summary>
-        /// Optionally set formatted display names
-        /// </summary>
-        [Parameter]
-        public IDictionary<TValue, string> DisplayNames { get; set; }
+        base.OnParametersSet();
+    }
 
-        /// <summary>
-        /// Optionally exclude some enum values
-        /// </summary>
-        [Parameter]
-        public IList<TValue> Exclude { get; set; }
+    protected override void BuildBulma()
+    {
+        SelectClassBuilder.Size = Size;
+        SelectClassBuilder.IsLoading = Loading;
+        SelectClassBuilder.IsRounded = Rounded;
+        SelectClassBuilder.IsFullWidth = FullWidth;
 
-        /// <summary>
-        /// Gets or sets a callback that updates the bound value.
-        /// </summary>
-        [Parameter]
-        public EventCallback<TValue> ValueChanged { get; set; }
-
-        /// <summary>
-        /// Gets or sets an expression that identifies the bound value.
-        /// </summary>
-        [Parameter]
-        public Expression<Func<TValue>> ValueExpression { get; set; }
-
-        [Parameter]
-        public EventCallback<TValue> OnValueChanged { get; set; }
-
-        /// <summary>
-        /// Add an icon with the supplied class. For instance "fa fa-globe fa-2x"
-        /// </summary>
-        [Parameter]
-        public string IconClass { get; set; }
-
-        [Parameter]
-        public BulSchemeColor? Color { get; set; }
-
-        [Parameter]
-        public BulSize? Size { get; set; }
-
-        [Parameter]
-        public bool? Rounded { get; set; }
-
-        [Parameter]
-        public bool? Loading { get; set; }
-
-        [Parameter]
-        public bool? Expanded { get; set; }
-
-        [Parameter]
-        public bool? FullWidth { get; set; }
-
-        protected BulmaClassBuilder ControlClassBuilder { get; set; } = new BulmaClassBuilder("control");
-        protected BulmaClassBuilder SelectClassBuilder { get; set; } = new BulmaClassBuilder("select");
-        protected BulmaClassBuilder IconClassBuilder { get; set; } = new BulmaClassBuilder("icon");
-
-        private Dictionary<string, string> _stringDic = new Dictionary<string, string>();
-        private Dictionary<string, TValue> _dicMap = new Dictionary<string, TValue>();
-
-        private string ValueInternal { get; set; }
-        private Expression<Func<string>> ValueExpressionInternal { get; set; }
-        private TValue InitialValue { get; set; } = default(TValue);
-
-        protected override void BuildBulma()
+        if(Loading.HasValue == false || Loading.Value == false)
         {
-            SelectClassBuilder.Size = Size;
-            SelectClassBuilder.IsLoading = Loading;
-            SelectClassBuilder.IsRounded = Rounded;
-            SelectClassBuilder.IsFullWidth = FullWidth;
-
-            if(Loading.HasValue == false || Loading.Value == false)
-            {
-                SelectClassBuilder.SchemeColor = Color;
-            }
-            else
-            {
-                SelectClassBuilder.SchemeColor = null;
-            }
-
-            if(!string.IsNullOrEmpty(IconClass))
-            {
-                IconClassBuilder.IsLeft = true;
-                IconClassBuilder.Size = Size;
-            }
-
-            ControlClassBuilder.IsExpanded = Expanded;
-            ControlClassBuilder.HasIconsLeft = !string.IsNullOrEmpty(IconClass);
+            SelectClassBuilder.SchemeColor = Color;
+        }
+        else
+        {
+            SelectClassBuilder.SchemeColor = null;
         }
 
-        protected override void BuildRenderTree(RenderTreeBuilder builder)
+        if(!string.IsNullOrEmpty(IconClass))
         {
-            BuildBulma();
+            IconClassBuilder.IsLeft = true;
+            IconClassBuilder.Size = Size;
+        }
 
-            if(Value == null || !Value.GetType().IsEnum)
-                throw new TypeLoadException("Value must be an Enum type");
+        ControlClassBuilder.IsExpanded = Expanded;
+        ControlClassBuilder.HasIconsLeft = !string.IsNullOrEmpty(IconClass);
+    }
+
+    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    {
+        if(Value == null || !Value.GetType().IsEnum)
+            throw new TypeLoadException("Value must be an Enum type");
+
+        builder.OpenElement(0, "div");
+        builder.AddAttribute(1, "class", ControlClassBuilder.ClassString);
+        builder.OpenElement(2, "div");
+        builder.AddAttribute(3, "class", SelectClassBuilder.ClassString);
+
+        BuildSelect(builder, 4);
+
+        if(!string.IsNullOrEmpty(IconClass))
+        {
+            BuildIcon(builder, 5);
+        }
+
+        builder.CloseElement();
+    }
+
+    private void BuildSelect(RenderTreeBuilder builder, int index)
+    {
+        builder.OpenRegion(index);
+
+        builder.OpenElement(0, "select");
+        builder.AddMultipleAttributes(1, AdditionalAttributes);
+        builder.AddAttribute(2, "class", CssClass);
+        builder.AddAttribute(3, "value", BindConverter.FormatValue(CurrentValueAsString));
+        builder.AddAttribute(4, "onchange", EventCallback.Factory.CreateBinder<string>(this, value => CurrentValueAsString = value, CurrentValueAsString, null));
+
+        BuildOptions(builder, 5);
+
+        builder.CloseComponent();
+        builder.CloseElement();
+
+        builder.CloseRegion();
+    }
+
+    private void BuildOptions(RenderTreeBuilder builder, int index)
+    {
+        int i = index;
+        foreach (var enumVal in Enum.GetValues(typeof(TValue)))
+        {
+            builder.OpenRegion(i);
+
+            builder.OpenElement(0, "option");
+            builder.AddAttribute(1, "value", enumVal);
             
-            ValueExpressionInternal = () => ValueInternal;
-            if(EqualityComparer<TValue>.Default.Equals(InitialValue, default(TValue)))
-                InitialValue = Value;
-
-            BuildDataMap();
-
-            builder.OpenElement(0, "div");
-            builder.AddAttribute(1, "class", ControlClassBuilder.ClassString);
-            builder.OpenElement(2, "div");
-            builder.AddAttribute(3, "class", SelectClassBuilder.ClassString);
-
-            BuildSelect(builder, 4);
-
-            if(!string.IsNullOrEmpty(IconClass))
-            {
-                BuildIcon(builder, 5);
-            }
-
-            builder.CloseElement();
-        }
-
-        private void BuildSelect(RenderTreeBuilder builder, int index)
-        {
-            builder.OpenRegion(index);
-
-            builder.OpenComponent<InputSelect<string>>(0);
-            builder.AddAttribute(1, "Value", ValueInternal);
-            builder.AddAttribute(2, "ValueExpression", ValueExpressionInternal);
-            builder.AddAttribute(3, "ValueChanged", EventCallback.Factory.Create<string>(this, InputValueChangedInternalHandler));
-            builder.AddAttribute(4, "AdditionalAttributes", AdditionalAttributes);
-
-            BuildOptions(builder, 5);
-
-            builder.CloseComponent();
+            builder.AddContent(2, GetDisplayName(enumVal));
             builder.CloseElement();
 
             builder.CloseRegion();
+            i++;
+        }
+    }
+
+    private void BuildIcon(RenderTreeBuilder builder, int index)
+    {
+        builder.OpenRegion(index);
+
+        builder.OpenElement(0, "span");
+        builder.AddAttribute(1, "class", IconClassBuilder.ClassString);
+
+        builder.OpenElement(2, "i");
+        builder.AddAttribute(3, "class", IconClass);
+        builder.CloseElement();
+
+        builder.CloseElement();
+        builder.CloseRegion();
+    }
+
+    protected override bool TryParseValueFromString(string value, out TValue result, out string validationErrorMessage)
+    {
+        if (BindConverter.TryConvertTo(value, CultureInfo.CurrentCulture, out TValue parsedValue))
+        {
+            result = parsedValue;
+            validationErrorMessage = null;
+            return true;
         }
 
-        private void BuildOptions(RenderTreeBuilder builder, int index)
+        // Map null/empty value to null if the bound object is nullable
+        if (string.IsNullOrEmpty(value))
         {
-            builder.AddAttribute(index, "ChildContent", (RenderFragment)((builder2) => {
-                int i = index;
-                foreach (var pair in _stringDic)
-                {
-                    builder2.OpenRegion(i);
-
-                    builder2.OpenElement(0, "option");
-                    builder2.AddAttribute(1, "value", pair.Key);
-                    
-                    if(!ReferenceEquals(InitialValue, null) && EqualityComparer<TValue>.Default.Equals(InitialValue, _dicMap[pair.Key]))
-                    {
-                        builder2.AddAttribute(2, "selected");
-                    }
-
-                    builder2.AddContent(3, pair.Value);
-                    builder2.CloseElement();
-
-                    builder2.CloseRegion();
-                    i++;
-                }
-            }));
-        }
-
-        private void BuildIcon(RenderTreeBuilder builder, int index)
-        {
-            builder.OpenRegion(index);
-
-            builder.OpenElement(0, "span");
-            builder.AddAttribute(1, "class", IconClassBuilder.ClassString);
-
-            builder.OpenElement(2, "i");
-            builder.AddAttribute(3, "class", IconClass);
-            builder.CloseElement();
-
-            builder.CloseElement();
-            builder.CloseRegion();
-        }
-
-        private void BuildDataMap()
-        {
-            _stringDic.Clear();
-            _dicMap.Clear();
-            foreach (int enumI in Enum.GetValues(typeof(TValue)))
+            var nullableType = Nullable.GetUnderlyingType(typeof(TValue));
+            if (nullableType != null)
             {
-                string stringKey = ((int)enumI).ToString();
-                string stringVal = Enum.GetName(typeof(TValue), enumI);
-                TValue enumVal = (TValue)Enum.ToObject(typeof(TValue) , enumI);
-
-                if(Exclude != null && Exclude.Contains(enumVal))
-                    continue;
-
-                if(DisplayNames != null && DisplayNames.ContainsKey(enumVal))
-                {
-                    _stringDic.Add(stringKey, DisplayNames[enumVal]);
-                }
-                else
-                {
-                    _stringDic.Add(stringKey, stringVal);
-                }
-
-                _dicMap.Add(stringKey, enumVal);
+                result = default;
+                validationErrorMessage = null;
+                return true;
             }
         }
 
-        private async void InputValueChangedInternalHandler(string value)
-        {
-            var sourceValue = (TValue)_dicMap[value];
+        // The value is invalid => set the error message
+        result = default;
+        validationErrorMessage = $"The {FieldIdentifier.FieldName} field is not valid.";
+        return false;
+    }
 
-            await ValueChanged.InvokeAsync(sourceValue);
-            await OnValueChanged.InvokeAsync(sourceValue);
+    private string GetDisplayName(object value)
+    {
+        if(DisplayNames != null && DisplayNames.TryGetValue((TValue)value, out string displayName))
+        {
+            return displayName;
         }
+
+        return value.ToString();
     }
 }

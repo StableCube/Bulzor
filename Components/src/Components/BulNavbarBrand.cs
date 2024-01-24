@@ -1,29 +1,32 @@
-﻿using System;
-using Microsoft.AspNetCore.Components.Rendering;
+﻿using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components;
 
-namespace StableCube.Bulzor.Components
+namespace StableCube.Bulzor.Components;
+
+public class BulNavbarBrand : BulComponentBase
 {
-    public class BulNavbarBrand : BulComponentBase
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+    
+    protected BulmaClassBuilder ClassBuilder { get; set; } = new BulmaClassBuilder("navbar-brand");
+
+    protected override void OnParametersSet()
     {
-        [Parameter]
-        public RenderFragment ChildContent { get; set; }
-        
-        protected BulmaClassBuilder ClassBuilder { get; set; } = new BulmaClassBuilder("navbar-brand");
+        BuildBulma();
 
-        protected override void BuildBulma()
-        {
-            MergeBuilderClassAttribute(ClassBuilder);
-        }
+        base.OnParametersSet();
+    }
 
-        protected override void BuildRenderTree(RenderTreeBuilder builder)
-        {
-            BuildBulma();
+    protected override void BuildBulma()
+    {
+        MergeBuilderClassAttribute(ClassBuilder);
+    }
 
-            builder.OpenElement(0, "div");
-            builder.AddMultipleAttributes(1, CombinedAdditionalAttributes);
-            builder.AddContent(2, ChildContent);
-            builder.CloseElement();
-        }
+    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    {
+        builder.OpenElement(0, "div");
+        builder.AddMultipleAttributes(1, CombinedAdditionalAttributes);
+        builder.AddContent(2, ChildContent);
+        builder.CloseElement();
     }
 }

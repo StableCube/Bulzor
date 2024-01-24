@@ -1,34 +1,37 @@
-﻿using System;
-using Microsoft.AspNetCore.Components.Rendering;
+﻿using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components;
 
-namespace StableCube.Bulzor.Components.Extended
+namespace StableCube.Bulzor.Components.Extended;
+
+public class BulAccordionRowFooter : BulComponentBase
 {
-    public class BulAccordionRowFooter : BulComponentBase
+    [CascadingParameter]
+    public bool Active { get; set; }
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    protected BulmaClassBuilder ClassBuilder { get; set; } = new BulmaClassBuilder("accordion-row-footer");
+
+    protected override void OnParametersSet()
     {
-        [CascadingParameter]
-        public bool Active { get; set; }
+        BuildBulma();
 
-        [Parameter]
-        public RenderFragment ChildContent { get; set; }
+        base.OnParametersSet();
+    }
 
-        protected BulmaClassBuilder ClassBuilder { get; set; } = new BulmaClassBuilder("accordion-row-footer");
+    protected override void BuildBulma()
+    {
+        ClassBuilder.IsActive = Active;
 
-        protected override void BuildBulma()
-        {
-            ClassBuilder.IsActive = Active;
+        MergeBuilderClassAttribute(ClassBuilder);
+    }
 
-            MergeBuilderClassAttribute(ClassBuilder);
-        }
-
-        protected override void BuildRenderTree(RenderTreeBuilder builder)
-        {
-            BuildBulma();
-
-            builder.OpenComponent<BulCardFooter>(0);
-            builder.AddMultipleAttributes(1, CombinedAdditionalAttributes);
-            builder.AddAttribute(2, "ChildContent", ChildContent);
-            builder.CloseComponent();
-        }
+    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    {
+        builder.OpenComponent<BulCardFooter>(0);
+        builder.AddMultipleAttributes(1, CombinedAdditionalAttributes);
+        builder.AddAttribute(2, "ChildContent", ChildContent);
+        builder.CloseComponent();
     }
 }

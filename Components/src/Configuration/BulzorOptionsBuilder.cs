@@ -1,18 +1,17 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace StableCube.Bulzor.Components
+namespace StableCube.Bulzor.Components;
+
+public class BulzorOptionsBuilder
 {
-    public class BulzorOptionsBuilder
+    private readonly IServiceCollection _services;
+
+    public BulzorOptionsBuilder(IServiceCollection services, BulzorConfig config)
     {
-        private IServiceCollection _services;
+        _services = services;
 
-        public BulzorOptionsBuilder(IServiceCollection services, BulzorConfig config)
-        {
-            _services = services;
+        _services.AddSingleton(config);
 
-            _services.AddSingleton(config);
-
-            CssConfig.Prefix = config.CssPrefix;
-        }
+        CssConfig.Prefix = config.CssPrefix;
     }
 }

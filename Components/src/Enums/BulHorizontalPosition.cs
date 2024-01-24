@@ -1,11 +1,10 @@
 
-namespace StableCube.Bulzor.Components
+namespace StableCube.Bulzor.Components;
+
+public enum BulHorizontalPosition
 {
-    public enum BulHorizontalPosition
-    {
-        Default,
-        Left,
-        Center,
-        Right
-    }
+    Default,
+    Left,
+    Center,
+    Right
 }

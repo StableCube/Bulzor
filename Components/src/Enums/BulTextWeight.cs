@@ -1,13 +1,12 @@
 
-namespace StableCube.Bulzor.Components
+namespace StableCube.Bulzor.Components;
+
+public enum BulTextWeight
 {
-    public enum BulTextWeight
-    {
-        Default,
-        Light,
-        Normal,
-        Medium,
-        SemiBold,
-        Bold
-    }
+    Default,
+    Light,
+    Normal,
+    Medium,
+    SemiBold,
+    Bold
 }

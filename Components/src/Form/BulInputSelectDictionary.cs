@@ -1,204 +1,142 @@
-﻿using System;
-using System.Linq.Expressions;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Collections.Immutable;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components;
+using System.Globalization;
+using System.Linq;
+using System;
 
-namespace StableCube.Bulzor.Components
+namespace StableCube.Bulzor.Components;
+
+public class BulInputSelectDictionary<TValue> : BulInputSelectBase<KeyValuePair<TValue, string>>
 {
-    public class BulInputSelectDictionary<TKey, TValue> : BulComponentBase
+    /// <summary>
+    /// Options to be selected from. 
+    /// Dictionary Key is the option display name and Value is the associated data.
+    /// </summary>
+    [Parameter, EditorRequired]
+    public IImmutableDictionary<TValue, string> Options { get; set; }
+
+    protected override void OnParametersSet()
     {
-        /// <summary>
-        /// Options to be selected from
-        /// </summary>
-        [Parameter]
-        public IDictionary<TKey, TValue> Options { get; set; } = new Dictionary<TKey, TValue>();
+        BuildBulma();
 
-        /// <summary>
-        /// Gets or sets the value of the input. This should be used with two-way binding.
-        /// </summary>
-        [Parameter]
-        public KeyValuePair<TKey, TValue> Value { get; set; }
+        base.OnParametersSet();
+    }
 
-        /// <summary>
-        /// Gets or sets a callback that updates the bound value.
-        /// </summary>
-        [Parameter]
-        public EventCallback<KeyValuePair<TKey, TValue>> ValueChanged { get; set; }
+    protected override void BuildBulma()
+    {
+        SelectClassBuilder.Size = Size;
+        SelectClassBuilder.IsLoading = Loading;
+        SelectClassBuilder.IsRounded = Rounded;
+        SelectClassBuilder.IsFullWidth = FullWidth;
 
-        /// <summary>
-        /// Gets or sets an expression that identifies the bound value.
-        /// </summary>
-        [Parameter]
-        public Expression<Func<KeyValuePair<TKey, TValue>>> ValueExpression { get; set; }
-
-        [Parameter]
-        public EventCallback<KeyValuePair<TKey, TValue>> OnValueChanged { get; set; }
-
-        /// <summary>
-        /// Add an icon with the supplied class. For instance "fa fa-globe fa-2x"
-        /// </summary>
-        [Parameter]
-        public string IconClass { get; set; }
-
-        [Parameter]
-        public BulSchemeColor? Color { get; set; }
-
-        [Parameter]
-        public BulSize? Size { get; set; }
-
-        [Parameter]
-        public bool? Rounded { get; set; }
-
-        [Parameter]
-        public bool? Loading { get; set; }
-
-        [Parameter]
-        public bool? Expanded { get; set; }
-
-        [Parameter]
-        public bool? FullWidth { get; set; }
-
-        protected BulmaClassBuilder ControlClassBuilder { get; set; } = new BulmaClassBuilder("control");
-        protected BulmaClassBuilder SelectClassBuilder { get; set; } = new BulmaClassBuilder("select");
-        protected BulmaClassBuilder IconClassBuilder { get; set; } = new BulmaClassBuilder("icon");
-
-        private Dictionary<string, string> _stringDic = new Dictionary<string, string>();
-        private Dictionary<string, TKey> _dicMap = new Dictionary<string, TKey>();
-
-        private string ValueInternal { get; set; }
-        private Expression<Func<string>> ValueExpressionInternal { get; set; }
-        private TKey InitialValue { get; set; } = default(TKey);
-        
-        protected override void BuildBulma()
+        if(Loading.HasValue == false || Loading.Value == false)
         {
-            SelectClassBuilder.Size = Size;
-            SelectClassBuilder.IsLoading = Loading;
-            SelectClassBuilder.IsRounded = Rounded;
-            SelectClassBuilder.IsFullWidth = FullWidth;
-
-            if(Loading.HasValue == false || Loading.Value == false)
-            {
-                SelectClassBuilder.SchemeColor = Color;
-            }
-            else
-            {
-                SelectClassBuilder.SchemeColor = null;
-            }
-
-            if(!string.IsNullOrEmpty(IconClass))
-            {
-                IconClassBuilder.IsLeft = true;
-                IconClassBuilder.Size = Size;
-            }
-
-            ControlClassBuilder.IsExpanded = Expanded;
-            ControlClassBuilder.HasIconsLeft = !string.IsNullOrEmpty(IconClass);
+            SelectClassBuilder.SchemeColor = Color;
+        }
+        else
+        {
+            SelectClassBuilder.SchemeColor = null;
         }
 
-        protected override void BuildRenderTree(RenderTreeBuilder builder)
+        if(!string.IsNullOrEmpty(IconClass))
         {
-            BuildBulma();
-
-            ValueExpressionInternal = () => ValueInternal;
-            if(EqualityComparer<TKey>.Default.Equals(InitialValue, default(TKey)))
-                InitialValue = Value.Key;
-
-            _stringDic.Clear();
-            _dicMap.Clear();
-            foreach (var dicValPair in Options)
-            {
-                string stringKey = dicValPair.Key.ToString();
-                _stringDic.Add(stringKey, dicValPair.Value.ToString());
-                _dicMap.Add(stringKey, dicValPair.Key);
-            }
-
-            builder.OpenElement(0, "div");
-            builder.AddAttribute(1, "class", ControlClassBuilder.ClassString);
-            builder.OpenElement(2, "div");
-            builder.AddAttribute(3, "class", SelectClassBuilder.ClassString);
-
-            BuildSelect(builder, 4);
-
-            builder.CloseElement();
-
-            if(!string.IsNullOrEmpty(IconClass))
-            {
-                BuildIcon(builder, 5);
-            }
-
-            builder.CloseElement();
+            IconClassBuilder.IsLeft = true;
+            IconClassBuilder.Size = Size;
         }
 
-        private void BuildSelect(RenderTreeBuilder builder, int index)
+        ControlClassBuilder.IsExpanded = Expanded;
+        ControlClassBuilder.HasIconsLeft = !string.IsNullOrEmpty(IconClass);
+    }
+
+    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    {
+        builder.OpenElement(0, "div");
+        builder.AddAttribute(1, "class", ControlClassBuilder.ClassString);
+        builder.OpenElement(2, "div");
+        builder.AddAttribute(3, "class", SelectClassBuilder.ClassString);
+
+        BuildSelect(builder, 4);
+
+        builder.CloseElement();
+
+        if(!string.IsNullOrEmpty(IconClass))
         {
-            builder.OpenRegion(index);
+            BuildIcon(builder, 5);
+        }
 
-            builder.OpenComponent<InputSelect<string>>(0);
-            builder.AddAttribute(1, "Value", ValueInternal);
-            builder.AddAttribute(2, "ValueExpression", ValueExpressionInternal);
-            builder.AddAttribute(3, "ValueChanged", EventCallback.Factory.Create<string>(this, InputValueChangedInternalHandler));
-            builder.AddAttribute(4, "AdditionalAttributes", AdditionalAttributes);
+        builder.CloseElement();
+    }
 
-            BuildOptions(builder, 5);
+    private void BuildSelect(RenderTreeBuilder builder, int index)
+    {
+        builder.OpenRegion(index);
 
-            builder.CloseComponent();
+        builder.OpenElement(0, "select");
+        builder.AddMultipleAttributes(1, AdditionalAttributes);
+        builder.AddAttribute(2, "class", CssClass);
+        builder.AddAttribute(3, "value", BindConverter.FormatValue(CurrentValueAsString));
+        builder.AddAttribute(4, "onchange", EventCallback.Factory.CreateBinder<string>(this, value => CurrentValueAsString = value, CurrentValueAsString, null));
+
+        BuildOptions(builder, 5);
+
+        builder.CloseComponent();
+        builder.CloseRegion();
+    }
+
+    private void BuildOptions(RenderTreeBuilder builder, int index)
+    {
+        int i = index;
+        foreach (var pair in Options)
+        {
+            builder.OpenRegion(i);
+
+            builder.OpenElement(0, "option");
+            builder.AddAttribute(1, "value", pair.Value);
+            
+            builder.AddContent(2, pair.Value);
+            builder.CloseElement();
 
             builder.CloseRegion();
-        }
 
-        private void BuildOptions(RenderTreeBuilder builder, int index)
+            i++;
+        }
+    }
+
+    private void BuildIcon(RenderTreeBuilder builder, int index)
+    {
+        builder.OpenRegion(index);
+
+        builder.OpenElement(0, "span");
+        builder.AddAttribute(1, "class", IconClassBuilder.ClassString);
+
+        builder.OpenElement(2, "i");
+        builder.AddAttribute(3, "class", IconClass);
+        builder.CloseElement();
+
+        builder.CloseElement();
+        builder.CloseRegion();
+    }
+
+    protected override string FormatValueAsString(KeyValuePair<TValue, string> value)
+    {
+        return value.Value;
+    }
+
+    protected override bool TryParseValueFromString(string value, out KeyValuePair<TValue, string> result, out string validationErrorMessage)
+    {
+        KeyValuePair<TValue, string> option = Options.Where(o => o.Value == value).SingleOrDefault();
+        if(!option.Equals(default(KeyValuePair<TValue, string>)))
         {
-            builder.AddAttribute(index, "ChildContent", (RenderFragment)((builder2) => {
-                int i = index;
-                foreach (var pair in _stringDic)
-                {
-                    builder2.OpenRegion(i);
-
-                    builder2.OpenElement(0, "option");
-                    builder2.AddAttribute(1, "value", pair.Key);
-                    
-                    if(!ReferenceEquals(InitialValue, null) && EqualityComparer<TKey>.Default.Equals(InitialValue, _dicMap[pair.Key]))
-                    {
-                        builder2.AddAttribute(2, "selected");
-                    }
-
-                    builder2.AddContent(3, pair.Value);
-                    builder2.CloseElement();
-
-                    builder2.CloseRegion();
-
-                    i++;
-                }
-            }));
+            result = option;
+            validationErrorMessage = null;
+            return true;
         }
 
-        private void BuildIcon(RenderTreeBuilder builder, int index)
-        {
-            builder.OpenRegion(index);
-
-            builder.OpenElement(0, "span");
-            builder.AddAttribute(1, "class", IconClassBuilder.ClassString);
-
-            builder.OpenElement(2, "i");
-            builder.AddAttribute(3, "class", IconClass);
-            builder.CloseElement();
-
-            builder.CloseElement();
-            builder.CloseRegion();
-        }
-
-        private async void InputValueChangedInternalHandler(string value)
-        {
-            var sourceKey = (TKey)_dicMap[value];
-            var newValue = new KeyValuePair<TKey, TValue>(sourceKey, Options[sourceKey]);
-
-
-            InitialValue = newValue.Key;
-
-            await ValueChanged.InvokeAsync(newValue);
-            await OnValueChanged.InvokeAsync(newValue);
-        }
+        result = default;
+        validationErrorMessage = $"The {FieldIdentifier.FieldName} field is not valid.";
+        return false;
     }
 }

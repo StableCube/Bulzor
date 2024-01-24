@@ -1,10 +1,8 @@
-using System;
 
-namespace StableCube.Bulzor.Components.ReCaptcha
+namespace StableCube.Bulzor.Components.ReCaptcha;
+
+public enum BulRecaptchaTheme
 {
-    public enum BulRecaptchaTheme
-    {
-        Light,
-        Dark,
-    }
+    Light,
+    Dark,
 }

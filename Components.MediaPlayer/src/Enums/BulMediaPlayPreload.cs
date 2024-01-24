@@ -1,11 +1,10 @@
-﻿using System;
+﻿
+namespace StableCube.Bulzor.Components.MediaPlayer;
 
-namespace StableCube.Bulzor.Components.MediaPlayer
+public enum BulMediaPlayPreload
 {
-    public enum BulMediaPlayPreload
-    {
-        Auto,
-        Metadata,
-        None
-    }
+    Auto,
+    Metadata,
+    None
 }
+

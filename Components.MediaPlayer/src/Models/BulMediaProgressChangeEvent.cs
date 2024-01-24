@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace StableCube.Bulzor.Components.MediaPlayer
+namespace StableCube.Bulzor.Components.MediaPlayer;
+
+public class BulMediaProgressChangeEvent
 {
-    public class BulMediaProgressChangeEvent
-    {
-        public Dictionary<int, BulMediaProgressEventItem> Progress { get; set; }
-    }
+    public Dictionary<int, BulMediaProgressEventItem> Progress { get; set; }
 }

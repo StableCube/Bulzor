@@ -1,10 +1,8 @@
-using System;
 
-namespace StableCube.Bulzor.Components.ReCaptcha
+namespace StableCube.Bulzor.Components.ReCaptcha;
+
+public enum BulRecaptchaSize
 {
-    public enum BulRecaptchaSize
-    {
-        Normal,
-        Compact,
-    }
+    Normal,
+    Compact,
 }

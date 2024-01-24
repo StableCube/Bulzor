@@ -1,47 +1,50 @@
-﻿using System;
-using Microsoft.AspNetCore.Components.Rendering;
+﻿using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 
-namespace StableCube.Bulzor.Components
+namespace StableCube.Bulzor.Components;
+
+public class BulNavbarBurger : BulComponentBase
 {
-    public class BulNavbarBurger : BulComponentBase
+    [Parameter]
+    public bool Active { get; set; }
+
+    [Parameter]
+    public EventCallback<MouseEventArgs> OnClick { get; set; }
+
+    protected BulmaClassBuilder ClassBuilder { get; set; } = new BulmaClassBuilder("navbar-burger");
+
+    protected override void OnParametersSet()
     {
-        [Parameter]
-        public bool Active { get; set; }
+        BuildBulma();
 
-        [Parameter]
-        public EventCallback<MouseEventArgs> OnClick { get; set; }
+        base.OnParametersSet();
+    }
 
-        protected BulmaClassBuilder ClassBuilder { get; set; } = new BulmaClassBuilder("navbar-burger");
+    protected override void BuildBulma()
+    {
+        ClassBuilder.IsActive = Active;
 
-        protected override void BuildBulma()
-        {
-            ClassBuilder.IsActive = Active;
+        MergeBuilderClassAttribute(ClassBuilder);
+    }
 
-            MergeBuilderClassAttribute(ClassBuilder);
-        }
+    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    {
+        builder.OpenElement(0, "a");
+        builder.AddAttribute(1, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, OnClick));
+        builder.AddMultipleAttributes(2, CombinedAdditionalAttributes);
 
-        protected override void BuildRenderTree(RenderTreeBuilder builder)
-        {
-            BuildBulma();
+        builder.AddContent(3, (RenderFragment)((builder2) => {
+            builder2.OpenElement(4, "span");
+            builder2.CloseElement();
 
-            builder.OpenElement(0, "a");
-            builder.AddAttribute(1, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, OnClick));
-            builder.AddMultipleAttributes(2, CombinedAdditionalAttributes);
+            builder2.OpenElement(5, "span");
+            builder2.CloseElement();
+                            
+            builder2.OpenElement(6, "span");
+            builder2.CloseElement();
+        }));
 
-            builder.AddContent(3, (RenderFragment)((builder2) => {
-                builder2.OpenElement(4, "span");
-                builder2.CloseElement();
-
-                builder2.OpenElement(5, "span");
-                builder2.CloseElement();
-                                
-                builder2.OpenElement(6, "span");
-                builder2.CloseElement();
-            }));
-
-            builder.CloseElement();
-        }
+        builder.CloseElement();
     }
 }

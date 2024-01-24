@@ -1,18 +1,16 @@
-using System;
 
-namespace StableCube.Bulzor.Components
+namespace StableCube.Bulzor.Components;
+
+public enum BulSchemeColor
 {
-    public enum BulSchemeColor
-    {
-        Default,
-        Primary,
-        Link,
-        Info,
-        Success,
-        Warning,
-        Danger,
-        Dark,
-        Light,
-        Text,
-    }
+    Default,
+    Primary,
+    Link,
+    Info,
+    Success,
+    Warning,
+    Danger,
+    Dark,
+    Light,
+    Text,
 }

@@ -1,28 +1,32 @@
 ﻿using System;
 using Microsoft.AspNetCore.Components.Rendering;
 
-namespace StableCube.Bulzor.Components
+namespace StableCube.Bulzor.Components;
+
+public class BulFileCtaIcon : BulComponentBase
 {
-    public class BulFileCtaIcon : BulComponentBase
+    protected BulmaClassBuilder ClassBuilder { get; set; } = new BulmaClassBuilder("file-icon");
+
+    protected override void OnParametersSet()
     {
-        protected BulmaClassBuilder ClassBuilder { get; set; } = new BulmaClassBuilder("file-icon");
+        BuildBulma();
 
-        protected override void BuildBulma()
-        {
-        }
+        base.OnParametersSet();
+    }
 
-        protected override void BuildRenderTree(RenderTreeBuilder builder)
-        {
-            BuildBulma();
+    protected override void BuildBulma()
+    {
+    }
 
-            builder.OpenElement(0, "span");
-            builder.AddAttribute(1, "class", ClassBuilder.ClassString);
+    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    {
+        builder.OpenElement(0, "span");
+        builder.AddAttribute(1, "class", ClassBuilder.ClassString);
 
-            builder.OpenElement(2, "i");
-            builder.AddMultipleAttributes(3, AdditionalAttributes);
-            builder.CloseElement();
+        builder.OpenElement(2, "i");
+        builder.AddMultipleAttributes(3, AdditionalAttributes);
+        builder.CloseElement();
 
-            builder.CloseElement();
-        }
+        builder.CloseElement();
     }
 }
