@@ -1,0 +1,43 @@
+﻿@namespace StableCube.Bulzor.Demo.Client
+
+@inject IJSRuntime _jsRuntime
+
+<div>
+    <BulButton OnClick="@OnToggleThemeClickedHandlerAsync">
+        @if(_currentTheme == "light") {
+            <BulIcon Bul class="fa-regular fa-sun" />
+        } else {
+            <BulIcon Bul class="fa-solid fa-sun" />
+        }
+    </BulButton>
+</div>
+
+@code {
+    private string _currentTheme = "light";
+    
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if(!firstRender)
+            return;
+
+        string jsonResponse = await _jsRuntime.InvokeAsync<string>(
+            "readCurrentTheme"
+        );
+    }
+
+    private async Task OnToggleThemeClickedHandlerAsync(EventArgs args)
+    {
+        string newTheme = "light";
+        if(_currentTheme == "light")
+            newTheme = "dark";
+        
+        await _jsRuntime.InvokeAsync<string>(
+            "setCurrentTheme",
+            newTheme
+        );
+
+        _currentTheme = newTheme;
+
+        StateHasChanged();
+    }
+}

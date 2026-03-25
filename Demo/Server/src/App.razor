@@ -1,14 +1,14 @@
 @namespace StableCube.Bulzor.Demo.Server
 
 <!DOCTYPE html>
-<html>
+<html data-theme="light">
 
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <HeadOutlet @rendermode="InteractiveAuto" />
     <base href="/" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css" rel="stylesheet"  type='text/css'>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" rel="stylesheet"  type='text/css'>
     <link href="css/base.css" rel="stylesheet" type="text/css"/>
     <link href="StableCube.Bulzor.Demo.Client.styles.css" rel="stylesheet" type="text/css" />
 </head>
@@ -24,9 +24,8 @@
         <a class="dismiss">X</a>
     </div>
     
-    <script src="_content/StableCube.Bulzor.Components/js/interop.js"></script>
-    <script src="_content/StableCube.Bulzor.Components.Extended/js/interop.js"></script>
-    <script src="_content/StableCube.Bulzor.Components.MediaPlayer/js/interop.js"></script>
+    <script async defer src="_content/StableCube.Bulzor.Components/js/interop.js"></script>
+    <script async defer src="js/clientinterop.js"></script>
     <script src="_framework/blazor.web.js"></script>
 
 </body>

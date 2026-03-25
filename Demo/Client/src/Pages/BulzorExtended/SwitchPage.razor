@@ -23,26 +23,8 @@
                     </OptionsBoxItem>
 
                     <OptionsBoxItem>
-                        <BulInputCheckbox @bind-Value="IsThin">
-                            Thin
-                        </BulInputCheckbox>
-                    </OptionsBoxItem>
-
-                    <OptionsBoxItem>
                         <BulInputCheckbox @bind-Value="IsRounded">
                             Rounded
-                        </BulInputCheckbox>
-                    </OptionsBoxItem>
-
-                    <OptionsBoxItem>
-                        <BulInputCheckbox @bind-Value="IsOutlined">
-                            Outlined
-                        </BulInputCheckbox>
-                    </OptionsBoxItem>
-
-                    <OptionsBoxItem>
-                        <BulInputCheckbox @bind-Value="IsRightToLeft">
-                            Right To Left
                         </BulInputCheckbox>
                     </OptionsBoxItem>
                 </OptionsBox>
@@ -54,14 +36,13 @@
                 <DataAnnotationsValidator />
                 <ValidationSummary />
                 <div>Value: @DemoValue</div>
-                <BulSwitch @bind-Value="DemoValue"
+
+                <BulToggleSwitch @bind-Value="DemoValue"
                     Color="Color" 
                     Size="Size"
-                    Thin="IsThin"
-                    Rounded="IsRounded"
-                    Outlined="IsOutlined"
-                    RightToLeft="IsRightToLeft"
-                    Label="Switch Label" />
+                    Rounded="IsRounded" >
+                    Switch Label
+                </BulToggleSwitch>
             </EditForm>
         </ExampleResult>
     </ExampleBox>

@@ -1,0 +1,290 @@
+@use "sass:list";
+
+@use "../../BulmaUtilities/css-variables.scss" as cv;
+@use "../../BulmaUtilities/derived-variables" as dv;
+@use "../../BulmaUtilities/initial-variables" as iv;
+
+$media-player-load-progress-value-background-color: cv.getVar("border") !default;
+$media-player-load-progress-bar-background-color: cv.getVar("border-weak") !default;
+$media-player-text-color: cv.getVar("white") !default;
+$media-player-text-color-dark: cv.getVar("grey") !default;
+$media-player-scrubber-border: 1px solid rgba(#FFF, 0) !default;
+$media-player-controls-background: rgba($color: #000, $alpha: 0.5) !default;
+$media-player-control-group-padding: 0.5rem 0.5rem 0 0.5rem !default;
+
+$media-player-button-bgcolor: 1px solid rgba(#{cv.getVar("white")}, .15) !default;
+
+$media-player-font-family: cv.getVar("family-primary") !default;
+
+$media-player-small-size: cv.getVar("size-7") !default;
+$media-player-normal-size: cv.getVar("size-5") !default;
+$media-player-medium-size: cv.getVar("size-4") !default;
+$media-player-large-size: cv.getVar("size-3") !default;
+
+.#{iv.$class-prefix}bul-media-player {
+  @include cv.register-vars(
+    (
+      "media-player-load-progress-value-background-color": #{$media-player-load-progress-value-background-color},
+      "media-player-load-progress-bar-background-color": #{$media-player-load-progress-bar-background-color},
+      "media-player-scrubber-border": #{$media-player-scrubber-border},
+      "media-player-controls-background": #{$media-player-controls-background},
+      "media-player-control-group-padding": #{$media-player-control-group-padding},
+      "media-player-button-bgcolor": #{$media-player-button-bgcolor},
+      "media-player-text-color": #{$media-player-text-color},
+      "media-player-text-color-dark": #{$media-player-text-color-dark},
+      "media-player-font-family": #{$media-player-font-family},
+      "media-player-small-size": #{$media-player-small-size},
+      "media-player-normal-size": #{$media-player-normal-size},
+      "media-player-medium-size": #{$media-player-medium-size},
+      "media-player-large-size": #{$media-player-large-size},
+    )
+  );
+}
+
+.#{iv.$class-prefix}bul-media-player {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background-color: #000;
+}
+
+.#{iv.$class-prefix}bul-media-player-media-root {
+  display: block;
+  width: 100%;
+  height: 100%;
+  z-index: 4;
+}
+
+.#{iv.$class-prefix}bul-media-player-input {
+  position: absolute;
+  z-index: 5;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.#{iv.$class-prefix}bul-media-player-input.is-cursor-hidden {
+  cursor: none;
+}
+
+.#{iv.$class-prefix}bul-media-player-input .button {
+  border: none !important;
+  background: cv.getVar("media-player-button-bgcolor") !important;
+  color: cv.getVar("media-player-text-color") !important;
+}
+
+.#{iv.$class-prefix}bul-media-player-input .button.is-loading {
+  > span {
+    color: cv.getVar("media-player-text-color-dark") !important;
+  }
+}
+
+.#{iv.$class-prefix}bul-media-player-input .button:focus {
+  box-shadow: none !important;
+}
+
+.#{iv.$class-prefix}bul-media-player-control-group {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  z-index: 6;
+  left: 0;
+  bottom: 0;
+  background: cv.getVar("media-player-controls-background");
+  width: 100%;
+  padding: cv.getVar("media-player-control-group-padding");
+}
+
+.#{iv.$class-prefix}bul-media-scrubber-row {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.#{iv.$class-prefix}bul-media-player-scrubber {
+  width: 100%;
+  margin: 0;
+  position: relative;
+  border: cv.getVar("media-player-scrubber-border");
+
+  $track-height: cv.getVar("media-player-normal-size");
+  height: $track-height;
+  
+  &.is-small {
+    $track-height: cv.getVar("media-player-small-size");
+    height: $track-height;
+  }
+  &.is-medium {
+    $track-height: cv.getVar("media-player-medium-size");
+    height: $track-height;
+  }
+  &.is-large {
+    $track-height: cv.getVar("media-player-large-size");
+    height: $track-height;
+  }
+
+  &.#{iv.$class-prefix}bul-media-player-play-progress {
+    height: $track-height;
+  }
+  &.#{iv.$class-prefix}bul-media-player-load-progress {
+    height: $track-height;
+  }
+}
+
+.#{iv.$class-prefix}bul-media-player-input .slider {
+  margin: 0 !important;
+  z-index: 10;
+}
+
+.#{iv.$class-prefix}bul-media-player-scrubber .slider {
+  width: 100%;
+  position: absolute;
+  left: 0;
+  opacity: 0 !important;
+
+  $track-height: cv.getVar("media-player-normal-size");
+  &.is-small {
+    $track-height: cv.getVar("media-player-small-size");
+  }
+  &.is-medium {
+    $track-height: cv.getVar("media-player-medium-size");
+  }
+  &.is-large {
+    $track-height: cv.getVar("media-player-large-size");
+  }
+
+  &::-webkit-slider-runnable-track {
+    height: $track-height
+  }
+  &::-moz-range-track {
+    height: $track-height
+  }
+  &::-ms-track {
+    height: $track-height
+  }
+}
+
+.#{iv.$class-prefix}bul-media-scrubber-row progress {
+  background-color: transparent;
+  z-index: 9;
+  position: absolute;
+  left: 0;
+  top: -1px;
+  width: 100%;
+  border-radius: 0 !important;
+
+  &::-webkit-progress-bar { 
+    background-color: transparent;
+  }
+}
+
+.#{iv.$class-prefix}bul-media-player-load-progress {
+  z-index: 8;
+  background-color: cv.getVar("media-player-load-progress-bar-background-color") !important;
+
+  &::-webkit-progress-bar { 
+    background-color: cv.getVar("media-player-load-progress-bar-background-color") !important;
+  }
+
+  &::-webkit-progress-value {
+    background-color: cv.getVar("media-player-load-progress-value-background-color") !important;
+  }
+    
+  &::-moz-progress-bar {
+    background-color: cv.getVar("media-player-load-progress-value-background-color") !important;
+  }
+    
+  &::-ms-fill {
+    background-color: cv.getVar("media-player-load-progress-value-background-color") !important;
+  }
+}
+
+.#{iv.$class-prefix}bul-media-player-scrubber .slider::-webkit-slider-runnable-track {
+  opacity: 0 !important;
+}
+
+.#{iv.$class-prefix}bul-media-player-scrubber .slider::-moz-range-track {
+  opacity: 0 !important;
+}
+
+.#{iv.$class-prefix}bul-media-player-scrubber .slider::-ms-track {
+  opacity: 0 !important;
+}
+
+.#{iv.$class-prefix}bul-media-controls-row {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.#{iv.$class-prefix}bul-media-controls-left {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  flex-grow: 1;
+}
+
+.#{iv.$class-prefix}bul-media-controls-right {
+  display: flex;
+  flex-direction: row;
+  flex-shrink: 0;
+}
+
+.#{iv.$class-prefix}bul-media-player-control-time {
+  color: cv.getVar("media-player-text-color");
+  font-family: cv.getVar("media-player-font-family");
+  font-size: cv.getVar("media-player-normal-size");
+  margin-left: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  &.is-small {
+    font-size: cv.getVar("media-player-small-size");
+  }
+  &.is-medium {
+    font-size: cv.getVar("media-player-medium-size");
+  }
+  &.is-large {
+    font-size: cv.getVar("media-player-large-size");
+  }
+}
+
+.#{iv.$class-prefix}bul-player-volume {
+  width: 6rem;
+}
+
+.#{iv.$class-prefix}bul-media-additional-controls .menu-label a {
+  width: 100%;
+  color: cv.getVar("media-player-text-color");
+  display: inline-block;
+}
+
+.#{iv.$class-prefix}bul-media-additional-controls ul {
+  list-style: none !important;
+}
+
+.#{iv.$class-prefix}bul-play-stopped-centered {
+  width: 100%;
+  height: 100%;
+  color: cv.getVar("media-player-text-color");
+  display: flex;
+}
+
+.#{iv.$class-prefix}bul-play-stopped-centered .icon {
+  margin: auto;
+}
+
+.#{iv.$class-prefix}bul-play-stopped-centered .icon {
+  font-size: 5rem !important;
+}
+
+.#{iv.$class-prefix}bul-screen-click-trigger {
+  width: 100%;
+  height: 100%;
+  z-index: 4;
+  position: absolute;
+}

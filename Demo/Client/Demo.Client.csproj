@@ -3,18 +3,17 @@
   <PropertyGroup>
     <PackageId>StableCube.Bulzor.Demo.Client</PackageId>
     <Title>StableCube.Bulzor.Demo.Client</Title>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <Company>Stable Cube</Company>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" />
-    <PackageReference Include="System.Net.Http.Json" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="StableCube.Bulzor.Components.MediaPlayer" />
-    <!-- <ProjectReference Include="../../Components.MediaPlayer/Bulzor.Components.MediaPlayer.csproj" /> -->
+    <!-- <PackageReference Include="StableCube.Bulzor.Components.MediaPlayer" /> -->
+    <ProjectReference Include="../../Components/Bulzor.Components.csproj" />
   </ItemGroup>
 </Project>

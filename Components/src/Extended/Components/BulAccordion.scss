@@ -1,0 +1,110 @@
+@use "../../BulmaUtilities/css-variables.scss" as cv;
+@use "../../BulmaUtilities/derived-variables" as dv;
+@use "../../BulmaUtilities/initial-variables" as iv;
+@use "../../BulmaUtilities/extends";
+
+$accordion-h: cv.getVar("scheme-h");
+$accordion-s: cv.getVar("scheme-s");
+$accordion-header-background-l: cv.getVar("background-l");
+$accordion-header-color-l: cv.getVar("text-strong-l");
+$accordion-arrow-h: cv.getVar("text-h") !default;
+$accordion-arrow-s: cv.getVar("text-s") !default;
+$accordion-arrow-l: cv.getVar("text-l") !default;
+$accordion-arrow: cv.getVar("text") !default;
+
+$accordion-colors: dv.$colors !default;
+
+.accordion {
+  @include cv.register-vars(
+    (
+      "accordion-h": #{$accordion-h},
+      "accordion-s": #{$accordion-s},
+      "accordion-header-background-l": #{$accordion-header-background-l},
+      "accordion-header-color-l": #{$accordion-header-color-l},
+      "accordion-arrow-h": #{$accordion-arrow-h},
+      "accordion-arrow-s": #{$accordion-arrow-s},
+      "accordion-arrow-l": #{$accordion-arrow-l},
+    )
+  );
+}
+
+.accordion {
+  @each $name, $components in $accordion-colors {
+    &.#{iv.$class-prefix}is-#{$name} {
+      @include cv.register-vars(
+        (
+          "accordion-h": #{cv.getVar($name, "", "-h")},
+          "accordion-s": #{cv.getVar($name, "", "-s")},
+          "accordion-header-background-l": #{cv.getVar($name, "", "-l")},
+          "accordion-header-color-l": #{cv.getVar($name, "", "-invert-l")},
+          "accordion-arrow-l": #{cv.getVar($name, "", "-invert-l")},
+        )
+      );
+    }
+  }
+}
+
+.accordion-row-header {
+  background-color: hsl(
+    #{cv.getVar("accordion-h")},
+    #{cv.getVar("accordion-s")},
+    #{cv.getVar("accordion-header-background-l")}
+  );
+}
+
+.accordion-row-header .accordion-row-header-title {
+  margin-left: 1.125em;
+
+  color: hsl(
+    #{cv.getVar("accordion-h")},
+    #{cv.getVar("accordion-s")},
+    #{cv.getVar("accordion-header-color-l")}
+  );
+}
+
+.accordion-row-header:not(.is-arrowless)
+{
+  padding-left: 1.125em;
+}
+
+.accordion-row-header-arrow {
+  @extend %arrow;
+  // color: hsl(
+  //   #{cv.getVar("accordion-arrow-h")},
+  //   #{cv.getVar("accordion-arrow-s")},
+  //   #{cv.getVar("accordion-arrow-l")}
+  // );
+
+  border-color: hsl(
+    #{cv.getVar("accordion-arrow-h")},
+    #{cv.getVar("accordion-arrow-s")},
+    #{cv.getVar("accordion-arrow-l")}
+  );
+
+  // border-color: $accordion-arrow;
+
+  margin-top: -1.125em;
+  margin-left: 1.125em;
+  top: 2.25em;
+  transform: rotate(-135deg);
+
+  &.is-active {
+    transform: rotate(-45deg);
+  }
+}
+
+.accordion-row-content.card-content {
+  display: none;
+
+  &.is-active {
+    display: block;
+  }
+}
+
+.accordion-row-footer {
+  display: none;
+
+  &.is-active {
+    display: flex;
+  }
+}

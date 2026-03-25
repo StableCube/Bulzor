@@ -6,6 +6,7 @@ using Microsoft.Extensions.Hosting;
 using Serilog;
 using StableCube.Bulzor.Demo.Server;
 using StableCube.Bulzor.Demo.Client;
+using StableCube.SassCompiler;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseSystemd();
@@ -31,7 +32,10 @@ if (builder.Environment.IsDevelopment())
 {
     builder.Services.AddSassCompiler(options =>
     {
+        options.DirectoriesToWatch.Add("../../Components/src");
         options.DirectoriesToWatch.Add("../Client/src/Pages");
+        options.DirectoriesToWatch.Add("../Client/src/Shared");
+
         options.FilesToWatch.Add("wwwroot/css/base.scss");
     });
 }
@@ -41,6 +45,13 @@ builder.Services.AddRazorComponents()
     .AddInteractiveWebAssemblyComponents();
 
 var app = builder.Build();
+
+app.Use(async (ctx, next) =>
+{
+    // Ensure that redirects use https since kestrel/dotnet gets confused when behind proxy.
+    ctx.Request.Scheme = "https";
+    await next();
+});
 
 if (app.Environment.IsDevelopment())
 {

@@ -1,0 +1,201 @@
+@use "../../BulmaUtilities/css-variables.scss" as cv;
+@use "../../BulmaUtilities/derived-variables" as dv;
+@use "../../BulmaUtilities/initial-variables" as iv;
+
+$toggle-switch-h: cv.getVar("scheme-h") !default;
+$toggle-switch-s: cv.getVar("scheme-s") !default;
+
+$toggle-switch-bgcolor-active-l: cv.getVar("dark-l") !default;
+$toggle-switch-bgcolor: cv.getVar("text-weak") !default;
+$toggle-switch-handle-color: cv.getVar("border") !default;
+$toggle-switch-handle-border: cv.getVar("border-weak") !default;
+
+$toggle-switch-txtcolor: cv.getVar("text");
+$toggle-switch-label-height: cv.getVar("control-height") !default;
+$toggle-switch-label-line-height: cv.getVar("control-line-height") !default;
+
+$toggle-switch-size: 3rem !default;
+$toggle-switch-padding: 0.3rem !default;
+
+$switch-colors: dv.$colors !default;
+
+.#{iv.$class-prefix}toggle-switch {
+  @include cv.register-vars(
+    (
+      "toggle-switch-h": #{$toggle-switch-h},
+      "toggle-switch-s": #{$toggle-switch-s},
+      "toggle-switch-bgcolor-active-l": #{$toggle-switch-bgcolor-active-l},
+      "toggle-switch-bgcolor": #{$toggle-switch-bgcolor},
+      "toggle-switch-txtcolor": #{$toggle-switch-txtcolor},
+      "toggle-switch-label-height": #{$toggle-switch-label-height},
+      "toggle-switch-label-line-height": #{$toggle-switch-label-line-height},
+      "toggle-switch-handle-color": #{$toggle-switch-handle-color},
+      "toggle-switch-handle-border": #{$toggle-switch-handle-border},
+
+      "toggle-switch-size": #{$toggle-switch-size},
+      "toggle-switch-padding": #{$toggle-switch-padding},
+    )
+  );
+}
+
+.#{iv.$class-prefix}toggle-switch {
+  // Colors
+  @each $name, $components in $switch-colors {
+    &.#{iv.$class-prefix}is-#{$name} {
+      @include cv.register-vars(
+        (
+          "toggle-switch-h": #{cv.getVar($name, "", "-h")},
+          "toggle-switch-s": #{cv.getVar($name, "", "-s")},
+          "toggle-switch-bgcolor-active-l": #{cv.getVar($name, "", "-on-scheme-l")},
+        )
+      );
+    }
+  }
+}
+
+.#{iv.$class-prefix}toggle-switch {
+  // Set base values before size scaling
+  $size: cv.getVar("toggle-switch-size");
+  $padding: cv.getVar("toggle-switch-padding");
+  $radius: calc($size / 2);
+  $height: calc(($size / 2) + ($padding * 2));
+  $handle-size: calc($size / 2);
+  $active-translate: calc((($size - ($padding * 4) ) / 2));
+
+  cursor: pointer;
+  display: block;
+  margin: 1em;
+
+  > input {
+    display: none;
+  }
+  
+  span {
+    color: cv.getVar("toggle-switch-txtcolor");
+    height: cv.getVar("toggle-switch-label-height");
+    line-height: cv.getVar("toggle-switch-label-line-height");
+  }
+  
+  i {
+    display: inline-block;
+    width: $size;
+    height: $height;
+    vertical-align: middle;
+    transition: .25s .09s;
+    position: relative;
+    border-radius: 3px;
+    background: cv.getVar("toggle-switch-bgcolor");
+
+    &:after {
+      content: " ";
+      display: block;
+      width: $handle-size;
+      height: $handle-size;
+      top: $padding;
+      left: $padding;
+      right: $padding;
+      background: cv.getVar("toggle-switch-handle-color");
+      position: absolute;
+      transition: .15s;
+      border: 1px solid cv.getVar("toggle-switch-handle-border");
+      border-radius: 3px;
+    }
+  }
+  
+  &.#{iv.$class-prefix}is-rounded {
+    i {
+      border-radius: $radius;
+
+      &:after {
+        border-radius: 50%;
+      }
+    }
+  }
+
+  > input:checked + i {
+    background: hsl(
+      #{cv.getVar("toggle-switch-h")},
+      #{cv.getVar("toggle-switch-s")},
+      #{cv.getVar("toggle-switch-bgcolor-active-l")}
+    );
+  }
+  
+  > input:checked + i:after {
+    transform: translateX($active-translate);
+  }
+
+  &.#{iv.$class-prefix}is-small {
+    i {
+      width: calc($size * 0.5);
+      height: calc($height * 0.5);
+      
+      &:after {
+        width: calc($handle-size * 0.5);
+        height: calc($handle-size * 0.5);
+        top: calc($padding * 0.5);
+        left: calc($padding * 0.5);
+        right: calc($padding * 0.5);
+      }
+    }
+
+    > input:checked + i:after {
+      transform: translateX(calc($active-translate * 0.5));
+    }
+
+    &.#{iv.$class-prefix}is-rounded {
+      i {
+        border-radius: calc($radius * 0.5);
+      }
+    }
+  }
+
+  &.#{iv.$class-prefix}is-medium {
+    i {
+      width: calc($size * 1.5);
+      height: calc($height * 1.5);
+
+      &:after {
+        width: calc($handle-size * 1.5);
+        height: calc($handle-size * 1.5);
+        top: calc($padding * 1.5);
+        left: calc($padding * 1.5);
+        right: calc($padding * 1.5);
+      }
+    }
+
+    > input:checked + i:after {
+      transform: translateX(calc($active-translate * 1.5));
+    }
+
+    &.#{iv.$class-prefix}is-rounded {
+      i {
+        border-radius: calc($radius * 1.5);
+      }
+    }
+  }
+
+  &.#{iv.$class-prefix}is-large {
+    i {
+      width: calc($size * 2);
+      height: calc($height * 2);
+
+      &:after {
+        width: calc($handle-size * 2);
+        height: calc($handle-size * 2);
+        top: calc($padding * 2);
+        left: calc($padding * 2);
+        right: calc($padding * 2);
+      }
+    }
+
+    > input:checked + i:after {
+      transform: translateX(calc($active-translate * 2));
+    }
+
+    &.#{iv.$class-prefix}is-rounded {
+      i {
+        border-radius: calc($radius * 2);
+      }
+    }
+  }
+}

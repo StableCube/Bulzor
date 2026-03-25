@@ -1,0 +1,67 @@
+@use "../../BulmaUtilities/css-variables.scss" as cv;
+@use "../../BulmaUtilities/derived-variables" as dv;
+@use "../../BulmaUtilities/initial-variables" as iv;
+
+$busy-spinner-h: cv.getVar("scheme-h");
+$busy-spinner-s: cv.getVar("scheme-s");
+$busy-spinner-l: cv.getVar("dark-l");
+$busy-spinner-size: 2rem !default;
+$busy-spinner-colors: dv.$colors !default;
+
+.#{iv.$class-prefix}busy-spinner {
+  @include cv.register-vars(
+    (
+      "busy-spinner-h": #{$busy-spinner-h},
+      "busy-spinner-s": #{$busy-spinner-s},
+      "busy-spinner-l": #{$busy-spinner-l},
+    )
+  );
+}
+
+.#{iv.$class-prefix}busy-spinner {
+  border-radius: 50%;
+  animation: spinAround 2s linear infinite;
+  border: solid transparent;
+  width: $busy-spinner-size;
+  height: $busy-spinner-size;
+  border-left: solid  hsl(
+    #{cv.getVar("busy-spinner-h")},
+    #{cv.getVar("busy-spinner-s")},
+    #{cv.getVar("busy-spinner-l")}
+  );
+  width: $busy-spinner-size;
+  height: $busy-spinner-size;
+  border-width: $busy-spinner-size * 0.1;
+
+  // Colors
+  @each $name, $components in $busy-spinner-colors {
+    &.#{iv.$class-prefix}is-#{$name} {
+      @include cv.register-vars(
+        (
+          "busy-spinner-h": #{cv.getVar($name, "", "-h")},
+          "busy-spinner-s": #{cv.getVar($name, "", "-s")},
+          "busy-spinner-l": #{cv.getVar($name, "", "-on-scheme-l")},
+        )
+      );
+    }
+  }
+
+  &.is-small {
+    $size: $busy-spinner-size - 1;
+    width: $size;
+    height: $size;
+    border-width: $size * 0.1;
+  }
+  &.is-medium {
+    $size: $busy-spinner-size * 3;
+    width: $size;
+    height: $size;
+    border-width: $size * 0.1;
+  }
+  &.is-large {
+    $size: $busy-spinner-size * 7;
+    width: $size;
+    height: $size;
+    border-width: $size * 0.1;
+  }
+}

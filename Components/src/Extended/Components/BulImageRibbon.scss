@@ -1,0 +1,74 @@
+@use "../../BulmaUtilities/css-variables.scss" as cv;
+@use "../../BulmaUtilities/extends";
+
+$image-ribbon-border: cv.getVar("border") !default;
+$image-ribbon-border-active: cv.getVar("link") !default;
+
+.image-ribbon {
+  @include cv.register-vars(
+    (
+      "image-ribbon-border": #{$image-ribbon-border},
+      "image-ribbon-border-active": #{$image-ribbon-border-active},
+    )
+  );
+}
+
+.image-ribbon-ratio-wrap {
+  display: block;
+  position: relative;
+}
+
+.image-ribbon-ratio-wrap-inner {
+  @extend %overlay;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+}
+
+.image-ribbon {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.image-ribbon-item {
+  visibility: collapse;
+  border-bottom: 5px solid;
+  border-color: cv.getVar("image-ribbon-border");
+
+  &.is-focused {
+    border-color: #{cv.getVar("image-ribbon-border-active")};
+  }
+
+  &.is-active {
+    visibility: visible;
+  }
+
+  &.is-large {
+    width: 130%;
+  }
+
+  &.is-medium {
+    width: 120%;
+  }
+
+  &.is-normal {
+    width: 110%;
+  }
+
+  &.is-small {
+    width: 100%;
+  }
+}
+
+.image-ribbon-item .image {
+  align-content: flex-end;
+  display: flex;
+}
+
+// Fit image without distortion
+.image-ribbon-item img {
+  object-fit: contain;
+  object-position: center bottom;
+}

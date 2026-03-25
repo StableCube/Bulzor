@@ -1,4 +1,5 @@
 ﻿@namespace StableCube.Bulzor.Demo.Client
+@using StableCube.Bulzor.Components
 
 <BulNavbar>
     <BulNavbarBrand>
@@ -20,6 +21,10 @@
             </BulNavbarItemLink>
         </BulNavbarStart>
         <BulNavbarEnd>
+            <BulNavbarItem>
+                <DarkLightModeToggle />
+            </BulNavbarItem>
+
             <BulNavbarItemLink href="https://github.com/StableCube/Bulzor" target="_blank">
                 <BulIcon Bul class="fab fa-github-square fa-2x" />
             </BulNavbarItemLink>

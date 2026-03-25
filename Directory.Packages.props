@@ -1,26 +1,22 @@
 <Project>
   <!-- 3rd Party Packages -->
   <ItemGroup>
-    <PackageVersion Include="Microsoft.AspNetCore.Components.Web" Version="8.0.20" />
-    <PackageVersion Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.20" />
-    <PackageVersion Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.20" />
-    <PackageVersion Include="Microsoft.Extensions.Hosting.Systemd" Version="8.0.1" />
-    <PackageVersion Include="System.Net.Http.Json" Version="8.0.1" />
-    <PackageVersion Include="Serilog" Version="4.3.0" />
-    <PackageVersion Include="Serilog.AspNetCore" Version="9.0.0" />
-    <PackageVersion Include="Serilog.Sinks.Console" Version="6.0.0" />
+    <PackageVersion Include="Microsoft.AspNetCore.Components.Web"                Version="10.0.5" />
+    <PackageVersion Include="Microsoft.AspNetCore.Components.WebAssembly"        Version="10.0.5" />
+    <PackageVersion Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="10.0.5" />
+    <PackageVersion Include="Microsoft.Extensions.Hosting.Systemd"               Version="10.0.5" />
+    <PackageVersion Include="Serilog"                                            Version="4.3.1" />
+    <PackageVersion Include="Serilog.AspNetCore"                                 Version="10.0.0" />
+    <PackageVersion Include="Serilog.Sinks.Console"                              Version="6.1.1" />
   </ItemGroup>
 
   <!-- Outside Packages -->
   <ItemGroup>
-    <PackageVersion Include="StableCube.SassCompiler" Version="8.0.0" />
+    <PackageVersion Include="StableCube.SassCompiler" Version="10.0.3" />
   </ItemGroup>
 
   <!-- Project Packages -->
   <ItemGroup>
-    <PackageVersion Include="StableCube.Bulzor.Components" Version="8.0.0" />
-    <PackageVersion Include="StableCube.Bulzor.Components.Extended" Version="8.0.0" />
-    <PackageVersion Include="StableCube.Bulzor.Components.MediaPlayer" Version="8.0.0" />
-    <PackageVersion Include="StableCube.Bulzor.Components.ReCaptcha" Version="8.0.0" />
+    <PackageVersion Include="StableCube.Bulzor.Components"             Version="10.0.0" />
   </ItemGroup>
 </Project>

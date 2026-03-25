@@ -1,0 +1,105 @@
+@use "../../BulmaUtilities/css-variables.scss" as cv;
+@use "../../BulmaUtilities/derived-variables" as dv;
+@use "../../BulmaUtilities/initial-variables" as iv;
+
+$divider-h: cv.getVar("scheme-h") !default;
+$divider-s: cv.getVar("scheme-s") !default;
+$divider-bg-l: cv.getVar("border-l") !default;
+$divider-font-size: cv.getVar("size-7") !default;
+$divider-font-weight: cv.getVar("weight-semibold") !default;
+$divider-font-color: cv.getVar("text") !default;
+$divider-margin-inner-size: 10px !default;
+$divider-margin-size: 25px !default;
+
+$divider-colors: dv.$colors !default;
+
+.#{iv.$class-prefix}divider {
+  @include cv.register-vars(
+    (
+      "divider-h": #{$divider-h},
+      "divider-s": #{$divider-s},
+      "divider-bg-l": #{$divider-bg-l},
+      "divider-font-size": #{$divider-font-size},
+      "divider-font-weight": #{$divider-font-weight},
+      "divider-font-color": #{$divider-font-color},
+      "divider-margin-size": #{$divider-margin-size},
+      "divider-margin-inner-size": #{$divider-margin-inner-size},
+    )
+  );
+
+  // Colors
+  @each $name, $components in $divider-colors {
+    &.#{iv.$class-prefix}is-#{$name} {
+      @include cv.register-vars(
+        (
+          "divider-h": #{cv.getVar($name, "", "-h")},
+          "divider-s": #{cv.getVar($name, "", "-s")},
+          "divider-bg-l": #{cv.getVar($name, "", "-on-scheme-l")},
+        )
+      );
+    }
+  }
+}
+
+.#{iv.$class-prefix}divider {
+  position: relative;
+  display: flex;
+  align-items: center;
+  text-transform: uppercase;
+  color: cv.getVar("divider-font-color");;
+  font-size: cv.getVar("divider-font-size");
+  font-weight: cv.getVar("divider-font-weight");
+  letter-spacing: .5px;
+  margin: #{cv.getVar("divider-margin-size")} 0;
+
+  &::after,
+  &::before {
+    content: '';
+    display: block;
+    flex: 1;
+    height: 1px;
+    background-color: hsl(
+      #{cv.getVar("divider-h")},
+      #{cv.getVar("divider-s")},
+      #{cv.getVar("divider-bg-l")}
+    );
+  }
+  &:not(.is-right) {
+    &::after {
+      margin-left: cv.getVar("divider-margin-inner-size");
+    }
+  }
+  &:not(.is-left) {
+    &::before {
+      margin-right: cv.getVar("divider-margin-inner-size");
+    }
+  }
+  &.is-left {
+    &::before {
+      display: none;
+    }
+  }
+  &.is-right {
+    &::after {
+      display: none;
+    }
+  }
+  &.is-vertical {
+    flex-direction: column;
+    margin: 0 #{cv.getVar("divider-margin-size")};
+
+    &::after,
+    &::before {
+      height: auto;
+      width: 1px;
+    }
+    &::after {
+      margin-left: 0;
+      margin-top: cv.getVar("divider-margin-inner-size");
+    }
+    &::before {
+      margin-right: 0;
+      margin-bottom: cv.getVar("divider-margin-inner-size");
+    }
+  }
+}

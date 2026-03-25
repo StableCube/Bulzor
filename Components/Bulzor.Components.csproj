@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <PackageId>StableCube.Bulzor.Components</PackageId>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <Company>Stable Cube</Company>
     <Title>StableCube.Bulzor.Components</Title>
     <IsPackable>true</IsPackable>

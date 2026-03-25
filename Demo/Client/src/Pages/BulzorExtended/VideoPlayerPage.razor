@@ -11,12 +11,7 @@
             The following components need to be imported for the player to work properly
         </p>
         <ul>
-            <li>Progress Bar</li>
-            <li>Slider</li>
-            <li>Dropdown</li>
-            <li>Button</li>
-            <li>Icon</li>
-            <li>Menu</li>
+            <li>Progress Bar, Slider, Dropdown, Button, Icon, Menu</li>
         </ul>
 
         <p class="mt-2 has-text-weight-semibold">
@@ -73,7 +68,7 @@
 </DocumentationRoot>
 
 @code {
-    public BulSchemeColor Color { get; set; } = BulSchemeColor.Primary;
+    public BulSchemeColor Color { get; set; } = BulSchemeColor.Default;
     public BulSize Size { get; set; } = BulSize.Default;
     private VideoSelection CurrentlyPlaying { get; set; } = VideoSelection.JapaneseGardens;
     private Uri CurrentlyPlayingSrc { get; set; } = Japanese720pUri;

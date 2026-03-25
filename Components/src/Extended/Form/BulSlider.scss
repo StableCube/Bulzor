@@ -1,0 +1,350 @@
+/*
+Adapted from https://github.com/Wikiki/bulma-slider
+
+MIT License
+
+Copyright (c) 2017 Wikiki
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
+@use "../../BulmaUtilities/css-variables.scss" as cv;
+@use "../../BulmaUtilities/derived-variables" as dv;
+@use "../../BulmaUtilities/initial-variables" as iv;
+@use "../../BulmaUtilities/functions" as fn;
+
+$slider-radius: cv.getVar("radius") !default;
+$slider-track-color-h: cv.getVar("scheme-h") !default;
+$slider-track-color-s: cv.getVar("scheme-s") !default;
+$slider-track-color-l: cv.getVar("dark-l") !default;
+
+$slider-track-radius: cv.getVar("radius") !default;
+$slider-track-border: 0px solid cv.getVar("border") !default;
+$slider-track-shadow: 0px 0px 0px cv.getVar("border") !default;
+$slider-thumb-background: cv.getVar("background") !default;
+$slider-thumb-radius: cv.getVar("radius") !default;
+$slider-thumb-border: 1px solid cv.getVar("border") !default;
+$slider-thumb-shadow: none !default;
+$slider-output-width: 3rem !default;
+$slider-output-background: cv.getVar("grey-dark") !default;
+$slider-output-radius: cv.getVar("radius") !default;
+$slider-output-color: cv.getVar("white") !default;
+
+$slider-size-small: cv.getVar("size-small") !default;
+$slider-size-normal: cv.getVar("size-normal") !default;
+$slider-size-medium: cv.getVar("size-medium") !default;
+$slider-size-large: cv.getVar("size-large") !default;
+
+$slider-colors: dv.$colors !default;
+
+.slider {
+  @include cv.register-vars(
+    (
+      "slider-radius": #{$slider-radius},
+      "slider-track-color-h": #{$slider-track-color-h},
+      "slider-track-color-s": #{$slider-track-color-s},
+      "slider-track-color-l": #{$slider-track-color-l},
+      "slider-track-radius": #{$slider-track-radius},
+      "slider-track-border": #{$slider-track-border},
+      "slider-track-shadow": #{$slider-track-shadow},
+      "slider-output-radius": #{$slider-output-radius},
+      "slider-output-width": #{$slider-output-width},
+      "slider-output-background": #{$slider-output-background},
+      "slider-output-color": #{$slider-output-color},
+      "slider-thumb-background": #{$slider-thumb-background},
+      "slider-thumb-border": #{$slider-thumb-border},
+      "slider-thumb-radius": #{$slider-thumb-radius},
+      "slider-thumb-shadow": #{$slider-thumb-shadow},
+      "slider-size-small": #{$slider-size-small},
+      "slider-size-normal": #{$slider-size-normal},
+      "slider-size-medium": #{$slider-size-medium},
+      "slider-size-large": #{$slider-size-large},
+    )
+  );
+}
+
+.slider {
+  // Colors
+  @each $name, $components in $slider-colors {
+    &.#{iv.$class-prefix}is-#{$name} {
+      @include cv.register-vars(
+        (
+          "slider-track-color-h": #{cv.getVar($name, "", "-h")},
+          "slider-track-color-s": #{cv.getVar($name, "", "-s")},
+          "slider-track-color-l": #{cv.getVar($name, "", "-on-scheme-l")},
+        )
+      );
+    }
+  }
+}
+
+@mixin slider-size($size) {
+  $track-height: calc($size / 2);
+  $thumb-size: $size;
+  min-height: calc(( #{$size} + 2px ) * 1.25);
+
+  &::-webkit-slider-runnable-track {
+    height: $track-height;
+  }
+
+  &::-moz-range-track {
+    height: $track-height;
+  }
+
+  &::-ms-track {
+    height: $track-height;
+  }
+
+  &::-webkit-slider-thumb {
+    height: $thumb-size;
+    width: $thumb-size;
+    margin-top: -($thumb-size / 4);
+  }
+
+  &::-moz-range-thumb {
+    height: $thumb-size;
+    width: $thumb-size;
+  }
+
+  &::-ms-thumb {
+    height: $thumb-size;
+    width: $thumb-size;
+    margin-top: 0;
+  }
+}
+
+input[type=range] {
+  &.slider {
+    -webkit-appearance: none;
+    appearance: none;
+    margin: 1rem 0;
+    background: transparent;
+
+    &.is-fullwidth {
+      display: block;
+      width: 100%;
+    }
+
+    &:focus {
+      outline: none;
+    }
+
+    &::-webkit-slider-runnable-track {
+      width: 100%;
+    }
+
+    &::-moz-range-track {
+      width: 100%;
+    }
+
+    &::-ms-track {
+      width: 100%;
+    }
+
+    &.has-output,
+    &.has-output-tooltip {
+      + output {
+        width: cv.getVar("slider-output-width");
+        background: cv.getVar("slider-output-background");
+        border-radius: #{cv.getVar("slider-output-radius")};
+        padding: 0.4rem 0.8rem;
+        font-size: cv.getVar("size-7");
+        line-height: cv.getVar("size-7");
+        text-align: center;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        color: cv.getVar("slider-output-color");
+        overflow: hidden;
+        pointer-events: none;
+        z-index: 200;
+      }
+    }
+
+    &.has-output {
+      display: inline-block;
+      width: calc(100% - ( #{cv.getVar("slider-output-width") + 1.2rem} ));
+
+      + output {
+        display: inline-block;
+        position: relative;
+        margin-left: 0.75rem;
+        top: -0.75rem;
+      }
+    }
+
+    &.has-output-tooltip {
+      display: block;
+
+      + output {
+        position: absolute;
+        left: 0;
+        top: -0.1rem;
+      }
+    }
+
+    &::-webkit-slider-runnable-track {
+      cursor: pointer;
+      animate: 0.2s;
+      box-shadow: cv.getVar("slider-track-shadow"); 
+      background: hsl(
+        #{cv.getVar("slider-track-color-h")},
+        #{cv.getVar("slider-track-color-s")},
+        #{cv.getVar("slider-track-color-l")}
+      );
+      border-radius: #{cv.getVar("slider-track-radius")};
+      border: #{cv.getVar("slider-track-border")};
+    }
+
+    &::-moz-range-track {
+      cursor: pointer;
+      animate: 0.2s;
+      box-shadow: cv.getVar("slider-track-shadow"); 
+      background: hsl(
+        #{cv.getVar("slider-track-color-h")},
+        #{cv.getVar("slider-track-color-s")},
+        #{cv.getVar("slider-track-color-l")}
+      );
+      border-radius: #{cv.getVar("slider-track-radius")};
+      border: #{cv.getVar("slider-track-border")};
+    }
+
+    &::-ms-track {
+      cursor: pointer;
+      animate: 0.2s;
+      box-shadow: cv.getVar("slider-track-shadow"); 
+      background: hsl(
+        #{cv.getVar("slider-track-color-h")},
+        #{cv.getVar("slider-track-color-s")},
+        #{cv.getVar("slider-track-color-l")}
+      );
+      border-radius: #{cv.getVar("slider-track-radius")};
+      border: #{cv.getVar("slider-track-border")};
+    }
+
+    &::-ms-fill-lower,
+    &::-ms-fill-upper {
+      background: iv.$grey-lighter;
+      border-radius: #{cv.getVar("slider-radius")};
+    }
+
+    &::-webkit-slider-thumb {
+      box-shadow: cv.getVar("slider-thumb-shadow");
+      border: #{cv.getVar("slider-thumb-border")};
+      border-radius: #{cv.getVar("slider-thumb-radius")};
+      background: #{cv.getVar("slider-thumb-background")};
+      cursor: pointer;
+      -webkit-appearance: none;
+      transition: transform 0.2s ease, -webkit-transform 0.2s ease;
+      transition: transform 0.2s ease;
+      transition: -webkit-transform 0.2s ease;
+    }
+
+    &::-moz-range-thumb {
+      box-shadow: cv.getVar("slider-thumb-shadow");
+      border: #{cv.getVar("slider-thumb-border")};
+      background: #{cv.getVar("slider-thumb-background")};
+      border-radius: #{cv.getVar("slider-thumb-radius")};
+      cursor: pointer;
+      transition: transform 0.2s ease, -webkit-transform 0.2s ease;
+      transition: transform 0.2s ease;
+      transition: -webkit-transform 0.2s ease;
+    }
+
+    &::-ms-thumb {
+      box-shadow: cv.getVar("slider-thumb-shadow");
+      border: #{cv.getVar("slider-thumb-border")};
+      background: #{cv.getVar("slider-thumb-background")};
+      border-radius: #{cv.getVar("slider-thumb-radius")};
+      cursor: pointer;
+      transition: transform 0.2s ease, -webkit-transform 0.2s ease;
+      transition: transform 0.2s ease;
+      transition: -webkit-transform 0.2s ease;
+    }
+
+    &::-webkit-slider-thumb {
+      -webkit-appearance: none;
+    }
+
+    &.is-circle {
+      &::-webkit-slider-thumb {
+        border-radius: 50%;
+      }
+
+      &::-moz-range-thumb {
+        border-radius: 50%;
+      }
+
+      &::-ms-thumb {
+        border-radius: 50%;
+      }
+    }
+
+    &:active {
+      &::-webkit-slider-thumb {
+        -webkit-transform: scale(1.25);
+        transform: scale(1.25);
+      }
+
+      &::-moz-range-thumb {
+        transform: scale(1.25);
+      }
+
+      &::-ms-thumb {
+        -ms-transform: scale(1.25);
+        transform: scale(1.25);
+      }
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+
+      &::-webkit-slider-thumb {
+        cursor: not-allowed;
+        -webkit-transform: scale(1);
+        transform: scale(1);
+      }
+
+      &::-moz-range-thumb {
+        cursor: not-allowed;
+        transform: scale(1);
+      }
+
+      &::-ms-thumb {
+        cursor: not-allowed;
+        -ms-transform: scale(1);
+        transform: scale(1);
+      }
+    }
+
+    @include slider-size(cv.getVar("slider-size-normal"));
+
+    &.is-small {
+      @include slider-size(cv.getVar("slider-size-small"));
+    }
+
+    &.is-medium {
+      @include slider-size(cv.getVar("slider-size-medium"));
+    }
+
+    &.is-large {
+      @include slider-size(cv.getVar("slider-size-large"));
+    }
+  }
+}
