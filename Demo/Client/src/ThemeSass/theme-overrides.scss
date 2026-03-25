@@ -1,28 +1,8 @@
-// @media (prefers-color-scheme: light) {
-//   :root {
-//     /* Colors and Lightness values */
-//     --bulma-scheme-h: 221;
-//     --bulma-scheme-s: 14%;
-//     --bulma-light-l: 90%;
-//     --bulma-light-invert-l: 20%;
-//     --bulma-dark-l: 20%;
-//     --bulma-dark-invert-l: 90%;
-//     --bulma-soft-l: 90%;
-//     --bulma-bold-l: 20%;
-//     --bulma-soft-invert-l: 20%;
-//     --bulma-bold-invert-l: 90%;
+// Theme color overrides
+:root {
+    --bulma-dark-l: 12%;
+    --bulma-dark: hsl(35, 28%, 12%);
 
-//     /* Color Palettes */
-//     --bulma-primary: hsla(var(--bulma-primary-h), var(--bulma-primary-s), var(--bulma-primary-l), 1);
-//     --bulma-primary-base: hsla(var(--bulma-primary-h), var(--bulma-primary-s), var(--bulma-primary-l), 1);
-//     --bulma-primary-rgb: 0, 209, 178;
-//     --bulma-primary-h: 171deg;
-//     --bulma-primary-s: 100%;
-//     --bulma-primary-l: 41%;
-//     --bulma-primary-00-l: 1%;
-//     --bulma-primary-05-l: 6%;
-//     --bulma-primary-10-l: 11%;
-//     --bulma-primary-15-l: 16%;
-//     --bulma-primary-20-l: 21%;
-//   }
-// }
+    --bulma-link-l: 28%;
+    --bulma-link: hsl(219, 100%, 28%);
+}
