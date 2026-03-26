@@ -45,7 +45,7 @@ public class BulReCaptchaV2 : ComponentBase, IAsyncDisposable
         if (!firstRender)
             return;
 
-        _js = await JSRuntime.InvokeAsync<IJSObjectReference>("import", $"{JSRootPath}/_content/StableCube.Bulzor.Components.ReCaptcha/js/bulrecaptcha.js");
+        _js = await JSRuntime.InvokeAsync<IJSObjectReference>("import", $"{JSRootPath}/_content/StableCube.Bulzor.Components/js/bulrecaptcha.js");
 
         await _js.InvokeVoidAsync("loadScript", "https://www.google.com/recaptcha/api.js?onload=pageLoad&render=explicit");
         
