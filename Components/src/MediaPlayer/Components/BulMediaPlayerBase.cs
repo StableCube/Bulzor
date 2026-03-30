@@ -115,6 +115,9 @@ public abstract class BulMediaPlayerBase : BulComponentBase
     {
         if (!firstRender)
             return;
+
+        if(!RendererInfo.IsInteractive)
+            return;
     
         // Media event triggers do not work in Dotnet 5 but should be fixed in 6 and many of these should then not be needed.
         await JSRuntime.InvokeVoidAsync(

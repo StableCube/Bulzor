@@ -17,6 +17,9 @@ public class BulHeadTitle : ComponentBase
     
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        if(!RendererInfo.IsInteractive)
+            return;
+
         if (firstRender)
         {
             await JSRuntime.InvokeVoidAsync("bulSetPageTitle", Title);

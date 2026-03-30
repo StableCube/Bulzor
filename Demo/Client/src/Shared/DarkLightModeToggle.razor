@@ -19,6 +19,9 @@
     {
         if(!firstRender)
             return;
+            
+        if(!RendererInfo.IsInteractive)
+            return;
 
         string jsonResponse = await _jsRuntime.InvokeAsync<string>(
             "readCurrentTheme"

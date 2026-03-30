@@ -20,6 +20,9 @@ public class BulHeadMetaTag : ComponentBase
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        if(!RendererInfo.IsInteractive)
+            return;
+
         if (firstRender)
         {
             await JSRuntime.InvokeVoidAsync("bulSetMetaTag", Name, Content);
