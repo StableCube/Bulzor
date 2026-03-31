@@ -9,7 +9,7 @@ using Microsoft.JSInterop;
 
 namespace StableCube.Bulzor.Components.MediaPlayer;
 
-public abstract class BulMediaPlayerBase : BulComponentBase
+public abstract class BulMediaPlayerBase : BulComponentBase, IDisposable, IAsyncDisposable
 {
     [Inject]
     public IJSRuntime JSRuntime { get; set; }
@@ -96,16 +96,17 @@ public abstract class BulMediaPlayerBase : BulComponentBase
 
     public BulMediaPlayerState PlayerState { get; set; } = new BulMediaPlayerState();
 
-    protected string ElementId { get; } = Regex.Replace(Convert.ToBase64String(Guid.NewGuid().ToByteArray()), "[/+=]", "");
+    protected string ElementId { get; } = Guid.NewGuid().ToString();
 
     protected BulmaClassBuilder MediaPlayerClassBuilder { get; set; } = new BulmaClassBuilder("bul-media-player image");
     protected BulmaClassBuilder MediaRootClassBuilder { get; set; } = new BulmaClassBuilder("bul-media-player-media-root");
+    private DotNetObjectReference<BulMediaPlayerBase> JsRef { get; set; }
+    public IJSObjectReference MediaPlayerJsInterop { get; set; }
+    public IJSObjectReference MediaPlayerJsListener { get; set; }
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
-
-        Commands = new MediaPlayerCommands(JSRuntime);
 
         PlayerState.Loop = Loop;
         PlayerState.Autoplay = Autoplay;
@@ -116,49 +117,60 @@ public abstract class BulMediaPlayerBase : BulComponentBase
         if (!firstRender)
             return;
 
-        if(!RendererInfo.IsInteractive)
-            return;
-    
-        // Media event triggers do not work in Dotnet 5 but should be fixed in 6 and many of these should then not be needed.
-        await JSRuntime.InvokeVoidAsync(
-            "bulMediaPlayerEvents", 
-            DotNetObjectReference.Create(this),
-            ElementId.ToString(),
-            "OnPlayEventHandler",
-            "OnPlayingEventHandler",
-            "OnPauseEventHandler",
-            "OnVolumeChangeEventHandler",
-            "OnFullscreenChangeEventHandler",
-            "OnEndedEventHandler",
-            "OnDurationChangeEventHandler",
-            "OnProgressEventHandler",
-            "OnTimeUpdateEventHandler",
-            "OnSeekingEventHandler",
-            "OnSeekedEventHandler",
-            "OnCanPlayEventHandler",
-            "OnCanPlayThroughEventHandler",
-            "OnRateChangeEventHandler",
-            "OnAbortEventHandler",
-            "OnEmptiedEventHandler",
-            "OnErrorEventHandler"
-        );
+        MediaPlayerJsInterop = await JSRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/StableCube.Bulzor.Components/js/bulMediaPlayer.js");
+        JsRef = DotNetObjectReference.Create(this);
+        MediaPlayerJsListener = await MediaPlayerJsInterop.InvokeConstructorAsync("BulMediaPlayerEventListener", ElementId.ToString(), JsRef);
+
+        Commands = new MediaPlayerCommands(MediaPlayerJsInterop);
 
         if(Muted != PlayerState.Muted)
         {
             PlayerState.Muted = Muted;
-            await JSRuntime.InvokeVoidAsync(
-                "bulMediaPlayerSetMuted",
-                ElementId,
-                PlayerState.Muted
-            );
+            await Commands.SetMuteAsync(ElementId, PlayerState.Muted);
         }
+
+        await InvokeAsync(StateHasChanged);
+    }
+
+    public void Dispose()
+    {
+        JsRef?.Dispose();
+
+        //GC.SuppressFinalize(this);
+    }
+
+    async ValueTask IAsyncDisposable.DisposeAsync()
+    {
+        if (MediaPlayerJsInterop != null)
+        {
+            try
+            {
+                await MediaPlayerJsInterop.DisposeAsync();
+            }
+            catch (JSDisconnectedException)
+            {
+            }
+        }
+
+        if (MediaPlayerJsListener != null)
+        {
+            try
+            {
+                await MediaPlayerJsListener.DisposeAsync();
+            }
+            catch (JSDisconnectedException)
+            {
+            }
+        }
+
+        //GC.SuppressFinalize(this);
     }
 
     protected override void OnParametersSet()
     {
-        BuildBulma();
-
         base.OnParametersSet();
+
+        BuildBulma();
     }
 
     protected override void BuildBulma()
@@ -171,10 +183,11 @@ public abstract class BulMediaPlayerBase : BulComponentBase
         builder.OpenElement(0, "div");
         builder.AddAttribute(1, "id", ElementId);
         builder.AddAttribute(2, "class", MediaPlayerClassBuilder.ClassString);
-        builder.AddContent(3, (RenderFragment)((builder2) => {
+        builder.AddContent(3, (builder2) =>
+        {
             BuildMediaTag(builder2, 4);
             BuildControls(builder2, 5);
-        }));
+        });
 
         builder.CloseElement();
     }
@@ -205,8 +218,7 @@ public abstract class BulMediaPlayerBase : BulComponentBase
         PlayerState.CurrentSrc = new Uri(currentSrc);
         PlayerState.PlayState = BulMediaPlayState.Playing;
         await OnPlayingChange.InvokeAsync(PlayerState);
-        StateHasChanged();
-
+        await InvokeAsync(StateHasChanged);
     }
 
     [JSInvokable]
@@ -215,7 +227,7 @@ public abstract class BulMediaPlayerBase : BulComponentBase
         PlayerState.CurrentSrc = new Uri(currentSrc);
         PlayerState.PlayState = BulMediaPlayState.Playing;
         await OnPlayChange.InvokeAsync(PlayerState);
-        StateHasChanged();
+        await InvokeAsync(StateHasChanged);
     }
 
     [JSInvokable]
@@ -224,7 +236,7 @@ public abstract class BulMediaPlayerBase : BulComponentBase
         PlayerState.CurrentSrc = new Uri(currentSrc);
         PlayerState.PlayState = BulMediaPlayState.Paused;
         await OnPauseChange.InvokeAsync(PlayerState);
-        StateHasChanged();
+        await InvokeAsync(StateHasChanged);
     }
 
     [JSInvokable]
@@ -234,7 +246,7 @@ public abstract class BulMediaPlayerBase : BulComponentBase
         PlayerState.Volume = eventObj.Volume;
         PlayerState.Muted = eventObj.Muted;
         await OnVolumeChange.InvokeAsync(PlayerState);
-        StateHasChanged();
+        await InvokeAsync(StateHasChanged);
     }
 
     [JSInvokable]
@@ -242,7 +254,7 @@ public abstract class BulMediaPlayerBase : BulComponentBase
     {
         PlayerState.Fullscreen = value;
         await OnFullscreenChange.InvokeAsync(PlayerState);
-        StateHasChanged();
+        await InvokeAsync(StateHasChanged);
     }
 
     [JSInvokable]
@@ -251,7 +263,7 @@ public abstract class BulMediaPlayerBase : BulComponentBase
         PlayerState.CurrentSrc = new Uri(currentSrc);
         PlayerState.PlayState = BulMediaPlayState.Stopped;
         await OnEnded.InvokeAsync(PlayerState);
-        StateHasChanged();
+        await InvokeAsync(StateHasChanged);
     }
 
     [JSInvokable]
@@ -259,7 +271,7 @@ public abstract class BulMediaPlayerBase : BulComponentBase
     {
         PlayerState.Duration = TimeSpan.FromSeconds(value);
         await OnDurationChanged.InvokeAsync(PlayerState);
-        StateHasChanged();
+        await InvokeAsync(StateHasChanged);
     }
 
     [JSInvokable]
@@ -278,7 +290,7 @@ public abstract class BulMediaPlayerBase : BulComponentBase
         }
 
         await OnProgress.InvokeAsync(PlayerState);
-        StateHasChanged();
+        await InvokeAsync(StateHasChanged);
     }
 
     [JSInvokable]
@@ -286,7 +298,7 @@ public abstract class BulMediaPlayerBase : BulComponentBase
     {
         PlayerState.CurrentTime = TimeSpan.FromSeconds(value);
         await OnTimeUpdated.InvokeAsync(PlayerState);
-        StateHasChanged();
+        await InvokeAsync(StateHasChanged);
     }
 
     [JSInvokable]
@@ -294,7 +306,7 @@ public abstract class BulMediaPlayerBase : BulComponentBase
     {
         PlayerState.Seeking = true;
         await OnSeeking.InvokeAsync(PlayerState);
-        StateHasChanged();
+        await InvokeAsync(StateHasChanged);
     }
 
     [JSInvokable]
@@ -303,7 +315,7 @@ public abstract class BulMediaPlayerBase : BulComponentBase
         PlayerState.Seeking = false;
 
         await OnSeeked.InvokeAsync(PlayerState);
-        StateHasChanged();
+        await InvokeAsync(StateHasChanged);
     }
 
     [JSInvokable]
@@ -314,9 +326,10 @@ public abstract class BulMediaPlayerBase : BulComponentBase
         PlayerState.Width = eventObj.Width;
         PlayerState.Height = eventObj.Height;
         PlayerState.CanPlay = true;
+        PlayerState.Duration = TimeSpan.FromSeconds(eventObj.Duration);
 
         await OnCanPlay.InvokeAsync(PlayerState);
-        StateHasChanged();
+        await InvokeAsync(StateHasChanged);
     }
 
     [JSInvokable]
@@ -326,7 +339,7 @@ public abstract class BulMediaPlayerBase : BulComponentBase
         PlayerState.CanPlayThrough = true;
 
         await OnCanPlayThrough.InvokeAsync(PlayerState);
-        StateHasChanged();
+        await InvokeAsync(StateHasChanged);
     }
 
     [JSInvokable]
@@ -334,7 +347,7 @@ public abstract class BulMediaPlayerBase : BulComponentBase
     {
         PlayerState.Rate = value;
         await OnRateChange.InvokeAsync(PlayerState);
-        StateHasChanged();
+        await InvokeAsync(StateHasChanged);
     }
 
     [JSInvokable]
@@ -343,7 +356,7 @@ public abstract class BulMediaPlayerBase : BulComponentBase
         PlayerState.CurrentSrc = new Uri(currentSrc);
         PlayerState.PlayState = BulMediaPlayState.Stopped;
         await OnAbort.InvokeAsync(PlayerState);
-        StateHasChanged();
+        await InvokeAsync(StateHasChanged);
     }
 
     [JSInvokable]
@@ -352,7 +365,7 @@ public abstract class BulMediaPlayerBase : BulComponentBase
         PlayerState.PlayState = BulMediaPlayState.Stopped;
         PlayerState.CanPlay = false;
         await OnEmptied.InvokeAsync(PlayerState);
-        StateHasChanged();
+        await InvokeAsync(StateHasChanged);
     }
 
     [JSInvokable]
@@ -362,11 +375,14 @@ public abstract class BulMediaPlayerBase : BulComponentBase
         PlayerState.PlayState = BulMediaPlayState.Stopped;
         PlayerState.CanPlay = false;
         await OnError.InvokeAsync(PlayerState);
-        StateHasChanged();
+        await InvokeAsync(StateHasChanged);
     }
 
     private async Task PlayPauseClickHandlerAsync(MouseEventArgs args)
     {
+        if(!RendererInfo.IsInteractive || Commands == null)
+            return;
+        
         if(PlayerState.PlayState == BulMediaPlayState.Playing)
         {
             await Commands.PauseAsync(ElementId);
@@ -379,21 +395,33 @@ public abstract class BulMediaPlayerBase : BulComponentBase
 
     private async Task FullscreenClickHandlerAsync(MouseEventArgs args)
     {
+        if(!RendererInfo.IsInteractive || Commands == null)
+            return;
+
         await Commands.FullscreenToggleAsync(ElementId);
     }
 
     private async Task MuteClickHandlerAsync(MouseEventArgs args)
     {
+        if(!RendererInfo.IsInteractive || Commands == null)
+            return;
+        
         await Commands.SetMuteAsync(ElementId, !PlayerState.Muted);
     }
 
     private async Task VolumeChangeHandlerAsync(double volume)
     {
+        if(!RendererInfo.IsInteractive || Commands == null)
+            return;
+
         await Commands.SetVolumeAsync(ElementId, volume);
     }
 
     private async Task ScrubberTimeChangeHandlerAsync(TimeSpan value)
     {
+        if(!RendererInfo.IsInteractive || Commands == null)
+            return;
+
         await Commands.SetTimeAsync(ElementId, value);
     }
 
@@ -404,6 +432,9 @@ public abstract class BulMediaPlayerBase : BulComponentBase
 
     private async Task PlaybackRateChangeHandlerAsync(double value)
     {
+        if(!RendererInfo.IsInteractive || Commands == null)
+            return;
+
         await Commands.SetPlaybackRateAsync(ElementId, value);
     }
 }

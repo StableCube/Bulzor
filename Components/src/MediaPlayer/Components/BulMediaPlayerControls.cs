@@ -145,11 +145,11 @@ public class BulMediaPlayerControls : BulComponentBase
 
             if(_isScrubberMouseDown || PlayerState.Seeking)
             {
-                _currentTimeStrBuilder.Append(GetTimeSpanString(_scrubberPos, (PlayerState.Duration.Hours > 0), true));
+                _currentTimeStrBuilder.Append(GetTimeSpanString(_scrubberPos, PlayerState.Duration.Hours > 0, true));
             }
             else
             {
-                _currentTimeStrBuilder.Append(GetTimeSpanString(PlayerState.CurrentTime, (PlayerState.Duration.Hours > 0), true));
+                _currentTimeStrBuilder.Append(GetTimeSpanString(PlayerState.CurrentTime, PlayerState.Duration.Hours > 0, true));
             }
         }
         
@@ -157,7 +157,7 @@ public class BulMediaPlayerControls : BulComponentBase
         {
             _lastDuration = PlayerState.Duration;
             _durationStrBuilder.Clear();
-            _durationStrBuilder.Append(GetTimeSpanString(PlayerState.Duration, (PlayerState.Duration.Hours > 0), true));
+            _durationStrBuilder.Append(GetTimeSpanString(PlayerState.Duration, PlayerState.Duration.Hours > 0, true));
         }
 
         builder.OpenElement(0, "div");
@@ -199,12 +199,13 @@ public class BulMediaPlayerControls : BulComponentBase
         builder.OpenElement(0, "div");
         builder.AddAttribute(1, "class", "bul-play-stopped-centered");
 
-        builder.AddContent(2, (RenderFragment)((builder2) => {
+        builder.AddContent(2, (builder2) =>
+        {
             builder2.OpenComponent<BulIcon>(3);
             builder2.AddAttribute(4, "Size", BulSize.Large);
             builder2.AddAttribute(5, "class", IconClassMap["play-stopped-centered"]);
             builder2.CloseComponent();
-        }));
+        });
 
         builder.CloseComponent();
         builder.CloseRegion();
@@ -215,10 +216,11 @@ public class BulMediaPlayerControls : BulComponentBase
         builder.OpenRegion(index);
         builder.OpenElement(0, "div");
         builder.AddAttribute(1, "class", ControlsGroupClassBuilder.ClassString);
-        builder.AddContent(2, (RenderFragment)((builder2) => {
+        builder.AddContent(2, (builder2) =>
+        {
             BuildScrubberRow(builder2, 3);
             BuildControlsRow(builder2, 4);
-        }));
+        });
 
         builder.CloseElement();
         builder.CloseRegion();
@@ -229,9 +231,10 @@ public class BulMediaPlayerControls : BulComponentBase
         builder.OpenRegion(index);
         builder.OpenElement(0, "div");
         builder.AddAttribute(1, "class", "bul-media-scrubber-row");
-        builder.AddContent(2, (RenderFragment)((builder3) => {
+        builder.AddContent(2, (builder3) =>
+        {
             BuildScrubber(builder3, 3);
-        }));
+        });
         
         builder.CloseElement();
         builder.CloseRegion();
@@ -242,31 +245,33 @@ public class BulMediaPlayerControls : BulComponentBase
         builder.OpenRegion(index);
         builder.OpenElement(0, "div");
         builder.AddAttribute(1, "class", "bul-media-controls-row");
-        builder.AddContent(2, (RenderFragment)((builder2) => {
-
+        builder.AddContent(2, (builder2) =>
+        {
             builder2.OpenElement(3, "div");
             builder2.AddAttribute(4, "class", "bul-media-controls-left");
-            builder2.AddContent(5, (RenderFragment)((builder3) => {
+            builder2.AddContent(5, (builder3) =>
+            {
                 BuildPlayButton(builder3, 6);
                 BuildMuteButton(builder3, 7);
                 BuildVolumeSlider(builder3, 8);
                 BuildTimeDisplay(builder3, 9);
-            }));
+            });
             builder2.CloseElement();
 
             builder2.OpenElement(10, "div");
             builder2.AddAttribute(11, "class", "bul-media-controls-right");
-            builder2.AddContent(12, (RenderFragment)((builder4) => {
+            builder2.AddContent(12, (builder4) =>
+            {
                 BuildAdditionalControls(builder4, 13);
                 BuildFullscreenButton(builder4, 14);
-            }));
+            });
             builder2.CloseElement();
-        }));
+        });
         builder.CloseElement();
         builder.CloseRegion();
     }
 
-    private string GetTimeSpanString(TimeSpan time, bool showHours, bool showMinutes)
+    private static string GetTimeSpanString(TimeSpan time, bool showHours, bool showMinutes)
     {
         string result = string.Format("{0}{1}{2}",
             showHours ? string.Format("{0:0}", Math.Floor(time.TotalHours)) : string.Empty,
@@ -283,8 +288,8 @@ public class BulMediaPlayerControls : BulComponentBase
     {
         builder.OpenRegion(index);
         builder.OpenComponent<BulButton>(0);
-        builder.AddAttribute(1, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, OnPlayPauseClick));
-        builder.AddAttribute(2, "Loading", (!PlayerState.CanPlay || PlayerState.Seeking || PlayerState.Duration == TimeSpan.Zero));
+        builder.AddAttribute(1, "onclick", EventCallback.Factory.Create(this, OnPlayPauseClick));
+        builder.AddAttribute(2, "Loading", !PlayerState.CanPlay || PlayerState.Seeking || PlayerState.Duration == TimeSpan.Zero);
         builder.AddAttribute(3, "Size", Size);
         builder.AddAttribute(4, "ChildContent", (RenderFragment)((builder2) => {
             builder2.OpenComponent<BulIcon>(5);
@@ -306,7 +311,7 @@ public class BulMediaPlayerControls : BulComponentBase
         builder.OpenRegion(index);
         builder.OpenComponent<BulButton>(0);
         builder.AddAttribute(1, "Size", Size);
-        builder.AddAttribute(2, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, OnMuteClick));
+        builder.AddAttribute(2, "onclick", EventCallback.Factory.Create(this, OnMuteClick));
         builder.AddAttribute(3, "ChildContent", (RenderFragment)((builder2) => {
             builder2.OpenComponent<BulIcon>(4);
             builder2.AddAttribute(5, "Size", Size);
@@ -341,20 +346,21 @@ public class BulMediaPlayerControls : BulComponentBase
 
         builder.OpenElement(0, "div");
         builder.AddAttribute(1, "class", "bul-media-additional-controls");
-        builder.AddContent(2, (RenderFragment)((builder2) => {
-
+        builder.AddContent(2, (builder2) =>
+        {
             builder2.OpenComponent<BulDropdown>(3);
             builder2.AddAttribute(4, "Active", _isAdditionalControlsMenuActive);
             builder2.AddAttribute(5, "Up", true);
             builder2.AddAttribute(6, "Right", true);
             builder2.AddAttribute(7, "OnClickOut", EventCallback.Factory.Create<MouseEventArgs>(this, OnAdditionalControlsClickOutHandler));
-            builder2.AddAttribute(8, "BulDropdownTrigger", (RenderFragment)((builder3) => {
-
+            builder2.AddAttribute(8, "BulDropdownTrigger", (RenderFragment)((builder3) =>
+            {
                 builder3.OpenRegion(9);
                 builder3.OpenComponent<BulButton>(0);
                 builder3.AddAttribute(1, "Size", Size);
                 builder3.AddAttribute(2, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, OnAdditionalControlsToggleClickHandler));
-                builder3.AddAttribute(3, "ChildContent", (RenderFragment)((builder4) => {
+                builder3.AddAttribute(3, "ChildContent", (RenderFragment)((builder4) =>
+                {
                     builder4.OpenComponent<BulIcon>(4);
                     builder4.AddAttribute(5, "Size", Size);
                     builder4.AddAttribute(6, "class", IconClassMap["additional-controls"]);
@@ -365,14 +371,15 @@ public class BulMediaPlayerControls : BulComponentBase
 
             }));
 
-            builder2.AddAttribute(10, "BulDropdownContent", (RenderFragment)((builder3) => {
+            builder2.AddAttribute(10, "BulDropdownContent", (RenderFragment)((builder3) =>
+            {
                 BuildLoopAdditionalControl(builder3, 11);
                 BuildRateSelectAdditionalControl(builder3, 12);
             }));
 
             builder2.CloseComponent();
 
-        }));
+        });
 
         builder.CloseElement();
         builder.CloseRegion();
@@ -441,7 +448,7 @@ public class BulMediaPlayerControls : BulComponentBase
 
         builder.OpenRegion(index);
         builder.OpenComponent<BulNavLink>(0);
-        builder.AddAttribute(1, "Active", (rate == PlayerState.Rate));
+        builder.AddAttribute(1, "Active", rate == PlayerState.Rate);
         builder.AddAttribute(2, "onclick", 
             EventCallback.Factory.Create<MouseEventArgs>(this, async (args) => await OnChangePlaybackRateClickHandler(rate)));
         
@@ -489,7 +496,7 @@ public class BulMediaPlayerControls : BulComponentBase
         builder.OpenRegion(index);
         builder.OpenComponent<BulButton>(0);
         builder.AddAttribute(1, "Size", Size);
-        builder.AddAttribute(2, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, OnFullscreenClick));
+        builder.AddAttribute(2, "onclick", EventCallback.Factory.Create(this, OnFullscreenClick));
         builder.AddAttribute(3, "ChildContent", (RenderFragment)((builder2) => {
             builder2.OpenComponent<BulIcon>(4);
             builder2.AddAttribute(5, "Size", Size);
@@ -526,7 +533,7 @@ public class BulMediaPlayerControls : BulComponentBase
         builder.OpenRegion(index);
         builder.OpenElement(0, "div");
         builder.AddAttribute(1, "class", $"{TimeDisplayClassBuilder.ClassString} is-hidden-mobile");
-        builder.AddContent(2, String.Format("{0} / {1}", _currentTimeStrBuilder, _durationStrBuilder));
+        builder.AddContent(2, string.Format("{0} / {1}", _currentTimeStrBuilder, _durationStrBuilder));
         builder.CloseElement();
         builder.CloseRegion();
     }
@@ -537,9 +544,10 @@ public class BulMediaPlayerControls : BulComponentBase
         builder.OpenElement(0, "div");
         builder.AddAttribute(1, "class", ScrubberRootClassBuilder.ClassString);
 
-        builder.AddContent(2, (RenderFragment)((builder2) => {
+        builder.AddContent(2, (builder2) =>
+        {
             BuildScrubberSlider(builder2, 3);
-        }));
+        });
 
         BuildScrubberLoadProgress(builder, 4);
         BuildScrubberPlayProgress(builder, 5);
@@ -553,7 +561,7 @@ public class BulMediaPlayerControls : BulComponentBase
         builder.OpenRegion(index);
         builder.OpenElement(0, "input");
         builder.AddAttribute(1, "type", "range");
-        builder.AddAttribute(2, "disabled", (!PlayerState.CanPlay || PlayerState.Duration == TimeSpan.Zero));
+        builder.AddAttribute(2, "disabled", !PlayerState.CanPlay || PlayerState.Duration == TimeSpan.Zero);
         builder.AddAttribute(3, "class", ScrubberSliderClassBuilder.ClassString);
         builder.AddAttribute(4, "min", 0);
         builder.AddAttribute(5, "max", Math.Ceiling(PlayerState.Duration.TotalSeconds));
@@ -572,9 +580,9 @@ public class BulMediaPlayerControls : BulComponentBase
 
     private void BuildScrubberPlayProgress(RenderTreeBuilder builder, int index)
     {
-        double b = (PlayerState.CurrentTime.TotalSeconds / PlayerState.Duration.TotalSeconds);
+        double b = PlayerState.CurrentTime.TotalSeconds / PlayerState.Duration.TotalSeconds;
         if(_isScrubberMouseDown || _seekLock)
-            b = (_scrubberPos.TotalSeconds / PlayerState.Duration.TotalSeconds);
+            b = _scrubberPos.TotalSeconds / PlayerState.Duration.TotalSeconds;
 
         if(double.IsNaN(b))
             b = 0;
@@ -596,7 +604,7 @@ public class BulMediaPlayerControls : BulComponentBase
         for (int i = 0; i < PlayerState.BufferProgress.Count; i++)
         {
             var segment = PlayerState.BufferProgress[i];
-            var b2 = (segment.End.TotalSeconds / PlayerState.Duration.TotalSeconds * 100);
+            var b2 = segment.End.TotalSeconds / PlayerState.Duration.TotalSeconds * 100;
             if(b2 > b)
                 b = b2;
         }

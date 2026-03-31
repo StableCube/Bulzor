@@ -7,17 +7,17 @@ namespace StableCube.Bulzor.Components.MediaPlayer;
 
 public class MediaPlayerCommands
 {
-    private readonly IJSRuntime _jSRuntime;
+    private IJSObjectReference MediaPlayerJsInterop { get; set; }
 
-    public MediaPlayerCommands(IJSRuntime jSRuntime)
+    public MediaPlayerCommands(IJSObjectReference interop)
     {
-        _jSRuntime = jSRuntime;
+        MediaPlayerJsInterop = interop;
     }
 
     public async Task PlayAsync(string elementId, CancellationToken cancellationToken = default)
     {
-        await _jSRuntime.InvokeVoidAsync(
-            "bulMediaPlayerPlay",
+        await MediaPlayerJsInterop.InvokeVoidAsync(
+            "BulMediaPlayerPlay",
             cancellationToken,
             elementId
         );
@@ -25,8 +25,8 @@ public class MediaPlayerCommands
 
     public async Task PauseAsync(string elementId, CancellationToken cancellationToken = default)
     {
-        await _jSRuntime.InvokeVoidAsync(
-            "bulMediaPlayerPause",
+        await MediaPlayerJsInterop.InvokeVoidAsync(
+            "BulMediaPlayerPause",
             cancellationToken,
             elementId
         );
@@ -34,8 +34,8 @@ public class MediaPlayerCommands
 
     public async Task FullscreenToggleAsync(string elementId, CancellationToken cancellationToken = default)
     {
-        await _jSRuntime.InvokeVoidAsync(
-            "bulMediaPlayerFullscreenToggle",
+        await MediaPlayerJsInterop.InvokeVoidAsync(
+            "BulMediaPlayerFullscreenToggle",
             cancellationToken,
             elementId
         );
@@ -43,8 +43,8 @@ public class MediaPlayerCommands
 
     public async Task SetMuteAsync(string elementId, bool value, CancellationToken cancellationToken = default)
     {
-        await _jSRuntime.InvokeVoidAsync(
-            "bulMediaPlayerSetMuted",
+        await MediaPlayerJsInterop.InvokeVoidAsync(
+            "BulMediaPlayerSetMuted",
             cancellationToken,
             elementId,
             value
@@ -53,8 +53,8 @@ public class MediaPlayerCommands
 
     public async Task SetVolumeAsync(string elementId, double volume, CancellationToken cancellationToken = default)
     {
-        await _jSRuntime.InvokeVoidAsync(
-            "bulMediaPlayerSetVolume",
+        await MediaPlayerJsInterop.InvokeVoidAsync(
+            "BulMediaPlayerSetVolume",
             cancellationToken,
             elementId,
             volume
@@ -63,8 +63,8 @@ public class MediaPlayerCommands
 
     public async Task SetTimeAsync(string elementId, TimeSpan value, CancellationToken cancellationToken = default)
     {
-        await _jSRuntime.InvokeVoidAsync(
-            "bulMediaPlayerSetCurrentTime",
+        await MediaPlayerJsInterop.InvokeVoidAsync(
+            "BulMediaPlayerSetCurrentTime",
             cancellationToken,
             elementId,
             value.TotalSeconds
@@ -73,8 +73,8 @@ public class MediaPlayerCommands
 
     public async Task SetPlaybackRateAsync(string elementId, double value, CancellationToken cancellationToken = default)
     {
-        await _jSRuntime.InvokeVoidAsync(
-            "bulMediaPlayerSetPlaybackRate",
+        await MediaPlayerJsInterop.InvokeVoidAsync(
+            "BulMediaPlayerSetPlaybackRate",
             cancellationToken,
             elementId,
             value

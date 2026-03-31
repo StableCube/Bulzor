@@ -1,9 +1,15 @@
-﻿using Microsoft.AspNetCore.Components.Rendering;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components.Rendering;
 
 namespace StableCube.Bulzor.Components.MediaPlayer;
 
 public class BulVideoPlayer : BulMediaPlayerBase
 {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
     protected override void BuildMediaTag(RenderTreeBuilder builder, int index)
     {
         PlayerState.MediaType = BulMediaPlayMediaType.Video;

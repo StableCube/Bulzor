@@ -35,9 +35,6 @@ public class BulReCaptchaV2 : ComponentBase, IAsyncDisposable
     [Parameter]
     public string ElementId { get; set; } = Guid.NewGuid().ToString();
 
-    [Parameter]
-    public string JSRootPath { get; set; } = string.Empty;
-
     private IJSObjectReference _js;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -45,10 +42,7 @@ public class BulReCaptchaV2 : ComponentBase, IAsyncDisposable
         if (!firstRender)
             return;
         
-        if(!RendererInfo.IsInteractive)
-            return;
-
-        _js = await JSRuntime.InvokeAsync<IJSObjectReference>("import", $"{JSRootPath}/_content/StableCube.Bulzor.Components/js/bulrecaptcha.js");
+        _js = await JSRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/StableCube.Bulzor.Components/js/bulRecaptcha.js");
 
         await _js.InvokeVoidAsync("loadScript", "https://www.google.com/recaptcha/api.js?onload=pageLoad&render=explicit");
         
@@ -67,7 +61,17 @@ public class BulReCaptchaV2 : ComponentBase, IAsyncDisposable
     async ValueTask IAsyncDisposable.DisposeAsync()
     {
         if (_js != null)
-            await _js.DisposeAsync();
+        {
+            try
+            {
+                await _js.DisposeAsync();
+            }
+            catch (JSDisconnectedException)
+            {
+            }
+        }
+        
+        GC.SuppressFinalize(this);
     }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
