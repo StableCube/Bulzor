@@ -169,7 +169,7 @@ public class BulMediaPlayerControls : BulComponentBase
         BuildScreenClickTrigger(builder, 5);
         BuildControlGroup(builder, 6);
 
-        if(!PlayerState.CanPlay || PlayerState.Seeking || PlayerState.Duration == TimeSpan.Zero)
+        if(!PlayerState.ReadyToStartPlaying || PlayerState.Seeking)
         {
             //Maybe put a loading icon here?
         }
@@ -289,7 +289,7 @@ public class BulMediaPlayerControls : BulComponentBase
         builder.OpenRegion(index);
         builder.OpenComponent<BulButton>(0);
         builder.AddAttribute(1, "onclick", EventCallback.Factory.Create(this, OnPlayPauseClick));
-        builder.AddAttribute(2, "Loading", !PlayerState.CanPlay || PlayerState.Seeking || PlayerState.Duration == TimeSpan.Zero);
+        builder.AddAttribute(2, "Loading", !PlayerState.ReadyToStartPlaying);
         builder.AddAttribute(3, "Size", Size);
         builder.AddAttribute(4, "ChildContent", (RenderFragment)((builder2) => {
             builder2.OpenComponent<BulIcon>(5);
@@ -561,7 +561,7 @@ public class BulMediaPlayerControls : BulComponentBase
         builder.OpenRegion(index);
         builder.OpenElement(0, "input");
         builder.AddAttribute(1, "type", "range");
-        builder.AddAttribute(2, "disabled", !PlayerState.CanPlay || PlayerState.Duration == TimeSpan.Zero);
+        builder.AddAttribute(2, "disabled", !PlayerState.ReadyToStartPlaying);
         builder.AddAttribute(3, "class", ScrubberSliderClassBuilder.ClassString);
         builder.AddAttribute(4, "min", 0);
         builder.AddAttribute(5, "max", Math.Ceiling(PlayerState.Duration.TotalSeconds));

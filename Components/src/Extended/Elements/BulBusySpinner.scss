@@ -4,7 +4,7 @@
 
 $busy-spinner-h: cv.getVar("scheme-h");
 $busy-spinner-s: cv.getVar("scheme-s");
-$busy-spinner-l: cv.getVar("dark-l");
+$busy-spinner-l: cv.getVar("scheme-l");
 $busy-spinner-size: 2rem !default;
 $busy-spinner-colors: dv.$colors !default;
 

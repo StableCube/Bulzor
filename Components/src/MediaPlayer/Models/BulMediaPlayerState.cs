@@ -13,7 +13,7 @@ public class BulMediaPlayerState
     public bool Fullscreen { get; set; }
     public TimeSpan CurrentTime { get; set; }
     public TimeSpan Duration { get; set; }
-    public Dictionary<int, BulMediaProgressItem> BufferProgress { get; set; } = new Dictionary<int, BulMediaProgressItem>();
+    public Dictionary<int, BulMediaProgressItem> BufferProgress { get; set; } = [];
     public bool Seeking { get; set; }
     public bool CanPlay { get; set; }
     public bool CanPlayThrough { get; set; }
@@ -23,4 +23,5 @@ public class BulMediaPlayerState
     public int Width { get; set; }
     public int Height { get; set; }
 
+    public bool ReadyToStartPlaying { get { return CanPlay || CanPlayThrough && Duration > TimeSpan.Zero; } }
 }

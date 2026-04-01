@@ -59,10 +59,12 @@
         </ExampleOptions>
 
         <ExampleResult>
-            <BulVideoPlayer Color="Color" Size="Size" Muted="true" Poster="CurrentlyPlayingPoster" Src="CurrentlyPlayingSrc">
-                @* <BulMediaSource MediaUri="Nature720pMp4Uri" MediaType="video/mp4" />
-                <BulMediaSource MediaUri="Nature360pMp4Uri" MediaType="video/mp4" /> *@
-            </BulVideoPlayer>
+            <BulVideoPlayer Autoplay="@RendererInfo.IsInteractive"
+                Color="Color" 
+                Size="Size" 
+                Muted="true" 
+                Poster="CurrentlyPlayingPoster" 
+                Src="CurrentlyPlayingSrc" />
         </ExampleResult>
     </ExampleBox>
 </DocumentationRoot>

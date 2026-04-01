@@ -5,78 +5,91 @@ using Microsoft.JSInterop;
 
 namespace StableCube.Bulzor.Components.MediaPlayer;
 
-public class MediaPlayerCommands
+public class MediaPlayerCommands : IAsyncDisposable
 {
-    private IJSObjectReference MediaPlayerJsInterop { get; set; }
+    private IJSObjectReference CommandsInterop { get; set; }
 
-    public MediaPlayerCommands(IJSObjectReference interop)
+    public MediaPlayerCommands()
     {
-        MediaPlayerJsInterop = interop;
     }
 
-    public async Task PlayAsync(string elementId, CancellationToken cancellationToken = default)
+    public async ValueTask DisposeAsync()
     {
-        await MediaPlayerJsInterop.InvokeVoidAsync(
-            "BulMediaPlayerPlay",
-            cancellationToken,
-            elementId
+        if (CommandsInterop != null)
+        {
+            try
+            {
+                await CommandsInterop.DisposeAsync();
+            }
+            catch (JSDisconnectedException)
+            {
+            }
+        }
+
+        GC.SuppressFinalize(this);
+    }
+
+    public async Task InitInteropAsync(IJSObjectReference interrop, string instanceId)
+    {
+        CommandsInterop = await interrop.InvokeConstructorAsync("BulMediaPlayerCommands", instanceId);
+    }
+
+    public async Task PlayAsync(CancellationToken cancellationToken = default)
+    {
+        await CommandsInterop.InvokeVoidAsync(
+            "Play",
+            cancellationToken
         );
     }
 
-    public async Task PauseAsync(string elementId, CancellationToken cancellationToken = default)
+    public async Task PauseAsync(CancellationToken cancellationToken = default)
     {
-        await MediaPlayerJsInterop.InvokeVoidAsync(
-            "BulMediaPlayerPause",
-            cancellationToken,
-            elementId
+        await CommandsInterop.InvokeVoidAsync(
+            "Pause",
+            cancellationToken
         );
     }
 
-    public async Task FullscreenToggleAsync(string elementId, CancellationToken cancellationToken = default)
+    public async Task FullscreenToggleAsync(CancellationToken cancellationToken = default)
     {
-        await MediaPlayerJsInterop.InvokeVoidAsync(
-            "BulMediaPlayerFullscreenToggle",
-            cancellationToken,
-            elementId
+        await CommandsInterop.InvokeVoidAsync(
+            "FullscreenToggle",
+            cancellationToken
         );
     }
 
-    public async Task SetMuteAsync(string elementId, bool value, CancellationToken cancellationToken = default)
+    public async Task SetMuteAsync(bool value, CancellationToken cancellationToken = default)
     {
-        await MediaPlayerJsInterop.InvokeVoidAsync(
-            "BulMediaPlayerSetMuted",
+        await CommandsInterop.InvokeVoidAsync(
+            "SetMuted",
             cancellationToken,
-            elementId,
             value
         );
     }
 
-    public async Task SetVolumeAsync(string elementId, double volume, CancellationToken cancellationToken = default)
+    public async Task SetVolumeAsync(double volume, CancellationToken cancellationToken = default)
     {
-        await MediaPlayerJsInterop.InvokeVoidAsync(
-            "BulMediaPlayerSetVolume",
+        await CommandsInterop.InvokeVoidAsync(
+            "SetVolume",
             cancellationToken,
-            elementId,
             volume
         );
     }
 
-    public async Task SetTimeAsync(string elementId, TimeSpan value, CancellationToken cancellationToken = default)
+    public async Task SetTimeAsync(TimeSpan value, CancellationToken cancellationToken = default)
     {
-        await MediaPlayerJsInterop.InvokeVoidAsync(
-            "BulMediaPlayerSetCurrentTime",
+        await CommandsInterop.InvokeVoidAsync(
+            "SetCurrentTime",
             cancellationToken,
-            elementId,
             value.TotalSeconds
         );
     }
 
-    public async Task SetPlaybackRateAsync(string elementId, double value, CancellationToken cancellationToken = default)
+    public async Task SetPlaybackRateAsync(double value, CancellationToken cancellationToken = default)
     {
-        await MediaPlayerJsInterop.InvokeVoidAsync(
-            "BulMediaPlayerSetPlaybackRate",
+        await CommandsInterop.InvokeVoidAsync(
+            "SetPlaybackRate",
             cancellationToken,
-            elementId,
             value
         );
     }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using System.Text.RegularExpressions;
 using System.Text.Json;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components;
@@ -96,7 +95,7 @@ public abstract class BulMediaPlayerBase : BulComponentBase, IDisposable, IAsync
 
     public BulMediaPlayerState PlayerState { get; set; } = new BulMediaPlayerState();
 
-    protected string ElementId { get; } = Guid.NewGuid().ToString();
+    protected string InstanceId { get; } = "p" + Guid.NewGuid().ToString().Split('-')[0];
 
     protected BulmaClassBuilder MediaPlayerClassBuilder { get; set; } = new BulmaClassBuilder("bul-media-player image");
     protected BulmaClassBuilder MediaRootClassBuilder { get; set; } = new BulmaClassBuilder("bul-media-player-media-root");
@@ -110,6 +109,10 @@ public abstract class BulMediaPlayerBase : BulComponentBase, IDisposable, IAsync
 
         PlayerState.Loop = Loop;
         PlayerState.Autoplay = Autoplay;
+
+        Commands = new MediaPlayerCommands();
+
+        BuildBulma();
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -119,14 +122,14 @@ public abstract class BulMediaPlayerBase : BulComponentBase, IDisposable, IAsync
 
         MediaPlayerJsInterop = await JSRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/StableCube.Bulzor.Components/js/bulMediaPlayer.js");
         JsRef = DotNetObjectReference.Create(this);
-        MediaPlayerJsListener = await MediaPlayerJsInterop.InvokeConstructorAsync("BulMediaPlayerEventListener", ElementId.ToString(), JsRef);
-
-        Commands = new MediaPlayerCommands(MediaPlayerJsInterop);
+        MediaPlayerJsListener = await MediaPlayerJsInterop.InvokeConstructorAsync("BulMediaPlayerEventListener", InstanceId, JsRef);
+        
+        await Commands.InitInteropAsync(MediaPlayerJsInterop, InstanceId);
 
         if(Muted != PlayerState.Muted)
         {
             PlayerState.Muted = Muted;
-            await Commands.SetMuteAsync(ElementId, PlayerState.Muted);
+            await Commands.SetMuteAsync(PlayerState.Muted);
         }
 
         await InvokeAsync(StateHasChanged);
@@ -136,7 +139,7 @@ public abstract class BulMediaPlayerBase : BulComponentBase, IDisposable, IAsync
     {
         JsRef?.Dispose();
 
-        //GC.SuppressFinalize(this);
+        GC.SuppressFinalize(this);
     }
 
     async ValueTask IAsyncDisposable.DisposeAsync()
@@ -163,7 +166,9 @@ public abstract class BulMediaPlayerBase : BulComponentBase, IDisposable, IAsync
             }
         }
 
-        //GC.SuppressFinalize(this);
+        await Commands.DisposeAsync();
+
+        GC.SuppressFinalize(this);
     }
 
     protected override void OnParametersSet()
@@ -181,12 +186,11 @@ public abstract class BulMediaPlayerBase : BulComponentBase, IDisposable, IAsync
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         builder.OpenElement(0, "div");
-        builder.AddAttribute(1, "id", ElementId);
-        builder.AddAttribute(2, "class", MediaPlayerClassBuilder.ClassString);
-        builder.AddContent(3, (builder2) =>
+        builder.AddAttribute(1, "class", MediaPlayerClassBuilder.ClassString);
+        builder.AddContent(2, (builder2) =>
         {
-            BuildMediaTag(builder2, 4);
-            BuildControls(builder2, 5);
+            BuildMediaTag(builder2, 3);
+            BuildControls(builder2, 4);
         });
 
         builder.CloseElement();
@@ -210,6 +214,22 @@ public abstract class BulMediaPlayerBase : BulComponentBase, IDisposable, IAsync
         builder.AddAttribute(10, "OnPlaybackRateChange", EventCallback.Factory.Create<double>(this, PlaybackRateChangeHandlerAsync));
         builder.CloseComponent();
         builder.CloseRegion();
+    }
+
+    [JSInvokable]
+    public async Task OnCurrentlyPlayingHandler(string json)
+    {
+        var eventObj = JsonSerializer.Deserialize<BulMediaCanPlayEvent>(json);
+        PlayerState.CurrentSrc = new Uri(eventObj.CurrentSrc);
+        PlayerState.Width = eventObj.Width;
+        PlayerState.Height = eventObj.Height;
+        PlayerState.Duration = TimeSpan.FromSeconds(eventObj.Duration);
+        PlayerState.CanPlay = true;
+        PlayerState.Seeking = false;
+        PlayerState.PlayState = BulMediaPlayState.Playing;
+
+        await OnCanPlay.InvokeAsync(PlayerState);
+        await InvokeAsync(StateHasChanged);
     }
 
     [JSInvokable]
@@ -333,9 +353,13 @@ public abstract class BulMediaPlayerBase : BulComponentBase, IDisposable, IAsync
     }
 
     [JSInvokable]
-    public async Task OnCanPlayThroughEventHandler(string currentSrc)
+    public async Task OnCanPlayThroughEventHandler(string json)
     {
-        PlayerState.CurrentSrc = new Uri(currentSrc);
+        var eventObj = JsonSerializer.Deserialize<BulMediaCanPlayEvent>(json);
+        PlayerState.CurrentSrc = new Uri(eventObj.CurrentSrc);
+        PlayerState.Width = eventObj.Width;
+        PlayerState.Height = eventObj.Height;
+        PlayerState.Duration = TimeSpan.FromSeconds(eventObj.Duration);
         PlayerState.CanPlayThrough = true;
 
         await OnCanPlayThrough.InvokeAsync(PlayerState);
@@ -385,11 +409,11 @@ public abstract class BulMediaPlayerBase : BulComponentBase, IDisposable, IAsync
         
         if(PlayerState.PlayState == BulMediaPlayState.Playing)
         {
-            await Commands.PauseAsync(ElementId);
+            await Commands.PauseAsync();
         }
         else if(PlayerState.PlayState == BulMediaPlayState.Paused || PlayerState.PlayState == BulMediaPlayState.Stopped)
         {
-            await Commands.PlayAsync(ElementId);
+            await Commands.PlayAsync();
         }
     }
 
@@ -398,7 +422,7 @@ public abstract class BulMediaPlayerBase : BulComponentBase, IDisposable, IAsync
         if(!RendererInfo.IsInteractive || Commands == null)
             return;
 
-        await Commands.FullscreenToggleAsync(ElementId);
+        await Commands.FullscreenToggleAsync();
     }
 
     private async Task MuteClickHandlerAsync(MouseEventArgs args)
@@ -406,7 +430,7 @@ public abstract class BulMediaPlayerBase : BulComponentBase, IDisposable, IAsync
         if(!RendererInfo.IsInteractive || Commands == null)
             return;
         
-        await Commands.SetMuteAsync(ElementId, !PlayerState.Muted);
+        await Commands.SetMuteAsync(!PlayerState.Muted);
     }
 
     private async Task VolumeChangeHandlerAsync(double volume)
@@ -414,7 +438,7 @@ public abstract class BulMediaPlayerBase : BulComponentBase, IDisposable, IAsync
         if(!RendererInfo.IsInteractive || Commands == null)
             return;
 
-        await Commands.SetVolumeAsync(ElementId, volume);
+        await Commands.SetVolumeAsync(volume);
     }
 
     private async Task ScrubberTimeChangeHandlerAsync(TimeSpan value)
@@ -422,7 +446,7 @@ public abstract class BulMediaPlayerBase : BulComponentBase, IDisposable, IAsync
         if(!RendererInfo.IsInteractive || Commands == null)
             return;
 
-        await Commands.SetTimeAsync(ElementId, value);
+        await Commands.SetTimeAsync(value);
     }
 
     private void OnLoopClickHandler(MouseEventArgs args)
@@ -435,6 +459,6 @@ public abstract class BulMediaPlayerBase : BulComponentBase, IDisposable, IAsync
         if(!RendererInfo.IsInteractive || Commands == null)
             return;
 
-        await Commands.SetPlaybackRateAsync(ElementId, value);
+        await Commands.SetPlaybackRateAsync(value);
     }
 }

@@ -12,14 +12,15 @@ public class BulAudioPlayer : BulMediaPlayerBase
         builder.OpenElement(0, "audio");
         builder.AddMultipleAttributes(1, CombinedAdditionalAttributes);
         builder.AddAttribute(2, "src", Src);
-        builder.AddAttribute(3, "loop", PlayerState.Loop);
-        builder.AddAttribute(4, "autoplay", PlayerState.Autoplay);
-        builder.AddAttribute(5, "muted", PlayerState.Muted);
+        builder.AddAttribute(3, "data-player-id", InstanceId);
+        builder.AddAttribute(4, "loop", PlayerState.Loop);
+        builder.AddAttribute(5, "autoplay", PlayerState.Autoplay);
+        builder.AddAttribute(6, "muted", PlayerState.Muted);
 
         if(Preload.HasValue)
-            builder.AddAttribute(6, "preload", Preload.Value.ToString().ToLower());
+            builder.AddAttribute(7, "preload", Preload.Value.ToString().ToLower());
 
-        builder.AddContent(7, ChildContent);
+        builder.AddContent(8, ChildContent);
         builder.CloseElement();
         builder.CloseRegion();
     }

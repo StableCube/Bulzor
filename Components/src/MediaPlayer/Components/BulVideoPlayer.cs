@@ -18,18 +18,19 @@ public class BulVideoPlayer : BulMediaPlayerBase
         builder.OpenElement(0, "video");
         builder.AddMultipleAttributes(1, CombinedAdditionalAttributes);
         builder.AddAttribute(2, "src", Src);
+        builder.AddAttribute(3, "data-player-id", InstanceId);
 
         if(Poster != null)
-            builder.AddAttribute(3, "poster", Poster);
+            builder.AddAttribute(4, "poster", Poster);
 
-        builder.AddAttribute(4, "loop", PlayerState.Loop);
-        builder.AddAttribute(5, "autoplay", PlayerState.Autoplay);
-        builder.AddAttribute(6, "muted", PlayerState.Muted);
+        builder.AddAttribute(5, "loop", PlayerState.Loop);
+        builder.AddAttribute(6, "autoplay", PlayerState.Autoplay);
+        builder.AddAttribute(7, "muted", PlayerState.Muted);
 
         if(Preload.HasValue)
-            builder.AddAttribute(7, "preload", Preload.Value.ToString().ToLower());
+            builder.AddAttribute(8, "preload", Preload.Value.ToString().ToLower());
 
-        builder.AddContent(8, ChildContent);
+        builder.AddContent(9, ChildContent);
         builder.CloseElement();
         builder.CloseRegion();
     }

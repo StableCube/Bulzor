@@ -1,96 +1,120 @@
 export class BulMediaPlayerEventListener {
+    canPlaySent = false;
+
     constructor(elementId, dotnetInstance) {
-        this.rootElm = document.getElementById(elementId);
-        this.mediaElm = this.rootElm.getElementsByClassName('bul-media-player-media-root')[0];
+        this.mediaElm = document.querySelector(`[data-player-id="${elementId}"]`);
         this.inst = dotnetInstance;
 
-        this.mediaElm.addEventListener("play", () => {
-            this.OnPlayEventHandler();
+        // For some reason particularly Firefox will play before any event is fired so we need to check if it 
+        // is playing and setup the player with initial values.
+        if(this.mediaElm.paused === false && this.canPlaySent === false) {
+            this.OnCurrentlyPlayingHandler(null);
+        }
+
+        this.mediaElm.addEventListener("play", (e) => {
+            this.OnPlayEventHandler(e);
         });
 
-        this.mediaElm.addEventListener("playing", () => {
-            this.OnPlayingEventHandler();
+        this.mediaElm.addEventListener("playing", (e) => {
+            this.OnPlayingEventHandler(e);
         });
 
-        this.mediaElm.addEventListener("pause", () => {
-            this.OnPauseEventHandler();
+        this.mediaElm.addEventListener("pause", (e) => {
+            this.OnPauseEventHandler(e);
         });
 
-        this.mediaElm.addEventListener("volumechange", () => {
-            this.OnVolumeChangeEventHandler();
+        this.mediaElm.addEventListener("volumechange", (e) => {
+            this.OnVolumeChangeEventHandler(e);
         });
 
-        this.mediaElm.addEventListener("fullscreenchange", () => {
-            this.OnFullscreenChangeEventHandler();
+        this.mediaElm.addEventListener("fullscreenchange", (e) => {
+            this.OnFullscreenChangeEventHandler(e);
         });
 
-        this.mediaElm.addEventListener("ended", () => {
-            this.OnEndedEventHandler();
+        this.mediaElm.addEventListener("ended", (e) => {
+            this.OnEndedEventHandler(e);
         });
 
-        this.mediaElm.addEventListener("durationchange", () => {
-            this.OnDurationChangeEventHandler();
+        this.mediaElm.addEventListener("durationchange", (e) => {
+            this.OnDurationChangeEventHandler(e);
         });
 
-        this.mediaElm.addEventListener("progress", () => {
-            this.OnProgressEventHandler();
+        this.mediaElm.addEventListener("progress", (e) => {
+            this.OnProgressEventHandler(e);
         });
 
-        this.mediaElm.addEventListener("timeupdate", () => {
-            this.OnTimeUpdateEventHandler();
+        this.mediaElm.addEventListener("timeupdate", (e) => {
+            this.OnTimeUpdateEventHandler(e);
         });
 
-        this.mediaElm.addEventListener("seeking", () => {
-            this.OnSeekingEventHandler();
+        this.mediaElm.addEventListener("seeking", (e) => {
+            this.OnSeekingEventHandler(e);
         });
 
-        this.mediaElm.addEventListener("seeked", () => {
-            this.OnSeekedEventHandler();
+        this.mediaElm.addEventListener("seeked", (e) => {
+            this.OnSeekedEventHandler(e);
         });
 
-        this.mediaElm.addEventListener("canplay", () => {
-            this.OnCanPlayEventHandler();
+        this.mediaElm.addEventListener("canplay", (e) => {
+            this.OnCanPlayEventHandler(e);
+            this.canPlaySent = true;
         });
 
-        this.mediaElm.addEventListener("canplaythrough", () => {
-            this.OnCanPlayThroughEventHandler();
+        this.mediaElm.addEventListener("canplaythrough", (e) => {
+            this.OnCanPlayThroughEventHandler(e);
         });
 
-        this.mediaElm.addEventListener("ratechange", () => {
-            this.OnRateChangeEventHandler();
+        this.mediaElm.addEventListener("ratechange", (e) => {
+            this.OnRateChangeEventHandler(e);
         });
 
-        this.mediaElm.addEventListener("abort", () => {
-            this.OnAbortEventHandler();
+        this.mediaElm.addEventListener("abort", (e) => {
+            this.OnAbortEventHandler(e);
         });
 
-        this.mediaElm.addEventListener("emptied", () => {
-            this.OnEmptiedEventHandler();
+        this.mediaElm.addEventListener("emptied", (e) => {
+            this.OnEmptiedEventHandler(e);
         });
 
-        this.mediaElm.addEventListener("error", () => {
-            this.OnErrorEventHandler();
+        this.mediaElm.addEventListener("error", (e) => {
+            this.OnErrorEventHandler(e);
         });
     }
 
-    OnPlayEventHandler()
+    OnCurrentlyPlayingHandler() {
+        let result = { 
+            "CurrentSrc": this.mediaElm.currentSrc, 
+            "Width": this.mediaElm.videoWidth, 
+            "Height": this.mediaElm.videoHeight, 
+            "Duration": this.mediaElm.duration 
+        };
+
+        this.inst.invokeMethodAsync('OnCurrentlyPlayingHandler', JSON.stringify(result));
+    };
+
+    OnPlayEventHandler(e)
     {
         this.inst.invokeMethodAsync('OnPlayEventHandler', this.mediaElm.currentSrc);
     }
 
-    OnPlayingEventHandler() {
+    OnPlayingEventHandler(e) {
         this.inst.invokeMethodAsync('OnPlayingEventHandler', this.mediaElm.currentSrc);
     };
 
-    OnPauseEventHandler() {
+    OnPauseEventHandler(e) {
         this.inst.invokeMethodAsync('OnPauseEventHandler', this.mediaElm.currentSrc);
     };
 
-    OnVolumeChangeEventHandler() {
-        this.inst.invokeMethodAsync('OnVolumeChangeEventHandler', `{ "Volume": ${this.mediaElm.volume}, "Muted": ${this.mediaElm.muted} }`);
+    OnVolumeChangeEventHandler(e) {
+        let result = { 
+            "Volume": this.mediaElm.volume, 
+            "Muted": this.mediaElm.muted
+        };
+
+        this.inst.invokeMethodAsync('OnVolumeChangeEventHandler', JSON.stringify(result));
     };
     
-    OnFullscreenChangeEventHandler() {
+    OnFullscreenChangeEventHandler(e) {
         var isFullscreen = (document.fullscreenElement != null);
         if (
             document.fullscreenElement || /* Standard syntax */
@@ -103,15 +127,15 @@ export class BulMediaPlayerEventListener {
         this.inst.invokeMethodAsync('OnFullscreenChangeEventHandler', isFullscreen);
     };
 
-    OnEndedEventHandler() {
+    OnEndedEventHandler(e) {
         this.inst.invokeMethodAsync('OnEndedEventHandler', this.mediaElm.currentSrc);
     };
 
-    OnDurationChangeEventHandler() {
+    OnDurationChangeEventHandler(e) {
         this.inst.invokeMethodAsync('OnDurationChangeEventHandler', this.mediaElm.duration);
     };
 
-    OnProgressEventHandler() {
+    OnProgressEventHandler(e) {
         let progress = { "Progress": {} };
         
         for (let index = 0; index < this.mediaElm.buffered.length; index++) {
@@ -127,31 +151,45 @@ export class BulMediaPlayerEventListener {
         this.inst.invokeMethodAsync('OnProgressEventHandler', JSON.stringify(progress));
     };
 
-    OnTimeUpdateEventHandler() {
+    OnTimeUpdateEventHandler(e) {
         this.inst.invokeMethodAsync('OnTimeUpdateEventHandler', this.mediaElm.currentTime);
     };
 
-    OnSeekingEventHandler() {
+    OnSeekingEventHandler(e) {
         this.inst.invokeMethodAsync('OnSeekingEventHandler', null);
     };
 
-    OnSeekedEventHandler() {
+    OnSeekedEventHandler(e) {
         this.inst.invokeMethodAsync('OnSeekedEventHandler', null);
     };
 
-    OnCanPlayEventHandler() {
-        this.inst.invokeMethodAsync('OnCanPlayEventHandler', `{ "CurrentSrc": "${this.mediaElm.currentSrc}", "Width": ${this.mediaElm.videoWidth}, "Height": ${this.mediaElm.videoHeight}, "Duration": ${this.mediaElm.duration} }`);
+    OnCanPlayEventHandler(e) {
+        let result = { 
+            "CurrentSrc": this.mediaElm.currentSrc, 
+            "Width": this.mediaElm.videoWidth, 
+            "Height": this.mediaElm.videoHeight, 
+            "Duration": this.mediaElm.duration 
+        };
+
+        this.inst.invokeMethodAsync('OnCanPlayEventHandler', JSON.stringify(result));
     };
 
-    OnCanPlayThroughEventHandler() {
-        this.inst.invokeMethodAsync('OnCanPlayThroughEventHandler', this.mediaElm.currentSrc);
+    OnCanPlayThroughEventHandler(e) {
+        let result = { 
+            "CurrentSrc": this.mediaElm.currentSrc, 
+            "Width": this.mediaElm.videoWidth, 
+            "Height": this.mediaElm.videoHeight, 
+            "Duration": this.mediaElm.duration 
+        };
+
+        this.inst.invokeMethodAsync('OnCanPlayThroughEventHandler', JSON.stringify(result));
     };
 
-    OnRateChangeEventHandler() {
+    OnRateChangeEventHandler(e) {
         this.inst.invokeMethodAsync('OnRateChangeEventHandler', this.mediaElm.playbackRate);
     };
 
-    OnAbortEventHandler() {
+    OnAbortEventHandler(e) {
         this.inst.invokeMethodAsync('OnAbortEventHandler', this.mediaElm.currentSrc);
     };
 
@@ -159,71 +197,72 @@ export class BulMediaPlayerEventListener {
         this.inst.invokeMethodAsync('OnEmptiedEventHandler', null);
     };
 
-    OnErrorEventHandler() {
+    OnErrorEventHandler(e) {
         this.inst.invokeMethodAsync('OnErrorEventHandler', this.mediaElm.currentSrc);
     };
 }
 
-export function BulMediaPlayerPlay (elementId) {
-    const el = document.getElementById(elementId).getElementsByClassName('bul-media-player-media-root')[0];
-    el.play();
-};
-
-export function BulMediaPlayerPause (elementId) {
-    const el = document.getElementById(elementId).getElementsByClassName('bul-media-player-media-root')[0];
-    el.pause();
-};
-
-export function BulMediaPlayerSetVolume (elementId, volume) {
-    const el = document.getElementById(elementId).getElementsByClassName('bul-media-player-media-root')[0];
-    el.volume = volume;
-};
-
-export function BulMediaPlayerSetMuted (elementId, value) {
-    const el = document.getElementById(elementId).getElementsByClassName('bul-media-player-media-root')[0];
-    el.muted = value;
-};
-
-export function BulMediaPlayerFullscreenToggle (elementId) {
-    const el = document.getElementById(elementId);
-    var isFullscreen = (document.fullscreenElement != null);
-    if (
-        document.fullscreenElement || /* Standard syntax */
-        document.webkitFullscreenElement || /* Safari and Opera syntax */
-        document.msFullscreenElement /* IE11 syntax */
-    ) {
-        isFullscreen = true;
+export class BulMediaPlayerCommands {
+    constructor(elementId) {
+        this.mediaElm = document.querySelector(`[data-player-id="${elementId}"]`);
     }
 
-    if (isFullscreen) {
-        if (document.exitFullscreen) {
-            document.exitFullscreen();
-        } else if (document.webkitExitFullscreen) { /* Safari */
-            document.webkitExitFullscreen();
-        } else if (document.msExitFullscreen) { /* IE11 */
-            document.msExitFullscreen();
-        } else if (document.mozExitFullscreen) {
-            document.mozExitFullscreen();
-        }
-    } else {
-        if (el.requestFullscreen) {
-            el.requestFullscreen();
-        } else if (el.webkitRequestFullscreen) { /* Safari */
-            el.webkitRequestFullscreen();
-        } else if (el.msRequestFullscreen) { /* IE11 */
-            el.msRequestFullscreen();
-        } else if (el.mozRequestFullScreen) {
-            el.mozRequestFullScreen();
-        }
-    }
-};
+    Play () {
+        this.mediaElm.play();
+    };
 
-export function BulMediaPlayerSetCurrentTime (elementId, time) {
-    const el = document.getElementById(elementId).getElementsByClassName('bul-media-player-media-root')[0];
-    el.currentTime = time;
-};
+    Pause () {
+        this.mediaElm.pause();
+    };
 
-export function BulMediaPlayerSetPlaybackRate (elementId, value) {
-    const el = document.getElementById(elementId).getElementsByClassName('bul-media-player-media-root')[0];
-    el.playbackRate = value;
-};
+    SetVolume (volume) {
+        this.mediaElm.volume = volume;
+    };
+
+    SetMuted (value) {
+        this.mediaElm.muted = value;
+    };
+
+    FullscreenToggle () {
+        const el = this.mediaElm.parentElement;
+
+        var isFullscreen = (document.fullscreenElement != null);
+        if (
+            document.fullscreenElement || /* Standard syntax */
+            document.webkitFullscreenElement || /* Safari and Opera syntax */
+            document.msFullscreenElement /* IE11 syntax */
+        ) {
+            isFullscreen = true;
+        }
+
+        if (isFullscreen) {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.webkitExitFullscreen) { /* Safari */
+                document.webkitExitFullscreen();
+            } else if (document.msExitFullscreen) { /* IE11 */
+                document.msExitFullscreen();
+            } else if (document.mozExitFullscreen) {
+                document.mozExitFullscreen();
+            }
+        } else {
+            if (el.requestFullscreen) {
+                el.requestFullscreen();
+            } else if (el.webkitRequestFullscreen) { /* Safari */
+                el.webkitRequestFullscreen();
+            } else if (el.msRequestFullscreen) { /* IE11 */
+                el.msRequestFullscreen();
+            } else if (el.mozRequestFullScreen) {
+                el.mozRequestFullScreen();
+            }
+        }
+    };
+
+    SetCurrentTime (time) {
+        this.mediaElm.currentTime = time;
+    };
+
+    SetPlaybackRate (value) {
+        this.mediaElm.playbackRate = value;
+    };
+}

@@ -21,6 +21,8 @@ $media-player-normal-size: cv.getVar("size-5") !default;
 $media-player-medium-size: cv.getVar("size-4") !default;
 $media-player-large-size: cv.getVar("size-3") !default;
 
+$media-player-additional-controls-size: cv.getVar("size-6") !default;
+
 .#{iv.$class-prefix}bul-media-player {
   @include cv.register-vars(
     (
@@ -37,6 +39,7 @@ $media-player-large-size: cv.getVar("size-3") !default;
       "media-player-normal-size": #{$media-player-normal-size},
       "media-player-medium-size": #{$media-player-medium-size},
       "media-player-large-size": #{$media-player-large-size},
+      "media-player-additional-controls-size": #{$media-player-additional-controls-size},
     )
   );
 }
@@ -134,36 +137,30 @@ $media-player-large-size: cv.getVar("size-3") !default;
   }
 }
 
-.#{iv.$class-prefix}bul-media-player-input .slider {
-  margin: 0 !important;
-  z-index: 10;
-}
-
-.#{iv.$class-prefix}bul-media-player-scrubber .slider {
-  width: 100%;
+.#{iv.$class-prefix}bul-media-player-scrubber > .slider {
+  width: 100% !important;
+  height: 100% !important;
   position: absolute;
   left: 0;
   opacity: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  z-index: 10;
 
-  $track-height: cv.getVar("media-player-normal-size");
-  &.is-small {
-    $track-height: cv.getVar("media-player-small-size");
-  }
-  &.is-medium {
-    $track-height: cv.getVar("media-player-medium-size");
-  }
-  &.is-large {
-    $track-height: cv.getVar("media-player-large-size");
+  &.is-fullwidth {
+    margin: 0 !important;
+    padding: 0 !important;
+    height: 100% !important;
   }
 
   &::-webkit-slider-runnable-track {
-    height: $track-height
+    height: 100% !important;
   }
   &::-moz-range-track {
-    height: $track-height
+    height: 100% !important;
   }
   &::-ms-track {
-    height: $track-height
+    height: 100% !important;
   }
 }
 
@@ -257,14 +254,21 @@ $media-player-large-size: cv.getVar("size-3") !default;
   width: 6rem;
 }
 
+.#{iv.$class-prefix}bul-media-additional-controls .menu-label {
+  color: cv.getVar("media-player-text-color-dark");
+  font-size: cv.getVar("media-player-additional-controls-size") !important;
+}
+
 .#{iv.$class-prefix}bul-media-additional-controls .menu-label a {
   width: 100%;
-  color: cv.getVar("media-player-text-color");
+  color: cv.getVar("media-player-text-color-dark");
   display: inline-block;
+  font-size: cv.getVar("media-player-additional-controls-size") !important;
 }
 
 .#{iv.$class-prefix}bul-media-additional-controls ul {
   list-style: none !important;
+  font-size: cv.getVar("media-player-additional-controls-size") !important;
 }
 
 .#{iv.$class-prefix}bul-play-stopped-centered {
