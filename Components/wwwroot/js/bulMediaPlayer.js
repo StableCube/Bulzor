@@ -5,11 +5,17 @@ export class BulMediaPlayerEventListener {
         this.mediaElm = document.querySelector(`[data-player-id="${elementId}"]`);
         this.inst = dotnetInstance;
 
-        // For some reason particularly Firefox will play before any event is fired so we need to check if it 
-        // is playing and setup the player with initial values.
+        // For some reason particularly Firefox will not send the initial canPlay event.
+        // So check for the equivalent readyState and send the canPlay event if ready
+        if (this.mediaElm.readyState >= this.mediaElm.HAVE_FUTURE_DATA && this.canPlaySent === false) {
+            this.OnCanPlayEventHandler(null);
+        }
+
         if(this.mediaElm.paused === false && this.canPlaySent === false) {
             this.OnCurrentlyPlayingHandler(null);
         }
+
+        console.log(this.mediaElm);
 
         this.mediaElm.addEventListener("play", (e) => {
             this.OnPlayEventHandler(e);
