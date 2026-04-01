@@ -15,8 +15,6 @@ export class BulMediaPlayerEventListener {
             this.OnCurrentlyPlayingHandler(null);
         }
 
-        console.log(this.mediaElm);
-
         this.mediaElm.addEventListener("play", (e) => {
             this.OnPlayEventHandler(e);
         });
