@@ -17,6 +17,6 @@
 
   <!-- Project Packages -->
   <ItemGroup>
-    <PackageVersion Include="StableCube.Bulzor.Components" Version="10.0.4" />
+    <PackageVersion Include="StableCube.Bulzor.Components" Version="10.0.6" />
   </ItemGroup>
 </Project>
