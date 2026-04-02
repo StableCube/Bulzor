@@ -3,7 +3,16 @@ export class BulMediaPlayerEventListener {
 
     constructor(elementId, dotnetInstance) {
         this.mediaElm = document.querySelector(`[data-player-id="${elementId}"]`);
+        if (this.mediaElm === null) {
+            console.error(`Could not find media element: [data-player-id="${elementId}"]`);
+            return;
+        }
+
         this.inst = dotnetInstance;
+        if (this.inst === null) {
+            console.error('CS insatance not defined');
+            return;
+        }
 
         // For some reason particularly Firefox will not send the initial canPlay event.
         // So check for the equivalent readyState and send the canPlay event if ready
