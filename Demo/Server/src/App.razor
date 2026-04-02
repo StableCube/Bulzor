@@ -6,27 +6,21 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <HeadOutlet @rendermode="InteractiveAuto" />
     <base href="/" />
+    <ResourcePreloader />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" rel="stylesheet"  type='text/css'>
-    <link href="css/base.css" rel="stylesheet" type="text/css"/>
-    <link href="StableCube.Bulzor.Demo.Client.styles.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="@Assets["css/base.css"]"/>
+    <link rel="stylesheet" href="@Assets["StableCube.Bulzor.Demo.Client.styles.css"]" />
+    <ImportMap />
+    <HeadOutlet @rendermode="InteractiveAuto" />
 </head>
 
 <body>
-    <div id="app">
-        <Routes @rendermode="InteractiveAuto" />
-    </div>
+    <Routes @rendermode="InteractiveAuto" />
 
-    <div id="blazor-error-ui">
-        An unhandled error has occurred.
-        <a href="" class="reload">Reload</a>
-        <a class="dismiss">X</a>
-    </div>
-    
-    <script async defer src="js/clientinterop.js"></script>
-    <script src="_framework/blazor.web.js"></script>
-
+    <ReconnectModal />
+    <script src="@Assets["js/clientinterop.js"]"></script>
+    <script src="@Assets["_framework/blazor.web.js"]"></script>
 </body>
 
 </html>
