@@ -1,7 +1,7 @@
 ﻿
 namespace StableCube.Bulzor.Components.MediaPlayer;
 
-public class BulMediaProgressEventItem
+public class BulMediaProgressItemJsData
 {
     public int Index { get; set; }
     public double Start { get; set; }

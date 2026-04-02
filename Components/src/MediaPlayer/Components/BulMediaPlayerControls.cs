@@ -79,9 +79,9 @@ public class BulMediaPlayerControls : BulComponentBase
     private bool _isRateMenuExpanded;
     private DateTime _pointerLastMoved;
     private TimeSpan _lastCurrentTime = TimeSpan.Zero;
-    private readonly StringBuilder _currentTimeStrBuilder = new StringBuilder();
+    private readonly StringBuilder _currentTimeStrBuilder = new();
     private TimeSpan _lastDuration = TimeSpan.Zero;
-    private readonly StringBuilder _durationStrBuilder = new StringBuilder();
+    private readonly StringBuilder _durationStrBuilder = new();
 
     protected override void OnParametersSet()
     {

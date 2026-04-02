@@ -1,7 +1,7 @@
 ﻿
 namespace StableCube.Bulzor.Components.MediaPlayer;
 
-public class BulMediaCanPlayEvent
+public class BulMediaCanPlayJsData
 {
     public string CurrentSrc { get; set; }
     public int Width { get; set; }

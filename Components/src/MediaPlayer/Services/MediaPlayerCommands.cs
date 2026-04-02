@@ -7,19 +7,35 @@ namespace StableCube.Bulzor.Components.MediaPlayer;
 
 public class MediaPlayerCommands : IAsyncDisposable
 {
-    private IJSObjectReference CommandsInterop { get; set; }
+    private readonly IJSRuntime _jsRuntime;
+    private readonly BulzorConfig _config;
+    private IJSObjectReference _jsModule;
+    private IJSObjectReference _jsClass;
 
-    public MediaPlayerCommands()
+    public MediaPlayerCommands(IJSRuntime jsRuntime, BulzorConfig config)
     {
+        _jsRuntime = jsRuntime;
+        _config = config;
     }
 
     public async ValueTask DisposeAsync()
     {
-        if (CommandsInterop != null)
+        if (_jsClass != null)
         {
             try
             {
-                await CommandsInterop.DisposeAsync();
+                await _jsClass.DisposeAsync();
+            }
+            catch (JSDisconnectedException)
+            {
+            }
+        }
+
+        if (_jsModule != null)
+        {
+            try
+            {
+                await _jsModule.DisposeAsync();
             }
             catch (JSDisconnectedException)
             {
@@ -29,14 +45,15 @@ public class MediaPlayerCommands : IAsyncDisposable
         GC.SuppressFinalize(this);
     }
 
-    public async Task InitInteropAsync(IJSObjectReference interrop, string instanceId)
+    public async Task InitInteropAsync(string instanceId)
     {
-        CommandsInterop = await interrop.InvokeConstructorAsync("BulMediaPlayerCommands", instanceId);
+        _jsModule = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", _config.MediaPlayerJsPath);
+        _jsClass = await _jsModule.InvokeConstructorAsync("BulMediaPlayerCommands", instanceId);
     }
 
     public async Task PlayAsync(CancellationToken cancellationToken = default)
     {
-        await CommandsInterop.InvokeVoidAsync(
+        await _jsClass.InvokeVoidAsync(
             "Play",
             cancellationToken
         );
@@ -44,7 +61,7 @@ public class MediaPlayerCommands : IAsyncDisposable
 
     public async Task PauseAsync(CancellationToken cancellationToken = default)
     {
-        await CommandsInterop.InvokeVoidAsync(
+        await _jsClass.InvokeVoidAsync(
             "Pause",
             cancellationToken
         );
@@ -52,7 +69,7 @@ public class MediaPlayerCommands : IAsyncDisposable
 
     public async Task FullscreenToggleAsync(CancellationToken cancellationToken = default)
     {
-        await CommandsInterop.InvokeVoidAsync(
+        await _jsClass.InvokeVoidAsync(
             "FullscreenToggle",
             cancellationToken
         );
@@ -60,7 +77,7 @@ public class MediaPlayerCommands : IAsyncDisposable
 
     public async Task SetMuteAsync(bool value, CancellationToken cancellationToken = default)
     {
-        await CommandsInterop.InvokeVoidAsync(
+        await _jsClass.InvokeVoidAsync(
             "SetMuted",
             cancellationToken,
             value
@@ -69,7 +86,7 @@ public class MediaPlayerCommands : IAsyncDisposable
 
     public async Task SetVolumeAsync(double volume, CancellationToken cancellationToken = default)
     {
-        await CommandsInterop.InvokeVoidAsync(
+        await _jsClass.InvokeVoidAsync(
             "SetVolume",
             cancellationToken,
             volume
@@ -78,7 +95,7 @@ public class MediaPlayerCommands : IAsyncDisposable
 
     public async Task SetTimeAsync(TimeSpan value, CancellationToken cancellationToken = default)
     {
-        await CommandsInterop.InvokeVoidAsync(
+        await _jsClass.InvokeVoidAsync(
             "SetCurrentTime",
             cancellationToken,
             value.TotalSeconds
@@ -87,7 +104,7 @@ public class MediaPlayerCommands : IAsyncDisposable
 
     public async Task SetPlaybackRateAsync(double value, CancellationToken cancellationToken = default)
     {
-        await CommandsInterop.InvokeVoidAsync(
+        await _jsClass.InvokeVoidAsync(
             "SetPlaybackRate",
             cancellationToken,
             value
