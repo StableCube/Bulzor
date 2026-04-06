@@ -31,19 +31,20 @@ public class BulNavbarBurger : BulComponentBase
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         builder.OpenElement(0, "a");
-        builder.AddAttribute(1, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, OnClick));
+        builder.AddAttribute(1, "onclick", EventCallback.Factory.Create(this, OnClick));
         builder.AddMultipleAttributes(2, CombinedAdditionalAttributes);
 
-        builder.AddContent(3, (RenderFragment)((builder2) => {
+        builder.AddContent(3, (builder2) =>
+        {
             builder2.OpenElement(4, "span");
             builder2.CloseElement();
 
             builder2.OpenElement(5, "span");
             builder2.CloseElement();
-                            
+
             builder2.OpenElement(6, "span");
             builder2.CloseElement();
-        }));
+        });
 
         builder.CloseElement();
     }

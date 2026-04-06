@@ -53,6 +53,9 @@ public class MediaPlayerCommands : IAsyncDisposable
 
     public async Task PlayAsync(CancellationToken cancellationToken = default)
     {
+        if(_jsClass == null)
+            return;
+        
         await _jsClass.InvokeVoidAsync(
             "Play",
             cancellationToken
@@ -61,6 +64,9 @@ public class MediaPlayerCommands : IAsyncDisposable
 
     public async Task PauseAsync(CancellationToken cancellationToken = default)
     {
+        if(_jsClass == null)
+            return;
+        
         await _jsClass.InvokeVoidAsync(
             "Pause",
             cancellationToken
@@ -69,6 +75,9 @@ public class MediaPlayerCommands : IAsyncDisposable
 
     public async Task FullscreenToggleAsync(CancellationToken cancellationToken = default)
     {
+        if(_jsClass == null)
+            return;
+        
         await _jsClass.InvokeVoidAsync(
             "FullscreenToggle",
             cancellationToken
@@ -77,6 +86,9 @@ public class MediaPlayerCommands : IAsyncDisposable
 
     public async Task SetMuteAsync(bool value, CancellationToken cancellationToken = default)
     {
+        if(_jsClass == null)
+            return;
+        
         await _jsClass.InvokeVoidAsync(
             "SetMuted",
             cancellationToken,
@@ -86,6 +98,9 @@ public class MediaPlayerCommands : IAsyncDisposable
 
     public async Task SetVolumeAsync(double volume, CancellationToken cancellationToken = default)
     {
+        if(_jsClass == null)
+            return;
+        
         await _jsClass.InvokeVoidAsync(
             "SetVolume",
             cancellationToken,
@@ -95,6 +110,9 @@ public class MediaPlayerCommands : IAsyncDisposable
 
     public async Task SetTimeAsync(TimeSpan value, CancellationToken cancellationToken = default)
     {
+        if(_jsClass == null)
+            return;
+        
         await _jsClass.InvokeVoidAsync(
             "SetCurrentTime",
             cancellationToken,
@@ -104,6 +122,9 @@ public class MediaPlayerCommands : IAsyncDisposable
 
     public async Task SetPlaybackRateAsync(double value, CancellationToken cancellationToken = default)
     {
+        if(_jsClass == null)
+            return;
+    
         await _jsClass.InvokeVoidAsync(
             "SetPlaybackRate",
             cancellationToken,

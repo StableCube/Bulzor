@@ -22,6 +22,9 @@ public class BulPagination : BulComponentBase
     public bool? Centered { get; set; }
 
     [Parameter]
+    public bool Disabled { get; set; } = false;
+
+    [Parameter]
     public bool? Rounded { get; set; }
 
     [Parameter]
@@ -38,7 +41,7 @@ public class BulPagination : BulComponentBase
 
     protected BulmaClassBuilder NavClassBuilder { get; set; } = new BulmaClassBuilder("pagination");
 
-    readonly List<int> _pages = new List<int>();
+    readonly List<int> _pages = [];
 
     protected override void OnParametersSet()
     {
@@ -74,7 +77,7 @@ public class BulPagination : BulComponentBase
         builder.OpenRegion(index);
         builder.OpenElement(0, "a");
         builder.AddAttribute(1, "class", "pagination-previous");
-        if(CurrentPage <= 1)
+        if(CurrentPage <= 1 || Disabled)
             builder.AddAttribute(2, "disabled");
         
         builder.AddAttribute(3, "onclick", 
@@ -89,7 +92,7 @@ public class BulPagination : BulComponentBase
         builder.OpenRegion(index);
         builder.OpenElement(0, "a");
         builder.AddAttribute(1, "class", "pagination-next");
-        if(CurrentPage >= PageCount)
+        if(CurrentPage >= PageCount || Disabled)
             builder.AddAttribute(2, "disabled");
 
         builder.AddAttribute(3, "onclick", 
@@ -193,7 +196,7 @@ public class BulPagination : BulComponentBase
         builder.AddAttribute(2, "onclick", 
             EventCallback.Factory.Create<MouseEventArgs>(this, async (args) => await PageClickHandlerAsync(args, loopP)));
 
-        builder.AddAttribute(3, "class", "pagination-link" + ((page == CurrentPage) ? " is-current" : String.Empty));
+        builder.AddAttribute(3, "class", "pagination-link" + ((page == CurrentPage) ? " is-current" : string.Empty) + (Disabled ? " is-disabled" : string.Empty));
         builder.AddContent(4, page.ToString());
 
         builder.CloseElement();

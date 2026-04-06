@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using StableCube.Bulzor.Components.Extended;
 
 namespace StableCube.Bulzor.Components.MediaPlayer;
 
@@ -171,11 +172,19 @@ public class BulMediaPlayerControls : BulComponentBase
 
         if(!PlayerState.ReadyToStartPlaying || PlayerState.Seeking)
         {
-            //Maybe put a loading icon here?
+            builder.OpenRegion(7);
+            builder.OpenElement(0, "div");
+            builder.AddAttribute(1, "class", "bul-media-loading-spinner");
+            builder.OpenComponent<BulBusySpinner>(2);
+            builder.AddAttribute(3, "Size", BulSize.Medium);
+            builder.AddAttribute(4, "Color", BulSchemeColor.Light);
+            builder.CloseComponent();
+            builder.CloseElement();
+            builder.CloseRegion();
         }
         else if(PlayerState.PlayState == BulMediaPlayState.Stopped)
         {
-            BuildStoppedCenteredPlayButton(builder, 7);
+            BuildStoppedCenteredPlayButton(builder, 8);
         }
         
         builder.CloseElement();
@@ -187,7 +196,6 @@ public class BulMediaPlayerControls : BulComponentBase
         builder.OpenElement(0, "div");
         builder.AddAttribute(1, "class", "bul-screen-click-trigger");
         builder.AddAttribute(2, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, OnScreenClickHandler));
-        
         builder.CloseElement();
         builder.CloseRegion();
     }
@@ -312,9 +320,10 @@ public class BulMediaPlayerControls : BulComponentBase
         builder.OpenComponent<BulButton>(0);
         builder.AddAttribute(1, "Size", Size);
         builder.AddAttribute(2, "onclick", EventCallback.Factory.Create(this, OnMuteClick));
-        builder.AddAttribute(3, "ChildContent", (RenderFragment)((builder2) => {
-            builder2.OpenComponent<BulIcon>(4);
-            builder2.AddAttribute(5, "Size", Size);
+        builder.AddAttribute(3, "Disabled", !RendererInfo.IsInteractive);
+        builder.AddAttribute(4, "ChildContent", (RenderFragment)((builder2) => {
+            builder2.OpenComponent<BulIcon>(5);
+            builder2.AddAttribute(6, "Size", Size);
 
             string muteClass = IconClassMap["volume-high"];
             if(PlayerState.Muted)
@@ -333,7 +342,7 @@ public class BulMediaPlayerControls : BulComponentBase
                 }
             }
 
-            builder2.AddAttribute(6, "class", muteClass);
+            builder2.AddAttribute(7, "class", muteClass);
             builder2.CloseComponent();
         }));
         builder.CloseComponent();
@@ -358,12 +367,13 @@ public class BulMediaPlayerControls : BulComponentBase
                 builder3.OpenRegion(9);
                 builder3.OpenComponent<BulButton>(0);
                 builder3.AddAttribute(1, "Size", Size);
-                builder3.AddAttribute(2, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, OnAdditionalControlsToggleClickHandler));
-                builder3.AddAttribute(3, "ChildContent", (RenderFragment)((builder4) =>
+                builder3.AddAttribute(2, "Disabled", !RendererInfo.IsInteractive);
+                builder3.AddAttribute(3, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, OnAdditionalControlsToggleClickHandler));
+                builder3.AddAttribute(4, "ChildContent", (RenderFragment)((builder4) =>
                 {
-                    builder4.OpenComponent<BulIcon>(4);
-                    builder4.AddAttribute(5, "Size", Size);
-                    builder4.AddAttribute(6, "class", IconClassMap["additional-controls"]);
+                    builder4.OpenComponent<BulIcon>(5);
+                    builder4.AddAttribute(6, "Size", Size);
+                    builder4.AddAttribute(7, "class", IconClassMap["additional-controls"]);
                     builder4.CloseComponent();
                 }));
                 builder3.CloseComponent();
@@ -417,7 +427,7 @@ public class BulMediaPlayerControls : BulComponentBase
                 builder3.AddAttribute(5, "ChildContent", (RenderFragment)((builder4) => {
                     builder4.OpenElement(6, "a");
                     builder4.AddAttribute(7, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, OnRateMenuToggleClickHandler));
-                    builder4.AddContent(8, String.Format("Speed ({0})", (PlayerState.Rate == 1) ? "Normal" : PlayerState.Rate));
+                    builder4.AddContent(8, string.Format("Speed ({0})", (PlayerState.Rate == 1) ? "Normal" : PlayerState.Rate));
                     builder4.CloseElement();
                 }));
                 builder3.CloseComponent();
@@ -496,16 +506,17 @@ public class BulMediaPlayerControls : BulComponentBase
         builder.OpenRegion(index);
         builder.OpenComponent<BulButton>(0);
         builder.AddAttribute(1, "Size", Size);
-        builder.AddAttribute(2, "onclick", EventCallback.Factory.Create(this, OnFullscreenClick));
-        builder.AddAttribute(3, "ChildContent", (RenderFragment)((builder2) => {
-            builder2.OpenComponent<BulIcon>(4);
-            builder2.AddAttribute(5, "Size", Size);
+        builder.AddAttribute(2, "Disabled", !RendererInfo.IsInteractive);
+        builder.AddAttribute(3, "onclick", EventCallback.Factory.Create(this, OnFullscreenClick));
+        builder.AddAttribute(4, "ChildContent", (RenderFragment)((builder2) => {
+            builder2.OpenComponent<BulIcon>(5);
+            builder2.AddAttribute(6, "Size", Size);
 
             string btnClass = IconClassMap["fullscreen-out"];
             if(!PlayerState.Fullscreen)
                 btnClass = IconClassMap["fullscreen-in"];
 
-            builder2.AddAttribute(6, "class", btnClass);
+            builder2.AddAttribute(7, "class", btnClass);
             builder2.CloseComponent();
         }));
         builder.CloseComponent();
@@ -517,13 +528,17 @@ public class BulMediaPlayerControls : BulComponentBase
         builder.OpenRegion(index);
         builder.OpenElement(0, "input");
         builder.AddAttribute(1, "type", "range");
-        builder.AddAttribute(2, "class", $"bul-player-volume {VolumeClassBuilder.ClassString}");
-        builder.AddAttribute(3, "min", 0);
-        builder.AddAttribute(4, "max", 1);
-        builder.AddAttribute(5, "step", 0.01);
-        builder.AddAttribute(6, "value", PlayerState.Volume);
-        builder.AddAttribute(7, "onchange", EventCallback.Factory.Create<EventArgs>(this, OnVolumeChangeHandler));
-        builder.AddAttribute(8, "oninput", EventCallback.Factory.Create<ChangeEventArgs>(this, OnVolumeInputHandler));
+
+        if(!RendererInfo.IsInteractive)
+            builder.AddAttribute(2, "disabled");
+
+        builder.AddAttribute(3, "class", $"bul-player-volume {VolumeClassBuilder.ClassString}");
+        builder.AddAttribute(4, "min", 0);
+        builder.AddAttribute(5, "max", 1);
+        builder.AddAttribute(6, "step", 0.01);
+        builder.AddAttribute(7, "value", PlayerState.Volume);
+        builder.AddAttribute(8, "onchange", EventCallback.Factory.Create<EventArgs>(this, OnVolumeChangeHandler));
+        builder.AddAttribute(9, "oninput", EventCallback.Factory.Create<ChangeEventArgs>(this, OnVolumeInputHandler));
         builder.CloseElement();
         builder.CloseRegion();
     }

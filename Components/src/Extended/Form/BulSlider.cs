@@ -23,6 +23,9 @@ public class BulSlider<TValue> : InputNumber<TValue>
     public BulSchemeColor? Color { get; set; }
 
     [Parameter]
+    public bool Disabled { get; set; }
+
+    [Parameter]
     public bool FullWidth { get; set; }
 
     [Parameter]
@@ -49,13 +52,16 @@ public class BulSlider<TValue> : InputNumber<TValue>
     {
         builder.OpenElement(0, "input");
         builder.AddMultipleAttributes(1, AdditionalAttributes);
-        builder.AddAttribute(2, "type", "range");
-        builder.AddAttribute(3, "class", InputClassBuilder.ClassString);
-        builder.AddAttribute(4, "min", Min);
-        builder.AddAttribute(5, "max", Max);
-        builder.AddAttribute(6, "step", Step);
-        builder.AddAttribute(7, "value", Value);
-        builder.AddAttribute(8, "oninput", EventCallback.Factory.CreateBinder<string>(
+        if(Disabled)
+            builder.AddAttribute(2, "disabled");
+
+        builder.AddAttribute(3, "type", "range");
+        builder.AddAttribute(4, "class", InputClassBuilder.ClassString);
+        builder.AddAttribute(5, "min", Min);
+        builder.AddAttribute(6, "max", Max);
+        builder.AddAttribute(7, "step", Step);
+        builder.AddAttribute(8, "value", Value);
+        builder.AddAttribute(9, "oninput", EventCallback.Factory.CreateBinder<string>(
             this, 
             __value => CurrentValueAsString = __value, CurrentValueAsString
         ));

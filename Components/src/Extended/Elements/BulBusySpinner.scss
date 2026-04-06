@@ -4,7 +4,7 @@
 
 $busy-spinner-h: cv.getVar("scheme-h");
 $busy-spinner-s: cv.getVar("scheme-s");
-$busy-spinner-l: cv.getVar("scheme-l");
+$busy-spinner-l: cv.getVar("link-l");
 $busy-spinner-size: 2rem !default;
 $busy-spinner-colors: dv.$colors !default;
 
@@ -19,20 +19,6 @@ $busy-spinner-colors: dv.$colors !default;
 }
 
 .#{iv.$class-prefix}busy-spinner {
-  border-radius: 50%;
-  animation: spinAround 2s linear infinite;
-  border: solid transparent;
-  width: $busy-spinner-size;
-  height: $busy-spinner-size;
-  border-left: solid  hsl(
-    #{cv.getVar("busy-spinner-h")},
-    #{cv.getVar("busy-spinner-s")},
-    #{cv.getVar("busy-spinner-l")}
-  );
-  width: $busy-spinner-size;
-  height: $busy-spinner-size;
-  border-width: $busy-spinner-size * 0.1;
-
   // Colors
   @each $name, $components in $busy-spinner-colors {
     &.#{iv.$class-prefix}is-#{$name} {
@@ -40,11 +26,27 @@ $busy-spinner-colors: dv.$colors !default;
         (
           "busy-spinner-h": #{cv.getVar($name, "", "-h")},
           "busy-spinner-s": #{cv.getVar($name, "", "-s")},
-          "busy-spinner-l": #{cv.getVar($name, "", "-on-scheme-l")},
+          "busy-spinner-l": #{cv.getVar($name, "", "-l")},
         )
       );
     }
   }
+}
+
+.#{iv.$class-prefix}busy-spinner {
+  border-radius: 50%;
+  animation: spinAround 2s linear infinite;
+  border: solid transparent;
+  width: $busy-spinner-size;
+  height: $busy-spinner-size;
+  border-left: solid hsl(
+    #{cv.getVar("busy-spinner-h")},
+    #{cv.getVar("busy-spinner-s")},
+    #{cv.getVar("busy-spinner-l")}
+  );
+  width: $busy-spinner-size;
+  height: $busy-spinner-size;
+  border-width: $busy-spinner-size * 0.1;
 
   &.is-small {
     $size: $busy-spinner-size - 1;

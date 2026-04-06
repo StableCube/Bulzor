@@ -19,6 +19,9 @@ public class BulButton : BulComponentBase
     public bool? Active { get; set; }
 
     [Parameter]
+    public bool Disabled { get; set; } = false;
+
+    [Parameter]
     public bool? Focused { get; set; }
 
     [Parameter]
@@ -70,9 +73,12 @@ public class BulButton : BulComponentBase
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         builder.OpenElement(0, "button");
-        builder.AddMultipleAttributes(1, CombinedAdditionalAttributes);
-        builder.AddAttribute(2, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, OnClick));
-        builder.AddContent(3, ChildContent);
+        if(Disabled)
+            builder.AddAttribute(1, "disabled");
+
+        builder.AddMultipleAttributes(2, CombinedAdditionalAttributes);
+        builder.AddAttribute(3, "onclick", EventCallback.Factory.Create(this, OnClick));
+        builder.AddContent(4, ChildContent);
         builder.CloseElement();
     }
 }
