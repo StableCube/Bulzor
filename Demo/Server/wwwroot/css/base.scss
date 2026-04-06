@@ -3,8 +3,8 @@
 @use "../../node_modules/bulma/bulma.scss";
 
 // As with Bulma we can selectivly add Bulzor components but for this demo we add them all
-@use "../../../../Components/src/bulzor.scss";
-// @use "../../node_modules/bulzor/src/bulzor.scss";
+// @use "../../../../Components/src/bulzor.scss";
+@use "../../node_modules/bulzor/src/bulzor.scss";
 
 @use "../../../Client/src/ThemeSass";
 
