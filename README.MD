@@ -20,8 +20,6 @@ This sample project is the source code for the live demo and should give you a g
 
 Install the [Nuget package](https://www.nuget.org/packages/StableCube.Bulzor.Components/) into your project.
 
-Or install the extended [Nuget package](https://www.nuget.org/packages/StableCube.Bulzor.Components.Extended/) for the base components as well as additional tools not included in base Bulma.
-
 ## Grabbing Sass and javascript With NPM
 
 Pull in the Bulma sass and extended components sass/javascript however you would like but using the NPM packages in a convenient option. 
@@ -34,8 +32,8 @@ The base Bulzor components currently do not use any non Bulma Sass or javascript
   "license": "MIT",
   "dependencies": {},
   "devDependencies": {
-    "bulma": "^0.9.*",
-    "bulzor-components-extended": "^0.3.*"
+    "bulma": "^1.0.*",
+    "bulzor": "^1.0.*"
   }
 }
 ```
@@ -43,29 +41,3 @@ The base Bulzor components currently do not use any non Bulma Sass or javascript
 ## Compiling sass to css
 
 You can compile the sass to css in many different ways but the demo project shows how you can do it in an automatic way with component css isolation.
-
-## Configure CSS Prefix
-
-If you build your sass with a namespace prefix you can set this in Bulzor.
-
-```C#
-public class Program
-{
-    public static async Task Main(string[] args)
-    {
-        var builder = WebAssemblyHostBuilder.CreateDefault(args);
-
-        new BulzorOptionsBuilder(builder.Services, new BulzorConfig()
-        {
-            CssPrefix = "bul-"
-        });
-    }
-}
-```
-
-## Register Components in Client
-
-#### _Imports.razor
-```
-@using StableCube.Bulzor.Components
-@using StableCube.Bulzor.Components.Extended

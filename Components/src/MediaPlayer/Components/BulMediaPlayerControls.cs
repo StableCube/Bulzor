@@ -170,7 +170,7 @@ public class BulMediaPlayerControls : BulComponentBase
         BuildScreenClickTrigger(builder, 5);
         BuildControlGroup(builder, 6);
 
-        if(!PlayerState.ReadyToStartPlaying || PlayerState.Seeking)
+        if(PlayerState.Seeking)
         {
             builder.OpenRegion(7);
             builder.OpenElement(0, "div");

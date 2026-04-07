@@ -280,6 +280,10 @@ public abstract class BulMediaPlayerBase : BulComponentBase, IDisposable
     private async void OnPlayingEvent(object sender, OnPlayingEventArgs e)
     {
         PlayerState.CurrentSrc = e.CurrentSrc;
+        PlayerState.Width = e.Width;
+        PlayerState.Height = e.Height;
+        PlayerState.Duration = e.Duration;
+        PlayerState.CanPlay = true;
         PlayerState.PlayState = BulMediaPlayState.Playing;
         await OnPlayingChange.InvokeAsync(PlayerState);
         await InvokeAsync(StateHasChanged);
@@ -368,7 +372,7 @@ public abstract class BulMediaPlayerBase : BulComponentBase, IDisposable
     {
         if(!RendererInfo.IsInteractive)
             return;
-        
+
         if(PlayerState.PlayState == BulMediaPlayState.Playing)
         {
             await PlayerCommands.PauseAsync();

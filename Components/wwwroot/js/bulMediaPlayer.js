@@ -17,7 +17,12 @@ export class BulMediaPlayerEventListener {
         // For some reason particularly Firefox will not send the initial canPlay event.
         // So check for the equivalent readyState and send the canPlay event if ready
         if (this.mediaElm.readyState >= this.mediaElm.HAVE_FUTURE_DATA && this.canPlaySent === false) {
-            this.OnCanPlayEventHandler(null);
+            // In some instances the video will already be playing so we need to set that
+            if(this.mediaElm.paused === false) {
+                this.OnPlayingEventHandler(null);
+            } else {
+                this.OnCanPlayEventHandler(null);
+            }
         }
 
         if(this.mediaElm.paused === false && this.canPlaySent === false) {
@@ -94,7 +99,12 @@ export class BulMediaPlayerEventListener {
         });
     }
 
-    OnCurrentlyPlayingHandler() {
+    OnPlayEventHandler(e)
+    {
+        this.inst.invokeMethodAsync('OnPlayEventHandler', this.mediaElm.currentSrc);
+    }
+
+    OnPlayingEventHandler(e) {
         let result = { 
             "CurrentSrc": this.mediaElm.currentSrc, 
             "Width": this.mediaElm.videoWidth, 
@@ -102,16 +112,7 @@ export class BulMediaPlayerEventListener {
             "Duration": this.mediaElm.duration 
         };
 
-        this.inst.invokeMethodAsync('OnCurrentlyPlayingHandler', JSON.stringify(result));
-    };
-
-    OnPlayEventHandler(e)
-    {
-        this.inst.invokeMethodAsync('OnPlayEventHandler', this.mediaElm.currentSrc);
-    }
-
-    OnPlayingEventHandler(e) {
-        this.inst.invokeMethodAsync('OnPlayingEventHandler', this.mediaElm.currentSrc);
+        this.inst.invokeMethodAsync('OnPlayingEventHandler', JSON.stringify(result));
     };
 
     OnPauseEventHandler(e) {

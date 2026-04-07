@@ -81,11 +81,16 @@ public class MediaPlayerEvents : IAsyncDisposable, IDisposable
     }
 
     [JSInvokable]
-    public void OnPlayingEventHandler(string currentSrc)
+    public void OnPlayingEventHandler(string eventJson)
     {
+        var eventObj = JsonSerializer.Deserialize<BulMediaPlayingJsData>(eventJson);
+
         OnPlayingEvent.Invoke(this, new OnPlayingEventArgs()
         {
-            CurrentSrc = new Uri(currentSrc)
+            CurrentSrc = new Uri(eventObj.CurrentSrc),
+            Duration = TimeSpan.FromSeconds(eventObj.Duration),
+            Width = eventObj.Width,
+            Height = eventObj.Height,
         });
     }
 
