@@ -23,5 +23,5 @@ public class BulMediaPlayerState
     public int Width { get; set; }
     public int Height { get; set; }
 
-    public bool ReadyToStartPlaying { get { return CanPlay || CanPlayThrough && Duration > TimeSpan.Zero; } }
+    public bool ReadyToStartPlaying { get { return (CanPlay || CanPlayThrough) && Duration > TimeSpan.Zero && !Seeking; } }
 }

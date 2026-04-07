@@ -273,6 +273,7 @@ public abstract class BulMediaPlayerBase : BulComponentBase, IDisposable
     {
         PlayerState.CurrentSrc = e.CurrentSrc;
         PlayerState.PlayState = BulMediaPlayState.Playing;
+
         await OnPlayChange.InvokeAsync(PlayerState);
         await InvokeAsync(StateHasChanged);
     }
@@ -283,8 +284,8 @@ public abstract class BulMediaPlayerBase : BulComponentBase, IDisposable
         PlayerState.Width = e.Width;
         PlayerState.Height = e.Height;
         PlayerState.Duration = e.Duration;
-        PlayerState.CanPlay = true;
         PlayerState.PlayState = BulMediaPlayState.Playing;
+
         await OnPlayingChange.InvokeAsync(PlayerState);
         await InvokeAsync(StateHasChanged);
     }
@@ -293,6 +294,7 @@ public abstract class BulMediaPlayerBase : BulComponentBase, IDisposable
     {
         PlayerState.CurrentSrc = e.CurrentSrc;
         PlayerState.PlayState = BulMediaPlayState.Paused;
+
         await OnPauseChange.InvokeAsync(PlayerState);
         await InvokeAsync(StateHasChanged);
     }

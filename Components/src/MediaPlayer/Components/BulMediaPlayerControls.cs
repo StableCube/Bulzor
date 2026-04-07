@@ -84,6 +84,14 @@ public class BulMediaPlayerControls : BulComponentBase
     private TimeSpan _lastDuration = TimeSpan.Zero;
     private readonly StringBuilder _durationStrBuilder = new();
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender)
+            return;
+
+        await InvokeAsync(StateHasChanged);
+    }
+
     protected override void OnParametersSet()
     {
         BuildBulma();
@@ -167,10 +175,12 @@ public class BulMediaPlayerControls : BulComponentBase
         builder.AddAttribute(3, "onmouseout", EventCallback.Factory.Create<MouseEventArgs>(this, OnPlayerMouseOutHandler));
         builder.AddAttribute(4, "onpointermove", EventCallback.Factory.Create<PointerEventArgs>(this, OnPointerMoveHandler));
 
-        BuildScreenClickTrigger(builder, 5);
+        if(RendererInfo.IsInteractive && PlayerState.ReadyToStartPlaying)
+            BuildScreenClickTrigger(builder, 5);
+        
         BuildControlGroup(builder, 6);
 
-        if(PlayerState.Seeking)
+        if(PlayerState.PlayState != BulMediaPlayState.Playing && !PlayerState.ReadyToStartPlaying)
         {
             builder.OpenRegion(7);
             builder.OpenElement(0, "div");
@@ -640,16 +650,25 @@ public class BulMediaPlayerControls : BulComponentBase
 
     private async Task OnScreenClickHandler(MouseEventArgs args)
     {
+        if(!RendererInfo.IsInteractive)
+            return;
+
         await OnPlayPauseClick.InvokeAsync(args);
     }
 
     private void OnPlayerMouseOverHandler(MouseEventArgs args)
     {
+        if(!RendererInfo.IsInteractive)
+            return;
+        
         _isMouseOverPlayer = true;
     }
 
     private void OnPlayerMouseOutHandler(MouseEventArgs args)
     {
+        if(!RendererInfo.IsInteractive)
+            return;
+
         _isMouseOverPlayer = false;
     }
 
