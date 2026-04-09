@@ -25,10 +25,6 @@ export class BulMediaPlayerEventListener {
             }
         }
 
-        if(this.mediaElm.paused === false && this.canPlaySent === false) {
-            this.OnCurrentlyPlayingHandler(null);
-        }
-
         this.mediaElm.addEventListener("play", (e) => {
             this.OnPlayEventHandler(e);
         });
